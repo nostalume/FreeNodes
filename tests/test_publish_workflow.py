@@ -51,10 +51,15 @@ class SuccessfulProbe:
         )
 
 
-def config(root, sites=("a", "b")):
+def config(root, sites=("a", "b"), required=()):
     return Config(
         sites=[
-            SimpleSite(name=name, start_url=f"https://{name}.test") for name in sites
+            SimpleSite(
+                name=name,
+                start_url=f"https://{name}.test",
+                required=name in required,
+            )
+            for name in sites
         ],
         crawl=CrawlConfig(concurrency=2),
         output={"dir": str(root / "nodes")},
@@ -135,7 +140,7 @@ async def test_missing_required_source_preserves_previous_snapshot(
     monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
 
     with pytest.raises(PublicationError, match="required source"):
-        await Scheduler(config(tmp_path)).publish_profiles(
+        await Scheduler(config(tmp_path, required=("b",))).publish_profiles(
             repository_root=tmp_path,
             validator=Validator(),
             probe_session=SuccessfulProbe(),
@@ -143,6 +148,27 @@ async def test_missing_required_source_preserves_previous_snapshot(
         )
 
     assert sentinel.read_bytes() == b"previous"
+
+
+async def test_unavailable_optional_source_does_not_block_publication(
+    monkeypatch, tmp_path
+):
+    async def discover(self):
+        if self.site.name == "b":
+            return DiscoveryFailure(site_name="b", errors=("unavailable",))
+        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    receipt = await Scheduler(config(tmp_path)).publish_profiles(
+        repository_root=tmp_path,
+        validator=Validator(),
+        probe_session=SuccessfulProbe(),
+        now=NOW,
+    )
+
+    assert receipt.status == "accepted"
+    assert (tmp_path / "nodes" / "publication-receipt.json").exists()
 
 
 async def test_empty_quality_result_preserves_previous_snapshot(monkeypatch, tmp_path):

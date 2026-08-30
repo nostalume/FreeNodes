@@ -5,9 +5,37 @@ import asyncio
 import httpx
 import pytest
 
-from src.crawler import DownloadedText, WebClient
+from src.crawler import DownloadedText, Page, PageLink, WebClient, admit_crawl_page
 
 URL = "https://files.test/nodes.txt"
+
+
+def test_crawl_page_admits_library_owned_link_metadata():
+    result = {
+        "success": True,
+        "html": "<a href='/daily'>Daily</a>",
+        "markdown": {"raw_markdown": "[Daily](/daily)"},
+        "links": {
+            "internal": [
+                {
+                    "href": "https://source.test/daily",
+                    "text": "Daily",
+                    "title": "library-owned title",
+                    "base_domain": "source.test",
+                }
+            ],
+            "external": [],
+        },
+    }
+
+    page = admit_crawl_page("https://source.test", result)
+
+    assert page == Page(
+        url="https://source.test",
+        markdown="[Daily](/daily)",
+        html="<a href='/daily'>Daily</a>",
+        links=(PageLink(href="https://source.test/daily", text="Daily"),),
+    )
 
 
 async def test_download_admits_text_with_observed_byte_count():

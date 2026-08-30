@@ -415,13 +415,13 @@ class Scheduler:
 
     @staticmethod
     def _require_admission(discovered: DiscoveredRun) -> AdmittedRun | RunFailure:
-        artifacts: list[SourceArtifact] = []
+        required = {site.name for site in discovered.context.sites if site.required}
         missing: list[str] = []
         for outcome in discovered.outcomes:
-            if outcome.kind == "failure" or not outcome.artifacts:
+            if outcome.site_name in required and (
+                outcome.kind == "failure" or not outcome.artifacts
+            ):
                 missing.append(outcome.site_name)
-            else:
-                artifacts.extend(outcome.artifacts)
         if missing:
             sites = tuple(sorted(missing))
             return RunFailure(
@@ -430,13 +430,14 @@ class Scheduler:
                 sites=sites,
             )
 
-        catalog = admit_artifacts(artifacts, now=discovered.completed_at)
+        admitted = Scheduler._admit_available(discovered)
+        if admitted.kind == "failure":
+            return admitted
+        catalog = admitted.catalog
         admitted_sites = {
             provenance.site for node in catalog.nodes for provenance in node.provenance
         }
-        missing_admission = tuple(
-            sorted({site.name for site in discovered.context.sites} - admitted_sites)
-        )
+        missing_admission = tuple(sorted(required - admitted_sites))
         if missing_admission:
             return RunFailure(
                 code="required_admission_empty",
@@ -444,7 +445,7 @@ class Scheduler:
                 + ", ".join(missing_admission),
                 sites=missing_admission,
             )
-        return AdmittedRun(discovered=discovered, catalog=catalog)
+        return admitted
 
     @staticmethod
     def _admit_available(discovered: DiscoveredRun) -> AdmittedRun | RunFailure:
@@ -462,7 +463,7 @@ class Scheduler:
             detail = "; ".join(failures[:3]) or "discovery returned no artifacts"
             return RunFailure(
                 code="no_source_artifacts",
-                message=f"profile validation has no source artifacts: {detail}",
+                message=f"discovery has no source artifacts: {detail}",
             )
 
         catalog = admit_artifacts(artifacts, now=discovered.completed_at)

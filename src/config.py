@@ -158,6 +158,7 @@ PASTE_PASSWORD_POLICY = PasswordPolicy(
 class SiteBase(FrozenModel):
     name: str
     start_url: str
+    required: bool = False
     description: str = ""
     link_pattern: str | None = None
     exclude_patterns: tuple[str, ...] = Field(

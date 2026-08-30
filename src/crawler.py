@@ -80,9 +80,14 @@ class _CrawlMarkdown(_ExternalModel):
     raw_markdown: str = ""
 
 
+class _CrawlLink(_ExternalModel):
+    href: str
+    text: str = ""
+
+
 class _CrawlLinks(_ExternalModel):
-    internal: tuple[PageLink, ...] = ()
-    external: tuple[PageLink, ...] = ()
+    internal: tuple[_CrawlLink, ...] = ()
+    external: tuple[_CrawlLink, ...] = ()
 
 
 class _CrawlResult(_ExternalModel):
@@ -106,7 +111,7 @@ def admit_crawl_page(url: str, result: object) -> Page:
         )
 
     links = tuple(
-        link.model_copy(update={"text": link.text[:200]})
+        PageLink(href=link.href, text=link.text[:200])
         for link in crawled.links.internal + crawled.links.external
         if link.href and not link.href.startswith("javascript:")
     )
