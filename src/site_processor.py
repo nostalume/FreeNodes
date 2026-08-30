@@ -5,349 +5,753 @@ Handles three site types:
   - yt_pwd: YouTube video password → blog decryption
   - cloud_drive: YouTube channel → cloud drive zip → extract
 """
+
 import asyncio
 import re
-import tempfile
-from dataclasses import dataclass, field
-from datetime import date
-from pathlib import Path
+from datetime import UTC, date, datetime
+from typing import Annotated, Literal
 from urllib.parse import urljoin, urlparse
 
-from src.config import SiteConfig, Config
-from src.crawler import Page, fetch_page, download_file
-from src.llm_router import LLMRouter
-from src.pipeline import save
+from pydantic import Field
+
+from src.config import (
+    Config,
+    DriveSite,
+    FrozenModel,
+    PasswordEvidence,
+    PasswordPolicy,
+    PasswordSite,
+    Site,
+)
+from src.crawler import (
+    DownloadFailure,
+    DownloadOutcome,
+    Page,
+    WebCapability,
+)
+from src.decryptor import (
+    DecryptionCapability,
+    DecryptionFactory,
+    create_decryption_client,
+    extract_paste_url,
+)
+from src.drive import (
+    DriveCapability,
+    DriveFactory,
+    DriveFiles,
+    create_drive_client,
+)
+from src.llm_router import ExtractedLinks, LLMRouter
+from src.nodes import SourceArtifact
+from src.youtube import (
+    GoogleDriveResource,
+    PasteResource,
+    YouTubeCapability,
+    extract_date_from_title,
+    select_video_resource,
+)
 
 
-@dataclass
-class SiteResult:
-    """Result summary for one site after processing."""
+class DiscoveryBase(FrozenModel):
     site_name: str
     articles_processed: int = 0
     txt_count: int = 0
     yaml_count: int = 0
     total_bytes: int = 0
-    pattern_saved: bool = False
-    link_pattern: str | None = None
-    errors: list[str] = field(default_factory=list)
+    pattern_generated: bool = False
+    active_pattern: str | None = None
+    errors: tuple[str, ...] = Field(default=(), strict=False)
+    artifacts: tuple[SourceArtifact, ...] = Field(default=(), strict=False, repr=False)
+
+
+class DiscoverySuccess(DiscoveryBase):
+    kind: Literal["success"] = "success"
+
+
+class DiscoveryFailure(DiscoveryBase):
+    kind: Literal["failure"] = "failure"
+
+
+DiscoveryOutcome = Annotated[
+    DiscoverySuccess | DiscoveryFailure,
+    Field(discriminator="kind"),
+]
+
+
+class Article(FrozenModel):
+    """A dated article selected for discovery."""
+
+    url: str
+    date: str
+    text: str
+
+
+class DatedVideo(FrozenModel):
+    """A channel video whose title supplied a publication date."""
+
+    url: str
+    date: str
+    title: str
+
+
+class _DiscoveryProgress(FrozenModel):
+    site_name: str
+    articles_processed: int = 0
+    txt_count: int = 0
+    yaml_count: int = 0
+    total_bytes: int = 0
+    pattern_generated: bool = False
+    active_pattern: str | None = None
+    errors: tuple[str, ...] = Field(default=(), strict=False)
+    artifacts: tuple[SourceArtifact, ...] = Field(default=(), strict=False, repr=False)
+
+    def with_error(self, message: str) -> "_DiscoveryProgress":
+        return self.model_copy(update={"errors": self.errors + (message,)})
+
+    def with_artifact(
+        self,
+        artifact: SourceArtifact,
+        *,
+        content_kind: Literal["txt", "yaml", "other"],
+        count_bytes: bool = True,
+    ) -> "_DiscoveryProgress":
+        return self.model_copy(
+            update={
+                "artifacts": self.artifacts + (artifact,),
+                "txt_count": self.txt_count + int(content_kind == "txt"),
+                "yaml_count": self.yaml_count + int(content_kind == "yaml"),
+                "total_bytes": (
+                    self.total_bytes + len(artifact.content)
+                    if count_bytes
+                    else self.total_bytes
+                ),
+            }
+        )
+
+    def summarize(
+        self,
+        *,
+        articles_processed: int,
+        pattern_generated: bool = False,
+        active_pattern: str | None = None,
+    ) -> "_DiscoveryProgress":
+        return self.model_copy(
+            update={
+                "articles_processed": articles_processed,
+                "pattern_generated": pattern_generated,
+                "active_pattern": active_pattern,
+            }
+        )
+
+    def finish(self) -> DiscoveryOutcome:
+        if self.artifacts:
+            return DiscoverySuccess(
+                site_name=self.site_name,
+                articles_processed=self.articles_processed,
+                txt_count=self.txt_count,
+                yaml_count=self.yaml_count,
+                total_bytes=self.total_bytes,
+                pattern_generated=self.pattern_generated,
+                active_pattern=self.active_pattern,
+                errors=tuple(self.errors),
+                artifacts=tuple(self.artifacts),
+            )
+        errors = self.errors or ("discovery returned no artifacts",)
+        return DiscoveryFailure(
+            site_name=self.site_name,
+            articles_processed=self.articles_processed,
+            txt_count=self.txt_count,
+            yaml_count=self.yaml_count,
+            total_bytes=self.total_bytes,
+            pattern_generated=self.pattern_generated,
+            active_pattern=self.active_pattern,
+            errors=errors,
+            artifacts=tuple(self.artifacts),
+        )
+
+
+class ResolvedLinks(FrozenModel):
+    kind: Literal["links"] = "links"
+    values: tuple[str, ...] = Field(default=(), strict=False)
+
+
+class LinkResolutionFailure(FrozenModel):
+    kind: Literal["failure"] = "failure"
+    diagnostic: str
+
+
+LinkResolution = Annotated[
+    ResolvedLinks | LinkResolutionFailure,
+    Field(discriminator="kind"),
+]
+
+
+class DirectLinks(FrozenModel):
+    values: tuple[str, ...] = Field(default=(), strict=False)
+    generated_pattern: str | None = None
+
+
+class FetchedArticles(FrozenModel):
+    kind: Literal["articles"] = "articles"
+    selected_count: int = 0
+    pages: tuple[Page, ...] = Field(default=(), strict=False, repr=False)
+    errors: tuple[str, ...] = Field(default=(), strict=False)
+
+
+class ArticleFetchFailure(FrozenModel):
+    kind: Literal["failure"] = "failure"
+    diagnostic: str
+
+
+FetchedArticleOutcome = Annotated[
+    FetchedArticles | ArticleFetchFailure,
+    Field(discriminator="kind"),
+]
+
+
+class ArticleResources(FrozenModel):
+    articles_processed: int = 0
+    downloads: tuple[str, ...] = Field(default=(), strict=False)
+    inline: tuple[str, ...] = Field(default=(), strict=False, repr=False)
+    unresolved: tuple[Page, ...] = Field(default=(), strict=False, repr=False)
+    errors: tuple[str, ...] = Field(default=(), strict=False)
+    pattern_generated: bool = False
+
+    def add_resolution(self, resolution: LinkResolution) -> "ArticleResources":
+        if resolution.kind == "failure":
+            return self.model_copy(
+                update={"errors": self.errors + (resolution.diagnostic,)}
+            )
+        downloads, inline = SiteProcessor._separate_inline_nodes(
+            list(resolution.values)
+        )
+        return self.model_copy(
+            update={
+                "downloads": self.downloads + tuple(downloads),
+                "inline": self.inline + tuple(inline),
+            }
+        )
 
 
 class SiteProcessor:
     """Process a single site end-to-end: blog/videos → links → download → save."""
 
-    def __init__(self, site: SiteConfig, config: Config, llm: LLMRouter):
+    def __init__(
+        self,
+        site: Site,
+        config: Config,
+        llm: LLMRouter,
+        youtube: YouTubeCapability,
+        web: WebCapability,
+        decryption_factory: DecryptionFactory = create_decryption_client,
+        drive_factory: DriveFactory = create_drive_client,
+    ):
         self.config = config
         self.site = site
         self.max_articles = config.crawl.max_articles
-        self.output_dir = config.output.get("dir", "nodes")
         self.llm = llm
+        self.youtube = youtube
+        self.web = web
+        self.decryption_factory = decryption_factory
+        self.drive_factory = drive_factory
         self._base = self._derive_base(site.start_url)
+        self._configured_pattern = site.link_pattern
+        self._generated_pattern: str | None = None
 
     # ── Public ──
 
-    async def run(self) -> SiteResult:
-        """Run the full site processing pipeline."""
-        site_type = getattr(self.site, 'type', 'simple')
-        if site_type == 'cloud_drive':
-            return await self._run_cloud_drive()
-        else:
-            return await self._run_blog(site_type)
+    async def discover(self) -> DiscoveryOutcome:
+        """Discover immutable artifacts without writing public output files."""
+        match self.site.type:
+            case "cloud_drive":
+                return await self.discover_channel_resources(self.site)
+            case "yt_pwd" | "youtube_password":
+                return await self.discover_password_site(self.site)
+            case "simple":
+                return await self.discover_simple()
 
-    async def _run_cloud_drive(self) -> SiteResult:
-        """Process a YouTube channel → cloud drive → zip → extract."""
-        result = SiteResult(site_name=self.site.name)
-        print(f"\n{'='*60}")
+    async def discover_simple(self) -> DiscoveryOutcome:
+        fetched = await self._fetch_article_pages()
+        if fetched.kind == "failure":
+            return DiscoveryFailure(
+                site_name=self.site.name,
+                errors=(fetched.diagnostic,),
+            )
+        resources = await self._resolve_direct_articles(fetched)
+        return (await self._materialize_articles(resources)).finish()
+
+    async def discover_password_site(self, site: PasswordSite) -> DiscoveryOutcome:
+        fetched = await self._fetch_article_pages()
+        if fetched.kind == "failure":
+            return DiscoveryFailure(
+                site_name=self.site.name,
+                errors=(fetched.diagnostic,),
+            )
+        resources = await self._resolve_direct_articles(fetched)
+        async with self.decryption_factory(
+            proxy=self.config.crawl.proxy,
+            timeout_s=float(self.config.crawl.timeout),
+        ) as decryption:
+            resolved = await self._resolve_password_articles(
+                resources,
+                decryption,
+                site,
+            )
+        return (await self._materialize_articles(resolved)).finish()
+
+    async def discover_channel_resources(self, site: DriveSite) -> DiscoveryOutcome:
+        async with (
+            self.decryption_factory(
+                proxy=self.config.crawl.proxy,
+                timeout_s=float(self.config.crawl.timeout),
+            ) as decryption,
+            self.drive_factory(
+                proxy=self.config.crawl.proxy,
+                timeout_s=float(self.config.crawl.timeout),
+            ) as drive,
+        ):
+            progress = await self._run_cloud_drive(
+                decryption,
+                drive,
+                site.password_policy,
+            )
+        return progress.finish()
+
+    async def _run_cloud_drive(
+        self,
+        decryption: DecryptionCapability,
+        drive: DriveCapability,
+        policy: PasswordPolicy,
+    ) -> _DiscoveryProgress:
+        """Resolve each dated video to one typed resource and admit its content."""
+        result = _DiscoveryProgress(site_name=self.site.name)
+        print(f"\n{'=' * 60}")
         print(f"SITE: {self.site.name} (cloud_drive)")
         print(f"URL:  {self.site.start_url}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
-        # Configure proxy for yt-dlp (YouTube access)
-        if self.config.crawl.proxy:
-            from src.youtube import configure as yt_configure
-            yt_configure(self.config.crawl.proxy)
-
-        from src.youtube import list_channel_videos, get_video_metadata, extract_date_from_title, extract_external_links, extract_cloud_drive_links, extract_paste_links
-        from src.drive import extract_drive_id, download_and_extract_zip
-        from src.paste import extract_paste_url, decrypt_paste
-
-        # 1. List channel videos
-        print(f"\n[1/3] Listing channel videos...")
-        videos = await list_channel_videos(self.site.start_url, limit=self.max_articles)
-        if not videos:
-            result.errors.append("no videos found")
-            return result
+        print("\n[1/3] Listing channel videos...")
+        listing = await self.youtube.list_channel_videos(
+            self.site.start_url,
+            limit=self.max_articles,
+        )
+        if listing.kind == "failure":
+            return result.with_error(
+                f"youtube list {listing.code}: {listing.diagnostic}"
+            )
+        if listing.kind == "empty":
+            return result.with_error("no videos found")
+        videos = listing.videos
         print(f"       got {len(videos)} videos")
 
-        # 2. Pick newest by title date
-        picked: list[dict] = []
-        for v in videos:
-            d = extract_date_from_title(v.title)
-            if d:
-                picked.append({"url": v.url, "date": d, "title": v.title})
-        picked.sort(key=lambda x: x["date"], reverse=True)
-        picked = picked[:self.max_articles]
+        picked: list[DatedVideo] = []
+        for video in videos:
+            published = extract_date_from_title(video.title)
+            if published:
+                picked.append(
+                    DatedVideo(
+                        url=video.url,
+                        date=published,
+                        title=video.title,
+                    )
+                )
+        picked.sort(key=lambda video: video.date, reverse=True)
+        picked = picked[: self.max_articles]
 
-        for p in picked:
-            print(f"       [{p['date']}] {p['title'][:60]}")
+        for picked_video in picked:
+            print(f"       [{picked_video.date}] {picked_video.title[:60]}")
         if not picked:
-            result.errors.append("no dated videos found")
-            return result
+            return result.with_error("no dated videos found")
 
-        # 3. For each video, get description → extract Drive links → download zip
         print(f"\n[2/3] Processing {len(picked)} videos...")
-        txt_contents: list[str] = []
-        yaml_contents: list[str] = []
-
-        for p in picked:
-            print(f"  → {p['title'][:60]}")
+        for picked_video in picked:
+            print(f"  → {picked_video.title[:60]}")
             try:
-                video = await get_video_metadata(p["url"])
-                if not video.success:
-                    result.errors.append(f"video metadata failed: {video.error}")
+                video = await self.youtube.get_video_details(picked_video.url)
+                if video.kind == "failure":
+                    result = result.with_error(
+                        f"video details {video.code}: {video.diagnostic}"
+                    )
                     continue
-
-                drive_urls = extract_cloud_drive_links(video.description)
-                print(f"    drive links: {len(drive_urls)}")
-                for drive_url in drive_urls:
-                    file_id = extract_drive_id(drive_url)
-                    if not file_id:
-                        continue
-                    with tempfile.TemporaryDirectory() as tmpdir:
-                        extracted = await download_and_extract_zip(
-                            file_id, Path(tmpdir), timeout=120,
+                resource = select_video_resource(video.url, video.resources)
+                match resource.kind:
+                    case "google_drive":
+                        result = await self._admit_drive_resource(
+                            result, drive, resource
                         )
-                        for path in extracted:
-                            body = path.read_text(encoding="utf-8", errors="replace")
-                            ext = path.suffix.lower()
-                            if ext == ".txt":
-                                txt_contents.append(body)
-                                result.txt_count += 1
-                                result.total_bytes += len(body)
-                            elif ext in (".yaml", ".yml"):
-                                yaml_contents.append(body)
-                                result.yaml_count += 1
-                                result.total_bytes += len(body)
-                            print(f"    extracted: {path.name} ({len(body)}B)")
-
-                # Fallback: try paste.to links if no Drive links
-                if not drive_urls:
-                    paste_url = extract_paste_url(video.description)
-                    if paste_url:
-                        print(f"    paste.to found: {paste_url[:60]}...")
-                        # Get password from subtitles
-                        from src.youtube import extract_password_from_text
-                        pwd_list = extract_password_from_text(video.subtitles_text + "\n" + video.description)
-                        for pwd in (pwd_list[:5] or [""]):
-                            paste_page = await decrypt_paste(paste_url, password=pwd)
-                            if paste_page and paste_page.links:
-                                print(f"    paste.to decrypted → {len(paste_page.links)} links")
-                                for link in paste_page.links:
-                                    content = link["href"]
-                                    if content.endswith((".txt", ".yaml", ".yml", ".conf", ".json")):
-                                        try:
-                                            import httpx
-                                            async with httpx.AsyncClient(timeout=30) as c:
-                                                resp = await c.get(content)
-                                                body = resp.text
-                                                ext = content.rsplit(".", 1)[-1]
-                                                if ext == "txt":
-                                                    txt_contents.append(body)
-                                                    result.txt_count += 1
-                                                elif ext in ("yaml", "yml"):
-                                                    yaml_contents.append(body)
-                                                    result.yaml_count += 1
-                                                result.total_bytes += len(body)
-                                                print(f"    downloaded: {content} ({len(body)}B)")
-                                        except Exception as e:
-                                            print(f"    failed: {content} ({e})")
-                                break
-
-            except Exception as e:
-                result.errors.append(f"video {p['title'][:40]}...: {e}")
+                    case "paste":
+                        result = await self._admit_paste_resource(
+                            result,
+                            decryption,
+                            resource,
+                            policy,
+                            PasswordEvidence(
+                                subtitles=video.subtitles_text,
+                                description=video.description,
+                            ),
+                        )
+                    case "unsupported":
+                        result = result.with_error(
+                            f"unsupported {resource.provider} resource "
+                            f"({resource.reason}): {resource.url}"
+                        )
+                    case "missing":
+                        result = result.with_error(
+                            f"video resource missing: {resource.video_url}"
+                        )
+            except asyncio.CancelledError:
+                raise
+            except Exception as error:
+                result = result.with_error(
+                    f"video {picked_video.title[:40]}...: {error}"
+                )
                 continue
 
-        # 4. Save outputs
-        result.articles_processed = len(picked)
-        return self._save_and_finish(result, txt_contents, yaml_contents)
+        return result.summarize(articles_processed=len(picked))
 
-    async def _run_blog(self, site_type: str) -> SiteResult:
-        """Process a blog (simple or yt_pwd type)."""
-        result = SiteResult(site_name=self.site.name)
+    async def _admit_drive_resource(
+        self,
+        progress: _DiscoveryProgress,
+        drive: DriveCapability,
+        resource: GoogleDriveResource,
+    ) -> _DiscoveryProgress:
+        outcome = await drive.download_archive(resource.file_id)
+        if outcome.kind == "failure":
+            return progress.with_error(f"drive {outcome.code}: {outcome.diagnostic}")
+        if outcome.kind == "empty":
+            return progress.with_error(f"drive {outcome.code}: {outcome.file_id}")
+        return self._admit_drive_files(progress, outcome)
 
-        # Configure proxy for yt-dlp (YouTube access in yt_pwd flow)
-        if self.config.crawl.proxy:
-            from src.youtube import configure as yt_configure
-            yt_configure(self.config.crawl.proxy)
+    def _admit_drive_files(
+        self,
+        progress: _DiscoveryProgress,
+        outcome: DriveFiles,
+    ) -> _DiscoveryProgress:
+        for resource in outcome.files:
+            content_kind: Literal["txt", "yaml", "other"] = (
+                "yaml" if resource.media_type == "application/yaml" else "txt"
+            )
+            progress = progress.with_artifact(
+                SourceArtifact(
+                    site=self.site.name,
+                    source_url=f"drive://{outcome.file_id}/{resource.name}",
+                    content=resource.text,
+                    observed_at=datetime.now(UTC),
+                    media_type=resource.media_type,
+                ),
+                content_kind=content_kind,
+            )
+            print(f"    extracted: {resource.name} ({len(resource.content)}B)")
+        return progress
 
-        print(f"\n{'='*60}")
+    async def _admit_paste_resource(
+        self,
+        progress: _DiscoveryProgress,
+        decryption: DecryptionCapability,
+        resource: PasteResource,
+        policy: PasswordPolicy,
+        evidence: PasswordEvidence,
+    ) -> _DiscoveryProgress:
+        decrypted = await decryption.decrypt_paste(
+            resource.url,
+            policy.resolve(evidence),
+        )
+        if decrypted.kind == "failure":
+            return progress.with_error(
+                f"paste {decrypted.code}: {decrypted.diagnostic}"
+            )
+        if decrypted.kind == "rejected":
+            return progress.with_error(
+                f"paste {decrypted.code} after {decrypted.attempted} candidates"
+            )
+        links = tuple(link.href for link in decrypted.page.links)
+        if not links:
+            return progress.with_error("paste decrypted without resource links")
+        for url in links:
+            downloaded = await self.web.download_file(url)
+            if downloaded.kind == "failure":
+                progress = progress.with_error(
+                    f"paste download {downloaded.code}: {downloaded.diagnostic}"
+                )
+                continue
+            content_kind: Literal["txt", "yaml", "other"] = (
+                "yaml" if self._is_yaml_content(downloaded.content) else "txt"
+            )
+            progress = progress.with_artifact(
+                SourceArtifact(
+                    site=self.site.name,
+                    source_url=url,
+                    content=downloaded.content,
+                    observed_at=datetime.now(UTC),
+                    media_type=(
+                        "application/yaml" if content_kind == "yaml" else "text/plain"
+                    ),
+                ),
+                content_kind=content_kind,
+            )
+        return progress
+
+    async def _fetch_article_pages(self) -> FetchedArticleOutcome:
+        print(f"\n{'=' * 60}")
         print(f"SITE: {self.site.name} ({self.site.start_url})")
-        print(f"Cfg:  pattern={self.site.link_pattern or 'null (LLM)'}")
-        print(f"{'='*60}")
-
-        # 1. Fetch blog
-        print(f"\n[1/4] Fetching blog page...")
-        blog = await fetch_page(self.site.start_url)
+        print(f"Cfg:  pattern={self._configured_pattern or 'null (LLM)'}")
+        print(f"{'=' * 60}")
+        print("\n[1/4] Fetching blog page...")
+        blog = await self.web.fetch_page(self.site.start_url)
         if not blog.success:
-            result.errors.append(f"blog fetch failed: {blog.error[:100]}")
-            return result
+            return ArticleFetchFailure(
+                diagnostic=f"blog fetch failed: {blog.error[:100]}"
+            )
         print(f"       got {len(blog.links)} links, {len(blog.markdown)} chars")
 
-        # 2. Pick newest articles
         print(f"\n[2/4] Picking newest {self.max_articles} articles...")
         articles = self._pick_articles(blog)
-        for a in articles:
-            print(f"       [{a['date']}] {a['url']}")
+        for article in articles:
+            print(f"       [{article.date}] {article.url}")
         if not articles:
-            result.errors.append("no articles found")
-            return result
+            return ArticleFetchFailure(diagnostic="no articles found")
 
-        # 3. Process each article
-        print(f"\n[3/4] Processing {len(articles)} articles...")
-        all_links: set[str] = set()
-        pattern_saved = False
+        pages: list[Page] = []
+        errors: list[str] = []
+        print(f"\n[3/4] Fetching {len(articles)} articles...")
+        for index, article in enumerate(articles, start=1):
+            print(f"  [{index}/{len(articles)}] {article.url}")
+            page = await self.web.fetch_page(article.url, timeout_ms=60000)
+            if page.success:
+                pages.append(page)
+            else:
+                errors.append(f"article fetch failed: {page.error[:80]}")
+        return FetchedArticles(
+            selected_count=len(articles),
+            pages=tuple(pages),
+            errors=tuple(errors),
+        )
 
-        for i, article in enumerate(articles):
-            print(f"  [{i+1}/{len(articles)}] {article['url']}")
-            article_page = await fetch_page(article["url"], timeout_ms=60000)
-            if not article_page.success:
-                result.errors.append(f"article fetch failed: {article_page.error[:80]}")
+    async def _resolve_direct_articles(
+        self,
+        fetched: FetchedArticles,
+    ) -> ArticleResources:
+        downloads: list[str] = []
+        inline: list[str] = []
+        unresolved: list[Page] = []
+        pattern_generated = False
+        for page in fetched.pages:
+            direct = await self._extract_links(page)
+            if not direct.values:
+                unresolved.append(page)
                 continue
+            direct_downloads, direct_inline = self._separate_inline_nodes(
+                list(direct.values)
+            )
+            downloads.extend(direct_downloads)
+            inline.extend(direct_inline)
+            pattern_generated = pattern_generated or bool(direct.generated_pattern)
+        return ArticleResources(
+            articles_processed=fetched.selected_count,
+            downloads=tuple(dict.fromkeys(downloads)),
+            inline=tuple(inline),
+            unresolved=tuple(unresolved),
+            errors=fetched.errors,
+            pattern_generated=pattern_generated,
+        )
 
-            # Try direct extraction first
-            links, saved = await self._extract_links(article_page)
-            if saved:
-                pattern_saved = True
+    async def _resolve_password_articles(
+        self,
+        resources: ArticleResources,
+        decryption: DecryptionCapability,
+        site: PasswordSite,
+    ) -> ArticleResources:
+        resolved = resources.model_copy(update={"unresolved": ()})
+        for page in resources.unresolved:
+            resolution = await self._try_youtube_password_flow(
+                page,
+                decryption=decryption,
+                policy=site.password_policy,
+                paste_policy=site.paste_policy,
+            )
+            resolved = resolved.add_resolution(resolution)
+        return resolved
 
-            # If direct extraction found nothing and site is yt_pwd, try YouTube password flow
-            if not links and site_type in ('yt_pwd', 'youtube_password'):
-                links = await self._try_youtube_password_flow(article_page)
+    async def _materialize_articles(
+        self,
+        resources: ArticleResources,
+    ) -> _DiscoveryProgress:
+        active_pattern = self._generated_pattern or self._configured_pattern
+        result = _DiscoveryProgress(
+            site_name=self.site.name,
+            errors=resources.errors,
+        ).summarize(
+            articles_processed=resources.articles_processed,
+            pattern_generated=resources.pattern_generated,
+            active_pattern=active_pattern,
+        )
+        total_links = len(resources.downloads)
+        print(
+            f"\n       total: {total_links} unique links, "
+            f"{len(resources.inline)} inline payloads"
+        )
+        if not total_links and not resources.inline:
+            return result.with_error("no subscription links found")
 
-            all_links.update(links)
-
-        result.articles_processed = len(articles)
-        result.pattern_saved = pattern_saved
-        result.link_pattern = self.site.link_pattern
-
-        total_links = len(all_links)
-        print(f"\n       total: {total_links} unique links")
-        if not total_links:
-            result.errors.append("no subscription links found")
-            return result
-
-        # 4. Download files — detect type from content, not URL extension.
-        # Some sites use extension-less subscription URLs (cfmem /preview,
-        # jichangx /nodes/v2ray-YYYYMMDD-01).
         print(f"\n[4/4] Downloading {total_links} files (up to 3 retries)...")
-        txt_contents: list[str] = []
-        yaml_contents: list[str] = []
+        for payload in resources.inline:
+            result = result.with_artifact(
+                SourceArtifact.inline(
+                    site=self.site.name,
+                    content=payload,
+                    observed_at=datetime.now(UTC),
+                ),
+                content_kind="txt",
+            )
 
-        for url in sorted(all_links):
-            body = await self._download_retry(url)
-            if not body:
-                result.errors.append(f"download failed: {url}")
+        for url in resources.downloads:
+            downloaded = await self._download_retry(url)
+            if downloaded.kind == "failure":
+                result = result.with_error(
+                    f"download {downloaded.code}: {downloaded.diagnostic}"
+                )
                 print(f"  FAIL: {url}")
                 continue
-            if self._is_yaml_content(body):
-                yaml_contents.append(body)
-                result.yaml_count += 1
-                result.total_bytes += len(body)
-                print(f"  OK  yaml: {url} ({len(body)}B)")
-            else:
-                txt_contents.append(body)
-                result.txt_count += 1
-                result.total_bytes += len(body)
-                print(f"  OK  txt: {url} ({len(body)}B)")
-
-        return self._save_and_finish(result, txt_contents, yaml_contents)
+            body = downloaded.content
+            content_kind: Literal["txt", "yaml", "other"] = (
+                "yaml" if self._is_yaml_content(body) else "txt"
+            )
+            print(f"  OK  {content_kind}: {url} ({len(body)}B)")
+            result = result.with_artifact(
+                SourceArtifact(
+                    site=self.site.name,
+                    source_url=url,
+                    content=body,
+                    observed_at=datetime.now(UTC),
+                    media_type=(
+                        "application/yaml" if content_kind == "yaml" else "text/plain"
+                    ),
+                ),
+                content_kind=content_kind,
+            )
+        return result
 
     # ── YouTube password flow ──
 
-    async def _try_youtube_password_flow(self, page: Page) -> list[str]:
-        """Find YouTube link → get subtitles → extract password → decrypt page.
-
-        Also checks for paste.to links with fragment keys.
-        """
-        from src.youtube import get_video_metadata, extract_password_from_text, extract_paste_links
-        from src.decryptor import detect_protection, try_decrypt, brute_force_4digit, generate_password_candidates
-        from src.paste import extract_paste_url, decrypt_paste
-
-        page_text = page.html + page.markdown
-
-        # 1. Check for paste.to links first (ZYFXS flow)
-        paste_url = extract_paste_url(page_text)
+    async def _try_youtube_password_flow(
+        self,
+        page: Page,
+        *,
+        decryption: DecryptionCapability,
+        policy: PasswordPolicy,
+        paste_policy: PasswordPolicy,
+    ) -> LinkResolution:
+        """Resolve paste or video evidence into explicit subscription links."""
+        paste_url = extract_paste_url(page.html) or extract_paste_url(page.markdown)
         if paste_url:
             print(f"    found paste.to URL: {paste_url[:50]}...")
-            # Try without password first (some pastes don't need one)
-            paste_result = await decrypt_paste(paste_url, password="")
-            if paste_result and paste_result.links:
-                print(f"    paste decrypted without password → {len(paste_result.links)} links")
-                return [l["href"] for l in paste_result.links]
+            paste = await decryption.decrypt_paste(
+                paste_url,
+                paste_policy.resolve(
+                    PasswordEvidence(description=page.markdown),
+                ),
+            )
+            if paste.kind == "decrypted":
+                if paste.page.links:
+                    print(f"    paste decrypted → {len(paste.page.links)} links")
+                    return ResolvedLinks(
+                        values=tuple(link.href for link in paste.page.links),
+                    )
+                return LinkResolutionFailure(
+                    diagnostic="paste decrypted without resource links"
+                )
+            if paste.kind == "failure":
+                return LinkResolutionFailure(
+                    diagnostic=f"paste {paste.code}: {paste.diagnostic}"
+                )
+            return LinkResolutionFailure(
+                diagnostic=(f"paste {paste.code} after {paste.attempted} candidates")
+            )
 
-        # 2. Check if page is actually password-protected
-        if not detect_protection(page.html):
+        if not page.requires_password():
             print("    page not password-protected, skipping decrypt")
-            return []
+            return LinkResolutionFailure(
+                diagnostic="page has no direct links and is not password-protected"
+            )
 
-        # 3. Find YouTube links in the page
-        yt_links = re.findall(
-            r'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)[\w-]+',
-            page_text,
-        )
+        yt_links = self._youtube_links(page.html, page.markdown)
         if not yt_links:
             print("    no YouTube links found in page")
-            # Try brute-force anyway if page is protected
-            passwords = generate_password_candidates("AABB")[:20]
+            candidates = policy.resolve(PasswordEvidence())
         else:
-            # 4. For each YouTube video, extract password candidates
-            passwords = []
+            evidence = PasswordEvidence()
+            diagnoses: list[str] = []
             for yt_url in yt_links[:2]:
                 print(f"    checking YouTube: {yt_url[:50]}...")
                 try:
-                    video = await get_video_metadata(yt_url)
-                    if not video.success:
+                    video = await self.youtube.get_video_details(yt_url)
+                    if video.kind == "failure":
+                        diagnoses.append(
+                            f"youtube details {video.code}: {video.diagnostic}"
+                        )
                         continue
-                    pwd_candidates = extract_password_from_text(video.subtitles_text)
-                    if not pwd_candidates:
-                        pwd_candidates = extract_password_from_text(video.description)
-                    passwords.extend(pwd_candidates)
-                    if pwd_candidates:
-                        print(f"    found passwords in subtitles: {pwd_candidates[:5]}")
-                        break
-                except Exception as e:
-                    print(f"    yt-dlp error: {e}")
+                    evidence = PasswordEvidence(
+                        subtitles=video.subtitles_text,
+                        description=video.description,
+                    )
+                    candidates = policy.resolve(evidence)
+                    print(f"    admitted {len(candidates.values)} password candidates")
+                    break
+                except asyncio.CancelledError:
+                    raise
+                except Exception as error:
+                    diagnoses.append(f"youtube details failed: {error}")
                     continue
-
-            if not passwords:
-                passwords = generate_password_candidates("AABB")[:50]
-
-        # 5. Try each password
-        print(f"    trying {min(len(passwords), 20)} password candidates...")
-        for pwd in passwords[:20]:
-            result = await try_decrypt(page.url, pwd)
-            if result.success and result.content:
-                # Re-extract links from decrypted content
-                llm_result = await self.llm.extract_links(result.content)
-                links = (
-                    llm_result.get("txt", [])
-                    + llm_result.get("yaml", [])
-                    + llm_result.get("other", [])
+            else:
+                return LinkResolutionFailure(
+                    diagnostic="; ".join(diagnoses)
+                    or "youtube details returned no usable evidence"
                 )
-                print(f"    decrypt success with password {pwd} → {len(links)} links")
-                return links
 
-        print(f"    decrypt failed with all {len(passwords)} candidates")
-        return []
+        print(f"    trying {len(candidates.values)} password candidates...")
+        decrypted = await decryption.decrypt_page(page.url, candidates)
+        if decrypted.kind == "decrypted":
+            exact = self._exact_links(
+                decrypted.page.html,
+                decrypted.page.markdown,
+            )
+            if exact:
+                return ResolvedLinks(values=exact)
+            llm_result = await self.llm.extract_links(
+                decrypted.page.markdown,
+                site=self.site.name,
+            )
+            links = llm_result.downloads + llm_result.inline
+            print(
+                f"    decrypt success with password {decrypted.password} → {len(links)} links"
+            )
+            if links:
+                return ResolvedLinks(values=links)
+            return LinkResolutionFailure(
+                diagnostic="decrypted page contained no subscription links"
+            )
+
+        if decrypted.kind == "rejected":
+            print(f"    decrypt rejected after {decrypted.attempted} candidates")
+            return LinkResolutionFailure(
+                diagnostic=(
+                    f"decryption {decrypted.code} after "
+                    f"{decrypted.attempted} candidates"
+                )
+            )
+        print(f"    decrypt {decrypted.code}: {decrypted.diagnostic}")
+        return LinkResolutionFailure(
+            diagnostic=f"decryption {decrypted.code}: {decrypted.diagnostic}"
+        )
 
     # ── Article selection ──
 
-    def _pick_articles(self, blog: Page) -> list[dict]:
+    def _pick_articles(self, blog: Page) -> list[Article]:
         """Select the *max_articles* newest articles from a blog listing page.
 
         Rule-only: tries several date formats found across different blog sites.
         Falls back to scanning markdown content for article links when ``links`` is empty.
         """
-        articles: list[dict] = []
-
         # Strategy 1: Use Crawl4AI's parsed links
         articles = self._pick_articles_from_links(blog)
         if articles:
@@ -355,14 +759,14 @@ class SiteProcessor:
 
         # Strategy 2: Fallback — parse markdown for [title](url) article links
         articles = self._pick_articles_from_markdown(blog.markdown)
-        return articles[:self.max_articles]
+        return articles[: self.max_articles]
 
-    def _pick_articles_from_links(self, blog: Page) -> list[dict]:
+    def _pick_articles_from_links(self, blog: Page) -> list[Article]:
         """Extract article links from Crawl4AI's parsed link list."""
-        articles: list[dict] = []
+        articles: list[Article] = []
         for link in blog.links:
-            text = link.get("text", "")
-            href = link.get("href", "")
+            text = link.text
+            href = link.href
             d = self._parse_article_date(text, href)
             if d is None:
                 continue
@@ -370,132 +774,153 @@ class SiteProcessor:
             # Exclude non-article links: exact matches + configurable substring patterns
             if href in ("/free-nodes/", "/", ""):
                 continue
-            exclusions = self.site.exclude_patterns or ["category", "page-"]
-            if any(pat in href for pat in exclusions if isinstance(pat, str)):
+            exclusions = self.site.exclude_patterns or ("category", "page-")
+            if any(pattern in href for pattern in exclusions):
                 continue
 
             full = urljoin(self._base, href)
-            articles.append({"url": full, "date": d, "text": text[:80]})
+            articles.append(Article(url=full, date=d, text=text[:80]))
 
         seen: set[str] = set()
-        unique: list[dict] = []
-        for a in sorted(articles, key=lambda x: x["date"], reverse=True):
-            if a["url"] not in seen:
-                seen.add(a["url"])
-                unique.append(a)
-        return unique[:self.max_articles]
+        unique: list[Article] = []
+        for article in sorted(articles, key=lambda value: value.date, reverse=True):
+            if article.url not in seen:
+                seen.add(article.url)
+                unique.append(article)
+        return unique[: self.max_articles]
 
-    def _pick_articles_from_markdown(self, markdown: str) -> list[dict]:
+    def _pick_articles_from_markdown(self, markdown: str) -> list[Article]:
         """Fallback: parse markdown headings for ``[title](url)`` article links with Chinese dates.
 
         Handles WordPress blogs where articles are rendered in headings
         but not captured in Crawl4AI's ``links`` structure (e.g. yudou, oneclash).
         """
-        articles: list[dict] = []
+        articles: list[Article] = []
         # Match markdown headings: ## [title text](url)
-        for m in re.finditer(r'^## \[(.+?)\]\((https?://[^\s)]+)\)', markdown, re.MULTILINE):
+        for m in re.finditer(
+            r"^## \[(.+?)\]\((https?://[^\s)]+)\)", markdown, re.MULTILINE
+        ):
             text = m.group(1)
-            url = m.group(2).rstrip('.,;)')
+            url = m.group(2).rstrip(".,;)")
             d = self._parse_article_date(text, url)
             if d:
-                articles.append({"url": url, "date": d, "text": text[:80]})
+                articles.append(Article(url=url, date=d, text=text[:80]))
 
         seen: set[str] = set()
-        unique: list[dict] = []
-        for a in sorted(articles, key=lambda x: x["date"], reverse=True):
-            if a["url"] not in seen:
-                seen.add(a["url"])
-                unique.append(a)
-        return unique[:self.max_articles]
+        unique: list[Article] = []
+        for article in sorted(articles, key=lambda value: value.date, reverse=True):
+            if article.url not in seen:
+                seen.add(article.url)
+                unique.append(article)
+        return unique[: self.max_articles]
 
     # ── Link extraction: rule-first + LLM fallback + self-heal ──
 
-    async def _extract_links(self, page: Page) -> tuple[list[str], bool]:
-        """Extract subscription links from an article page.
-
-        Returns (links, pattern_saved).
-        """
+    async def _extract_links(self, page: Page) -> DirectLinks:
+        """Resolve direct links and retain only valid run-local regex state."""
         html = page.html
+        if self._generated_pattern:
+            matched = self._extract_by_pattern(html, self._generated_pattern)
+            if matched:
+                print(f"    regex hit: {len(matched)} links (0 LLM)")
+                return DirectLinks(values=tuple(matched))
+            self._generated_pattern = None
+            print("    generated regex missed; discarding run-local reuse")
 
-        # Step 1: rule-first
-        if self.site.link_pattern:
-            # If pattern failed too many times, reset it so LLM gets retried
-            if self.site.failed_count >= 5:
-                print(f"    pattern failed {self.site.failed_count}x, resetting to null")
-                self.site.link_pattern = None
-            else:
-                result = self._extract_by_pattern(html, self.site.link_pattern)
-                if result:
-                    print(f"    regex hit: {len(result)} links (0 LLM)")
-                    self.site.failed_count = 0
-                    return result, False
+        if self._configured_pattern:
+            matched = self._extract_by_pattern(html, self._configured_pattern)
+            if matched:
+                print(f"    regex hit: {len(matched)} links (0 LLM)")
+                return DirectLinks(values=tuple(matched))
+            print("    configured regex missed; keeping declarative pattern")
 
-                self.site.failed_count += 1
-                print(f"    regex miss (failed_count={self.site.failed_count}), falling back to LLM")
+        exact = self._exact_links(page.html, page.markdown)
+        if exact:
+            print(f"    exact parser hit: {len(exact)} links (0 LLM)")
+            return DirectLinks(values=exact)
 
-        # Step 2: LLM fallback
-        llm_result = await self.llm.extract_links(page.markdown)
-        all_links = (
-            llm_result.get("txt", [])
-            + llm_result.get("yaml", [])
-            + llm_result.get("other", [])
-        )
-        inline_links = llm_result.get("inline", [])
-        if inline_links:
-            print(f"    inline nodes found: {len(inline_links)} (protocol links)")
+        llm_result = await self.llm.extract_links(page.markdown, site=self.site.name)
+        values = llm_result.downloads + llm_result.inline
+        if not values:
+            return DirectLinks()
 
-        # If no downloadable links, try saving inline protocol links as pseudo-txt
-        if not all_links and inline_links:
-            combined = "\n".join(inline_links)
-            print(f"    no files, saving {len(inline_links)} inline protocol links")
-            return [combined], False
-
-        if not all_links:
-            return [], False
-
-        print(f"    LLM found {len(all_links)} links")
-        for link in all_links[:3]:
+        print(f"    LLM found {len(values)} links")
+        for link in values[:3]:
             print(f"       {link}")
+        if not llm_result.downloads:
+            return DirectLinks(values=values)
 
-        # Step 3: generate pattern
-        new_pattern = await self.llm.generate_pattern(all_links, html)
+        new_pattern = await self.llm.generate_pattern(
+            list(llm_result.downloads),
+            html,
+            site=self.site.name,
+        )
         if not new_pattern:
-            print("    LLM could not generate pattern, skipping self-heal")
-            return all_links, False
+            print("    LLM could not generate a reusable pattern")
+            return DirectLinks(values=values)
 
         print(f"    generated pattern: {new_pattern[:80]}...")
-
-        # Step 4: three-layer verification
-        if LLMRouter.verify_pattern(new_pattern, all_links, html):
-            print("    pattern verified! writing to config")
-            self.site.link_pattern = new_pattern
-            self.site.failed_count = 0
-            return all_links, True
-        else:
-            print("    pattern rejected by verification, keeping null")
-            return all_links, False
+        if LLMRouter.verify_pattern(
+            new_pattern,
+            list(llm_result.downloads),
+            html,
+        ):
+            self._generated_pattern = new_pattern
+            print("    pattern verified for run-local reuse")
+            return DirectLinks(values=values, generated_pattern=new_pattern)
+        print("    pattern rejected by verification")
+        return DirectLinks(values=values)
 
     # ── Helpers ──
 
-    def _save_and_finish(self, result: SiteResult, txt_contents: list[str],
-                         yaml_contents: list[str]) -> SiteResult:
-        """Write output files and update metadata."""
-        if txt_contents:
-            save(self.site.name, ".txt", "\n".join(txt_contents), self.output_dir)
-        if yaml_contents:
-            save(self.site.name, ".yaml", "\n---\n".join(yaml_contents), self.output_dir)
+    @staticmethod
+    def _youtube_links(*texts: str) -> tuple[str, ...]:
+        pattern = re.compile(
+            r"https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)[\w-]+"
+        )
+        return tuple(
+            dict.fromkeys(
+                match.group() for text in texts for match in pattern.finditer(text)
+            )
+        )
 
-        # Update crawl metadata
-        self.site.up_date = date.today().isoformat()
-        self.site.node_count = result.txt_count + result.yaml_count
+    @staticmethod
+    def _exact_links(*texts: str) -> tuple[str, ...]:
+        admitted = tuple(ExtractedLinks.from_text(text) for text in texts)
+        return tuple(
+            dict.fromkeys(
+                link for result in admitted for link in result.downloads + result.inline
+            )
+        )
 
-        print(f"\n{'='*60}")
-        print(f"DONE: {self.site.name} — {result.txt_count} txt + {result.yaml_count} yaml ({result.total_bytes}B)")
-        if result.pattern_saved:
-            print(f"  pattern self-healed: {self.site.link_pattern}")
-        print(f"{'='*60}")
-
-        return result
+    @staticmethod
+    def _separate_inline_nodes(values: list[str]) -> tuple[list[str], list[str]]:
+        """Separate network download URLs from inline subscription payloads."""
+        downloads: list[str] = []
+        inline: list[str] = []
+        protocol_prefixes = (
+            "vmess://",
+            "vless://",
+            "trojan://",
+            "ss://",
+            "ssr://",
+            "socks://",
+            "socks5://",
+            "hysteria://",
+            "hysteria2://",
+            "hy2://",
+            "tuic://",
+        )
+        for value in values:
+            stripped = value.strip()
+            lines = [line.strip() for line in stripped.splitlines() if line.strip()]
+            if lines and all(
+                line.lower().startswith(protocol_prefixes) for line in lines
+            ):
+                inline.append("\n".join(lines))
+            elif stripped.startswith(("http://", "https://")):
+                downloads.append(stripped)
+        return downloads, inline
 
     @staticmethod
     def _is_yaml_content(body: str) -> bool:
@@ -507,8 +932,17 @@ class SiteProcessor:
         """
         for line in body.splitlines()[:20]:
             line = line.strip()
-            if line.startswith(("proxies:", "proxy-groups:", "mixed-port:",
-                                "allow-lan:", "mode:", "rules:", "dns:")):
+            if line.startswith(
+                (
+                    "proxies:",
+                    "proxy-groups:",
+                    "mixed-port:",
+                    "allow-lan:",
+                    "mode:",
+                    "rules:",
+                    "dns:",
+                )
+            ):
                 return True
         return False
 
@@ -553,28 +987,47 @@ class SiteProcessor:
     def _extract_by_pattern(html: str, pattern: str) -> list[str]:
         """Extract subscription URLs matching *pattern*."""
         compiled = re.compile(pattern, re.IGNORECASE)
-        matches = compiled.findall(html)
-        if matches and isinstance(matches[0], tuple):
-            matches = [m[0] for m in matches]
         cleaned: list[str] = []
-        for m in matches:
-            if isinstance(m, str) and m.startswith("http"):
-                m = re.sub(r'[),;.\'"]+$', "", m)
-                cleaned.append(m)
+        for match in compiled.finditer(html):
+            value = match.group(1) if compiled.groups else match.group(0)
+            if value and value.startswith("http"):
+                cleaned.append(re.sub(r'[),;.\'"]+$', "", value))
         return cleaned
 
-    @staticmethod
-    async def _download_retry(url: str, retries: int = 3) -> str | None:
-        """Download a file with retry."""
+    async def _download_retry(self, url: str, retries: int = 3) -> DownloadOutcome:
+        """Retry typed HTTP failures while preserving the final diagnosis."""
+        failure = DownloadFailure(
+            code="http_error",
+            url=url,
+            diagnostic="download was not attempted",
+        )
         for attempt in range(retries):
             try:
-                return await download_file(url)
-            except Exception as e:
-                msg = str(e) or "timeout"
+                outcome = await self.web.download_file(url)
+                if outcome.kind == "downloaded":
+                    return outcome
+                failure = outcome
                 if attempt < retries - 1:
-                    print(f"    retry {attempt+1}/{retries} {url} ({msg})")
+                    print(
+                        f"    retry {attempt + 1}/{retries} {url} "
+                        f"({failure.diagnostic})"
+                    )
                     await asyncio.sleep(1.5)
-        return None
+            except asyncio.CancelledError:
+                raise
+            except Exception as error:
+                failure = DownloadFailure(
+                    code="http_error",
+                    url=url,
+                    diagnostic=str(error)[:200] or "download failed",
+                )
+                if attempt < retries - 1:
+                    print(
+                        f"    retry {attempt + 1}/{retries} {url} "
+                        f"({failure.diagnostic})"
+                    )
+                    await asyncio.sleep(1.5)
+        return failure
 
     @staticmethod
     def _derive_base(start_url: str) -> str:

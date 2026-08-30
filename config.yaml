@@ -3,147 +3,117 @@ crawl:
   max_articles: 3
   timeout: 30
 llm:
+  max_requests_per_run: 30
+  max_requests_per_site: 3
   providers:
   - api_key_env: OPENROUTER_API_KEY
     base_url: https://openrouter.ai/api/v1
-    default_weight: 50
+    default_weight: 100
     is_reasoning_model: false
     models:
     - openrouter/free
     name: openrouter
-  - api_key_env: CEREBRAS_API_KEY
-    base_url: https://api.cerebras.ai/v1
-    default_weight: 5
-    is_reasoning_model: true
-    models:
-    - gpt-oss-120b
-    - gemma-4-31b
-    name: cerebras
-  - api_key_env: OPENCODE_API_KEY
-    base_url: https://opencode.ai/zen/v1
-    default_weight: 20
-    is_reasoning_model: false
-    models:
-    - deepseek-v4-flash-free
-    - mimo-v2.5-free
-    - qwen3.6-plus-free
-    name: opencode
-  - api_key_env: KILOCODE_API_KEY
-    base_url: https://api.kilo.ai/api/gateway
-    default_weight: 30
-    is_reasoning_model: false
-    models:
-    - kilo-auto/free
-    name: kilocode
   task_routing:
     extract_links:
-      cerebras: 5
-      kilocode: 30
-      opencode: 10
-      openrouter: 60
+      openrouter: 100
     generate_pattern:
-      cerebras: 5
-      kilocode: 20
-      opencode: 0
-      openrouter: 70
+      openrouter: 100
 output:
   dir: nodes
+repository:
+  owner: nostalume
+  repository: FreeNodes
 sites:
 - description: blog site, article titles contain dates (month-day format), each article
     provides subscription links directly
   link_pattern: https?://clash-meta\.github\.io/uploads/\d{4}/\d{2}/[\w\-\.]+\.(?:txt|yaml|json)
   name: clashmeta
-  node_count: 6
   start_url: https://clash-meta.github.io/free-nodes/
   type: simple
-  up_date: '2026-08-28'
 - description: blog listing articles with date in title like '6月19日|...', each article
     contains clash/v2ray txt/yaml subscription links
   link_pattern: https://node\.nodev2ray\.com/uploads/\d{4}/\d{2}/(?:[0-9]+-)?\d{8}\.(?:txt|yaml|json)
   name: nodev2ray
   start_url: https://nodev2ray.com/free-node/
   type: simple
-  up_date: '2026-08-28'
 - description: blog with dated articles (URLs contain YYYY-M-D), each article lists
     clash/v2ray/sing-box subscription file links
   link_pattern: https://node\.freeclashnode\.com/uploads/\d{4}/\d{2}/[\d\w\.-]+
   name: freeclashnode
-  node_count: 3
   start_url: https://www.freeclashnode.com/free-node/
   type: simple
-  up_date: '2026-08-28'
 - description: blog listing articles with date in title and URL, each provides clash/v2ray
     txt/yaml subscription links
   link_pattern: https://node\.clashnode\.cc/uploads/\d{4}/\d{2}/(?:\d+-\d{8}\.(?:txt|yaml)|\d{8}\.json)
   name: clashnode
-  node_count: 11
   start_url: https://clashnode.cc/free-node/
   type: simple
-  up_date: '2026-08-28'
 - description: blog with article titles containing dates (month-day format), articles
     contain clash/v2ray subscription links
   link_pattern: https://oss\.oneclash\.cc/\d{4}/\d{2}/\d{8}\.(?:txt|yaml)
   name: oneclash
-  node_count: 6
   start_url: https://oneclash.cc/freenode/
   type: simple
-  up_date: '2026-08-28'
 - description: blogger blog, article dates in title as 'YYYY年MM月DD日', each post contains
     subscription links
   link_pattern: https://nodebuf\.com/files/public/[a-z0-9]+/preview
   name: cfmem
-  node_count: 9
   start_url: https://www.cfmem.com/
   type: simple
-  up_date: '2026-08-28'
 - description: blog with dated articles (title format '2026-06-19'), each article
     lists free subscription links
   link_pattern: https://jichangx\.com/nodes/v2ray-\d{8}-\d+
   name: jichangx
-  node_count: 3
   start_url: https://jichangx.com/free-subscription/
   type: simple
-  up_date: '2026-08-28'
 - description: blog listing articles with date in title like '2026/6/19' or '6月19日',
     each contains SSR/V2Ray/Clash links
   link_pattern: https?://starcorenode\.cczzuu\.top/node/\d{8}(?:\.txt|\.yaml)
   name: clashstair
-  node_count: 4
   start_url: https://clashstair.com/category/freenode/
   type: simple
-  up_date: '2026-08-22'
 - description: blog with dates in both title ('YYYY年MM月DD日') and URL (/post/YYYYMMDD/),
     each post has subscription links
   link_pattern: https://free\.datiya\.com/uploads/\d{8}-[A-Za-z0-9_-]+\.(?:txt|yaml)
   name: datiya
-  node_count: 3
   start_url: https://free.datiya.com/
   type: simple
-  up_date: '2026-08-28'
 - description: blog with password-protected articles, password from YouTube video
     subtitles (4-digit AABB/ABAB)
   link_pattern: https://hh\.yudou226\.top/\d{6}/\d{8}[a-z0-9]+\.[a-z]{3,4}
   name: yudou
-  node_count: 6
-  pwd_hint: 4-digit AABB or ABAB pattern, password verbally given in YouTube video
+  password_policy:
+    max_candidates: 50
+    sources:
+    - type: subtitles
+      limit: 5
+    - type: description
+      limit: 5
+    - type: aabb
+      limit: 20
+    - type: abab
+      limit: 20
   start_url: https://www.yudou789.top/category/jiedian/
   type: yt_pwd
-  up_date: '2026-08-28'
-  yt_hint: each article has a YouTube link, video subtitles contain the decryption
-    password
 - description: YouTube channel, each video description contains a Google Drive link,
     zip file contains subscription files
   name: fxrj
-  node_count: 6
   start_url: https://www.youtube.com/@fxrj/videos/
   type: cloud_drive
-  up_date: '2026-07-23'
-  yt_hint: video description has '本期资源下载地址' section with drive link
 - description: YouTube channel, each video description contains a paste.to link, paste.to
     requires password from subtitles
   name: zyfxs
-  pwd_hint: 4-digit password from video subtitles, paste.to fragment key also in description
+  password_policy:
+    max_candidates: 51
+    sources:
+    - type: empty
+    - type: subtitles
+      limit: 5
+    - type: description
+      limit: 5
+    - type: aabb
+      limit: 20
+    - type: abab
+      limit: 20
   start_url: https://www.youtube.com/@ZYFXS/videos/
   type: cloud_drive
-  up_date: '2026-08-13'
-  yt_hint: video description contains '本期资源' paste.to link with fragment key

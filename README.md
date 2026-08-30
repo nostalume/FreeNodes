@@ -1,31 +1,53 @@
 # FreeNodes
 
-v2ray、Clash 免费节点爬虫（AI 版），每日 12:00 自动运行。
+FreeNodes discovers public proxy subscriptions, admits structurally valid nodes, tests reachability and HTTP delay with a pinned Mihomo core, and publishes only the bounded accepted snapshot.
 
-## 免责声明
+## Simple import URLs
 
-订阅节点仅作学习交流使用，用于查找资料，学习知识，不做任何违法行为。
-所有资源均来自互联网，仅供大家交流学习使用，出现违法问题概不负责。
+Use the direct URL first. jsDelivr is a fallback and may temporarily serve an older generation.
 
-## v2ray / Clash 订阅列表
+| Client / format | Direct URL | CDN fallback |
+| --- | --- | --- |
+| V2Ray base64 subscription | [v2ray.txt](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/v2ray.txt) | [v2ray.txt](https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/v2ray.txt) |
+| Clash Verge standalone profile (recommended) | [merged.yaml](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/merged.yaml) | [merged.yaml](https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/merged.yaml) |
+| Clash Verge provider profile (advanced) | [provider.yaml](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/provider.yaml) | [provider-cdn.yaml](https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/provider-cdn.yaml) |
+| Plain proxy URI list | [merged.txt](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/merged.txt) | [merged.txt](https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/merged.txt) |
 
-| 爬虫目标 | 订阅链接 | 镜像加速订阅链接 | 更新日期 |
-| --- | --- | --- | --- |
-| [clashmeta](https://clash-meta.github.io/free-nodes/) | [clashmeta.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashmeta.txt)<br>[clashmeta.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashmeta.yaml) (6 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashmeta.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashmeta.yaml) | 2026-08-28 |
-| [nodev2ray](https://nodev2ray.com/free-node/) | [nodev2ray.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/nodev2ray.txt)<br>[nodev2ray.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/nodev2ray.yaml) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/nodev2ray.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/nodev2ray.yaml) | 2026-08-28 |
-| [freeclashnode](https://www.freeclashnode.com/free-node/) | [freeclashnode.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/freeclashnode.txt)<br>[freeclashnode.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/freeclashnode.yaml) (3 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/freeclashnode.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/freeclashnode.yaml) | 2026-08-28 |
-| [clashnode](https://clashnode.cc/free-node/) | [clashnode.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashnode.txt)<br>[clashnode.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashnode.yaml) (11 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashnode.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashnode.yaml) | 2026-08-28 |
-| [oneclash](https://oneclash.cc/freenode/) | [oneclash.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/oneclash.txt)<br>[oneclash.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/oneclash.yaml) (6 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/oneclash.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/oneclash.yaml) | 2026-08-28 |
-| [cfmem](https://www.cfmem.com/) | [cfmem.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/cfmem.txt)<br>[cfmem.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/cfmem.yaml) (9 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/cfmem.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/cfmem.yaml) | 2026-08-28 |
-| [jichangx](https://jichangx.com/free-subscription/) | [jichangx.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/jichangx.txt) (3 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/jichangx.txt) | 2026-08-28 |
-| [clashstair](https://clashstair.com/category/freenode/) | [clashstair.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashstair.txt)<br>[clashstair.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashstair.yaml) (4 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashstair.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/clashstair.yaml) | 2026-08-22 |
-| [datiya](https://free.datiya.com/) | [datiya.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/datiya.yaml) (3 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/datiya.yaml) | 2026-08-28 |
-| [yudou](https://www.yudou789.top/category/jiedian/) | [yudou.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/yudou.txt)<br>[yudou.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/yudou.yaml) (6 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/yudou.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/yudou.yaml) | 2026-08-28 |
-| [fxrj](https://www.youtube.com/@fxrj/videos/) | [fxrj.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/fxrj.txt)<br>[fxrj.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/fxrj.yaml) (6 nodes) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/fxrj.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/fxrj.yaml) | 2026-07-23 |
-| [zyfxs](https://www.youtube.com/@ZYFXS/videos/) | — | — | 2026-08-13 |
-| [merged](https://github.com/Barabama/FreeNodes/tree/feat/ai-crawler-v2) | [merged.txt](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/merged.txt)<br>[merged.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/merged.yaml)<br>[provider.yaml](https://raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/provider.yaml) | [镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/merged.txt)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/merged.yaml)<br>[镜像](https://gh-proxy.com/raw.githubusercontent.com/Barabama/FreeNodes/refs/heads/feat/ai-crawler-v2/nodes/provider.yaml) | 2026-08-28 |
+The standalone Clash profile embeds the accepted nodes and needs only one download. The provider profile is smaller, keeps sources separate, and refreshes nested provider files independently; those extra requests make it more sensitive to origin or CDN availability.
 
----
+The current non-secret quality summary is [quality-manifest.json](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/quality-manifest.json). Delay reflects the GitHub runner’s network vantage, not guaranteed performance from every user location.
 
-*上次更新: 2026-08-28 | 运行方式: GitHub Actions (feat/ai-crawler-v2)*
+## Data flow
 
+```text
+configured sources
+  -> immutable source artifacts
+  -> typed, deduplicated node catalog
+  -> bounded two-endpoint Mihomo probes
+  -> deterministic delay and source quotas
+  -> V2Ray and Clash profiles from one accepted catalog
+  -> Mihomo consumer validation
+  -> rollback-capable publication with receipt written last
+```
+
+Discovery uses OpenRouter’s `openrouter/free` route only when `OPENROUTER_API_KEY` is present. It is bounded to 30 requests per run and 3 per source. Missing credentials, rate limits, failed sources, empty quality results, and consumer rejection do not replace the previous accepted snapshot.
+
+## Development
+
+```bash
+uv sync --locked --extra youtube
+uv run --locked ruff format --check .
+uv run --locked ruff check .
+uv run --locked ty check
+uv run --locked pytest -q
+uv run --locked --extra youtube python main.py --validate-profiles .private/profile-validation
+uv run --locked python main.py --verify-public
+```
+
+The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-backed sources. Google Drive discovery uses the core HTTP dependency. The normal `uv run --locked --extra youtube python main.py` command performs discovery, quality probing, validation, and local publication. Supplying a source name performs discovery only and does not change public files. `--verify-public` reads the published direct and CDN URLs, checks their schemas and generation, and asks pinned Mihomo to consume both Clash forms without changing repository files.
+
+Pushes and pull requests run the same locked formatting, lint, type, and test sequence used before scheduled publication. Publication preparation has no repository write permission; a separate job admits only receipt-owned paths and commits them, then a read-only job observes the public URLs. Failed checks, discovery, quality admission, consumer validation, receipt admission, commit, or direct remote observation stop that run. CDN lag or temporary CDN failure is reported without invalidating a current direct publication.
+
+## Disclaimer
+
+Public nodes are collected from the internet for learning and research. Availability, privacy, legality, and security are not guaranteed. Follow applicable law and do not send sensitive traffic through untrusted proxies.

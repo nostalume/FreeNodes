@@ -1,122 +1,124 @@
-"""Tests for decryptor: password generation, detection, content check.
+"""Admitted page recognition used by browser decryption."""
 
-Run: pytest tests/test_decryptor.py -v
-"""
-from src.decryptor import (
-    generate_password_candidates,
-    detect_protection,
+import pytest
+
+from src.crawler import Page
+from src.decryptor import extract_paste_links, extract_paste_url
+
+
+def page(*, markdown: str = "", html: str = "") -> Page:
+    return Page(url="https://fixture.test", markdown=markdown, html=html)
+
+
+@pytest.mark.parametrize(
+    "html",
+    (
+        '<input class="cl-input" placeholder="在此输入密码">',
+        '<button class="cl-btn">解密</button>',
+        '<input type="password" name="pwd">',
+        '<input type="Password" name="key">',
+    ),
 )
-from src.utils import has_subscription_content
+def test_page_recognizes_structural_password_controls(html):
+    assert page(html=html).requires_password() is True
 
 
-# ═══════════════════════════════════════════════════════════════
-# generate_password_candidates
-# ═══════════════════════════════════════════════════════════════
-
-class TestGeneratePasswordCandidates:
-
-    def test_aabb_count(self):
-        """AABB pattern: 10 choices for a, 9 for b (a!=b) = 90."""
-        candidates = generate_password_candidates("AABB")
-        assert len(candidates) == 90
-
-    def test_aabb_pattern(self):
-        candidates = generate_password_candidates("AABB")
-        for pwd in candidates:
-            assert pwd[0] == pwd[1], f"{pwd} is not AABB"
-            assert pwd[2] == pwd[3], f"{pwd} is not AABB"
-            assert pwd[0] != pwd[2], f"{pwd} has same first and second pair"
-
-    def test_aabb_contains_known(self):
-        candidates = generate_password_candidates("AABB")
-        assert "0011" in candidates
-        assert "3344" in candidates
-        # 6767 is ABAB, not AABB
-        assert "7744" in candidates  # AABB example
-
-    def test_abab_included_when_requested(self):
-        candidates = generate_password_candidates("ABAB")
-        assert "1122" in candidates  # ABAB pattern
-        assert "0101" in candidates
-
-    def test_all_includes_everything(self):
-        candidates = generate_password_candidates("all")
-        assert "0000" in candidates
-        assert "9999" in candidates
-        assert len(candidates) >= 10000
-
-    def test_no_duplicates(self):
-        candidates = generate_password_candidates("all")
-        assert len(candidates) == len(set(candidates))
+@pytest.mark.parametrize(
+    "html",
+    (
+        "<div>请输入密码查看内容</div>",
+        "<div>clash免费节点</div>",
+        "<div>ordinary page</div>",
+    ),
+)
+def test_page_does_not_infer_protection_from_text(html):
+    assert page(html=html).requires_password() is False
 
 
-# ═══════════════════════════════════════════════════════════════
-# detect_protection
-# ═══════════════════════════════════════════════════════════════
-
-class TestDetectProtection:
-
-    def test_yudou_protected(self):
-        html = '<input class="cl-input" placeholder="在此输入密码"><button class="cl-btn">解密</button>'
-        assert detect_protection(html) is True
-
-    def test_generic_password_input(self):
-        html = '<input type="password" name="pwd">'
-        assert detect_protection(html) is True
-
-    def test_chinese_password_keyword_only(self):
-        """Text-only '密码' without input field should NOT trigger."""
-        html = '<div>请输入密码查看内容</div>'
-        assert detect_protection(html) is False
-
-    def test_unprotected_page(self):
-        html = '<div>免费节点订阅链接: https://example.com/v2ray.txt</div>'
-        assert detect_protection(html) is False
-
-    def test_case_insensitive(self):
-        html = '<input type="Password" name="key">'
-        assert detect_protection(html) is True
-
-    def test_clash_in_text_not_protection(self):
-        """'clash' in text without input field is NOT a protection indicator."""
-        html = '<div>clash免费节点</div>'
-        assert detect_protection(html) is False
+@pytest.mark.parametrize(
+    ("markdown", "html"),
+    (
+        ("", "https://example.com/node.txt"),
+        ("", "https://example.com/config.yaml"),
+        ("vmess://eyJ2IjoiMiI6ICJhYmNk", ""),
+        ("vless://abc@1.2.3.4:443", ""),
+        ("trojan://pass@1.2.3.4:443", ""),
+        ("ss://YWVzLTI1Ni1nY206d2MvZXFSUHJZ", ""),
+    ),
+)
+def test_page_recognizes_subscription_content(markdown, html):
+    assert page(markdown=markdown, html=html).has_subscription_content() is True
 
 
-# ═══════════════════════════════════════════════════════════════
-# _has_subscription_content
-# ═══════════════════════════════════════════════════════════════
+@pytest.mark.parametrize(
+    ("markdown", "html"),
+    (
+        ("Clash 订阅配置文件", ""),
+        ("", "<html>普通网页内容</html>"),
+        ("", ""),
+    ),
+)
+def test_page_rejects_descriptive_or_empty_content(markdown, html):
+    assert page(markdown=markdown, html=html).has_subscription_content() is False
 
-class TestHasSubscriptionContent:
 
-    def test_txt_link(self):
-        assert has_subscription_content("", "https://example.com/node.txt") is True
+class TestExtractPasteUrl:
+    def test_paste_to_with_fragment(self):
+        text = "资源地址：https://paste.to/?3c4d47bd5fa1f66a#BwJn7AXEmdXR88rdRZyY7JXjKrmd8NgcjVwU2SiwroVf"
+        result = extract_paste_url(text)
+        assert result is not None
+        assert "#BwJn" in result
+        assert "3c4d47bd5fa1f66a" in result
 
-    def test_yaml_link(self):
-        assert has_subscription_content("", "https://example.com/config.yaml") is True
+    def test_youtube_redirect_with_paste_url(self):
+        text = (
+            "https://www.youtube.com/redirect?event=video_description"
+            "&redir_token=fixture"
+            "&q=https%3A%2F%2Fpaste.to%2F%3Ffixture%23secret"
+            "&v=fixture"
+        )
+        result = extract_paste_url(text)
+        assert result is not None
+        assert "paste.to" in result
 
-    def test_vmess_link(self):
-        assert has_subscription_content("vmess://eyJ2IjoiMiI6ICJhYmNk...", "") is True
+    def test_no_paste_url(self):
+        assert extract_paste_url("https://example.com") is None
 
-    def test_vless_link(self):
-        assert has_subscription_content("vless://abc@1.2.3.4:443", "") is True
+    def test_paste_without_fragment_returns_none(self):
+        assert extract_paste_url("https://paste.to/?fixture") is None
 
-    def test_trojan_link(self):
-        assert has_subscription_content("trojan://pass@1.2.3.4:443", "") is True
+    def test_privatebin_url(self):
+        result = extract_paste_url(
+            "https://privatebin.example.com/?abc123#secretkey456"
+        )
+        assert result is not None
+        assert "secretkey456" in result
 
-    def test_ss_link(self):
-        assert has_subscription_content("ss://YWVzLTI1Ni1nY206d2MvZXFSUHJZ", "") is True
 
-    def test_chinese_keyword_in_text(self):
-        """'订阅链接' text alone should NOT trigger (no actual URL)."""
-        assert has_subscription_content("订阅链接地址：https://example.com/sub.txt", "") is True
+class TestExtractPasteLinks:
+    @pytest.mark.parametrize(
+        "url",
+        (
+            "https://example.com/v2ray.txt",
+            "https://example.com/config.yaml",
+            "https://dlink.host/1drv/encoded.jpg",
+            "https://1drv.ms/f/c/fixture.jpg",
+        ),
+    )
+    def test_subscription_link(self, url):
+        links = extract_paste_links(f"subscription: {url}")
+        assert tuple(link.href for link in links) == (url,)
 
-    def test_clash_keyword_in_text(self):
-        """'Clash' text alone should NOT trigger (too broad)."""
-        assert has_subscription_content("Clash 订阅配置文件", "") is False
+    def test_regular_image_is_ignored(self):
+        assert extract_paste_links("https://example.com/photo.jpg") == ()
 
-    def test_no_content(self):
-        assert has_subscription_content("", "<html>普通网页内容</html>") is False
+    def test_empty_text(self):
+        assert extract_paste_links("") == ()
 
-    def test_empty(self):
-        assert has_subscription_content("", "") is False
+    def test_multiple_links(self):
+        links = extract_paste_links(
+            "v2ray: https://example.com/v2.txt\n"
+            "clash: https://example.com/c.yaml\n"
+            "onedrive: https://dlink.host/1drv/abc.jpg"
+        )
+        assert len(links) == 3

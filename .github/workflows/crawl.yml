@@ -1,47 +1,219 @@
-name: AI Crawl Daily Update
+name: Publish verified profiles
 
 on:
   schedule:
-    - cron: "0 4 * * *"   # daily at 12:00 Beijing time (UTC 04:00)
-  workflow_dispatch:       # manual trigger
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: freenodes-publication
+  cancel-in-progress: false
 
 jobs:
-  crawl:
+  prepare:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      base_sha: ${{ steps.base.outputs.sha }}
+      receipt_sha: ${{ steps.stage.outputs.receipt_sha }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout publication branch
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
-          ref: feat/ai-crawler-v2
+          ref: main
+          persist-credentials: false
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+      - name: Record publication base
+        id: base
+        shell: bash
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Install project
-        run: |
-          pip install -e .
-          pip install playwright
-          playwright install --with-deps chromium
+      - name: Verify software
+        uses: ./.github/actions/verify-software
 
-      - name: Run crawler
+      - name: Install browser
+        run: uv run playwright install --with-deps chromium
+
+      - name: Prepare verified profiles
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
-          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-        run: python main.py
+        run: uv run --locked --extra youtube python main.py
 
-      - name: Commit output
+      - name: Stage receipt-owned publication
+        id: stage
+        shell: bash
         run: |
+          set -euo pipefail
+          admit_path() {
+            local path="$1"
+            case "$path" in
+              nodes/*|IMPORT.md) ;;
+              *) echo "Unsafe publication path: $path" >&2; return 1 ;;
+            esac
+            case "$path" in
+              *\\*) echo "Unsafe publication path: $path" >&2; return 1 ;;
+            esac
+            case "/$path/" in
+              *"/../"*|*"/./"*|*"//"*)
+                echo "Unsafe publication path: $path" >&2
+                return 1
+                ;;
+            esac
+          }
+          receipt=nodes/publication-receipt.json
+          test -f "$receipt"
+          jq -e '
+            .status == "accepted" and
+            .managed_files[-1] == "nodes/publication-receipt.json" and
+            ((.files | keys | sort) ==
+             ([.managed_files[] | select(. != "nodes/publication-receipt.json")] | sort)) and
+            (([.managed_files[], .removed_files[]] | length) ==
+             ([.managed_files[], .removed_files[]] | unique | length))
+          ' "$receipt" >/dev/null
+
+          test ! -e .publication-payload
+          mkdir .publication-payload
+          jq -r '.managed_files[]' "$receipt" > .git/freenodes-managed-paths
+          jq -r '.removed_files[]' "$receipt" > .git/freenodes-removed-paths
+
+          while IFS= read -r path; do
+            admit_path "$path"
+            test -f "$path"
+            if [ "$path" != "$receipt" ]; then
+              expected=$(jq -r --arg path "$path" '.files[$path] // empty' "$receipt")
+              actual=$(sha256sum "$path" | cut -d ' ' -f 1)
+              test -n "$expected"
+              test "$actual" = "$expected"
+            fi
+            install -D "$path" ".publication-payload/$path"
+          done < .git/freenodes-managed-paths
+
+          while IFS= read -r path; do
+            admit_path "$path"
+          done < .git/freenodes-removed-paths
+          echo "receipt_sha=$(sha256sum "$receipt" | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload accepted publication
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: accepted-publication-${{ github.run_id }}
+          path: .publication-payload/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 9
+
+  commit:
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      published_sha: ${{ steps.publish.outputs.sha }}
+    steps:
+      - name: Checkout exact publication base
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ needs.prepare.outputs.base_sha }}
+
+      - name: Download accepted publication
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: accepted-publication-${{ github.run_id }}
+          path: .publication-payload
+
+      - name: Admit and publish exact receipt paths
+        id: publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          admit_path() {
+            local path="$1"
+            case "$path" in
+              nodes/*|IMPORT.md) ;;
+              *) echo "Unsafe publication path: $path" >&2; return 1 ;;
+            esac
+            case "$path" in
+              *\\*) echo "Unsafe publication path: $path" >&2; return 1 ;;
+            esac
+            case "/$path/" in
+              *"/../"*|*"/./"*|*"//"*)
+                echo "Unsafe publication path: $path" >&2
+                return 1
+                ;;
+            esac
+          }
+          receipt=.publication-payload/nodes/publication-receipt.json
+          test -f "$receipt"
+          test "$(sha256sum "$receipt" | cut -d ' ' -f 1)" = "${{ needs.prepare.outputs.receipt_sha }}"
+          jq -e '
+            .status == "accepted" and
+            .managed_files[-1] == "nodes/publication-receipt.json" and
+            ((.files | keys | sort) ==
+             ([.managed_files[] | select(. != "nodes/publication-receipt.json")] | sort)) and
+            (([.managed_files[], .removed_files[]] | length) ==
+             ([.managed_files[], .removed_files[]] | unique | length))
+          ' "$receipt" >/dev/null
+
+          jq -r '.managed_files[]' "$receipt" > .git/freenodes-managed-paths
+          jq -r '.removed_files[]' "$receipt" > .git/freenodes-removed-paths
+          find .publication-payload -type f -printf '%P\n' | sort > .git/freenodes-artifact-paths
+          sort .git/freenodes-managed-paths > .git/freenodes-expected-paths
+          cmp .git/freenodes-artifact-paths .git/freenodes-expected-paths
+
+          while IFS= read -r path; do
+            admit_path "$path"
+            source=".publication-payload/$path"
+            test -f "$source"
+            if [ "$path" != "nodes/publication-receipt.json" ]; then
+              expected=$(jq -r --arg path "$path" '.files[$path] // empty' "$receipt")
+              actual=$(sha256sum "$source" | cut -d ' ' -f 1)
+              test -n "$expected"
+              test "$actual" = "$expected"
+            fi
+            install -D "$source" "$path"
+          done < .git/freenodes-managed-paths
+
+          while IFS= read -r path; do
+            admit_path "$path"
+            rm -f -- "$path"
+          done < .git/freenodes-removed-paths
+
+          cat .git/freenodes-removed-paths >> .git/freenodes-managed-paths
+          sort -u -o .git/freenodes-managed-paths .git/freenodes-managed-paths
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Force-add files that may be gitignored (nodes/) or newly generated
-          git add --force nodes/*.txt nodes/*.yaml config.yaml README.md
-          # Only commit if there are changes
+          git add -A --pathspec-from-file=.git/freenodes-managed-paths
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+            echo "No accepted profile changes"
           else
-            git commit -m "auto: daily crawl update"
-            git push
+            git commit -m "auto: publish verified profiles"
+            git push origin HEAD:main
           fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  observe:
+    needs: commit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout published revision
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ needs.commit.outputs.published_sha }}
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          enable-cache: true
+
+      - name: Install locked project
+        run: |
+          uv python install 3.12
+          uv sync --locked
+
+      - name: Observe public import entries
+        run: uv run --locked python main.py --verify-public

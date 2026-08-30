@@ -2,40 +2,30 @@
 
 Run with: pytest tests/test_llm_router.py -v
 """
-import json
+
+import os
 import time
-from pathlib import Path
+from unittest.mock import patch
 
+import httpx
 import pytest
+from openai import RateLimitError
 
-pytestmark = pytest.mark.asyncio
-
-from src.llm_router import WeightedSelector, HealthTracker, LLMRouter
-from src.config import ProviderConfig, Config, LLMConfig, CrawlConfig, SiteConfig
-
-# ── Fixtures ──
-
-FIXTURE_DIR = Path(__file__).parent / "fixtures"
-
-
-@pytest.fixture
-def full_config():
-    from src.config import load_config
-    return load_config(str(FIXTURE_DIR / "config_full.yaml"))
-
-
-@pytest.fixture
-def no_llm_config():
-    from src.config import load_config
-    return load_config(str(FIXTURE_DIR / "config_no_llm.yaml"))
-
+from src.config import Config, CrawlConfig, LLMConfig, ProviderConfig, SimpleSite
+from src.llm_router import (
+    ExtractedLinks,
+    HealthTracker,
+    LLMRouter,
+    RequestBudget,
+    WeightedSelector,
+)
 
 # ═══════════════════════════════════════════════════════════════
 # WeightedSelector
 # ═══════════════════════════════════════════════════════════════
 
-class TestWeightedSelector:
 
+class TestWeightedSelector:
     def test_returns_none_for_empty_weights(self):
         selector = WeightedSelector()
         result = selector.pick({}, lambda n: True)
@@ -103,8 +93,8 @@ class TestWeightedSelector:
 # HealthTracker
 # ═══════════════════════════════════════════════════════════════
 
-class TestHealthTracker:
 
+class TestHealthTracker:
     def test_initial_state_is_healthy(self):
         tracker = HealthTracker()
         assert tracker.is_healthy("p1") is True
@@ -161,12 +151,27 @@ class TestHealthTracker:
         assert report["p1"]["healthy"] is True
 
 
+class TestRequestBudget:
+    def test_enforces_site_and_run_limits_exactly(self):
+        budget = RequestBudget(run_limit=3, site_limit=2)
+
+        assert budget.charge("alpha") is True
+        assert budget.charge("alpha") is True
+        assert budget.charge("alpha") is False
+        assert budget.charge("beta") is True
+        assert budget.charge("gamma") is False
+        assert budget.used_total == 3
+        assert budget.used_by_site == {"alpha": 2, "beta": 1}
+
+
 # ═══════════════════════════════════════════════════════════════
 # LLMRouter (mocked _try_provider)
 # ═══════════════════════════════════════════════════════════════
 
+
 class FakeResponseMessage:
     """Mock for ChatCompletion response message."""
+
     def __init__(self, content: str | None, reasoning: str | None = None):
         self.content = content
         self.reasoning = reasoning
@@ -178,30 +183,48 @@ class FakeChoice:
 
 
 class FakeResponse:
-    def __init__(self, content: str | None):
-        self.choices = [FakeChoice(content)]
+    def __init__(self, content: str | None, reasoning: str | None = None):
+        self.choices = [FakeChoice(content, reasoning)]
 
 
-def _make_router(config: Config | None = None, providers: dict[str, list[str | None]] | None = None):
-    """Build a router with mocked _try_provider returning canned responses.
+class FakeCompletions:
+    def __init__(self, *responses: FakeResponse):
+        self.responses = list(responses)
 
-    *providers* maps provider name to a list of return values (one per call).
-    *None* means failure.
-    """
+    async def create(self, **kwargs):
+        return self.responses.pop(0)
+
+
+class FakeClient:
+    def __init__(self, *responses: FakeResponse):
+        self.chat = type(
+            "Chat",
+            (),
+            {"completions": FakeCompletions(*responses)},
+        )()
+
+
+def _make_router(config: Config | None = None):
     if config is None:
         config = Config(
-            sites=[SiteConfig(name="test", start_url="https://example.com")],
+            sites=[SimpleSite(name="test", start_url="https://example.com")],
             crawl=CrawlConfig(),
             output={"dir": "nodes"},
             llm=LLMConfig(
                 providers=[
                     ProviderConfig(
-                        name="mock-a", base_url="http://a.test/v1",
-                        api_key_env="KEY_A", models=["m-a"], default_weight=60,
+                        name="mock-a",
+                        base_url="http://a.test/v1",
+                        api_key_env="KEY_A",
+                        models=["m-a"],
+                        default_weight=60,
                     ),
                     ProviderConfig(
-                        name="mock-b", base_url="http://b.test/v1",
-                        api_key_env="KEY_B", models=["m-b"], default_weight=40,
+                        name="mock-b",
+                        base_url="http://b.test/v1",
+                        api_key_env="KEY_B",
+                        models=["m-b"],
+                        default_weight=40,
                     ),
                 ],
                 task_routing={
@@ -209,32 +232,113 @@ def _make_router(config: Config | None = None, providers: dict[str, list[str | N
                 },
             ),
         )
-    router = LLMRouter(config, timeout_s=5)
-
-    if providers is not None:
-        iterator = iter([
-            FakeResponse(content)
-            for content in providers.get(list(providers.keys())[0], ["fallback"])
-        ])
-
-        def fake_try(cfg, prompt, max_tokens):
-            try:
-                resp = next(iterator)
-                return resp.choices[0].message.content
-            except StopIteration:
-                return None
-
-        router._try_provider = fake_try
-
-    return router
+    keys = {provider.api_key_env: "test-key" for provider in config.llm.providers}
+    with patch.dict(os.environ, keys):
+        return LLMRouter(config, timeout_s=5)
 
 
 class TestLLMRouter:
+    async def test_only_providers_with_credentials_are_admitted(self, monkeypatch):
+        monkeypatch.delenv("MISSING_KEY", raising=False)
+        monkeypatch.setenv("AVAILABLE_KEY", "test-key")
+        config = Config(
+            sites=[SimpleSite(name="t", start_url="http://x")],
+            crawl=CrawlConfig(),
+            output={"dir": "nodes"},
+            llm=LLMConfig(
+                providers=[
+                    ProviderConfig(
+                        name="missing",
+                        base_url="http://missing/v1",
+                        api_key_env="MISSING_KEY",
+                        models=("m",),
+                    ),
+                    ProviderConfig(
+                        name="available",
+                        base_url="http://available/v1",
+                        api_key_env="AVAILABLE_KEY",
+                        models=("m",),
+                    ),
+                ],
+                task_routing={"default": {"missing": 90, "available": 10}},
+            ),
+        )
+
+        router = LLMRouter(config)
+
+        assert router.provider_names == ("available",)
+
+    async def test_missing_credentials_perform_no_provider_attempt(self, monkeypatch):
+        monkeypatch.delenv("MISSING_KEY", raising=False)
+        attempted = False
+
+        def unexpected_client(**kwargs):
+            nonlocal attempted
+            attempted = True
+            return FakeClient(FakeResponse("unexpected"))
+
+        monkeypatch.setattr("src.llm_router.AsyncOpenAI", unexpected_client)
+        config = Config(
+            sites=[SimpleSite(name="t", start_url="http://x")],
+            crawl=CrawlConfig(),
+            output={"dir": "nodes"},
+            llm=LLMConfig(
+                providers=[
+                    ProviderConfig(
+                        name="missing",
+                        base_url="http://missing/v1",
+                        api_key_env="MISSING_KEY",
+                        models=("m",),
+                    )
+                ],
+            ),
+        )
+        router = LLMRouter(config)
+
+        assert await router.ask("hi", site="t") == ""
+        assert attempted is False
+
+    async def test_rate_limit_does_not_try_another_model(self, monkeypatch):
+        monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
+        calls: list[str] = []
+
+        class Completions:
+            async def create(self, *, model, **kwargs):
+                calls.append(model)
+                request = httpx.Request("POST", "https://openrouter.ai/api/v1")
+                response = httpx.Response(429, request=request)
+                raise RateLimitError("limited", response=response, body=None)
+
+        client = type(
+            "Client",
+            (),
+            {"chat": type("Chat", (), {"completions": Completions()})()},
+        )()
+        monkeypatch.setattr("src.llm_router.AsyncOpenAI", lambda **kwargs: client)
+        config = Config(
+            sites=[SimpleSite(name="t", start_url="http://x")],
+            crawl=CrawlConfig(),
+            output={"dir": "nodes"},
+            llm=LLMConfig(
+                providers=[
+                    ProviderConfig(
+                        name="openrouter",
+                        base_url="https://openrouter.ai/api/v1",
+                        api_key_env="OPENROUTER_API_KEY",
+                        models=("first", "second"),
+                        default_weight=100,
+                    )
+                ],
+            ),
+        )
+
+        assert await LLMRouter(config).ask("hi", site="t") == ""
+        assert calls == ["first"]
 
     async def test_ask_returns_empty_when_no_providers(self):
         """Router with empty provider list returns empty string."""
         config = Config(
-            sites=[SiteConfig(name="t", start_url="http://x")],
+            sites=[SimpleSite(name="t", start_url="http://x")],
             crawl=CrawlConfig(),
             output={"dir": "nodes"},
             llm=LLMConfig(),
@@ -245,226 +349,196 @@ class TestLLMRouter:
 
     async def test_ask_returns_text_on_first_success(self, monkeypatch):
         """When the first provider succeeds, return its text immediately."""
+        monkeypatch.setenv("KEY", "some-key")
         monkeypatch.setattr(
-            "src.llm_router.os.getenv",
-            lambda key, default="": "some-key",
+            "src.llm_router.AsyncOpenAI",
+            lambda **kwargs: FakeClient(FakeResponse("ok-from-p1")),
         )
 
         config = Config(
-            sites=[SiteConfig(name="t", start_url="http://x")],
+            sites=[SimpleSite(name="t", start_url="http://x")],
             crawl=CrawlConfig(),
             output={"dir": "nodes"},
             llm=LLMConfig(
                 providers=[
-                    ProviderConfig(name="p1", base_url="http://a/v1",
-                                   api_key_env="KEY", models=["m"], default_weight=100),
+                    ProviderConfig(
+                        name="p1",
+                        base_url="http://a/v1",
+                        api_key_env="KEY",
+                        models=["m"],
+                        default_weight=100,
+                    ),
                 ],
                 task_routing={"default": {"p1": 100}},
             ),
         )
         router = LLMRouter(config, timeout_s=5)
 
-        async def fake_try(cfg, prompt, mt):
-            return "ok-from-p1"
-
-        router._try_provider = fake_try
         result = await router.ask("hi")
         assert result == "ok-from-p1"
 
-    async def test_ask_falls_back_on_failure(self):
+    async def test_ask_falls_back_on_failure(self, monkeypatch):
         """Both providers tried when first fails; second succeeds."""
         config = Config(
-            sites=[SiteConfig(name="t", start_url="http://x")],
+            sites=[SimpleSite(name="t", start_url="http://x")],
             crawl=CrawlConfig(),
             output={"dir": "nodes"},
             llm=LLMConfig(
                 providers=[
-                    ProviderConfig(name="p1", base_url="http://a/v1",
-                                   api_key_env="K", models=["m"], default_weight=50),
-                    ProviderConfig(name="p2", base_url="http://b/v1",
-                                   api_key_env="K", models=["m"], default_weight=50),
+                    ProviderConfig(
+                        name="p1",
+                        base_url="http://a/v1",
+                        api_key_env="K",
+                        models=["m"],
+                        default_weight=50,
+                    ),
+                    ProviderConfig(
+                        name="p2",
+                        base_url="http://b/v1",
+                        api_key_env="K",
+                        models=["m"],
+                        default_weight=50,
+                    ),
                 ],
                 task_routing={"default": {"p1": 50, "p2": 50}},
             ),
         )
+        monkeypatch.setenv("K", "test-key")
+        monkeypatch.setattr("src.llm_router.random.uniform", lambda start, end: start)
+        clients = {
+            "http://a/v1": FakeClient(FakeResponse(None)),
+            "http://b/v1": FakeClient(FakeResponse("ok-from-p2")),
+        }
+        monkeypatch.setattr(
+            "src.llm_router.AsyncOpenAI",
+            lambda **kwargs: clients[kwargs["base_url"]],
+        )
         router = LLMRouter(config, timeout_s=5)
-        calls: list[str] = []
 
-        async def fake_try(cfg, prompt, mt):
-            calls.append(cfg.name)
-            if cfg.name == "p1":
-                return None  # p1 fails
-            return "ok-from-p2"
-
-        router._try_provider = fake_try
         result = await router.ask("hi")
         assert result == "ok-from-p2"
 
-    async def test_ask_returns_empty_when_all_fail(self):
+    async def test_ask_returns_empty_when_all_fail(self, monkeypatch):
         """When every provider fails, return empty string (never raise)."""
+        monkeypatch.setenv("KEY_A", "test-key")
+        monkeypatch.setenv("KEY_B", "test-key")
+        monkeypatch.setattr(
+            "src.llm_router.AsyncOpenAI",
+            lambda **kwargs: FakeClient(FakeResponse(None)),
+        )
         router = _make_router()
-        async def always_fail(cfg, prompt, mt): return None
-        router._try_provider = always_fail
+
         result = await router.ask("hi")
         assert result == ""
 
-    # ── _response_text ──
 
-    def test_response_text_normal(self):
-        resp = FakeResponse("hello")
-        text = LLMRouter._response_text(resp, is_reasoning=False)
-        assert text == "hello"
+@pytest.mark.parametrize(
+    ("content", "reasoning", "reasoning_model", "expected"),
+    (
+        ("hello", None, False, "hello"),
+        (None, "reasoned answer", True, "reasoned answer"),
+        (None, None, False, ""),
+        ("content wins", "reasoning", True, "content wins"),
+    ),
+)
+async def test_ask_admits_external_provider_messages(
+    monkeypatch,
+    content,
+    reasoning,
+    reasoning_model,
+    expected,
+):
+    monkeypatch.setenv("PROVIDER_KEY", "test-key")
+    monkeypatch.setattr(
+        "src.llm_router.AsyncOpenAI",
+        lambda **kwargs: FakeClient(FakeResponse(content, reasoning)),
+    )
+    config = Config(
+        sites=[SimpleSite(name="source", start_url="https://source.test")],
+        llm=LLMConfig(
+            providers=[
+                ProviderConfig(
+                    name="provider",
+                    base_url="https://provider.test/v1",
+                    api_key_env="PROVIDER_KEY",
+                    models=("model",),
+                    default_weight=100,
+                    is_reasoning_model=reasoning_model,
+                )
+            ]
+        ),
+    )
 
-    def test_response_text_reasoning_model(self):
-        msg = FakeResponseMessage(content=None, reasoning="thinking... answer: 42")
-        resp = type("R", (), {"choices": [type("C", (), {"message": msg})]})()
-        text = LLMRouter._response_text(resp, is_reasoning=True)
-        assert text == "thinking... answer: 42"
-
-    def test_response_text_empty_when_both_none(self):
-        msg = FakeResponseMessage(content=None, reasoning=None)
-        resp = type("R", (), {"choices": [type("C", (), {"message": msg})]})()
-        text = LLMRouter._response_text(resp, is_reasoning=False)
-        assert text == ""
-
-    def test_response_text_prefers_content_over_reasoning(self):
-        msg = FakeResponseMessage(content="real answer", reasoning="thinking...")
-        resp = type("R", (), {"choices": [type("C", (), {"message": msg})]})()
-        text = LLMRouter._response_text(resp, is_reasoning=True)
-        assert text == "real answer"
-
-    # ── _parse_json ──
-
-    def test_parse_json_valid(self):
-        result = LLMRouter._parse_json('{"txt": ["a.txt"], "yaml": ["b.yaml"]}')
-        assert result["txt"] == ["a.txt"]
-        assert result["yaml"] == ["b.yaml"]
-
-    def test_parse_json_with_fences(self):
-        raw = '```json\n{"txt": ["a.txt"]}\n```'
-        result = LLMRouter._parse_json(raw)
-        assert result["txt"] == ["a.txt"]
-
-    def test_parse_json_invalid_returns_empty(self):
-        result = LLMRouter._parse_json("not json at all")
-        assert result == {"txt": [], "yaml": [], "other": [], "inline": []}
-
-    def test_parse_json_empty_string(self):
-        result = LLMRouter._parse_json("")
-        assert result == {"txt": [], "yaml": [], "other": [], "inline": []}
-
-    # ── extract_links ──
-
-    async def test_extract_links_calls_ask(self):
-        """Ensure extract_links flows through ask()."""
-        router = _make_router()
-        called = False
-
-        async def fake_ask(prompt, task_type="default", max_tokens=1024):
-            nonlocal called
-            called = True
-            assert task_type == "extract_links"
-            return '{"txt":["https://x.com/a.txt"],"yaml":[]}'
-
-        router.ask = fake_ask
-        result = await router.extract_links("some markdown")
-        assert called
-        assert result["txt"] == ["https://x.com/a.txt"]
-
-    # ── generate_pattern ──
-
-    async def test_generate_pattern_returns_none_on_empty(self):
-        router = _make_router()
-        async def empty_ask(p, task_type="default", max_tokens=256):
-            return ""
-        router.ask = empty_ask
-        result = await router.generate_pattern(["http://x.com/a.yaml"], "<p>link</p>")
-        assert result is None
+    assert await LLMRouter(config).ask("prompt", site="source") == expected
 
 
-# ═══════════════════════════════════════════════════════════════
-# _extract_regex
-# ═══════════════════════════════════════════════════════════════
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    (
+        (
+            '{"txt": ["a.txt"], "yaml": ["b.yaml"]}',
+            ExtractedLinks(txt=("a.txt",), yaml=("b.yaml",)),
+        ),
+        ('```json\n{"txt": ["a.txt"]}\n```', ExtractedLinks(txt=("a.txt",))),
+        ("not json at all", ExtractedLinks()),
+        ("", ExtractedLinks()),
+    ),
+)
+async def test_extract_links_admits_provider_payload(raw, expected):
+    router = _make_router()
 
-class TestExtractRegex:
+    async def provider_response(
+        prompt,
+        task_type="default",
+        max_tokens=1024,
+        site="default",
+    ):
+        assert task_type == "extract_links"
+        return raw
 
-    def test_extracts_from_code_fence(self):
-        text = "Here is the regex:\n```\nhttps://node\\.example\\.com/[^\\s]+\n```"
-        assert LLMRouter._extract_regex(text) == r"https://node\.example\.com/[^\s]+"
+    router.ask = provider_response
 
-    def test_extracts_from_code_fence_with_lang(self):
-        text = "```regex\nhttps://x\\.com/[a-z]+\\.(txt|yaml)\n```"
-        assert LLMRouter._extract_regex(text) == r"https://x\.com/[a-z]+\.(txt|yaml)"
+    assert await router.extract_links("page", site="source") == expected
 
-    def test_extracts_from_analysis_line(self):
-        """Handles reasoning model output with analysis text."""
-        text = (
-            "1. Analyze the Request:\n"
-            "The user wants a regex matching these URLs.\n"
-            "2. Pattern:\n"
-            r"https://node\.example\.com/\d{4}/\d{2}/\d+-\d{8}\.(?:txt|yaml)"
+
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    (
+        (
+            "Here is the regex:\n```\nhttps://node\\.example\\.com/[^\\s]+\n```",
+            r"https://node\.example\.com/[^\s]+",
+        ),
+        (
+            "```regex\nhttps://x\\.com/[a-z]+\\.(txt|yaml)\n```",
+            r"https://x\.com/[a-z]+\.(txt|yaml)",
+        ),
+        (
+            "analysis\nhttps://node\\.test\\.com/\\d+/file\\.(txt|yaml)",
+            r"https://node\.test\.com/\d+/file\.(txt|yaml)",
+        ),
+        ("I have no idea what regex to use", None),
+        ("", None),
+    ),
+)
+async def test_generate_pattern_admits_provider_text(raw, expected):
+    router = _make_router()
+
+    async def provider_response(
+        prompt,
+        task_type="default",
+        max_tokens=256,
+        site="default",
+    ):
+        assert task_type == "generate_pattern"
+        return raw
+
+    router.ask = provider_response
+
+    assert (
+        await router.generate_pattern(
+            ["https://node.example.com/a.txt"],
+            "<p>resource</p>",
+            site="source",
         )
-        result = LLMRouter._extract_regex(text)
-        assert result is not None
-        assert r"node\.example\.com" in result
-
-    def test_extracts_from_last_line(self):
-        text = "The regex is:\nhttps://x\\.com/[^\\s]+\\.(txt|yaml)\n"
-        assert LLMRouter._extract_regex(text) == r"https://x\.com/[^\s]+\.(txt|yaml)"
-
-    def test_returns_none_on_garbage(self):
-        assert LLMRouter._extract_regex("I have no idea what regex to use") is None
-
-    def test_extracts_regex_with_escaped_chars(self):
-        text = "Consider the URL pattern...\nhttps://node\\.test\\.com/\\d+/file\\.(txt|yaml)"
-        result = LLMRouter._extract_regex(text)
-        assert result is not None
-        assert r"node\.test\.com" in result
-# ═══════════════════════════════════════════════════════════════
-
-class TestConfigIntegration:
-
-    def test_full_config_parses_three_providers(self, full_config):
-        assert len(full_config.llm.providers) == 3
-        names = [p.name for p in full_config.llm.providers]
-        assert names == ["openrouter", "cerebras", "opencode"]
-
-    def test_full_config_provider_fields(self, full_config):
-        p = full_config.llm.providers[0]
-        assert p.name == "openrouter"
-        assert p.base_url == "https://openrouter.ai/api/v1"
-        assert p.api_key_env == "OPENROUTER_API_KEY"
-        assert p.models == ["openrouter/free"]
-        assert p.is_reasoning_model is False
-        assert p.default_weight == 50
-
-    def test_cerebras_is_reasoning_model(self, full_config):
-        p = full_config.llm.providers[1]
-        assert p.name == "cerebras"
-        assert p.is_reasoning_model is True
-
-    def test_task_routing(self, full_config):
-        assert full_config.llm.task_routing["extract_links"]["openrouter"] == 60
-        assert full_config.llm.task_routing["extract_links"]["cerebras"] == 30
-        assert full_config.llm.task_routing["generate_pattern"]["opencode"] == 0
-
-    def test_no_llm_config_returns_empty(self, no_llm_config):
-        assert no_llm_config.llm.providers == []
-        assert no_llm_config.llm.task_routing == {}
-
-    def test_router_from_full_config(self, full_config):
-        router = LLMRouter(full_config)
-        assert len(router._providers) == 3
-        assert router._default_weights["openrouter"] == 50
-        assert router._default_weights["cerebras"] == 30
-
-
-# ═══════════════════════════════════════════════════════════════
-# Verify no import from deleted src.llm
-# ═══════════════════════════════════════════════════════════════
-
-def test_no_old_llm_import():
-    """Ensure src.llm was deleted and not referenced."""
-    import importlib
-    with pytest.raises(ModuleNotFoundError):
-        importlib.import_module("src.llm")
+        == expected
+    )

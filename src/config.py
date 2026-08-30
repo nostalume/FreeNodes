@@ -1,122 +1,239 @@
-"""Configuration loading, persistence, and self-healing link_pattern storage."""
+"""Strict admission for declarative crawler configuration."""
+
+import re
+from pathlib import Path
+from typing import Annotated, Literal
+
 import yaml
-from dataclasses import dataclass, field
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    HttpUrl,
+    TypeAdapter,
+    field_validator,
+    model_validator,
+)
 
 
-@dataclass
-class SiteConfig:
+class FrozenModel(BaseModel):
+    """Project model with strict, immutable, closed fields."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
+
+
+class PasswordEvidence(FrozenModel):
+    subtitles: str = ""
+    description: str = ""
+
+
+class PasswordCandidates(FrozenModel):
+    values: tuple[str, ...] = Field(min_length=1, strict=False, repr=False)
+
+    @field_validator("values")
+    @classmethod
+    def validate_unique(cls, values: tuple[str, ...]) -> tuple[str, ...]:
+        if len(values) != len(set(values)):
+            raise ValueError("password candidates must be unique")
+        return values
+
+
+class EmptyPasswordSource(FrozenModel):
+    type: Literal["empty"] = "empty"
+    limit: Literal[1] = 1
+
+
+class SubtitlePasswordSource(FrozenModel):
+    type: Literal["subtitles"] = "subtitles"
+    limit: int = Field(default=5, gt=0)
+
+
+class DescriptionPasswordSource(FrozenModel):
+    type: Literal["description"] = "description"
+    limit: int = Field(default=5, gt=0)
+
+
+class AabbPasswordSource(FrozenModel):
+    type: Literal["aabb"] = "aabb"
+    limit: int = Field(default=20, gt=0, le=90)
+
+
+class AbabPasswordSource(FrozenModel):
+    type: Literal["abab"] = "abab"
+    limit: int = Field(default=20, gt=0, le=90)
+
+
+PasswordSource = Annotated[
+    EmptyPasswordSource
+    | SubtitlePasswordSource
+    | DescriptionPasswordSource
+    | AabbPasswordSource
+    | AbabPasswordSource,
+    Field(discriminator="type"),
+]
+
+
+class PasswordPolicy(FrozenModel):
+    sources: tuple[PasswordSource, ...] = Field(min_length=1, strict=False)
+    max_candidates: int = Field(gt=0, le=181)
+
+    @model_validator(mode="after")
+    def validate_capacity(self) -> "PasswordPolicy":
+        source_types = tuple(source.type for source in self.sources)
+        if len(source_types) != len(set(source_types)):
+            raise ValueError("password source types must be unique")
+        if sum(source.limit for source in self.sources) > self.max_candidates:
+            raise ValueError("password source limits exceed the total policy bound")
+        if not set(source_types).intersection({"empty", "aabb", "abab"}):
+            raise ValueError("password policy requires one unconditional source")
+        return self
+
+    def resolve(self, evidence: PasswordEvidence) -> PasswordCandidates:
+        admitted: list[str] = []
+        seen: set[str] = set()
+        for source in self.sources:
+            values = self._source_values(source, evidence)[: source.limit]
+            for value in values:
+                if value in seen:
+                    continue
+                seen.add(value)
+                admitted.append(value)
+        return PasswordCandidates(values=tuple(admitted))
+
+    @staticmethod
+    def _source_values(
+        source: PasswordSource,
+        evidence: PasswordEvidence,
+    ) -> tuple[str, ...]:
+        match source.type:
+            case "empty":
+                return ("",)
+            case "subtitles":
+                return _four_digit_passwords(evidence.subtitles)
+            case "description":
+                return _four_digit_passwords(evidence.description)
+            case "aabb":
+                return tuple(
+                    f"{first}{first}{second}{second}"
+                    for first in range(10)
+                    for second in range(10)
+                    if first != second
+                )
+            case "abab":
+                return tuple(
+                    f"{first}{second}{first}{second}"
+                    for first in range(10)
+                    for second in range(10)
+                    if first != second
+                )
+
+
+def _four_digit_passwords(text: str) -> tuple[str, ...]:
+    return tuple(dict.fromkeys(re.findall(r"(?<!\d)\d{4}(?!\d)", text)))
+
+
+PASSWORD_PAGE_POLICY = PasswordPolicy(
+    sources=(
+        SubtitlePasswordSource(),
+        DescriptionPasswordSource(),
+        AabbPasswordSource(),
+        AbabPasswordSource(),
+    ),
+    max_candidates=50,
+)
+
+
+PASTE_PASSWORD_POLICY = PasswordPolicy(
+    sources=(
+        EmptyPasswordSource(),
+        SubtitlePasswordSource(),
+        DescriptionPasswordSource(),
+        AabbPasswordSource(),
+        AbabPasswordSource(),
+    ),
+    max_candidates=51,
+)
+
+
+class SiteBase(FrozenModel):
     name: str
     start_url: str
-    type: str = "simple"                    # simple | yt_pwd | cloud_drive
     description: str = ""
     link_pattern: str | None = None
-    failed_count: int = 0
-    up_date: str = ""                           # last crawl date, YYYY-MM-DD
-    node_count: int = 0                         # proxies found in last crawl
-    exclude_patterns: list[str] | None = None   # href substrings to skip in article listing
-    pwd_hint: str | None = None                 # password hint for yt_pwd sites
-    yt_hint: str | None = None                  # YouTube hint for yt_pwd sites
+    exclude_patterns: tuple[str, ...] = Field(
+        default=("category", "page-"),
+        strict=False,
+    )
+
+    @field_validator("start_url")
+    @classmethod
+    def validate_start_url(cls, value: str) -> str:
+        TypeAdapter(HttpUrl).validate_python(value)
+        return value
 
 
-@dataclass
-class ProviderConfig:
+class SimpleSite(SiteBase):
+    type: Literal["simple"] = "simple"
+
+
+class PasswordSite(SiteBase):
+    type: Literal["yt_pwd", "youtube_password"] = "yt_pwd"
+    password_policy: PasswordPolicy = PASSWORD_PAGE_POLICY
+    paste_policy: PasswordPolicy = PASTE_PASSWORD_POLICY
+
+
+class DriveSite(SiteBase):
+    type: Literal["cloud_drive"] = "cloud_drive"
+    password_policy: PasswordPolicy = PASTE_PASSWORD_POLICY
+
+
+Site = Annotated[
+    SimpleSite | PasswordSite | DriveSite,
+    Field(discriminator="type"),
+]
+
+
+class ProviderConfig(FrozenModel):
     name: str
     base_url: str
     api_key_env: str
-    models: list[str]
+    models: tuple[str, ...] = Field(strict=False)
     is_reasoning_model: bool = False
     default_weight: int = 10
 
 
-@dataclass
-class LLMConfig:
-    providers: list[ProviderConfig] = field(default_factory=list)
-    task_routing: dict[str, dict[str, int]] = field(default_factory=dict)
+class LLMConfig(FrozenModel):
+    providers: tuple[ProviderConfig, ...] = Field(default=(), strict=False)
+    task_routing: dict[str, dict[str, int]] = Field(default_factory=dict)
+    max_requests_per_run: int = Field(default=30, gt=0)
+    max_requests_per_site: int = Field(default=3, gt=0)
 
 
-@dataclass
-class CrawlConfig:
-    max_articles: int = 3
-    timeout: int = 30
-    concurrency: int = 3
-    proxy: str = ""                             # HTTP proxy for YouTube access
+class CrawlConfig(FrozenModel):
+    max_articles: int = Field(default=3, gt=0)
+    timeout: int = Field(default=30, gt=0)
+    concurrency: int = Field(default=3, gt=0)
+    proxy: str = ""
 
 
-@dataclass
-class Config:
-    sites: list[SiteConfig]
-    crawl: CrawlConfig
-    output: dict
-    llm: LLMConfig
+class OutputConfig(FrozenModel):
+    dir: Path = Field(default=Path("nodes"), strict=False)
 
 
-def load_config(path: str = "config.yaml") -> Config:
-    """Load config from YAML file. Missing llm section yields empty LLMConfig."""
-    with open(path, "r", encoding="utf-8") as f:
-        raw = yaml.safe_load(f)
-
-    sites = [SiteConfig(**s) for s in raw["sites"]]
-    crawl = CrawlConfig(**(raw.get("crawl") or {}))
-    output = raw.get("output", {})
-
-    llm_raw = raw.get("llm", {})
-    providers = [ProviderConfig(**p) for p in llm_raw.get("providers", [])]
-    llm = LLMConfig(providers=providers, task_routing=llm_raw.get("task_routing", {}))
-
-    return Config(sites=sites, crawl=crawl, output=output, llm=llm)
+class RepositoryIdentity(FrozenModel):
+    owner: str = "nostalume"
+    repository: str = "FreeNodes"
 
 
-def save_config(config: Config, path: str = "config.yaml"):
-    """Persist config, preserving link_pattern and llm section."""
-    raw_sites = []
-    for s in config.sites:
-        entry = {
-            "name": s.name,
-            "start_url": s.start_url,
-            "type": s.type,
-            "description": s.description,
-        }
-        if s.link_pattern:
-            entry["link_pattern"] = s.link_pattern
-        if s.up_date:
-            entry["up_date"] = s.up_date
-        if s.node_count:
-            entry["node_count"] = s.node_count
-        if s.exclude_patterns:
-            entry["exclude_patterns"] = s.exclude_patterns
-        if s.pwd_hint:
-            entry["pwd_hint"] = s.pwd_hint
-        if s.yt_hint:
-            entry["yt_hint"] = s.yt_hint
-        if s.failed_count:
-            entry["failed_count"] = s.failed_count
-        raw_sites.append(entry)
+class Config(FrozenModel):
+    sites: tuple[Site, ...] = Field(strict=False)
+    crawl: CrawlConfig = CrawlConfig()
+    output: OutputConfig = OutputConfig()
+    llm: LLMConfig = LLMConfig()
+    repository: RepositoryIdentity = RepositoryIdentity()
 
-    raw_llm = {
-        "providers": [
-            {
-                "name": p.name,
-                "base_url": p.base_url,
-                "api_key_env": p.api_key_env,
-                "models": p.models,
-                "is_reasoning_model": p.is_reasoning_model,
-                "default_weight": p.default_weight,
-            }
-            for p in config.llm.providers
-        ],
-        "task_routing": config.llm.task_routing,
-    }
 
-    raw = {
-        "crawl": {
-            "max_articles": config.crawl.max_articles,
-            "timeout": config.crawl.timeout,
-            "concurrency": config.crawl.concurrency,
-        },
-        "output": config.output,
-        "sites": raw_sites,
-        "llm": raw_llm,
-    }
-
-    with open(path, "w", encoding="utf-8") as f:
-        yaml.safe_dump(raw, f, allow_unicode=True, default_flow_style=False)
+def load_config(path: str | Path = "config.yaml") -> Config:
+    """Decode YAML once and admit its complete shape."""
+    raw = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    return Config.model_validate(raw)

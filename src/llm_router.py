@@ -5,31 +5,121 @@ Priority: weighted random (not sequential), task-aware, auto-recovery.
 Provider chain:
   OpenRouter (weight 50) → Cerebras (weight 30) → Opencode (weight 20)
 """
+
 import logging
 import os
-import re
-import json
 import random
+import re
 import time
-from openai import AsyncOpenAI
-from dotenv import load_dotenv
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from urllib.parse import urlsplit
 
-from src.config import Config, ProviderConfig
+from dotenv import load_dotenv
+from openai import AsyncOpenAI, RateLimitError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
+from src.config import Config, FrozenModel, ProviderConfig
 
 load_dotenv()
 
 logger = logging.getLogger(__name__)
 
 
+class ExtractedLinks(FrozenModel):
+    """Validated link categories returned by an LLM provider."""
+
+    txt: tuple[str, ...] = Field(default=(), strict=False)
+    yaml: tuple[str, ...] = Field(default=(), strict=False)
+    other: tuple[str, ...] = Field(default=(), strict=False)
+    inline: tuple[str, ...] = Field(default=(), strict=False)
+
+    @property
+    def downloads(self) -> tuple[str, ...]:
+        return self.txt + self.yaml + self.other
+
+    @classmethod
+    def from_text(cls, text: str) -> "ExtractedLinks":
+        """Admit exact subscription URLs without an external inference call."""
+        txt: list[str] = []
+        yaml: list[str] = []
+        inline: list[str] = []
+        seen: set[str] = set()
+        for match in re.finditer(r'https?://[^\s<>"\')\]]+', text):
+            url = match.group().rstrip(".,;)")
+            if url in seen:
+                continue
+            path = urlsplit(url).path.lower()
+            if path.endswith(".txt"):
+                txt.append(url)
+            elif path.endswith((".yaml", ".yml")):
+                yaml.append(url)
+            else:
+                continue
+            seen.add(url)
+        for match in re.finditer(
+            r"(?:vmess|vless|trojan|ss|ssr)://[^\s<>\"']+",
+            text,
+            re.IGNORECASE,
+        ):
+            url = match.group().rstrip(".,;)")
+            if url in seen:
+                continue
+            seen.add(url)
+            inline.append(url)
+        return cls(txt=tuple(txt), yaml=tuple(yaml), inline=tuple(inline))
+
+
+class _ExternalResponseModel(BaseModel):
+    model_config = ConfigDict(extra="ignore", frozen=True, from_attributes=True)
+
+
+class _ResponseMessage(_ExternalResponseModel):
+    content: str | None = None
+    reasoning: str | None = None
+
+
+class _ResponseChoice(_ExternalResponseModel):
+    message: _ResponseMessage
+
+
+class _ProviderResponse(_ExternalResponseModel):
+    choices: tuple[_ResponseChoice, ...]
+
+
+@dataclass
+class RequestBudget:
+    """Charge LLM attempts against one run and one source site."""
+
+    run_limit: int = 30
+    site_limit: int = 3
+    used_total: int = 0
+    used_by_site: dict[str, int] = field(default_factory=dict)
+
+    def charge(self, site: str) -> bool:
+        if self.used_total >= self.run_limit:
+            return False
+        used_by_site = self.used_by_site.get(site, 0)
+        if used_by_site >= self.site_limit:
+            return False
+        self.used_total += 1
+        self.used_by_site[site] = used_by_site + 1
+        return True
+
+
 class WeightedSelector:
     """Pick a provider by weighted random selection, excluding unhealthy ones."""
 
     @staticmethod
-    def pick(weights: dict[str, int], is_healthy: callable,
-             exclude: set[str] | None = None) -> str | None:
+    def pick(
+        weights: dict[str, int],
+        is_healthy: Callable[[str], bool],
+        exclude: set[str] | None = None,
+    ) -> str | None:
         exclude = exclude or set()
         candidates = {
-            name: w for name, w in weights.items()
+            name: w
+            for name, w in weights.items()
             if is_healthy(name) and name not in exclude
         }
         if not candidates:
@@ -90,13 +180,30 @@ class LLMRouter:
         self._health = HealthTracker()
         self._selector = WeightedSelector()
         self._providers: dict[str, ProviderConfig] = {
-            p.name: p for p in config.llm.providers
+            provider.name: provider
+            for provider in config.llm.providers
+            if os.getenv(provider.api_key_env, "").strip()
         }
         self._default_weights: dict[str, int] = {
-            p.name: p.default_weight for p in config.llm.providers
+            name: provider.default_weight for name, provider in self._providers.items()
         }
-        self._task_routing: dict[str, dict[str, int]] = config.llm.task_routing
+        self._task_routing: dict[str, dict[str, int]] = {
+            task: {
+                name: weight
+                for name, weight in weights.items()
+                if name in self._providers
+            }
+            for task, weights in config.llm.task_routing.items()
+        }
+        self._budget = RequestBudget(
+            run_limit=config.llm.max_requests_per_run,
+            site_limit=config.llm.max_requests_per_site,
+        )
         self._validate_routing()
+
+    @property
+    def provider_names(self) -> tuple[str, ...]:
+        return tuple(self._providers)
 
     def _validate_routing(self):
         """Warn if task_routing references provider names not in the provider list."""
@@ -107,13 +214,20 @@ class LLMRouter:
                     logger.warning(
                         "LLM routing config: provider '%s' in task_routing['%s'] "
                         "is not defined in providers list. Available: %s",
-                        name, task, sorted(known),
+                        name,
+                        task,
+                        sorted(known),
                     )
 
     # ── Public API (all async) ──
 
-    async def ask(self, prompt: str, task_type: str = "default",
-                  max_tokens: int = 1024) -> str:
+    async def ask(
+        self,
+        prompt: str,
+        task_type: str = "default",
+        max_tokens: int = 1024,
+        site: str = "default",
+    ) -> str:
         """Send *prompt* through weighted routing. Returns empty when all fail."""
         weights = self._task_routing.get(task_type, self._default_weights)
         tried: set[str] = set()
@@ -125,6 +239,9 @@ class LLMRouter:
             provider = self._providers.get(name)
             if provider is None:
                 continue
+            if not self._budget.charge(site):
+                logger.warning("LLM request budget exhausted for site '%s'", site)
+                break
             result = await self._try_provider(provider, prompt, max_tokens)
             if result is not None:
                 self._health.record_success(name)
@@ -133,11 +250,17 @@ class LLMRouter:
         logger.error(
             "ALL LLM providers failed for task_type='%s'. Providers tried: %s. "
             "Check provider API keys and model names in config.yaml.",
-            task_type, sorted(tried) if tried else "none",
+            task_type,
+            sorted(tried) if tried else "none",
         )
         return ""
 
-    async def extract_links(self, markdown: str) -> dict[str, list[str]]:
+    async def extract_links(
+        self,
+        markdown: str,
+        *,
+        site: str = "default",
+    ) -> ExtractedLinks:
         """Extract subscription links from page markdown.
 
         Looks for downloadable subscription files (.txt/.yaml URLs),
@@ -158,10 +281,21 @@ class LLMRouter:
             "Return nothing except the JSON.\n\n"
             f"Content:\n{markdown[:8000]}"
         )
-        text = await self.ask(prompt, task_type="extract_links", max_tokens=1024)
+        text = await self.ask(
+            prompt,
+            task_type="extract_links",
+            max_tokens=1024,
+            site=site,
+        )
         return self._parse_json(text)
 
-    async def generate_pattern(self, known_links: list[str], html: str) -> str | None:
+    async def generate_pattern(
+        self,
+        known_links: list[str],
+        html: str,
+        *,
+        site: str = "default",
+    ) -> str | None:
         """Ask LLM to produce a regex matching the site's subscription links.
 
         Returns a regex string or None. Post-processes the response to
@@ -178,55 +312,60 @@ class LLMRouter:
             "- No explanations — not even a single word outside the regex\n"
             "Regex:"
         )
-        text = await self.ask(prompt, task_type="generate_pattern", max_tokens=256)
+        text = await self.ask(
+            prompt,
+            task_type="generate_pattern",
+            max_tokens=256,
+            site=site,
+        )
         if not text:
             return None
         return self._extract_regex(text)
 
     @staticmethod
-    def verify_pattern(pattern: str, known_links: list[str],
-                        html: str) -> bool:
+    def verify_pattern(pattern: str, known_links: list[str], html: str) -> bool:
         """Three-layer verification: syntax, recall, precision."""
         try:
             compiled = re.compile(pattern, re.IGNORECASE)
         except re.error:
             return False
-        matches = compiled.findall(html)
+        matches = tuple(
+            match.group(1) if compiled.groups else match.group(0)
+            for match in compiled.finditer(html)
+        )
         match_urls: set[str] = set()
-        if isinstance(matches, list):
-            for m in matches:
-                if isinstance(m, tuple):
-                    m = m[0]
-                if isinstance(m, str):
-                    match_urls.add(re.sub(r'[),;.\'"]+$', "", m))
+        for match in matches:
+            if match:
+                match_urls.add(re.sub(r'[),;.\'"]+$', "", match))
         for link in known_links:
             clean = re.sub(r'[),;.\'"]+$', "", link)
             if clean not in match_urls:
                 return False
         false_count = 0
-        for m in matches:
-            if isinstance(m, tuple):
-                m = m[0]
-            if isinstance(m, str):
-                if not m.startswith("http"):
-                    false_count += 1
-                elif any(n in m.lower()
-                         for n in ("javascript:", "#", "xmlrpc", "favicon")):
-                    false_count += 1
+        for match in matches:
+            if not match or not match.startswith("http"):
+                false_count += 1
+            elif any(
+                marker in match.lower()
+                for marker in ("javascript:", "#", "xmlrpc", "favicon")
+            ):
+                false_count += 1
         if matches and false_count / len(matches) > 0.2:
             return False
         return True
 
     # ── Internals ──
 
-    async def _try_provider(self, cfg: ProviderConfig, prompt: str,
-                            max_tokens: int) -> str | None:
+    async def _try_provider(
+        self, cfg: ProviderConfig, prompt: str, max_tokens: int
+    ) -> str | None:
         api_key = os.getenv(cfg.api_key_env, "")
         if not api_key:
             logger.warning("No API key for %s (env: %s)", cfg.name, cfg.api_key_env)
             return None
-        client = AsyncOpenAI(base_url=cfg.base_url, api_key=api_key,
-                             timeout=self._timeout_s)
+        client = AsyncOpenAI(
+            base_url=cfg.base_url, api_key=api_key, timeout=self._timeout_s
+        )
         for model in cfg.models:
             try:
                 resp = await client.chat.completions.create(
@@ -238,18 +377,26 @@ class LLMRouter:
                 text = self._response_text(resp, cfg.is_reasoning_model)
                 if text:
                     return text
-            except Exception as e:
-                logger.warning("LLM call failed [%s/%s]: %s", cfg.name, model, e)
+            except RateLimitError:
+                logger.warning(
+                    "LLM rate limited [%s/%s]; not retrying", cfg.name, model
+                )
+                return None
+            except Exception as error:
+                logger.warning("LLM call failed [%s/%s]: %s", cfg.name, model, error)
                 continue
         return None
 
     @staticmethod
-    def _response_text(resp, is_reasoning: bool) -> str:
-        msg = resp.choices[0].message
-        if msg.content:
-            return msg.content
-        if is_reasoning and msg.reasoning:
-            return msg.reasoning
+    def _response_text(response: object, is_reasoning: bool) -> str:
+        admitted = _ProviderResponse.model_validate(response)
+        if not admitted.choices:
+            return ""
+        message = admitted.choices[0].message
+        if message.content:
+            return message.content
+        if is_reasoning and message.reasoning:
+            return message.reasoning
         return ""
 
     @staticmethod
@@ -281,13 +428,13 @@ class LLMRouter:
         return None
 
     @staticmethod
-    def _parse_json(raw: str) -> dict[str, list[str]]:
+    def _parse_json(raw: str) -> ExtractedLinks:
         """Parse LLM JSON response. Strips markdown fences if present."""
         if "```" in raw:
             raw = raw.split("```")[1]
             if raw.startswith("json"):
                 raw = raw[4:]
         try:
-            return json.loads(raw)
-        except json.JSONDecodeError:
-            return {"txt": [], "yaml": [], "other": [], "inline": []}
+            return ExtractedLinks.model_validate_json(raw)
+        except ValidationError:
+            return ExtractedLinks()
