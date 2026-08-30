@@ -343,9 +343,17 @@ class Scheduler:
             as_of=probed.admitted.context.observed_at.date(),
         )
         if not selection.published.nodes:
+            status_counts: dict[str, int] = {}
+            for assessment in selection.assessments:
+                status_counts[assessment.status] = (
+                    status_counts.get(assessment.status, 0) + 1
+                )
+            status_summary = ", ".join(
+                f"{status}={count}" for status, count in sorted(status_counts.items())
+            )
             return RunFailure(
                 code="quality_selection_empty",
-                message="quality policy published no nodes",
+                message=f"quality policy published no nodes ({status_summary})",
             )
         return SelectedRun(probed=probed, selection=selection)
 

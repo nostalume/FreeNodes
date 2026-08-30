@@ -197,7 +197,10 @@ async def test_empty_quality_result_preserves_previous_snapshot(monkeypatch, tmp
 
     monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
 
-    with pytest.raises(PublicationError, match="quality policy published no nodes"):
+    with pytest.raises(
+        PublicationError,
+        match=r"quality policy published no nodes \(timeout=1\)",
+    ):
         await Scheduler(config(tmp_path, ("a",))).publish_profiles(
             repository_root=tmp_path,
             validator=Validator(),
