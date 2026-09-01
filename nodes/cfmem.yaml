@@ -1,12 +1,4 @@
 proxies:
-- name: 🇨🇦_CA_加拿大
-  type: ss
-  server: 35.182.226.121
-  port: 443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: amazonskr05
 - name: 🇬🇧_GB_英国_1
   type: ss
   server: 18.133.240.229
@@ -15,14 +7,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: 🇺🇸_US_美国_3_2
-  type: hysteria2
-  server: us4.xiaoliyu.cyou
-  port: 4433
-  sni: us4.xiaoliyu.cyou
-  skip-cert-verify: true
-  udp: true
-  password: 19f72087-4591-4d72-930b-2697078ec2be
 - name: 🇩🇪_DE_德国_2_2
   type: ss
   server: 130.61.83.100
@@ -45,20 +29,30 @@ proxies:
   client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
-- name: 🇨🇭_CH_瑞士->🇫🇮_FI_芬兰
-  type: vless
-  server: 31.76.4.128
-  port: 5001
-  reality-opts:
-    public-key: HNjZe5pYUhcuE8sASYVVrVSMW_jFfekgLnrnO4xXIyQ
-    short-id: a1b2c3d4
-  uuid: 5a92a9d2-3067-49cd-bfc5-989bbdfc5d52
-  servername: fi.aeternavpn.space
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: qq
+- name: 🇨🇦_CA_加拿大_2
+  type: ss
+  server: 35.182.250.193
+  port: 443
+  cipher: aes-256-cfb
   skip-cert-verify: true
   udp: true
+  password: amazonskr05
+- name: 🇺🇸_US_美国_3_2
+  type: hysteria2
+  server: us4.xiaoliyu.cyou
+  port: 4433
+  sni: us4.xiaoliyu.cyou
+  skip-cert-verify: true
+  udp: true
+  password: 19f72087-4591-4d72-930b-2697078ec2be
+- name: 🇩🇪_DE_德国_8
+  type: hysteria2
+  server: replay.wwwinternetvideo.click
+  port: 443
+  sni: replay.wwwinternetvideo.click
+  skip-cert-verify: true
+  udp: true
+  password: 2691cbe7c20cced8b0aeb12c812d09077e5b3eec7669fb8f
 - name: 🇹🇭_TH_泰国
   type: ss
   server: 103.169.67.34
@@ -67,14 +61,20 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: 🇭🇰_HK_中国香港_3_2
-  type: trojan
-  server: hk04.qianmoip.win
-  port: 52224
-  sni: taobao.com
+- name: 🇭🇰_HK_中国香港->🇸🇬_SG_新加坡_3
+  type: vless
+  server: nian.001.url111.kcloud02.top
+  port: 15006
+  reality-opts:
+    public-key: g9KZONtwSL8mL772rps2nXVAuQpsgHY33K_pHpI89Rg
+    short-id: 029a6cc4
+  uuid: 399c4c9b-27e1-37f1-9dce-22ccc2727a86
+  servername: www.adobe.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-  password: 302cf77d-6fb7-4ac8-ae61-88e286340d59
 - name: 🇸🇬_SG_新加坡_1_2
   type: hysteria2
   server: sg1.xiaoliyu.cyou
