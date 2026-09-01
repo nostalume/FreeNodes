@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 import gzip
 import hashlib
 import json
@@ -16,14 +15,12 @@ import threading
 import time
 import urllib.request
 import zipfile
-from collections.abc import Awaitable, Callable, Sequence
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Literal
-from urllib.parse import quote, urlencode, urlsplit
+from urllib.parse import urlsplit
 
-import httpx
 import yaml
 from pydantic import (
     BaseModel,
@@ -32,11 +29,9 @@ from pydantic import (
     TypeAdapter,
     ValidationError,
     field_validator,
-    model_validator,
 )
 
 from src.config import FrozenModel
-from src.nodes import ProbeableNode
 
 LOCK_PATH = Path(__file__).resolve().parent.parent / "mihomo-lock.json"
 
@@ -185,325 +180,6 @@ class ConsumerValidation(FrozenModel):
     group_names: tuple[str, ...] = Field(strict=False)
 
 
-ProbeStatus = Literal["success", "timeout", "api_error", "process_error", "cancelled"]
-
-
-class ProbeCandidate(FrozenModel):
-    fingerprint: str
-    proxy_name: str = Field(repr=False)
-
-    @model_validator(mode="after")
-    def validate_identity(self) -> "ProbeCandidate":
-        if not self.fingerprint or not self.proxy_name:
-            raise ValueError("probe candidate fields must not be empty")
-        return self
-
-
-class DelayObservation(FrozenModel):
-    endpoint: str
-    status: ProbeStatus
-    delay_ms: int | None = Field(default=None, ge=0, strict=True)
-
-    @model_validator(mode="after")
-    def validate_measurement(self) -> "DelayObservation":
-        if (self.status == "success") != (self.delay_ms is not None):
-            raise ValueError("only successful observations carry delay evidence")
-        return self
-
-
-class ProbeEvidence(FrozenModel):
-    fingerprint: str
-    proxy_name: str = Field(repr=False)
-    coarse: DelayObservation
-    confirm: DelayObservation | None = None
-
-    @property
-    def status(self) -> ProbeStatus:
-        if self.coarse.status != "success":
-            return self.coarse.status
-        if self.confirm is None:
-            return "cancelled"
-        return self.confirm.status
-
-
-JsonRequest = Callable[[str, float], Awaitable[dict[str, Any]]]
-
-
-class MihomoDelayProbe:
-    """Collect bounded two-endpoint delay evidence from a Mihomo controller."""
-
-    COARSE_ENDPOINT = "https://www.gstatic.com/generate_204"
-    CONFIRM_ENDPOINT = "https://cp.cloudflare.com/generate_204"
-
-    def __init__(
-        self,
-        *,
-        request_json: JsonRequest | None = None,
-        timeout_ms: int = 2500,
-        concurrency: int = 64,
-        deadline: float = 300.0,
-        max_candidates: int = 4000,
-    ):
-        if timeout_ms <= 0 or concurrency <= 0 or deadline <= 0 or max_candidates <= 0:
-            raise ValueError("probe limits must be positive")
-        self.request_json = request_json or self._request_json
-        self.timeout_ms = timeout_ms
-        self.concurrency = concurrency
-        self.deadline = deadline
-        self.max_candidates = max_candidates
-
-    async def _request_json(self, url: str, timeout: float) -> dict[str, Any]:
-        async with httpx.AsyncClient(timeout=timeout, trust_env=False) as client:
-            response = await client.get(url)
-            response.raise_for_status()
-            return _JSON_OBJECT.validate_python(response.json())
-
-    async def probe_controller(
-        self,
-        controller: str,
-        candidates: Sequence[ProbeCandidate],
-    ) -> tuple[ProbeEvidence, ...]:
-        if len(candidates) > self.max_candidates:
-            raise ValueError("probe candidate budget exceeded")
-        if not candidates:
-            return ()
-
-        semaphore = asyncio.Semaphore(self.concurrency)
-        loop = asyncio.get_running_loop()
-        deadline = loop.time() + self.deadline
-        coarse = await self._probe_wave(
-            controller,
-            candidates,
-            self.COARSE_ENDPOINT,
-            semaphore,
-            deadline,
-        )
-        confirm_candidates = [
-            candidate
-            for candidate in candidates
-            if coarse[candidate.fingerprint].status == "success"
-        ]
-        confirm = await self._probe_wave(
-            controller,
-            confirm_candidates,
-            self.CONFIRM_ENDPOINT,
-            semaphore,
-            deadline,
-        )
-        return tuple(
-            ProbeEvidence(
-                fingerprint=candidate.fingerprint,
-                proxy_name=candidate.proxy_name,
-                coarse=coarse[candidate.fingerprint],
-                confirm=confirm.get(candidate.fingerprint),
-            )
-            for candidate in candidates
-        )
-
-    async def _probe_wave(
-        self,
-        controller: str,
-        candidates: Sequence[ProbeCandidate],
-        endpoint: str,
-        semaphore: asyncio.Semaphore,
-        deadline: float,
-    ) -> dict[str, DelayObservation]:
-        if not candidates:
-            return {}
-        tasks = {
-            asyncio.create_task(
-                self._probe_one(controller, candidate, endpoint, semaphore)
-            ): candidate
-            for candidate in candidates
-        }
-        remaining = max(0.0, deadline - asyncio.get_running_loop().time())
-        done, pending = await asyncio.wait(tasks, timeout=remaining)
-        for task in pending:
-            task.cancel()
-        if pending:
-            await asyncio.gather(*pending, return_exceptions=True)
-
-        observations: dict[str, DelayObservation] = {}
-        for task, candidate in tasks.items():
-            if task in pending or task.cancelled():
-                observation = DelayObservation(endpoint=endpoint, status="cancelled")
-            else:
-                observation = task.result()
-            observations[candidate.fingerprint] = observation
-        return observations
-
-    async def _probe_one(
-        self,
-        controller: str,
-        candidate: ProbeCandidate,
-        endpoint: str,
-        semaphore: asyncio.Semaphore,
-    ) -> DelayObservation:
-        query = urlencode(
-            {"url": endpoint, "timeout": str(self.timeout_ms), "expected": "204"}
-        )
-        name = quote(candidate.proxy_name, safe="")
-        url = f"{controller.rstrip('/')}/proxies/{name}/delay?{query}"
-        try:
-            async with semaphore:
-                value = await self.request_json(url, self.timeout_ms / 1000 + 1)
-            delay = DelayPayload.model_validate(value)
-            return DelayObservation(
-                endpoint=endpoint,
-                status="success",
-                delay_ms=delay.delay,
-            )
-        except asyncio.CancelledError:
-            raise
-        except (asyncio.TimeoutError, httpx.TimeoutException):
-            return DelayObservation(endpoint=endpoint, status="timeout")
-        except Exception:
-            return DelayObservation(endpoint=endpoint, status="api_error")
-
-
-ProcessFactory = Callable[..., subprocess.Popen[str]]
-ConfigValidator = Callable[[Path, Path], None]
-
-
-class MihomoProbeSession:
-    """Own one isolated Mihomo child for a complete bounded probe run."""
-
-    def __init__(
-        self,
-        executable: Path,
-        *,
-        delay_probe: MihomoDelayProbe | None = None,
-        process_factory: ProcessFactory = subprocess.Popen,
-        validate_config: ConfigValidator | None = None,
-        startup_timeout: float = 20.0,
-    ):
-        self.executable = executable.resolve()
-        self.delay_probe = delay_probe or MihomoDelayProbe()
-        self.process_factory = process_factory
-        self.validate_config = validate_config or self._validate_config
-        self.startup_timeout = startup_timeout
-
-    def _validate_config(self, config_path: Path, home_dir: Path) -> None:
-        MihomoValidator(self.executable, timeout=self.startup_timeout).validate_config(
-            config_path,
-            home_dir,
-        )
-
-    async def probe(self, nodes: Sequence[ProbeableNode]) -> tuple[ProbeEvidence, ...]:
-        candidates = tuple(
-            ProbeCandidate(
-                fingerprint=node.fingerprint,
-                proxy_name=node.display_name,
-            )
-            for node in nodes
-        )
-        if not candidates:
-            return ()
-        if len(candidates) > self.delay_probe.max_candidates:
-            raise ValueError("probe candidate budget exceeded")
-        if len({item.proxy_name for item in candidates}) != len(candidates):
-            raise ValueError("Mihomo probe names must be unique")
-
-        process: subprocess.Popen[str] | None = None
-        with tempfile.TemporaryDirectory(prefix="freenodes-mihomo-probe-") as temporary:
-            root = Path(temporary).resolve()
-            check_home = root / "check-home"
-            run_home = root / "run-home"
-            check_home.mkdir()
-            run_home.mkdir()
-            controller_port = _free_port()
-            config_path = root / "probe.yaml"
-            proxies = []
-            for node in nodes:
-                proxy = node.proxy.mihomo_payload()
-                proxy["name"] = node.display_name
-                proxies.append(proxy)
-            config_path.write_text(
-                yaml.safe_dump(
-                    {
-                        "allow-lan": False,
-                        "ipv6": False,
-                        "log-level": "silent",
-                        "external-controller": f"127.0.0.1:{controller_port}",
-                        "proxies": proxies,
-                    },
-                    allow_unicode=True,
-                    sort_keys=False,
-                ),
-                encoding="utf-8",
-            )
-            try:
-                await asyncio.to_thread(self.validate_config, config_path, check_home)
-                creation_flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-                process = self.process_factory(
-                    [
-                        str(self.executable),
-                        "-d",
-                        str(run_home),
-                        "-f",
-                        str(config_path),
-                    ],
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                    text=True,
-                    creationflags=creation_flags,
-                )
-                controller = f"http://127.0.0.1:{controller_port}"
-                await self._await_ready(process, controller)
-                return await self.delay_probe.probe_controller(controller, candidates)
-            except asyncio.CancelledError:
-                raise
-            except Exception:
-                return tuple(
-                    ProbeEvidence(
-                        fingerprint=candidate.fingerprint,
-                        proxy_name=candidate.proxy_name,
-                        coarse=DelayObservation(
-                            endpoint="mihomo-process",
-                            status="process_error",
-                        ),
-                    )
-                    for candidate in candidates
-                )
-            finally:
-                if process is not None:
-                    await asyncio.to_thread(self._terminate, process)
-
-    async def _await_ready(
-        self, process: subprocess.Popen[str], controller: str
-    ) -> None:
-        deadline = asyncio.get_running_loop().time() + self.startup_timeout
-        last_error: Exception | None = None
-        while asyncio.get_running_loop().time() < deadline:
-            if process.poll() is not None:
-                raise MihomoValidationError(
-                    "Mihomo probe process exited before readiness"
-                )
-            try:
-                value = await self.delay_probe.request_json(
-                    f"{controller}/version", 1.0
-                )
-                if value.get("version"):
-                    return
-            except Exception as error:
-                last_error = error
-            await asyncio.sleep(0.05)
-        raise MihomoValidationError(
-            "Mihomo probe controller did not become ready"
-        ) from last_error
-
-    @staticmethod
-    def _terminate(process: subprocess.Popen[str]) -> None:
-        if process.poll() is not None:
-            return
-        process.terminate()
-        try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.wait(timeout=5)
-
-
 def verify_sha256(path: Path, expected: str) -> str:
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     if digest.casefold() != expected.casefold():
@@ -637,7 +313,7 @@ class _QuietHTTPServer(ThreadingHTTPServer):
         return
 
 
-def _free_port() -> int:
+def loopback_port() -> int:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
         listener.bind(("127.0.0.1", 0))
         return int(listener.getsockname()[1])
@@ -732,7 +408,7 @@ class MihomoValidator:
         process: subprocess.Popen[str] | None = None
         with tempfile.TemporaryDirectory(prefix="freenodes-mihomo-smoke-") as temporary:
             temp_path = Path(temporary)
-            controller_port = _free_port()
+            controller_port = loopback_port()
             profile = ProviderProfile.model_validate(config)
             config = profile.yaml_payload()
             config["external-controller"] = f"127.0.0.1:{controller_port}"
@@ -770,7 +446,18 @@ class MihomoValidator:
                 return expected_providers, expected_groups
             finally:
                 if process is not None:
-                    MihomoProbeSession._terminate(process)
+                    self._terminate(process)
+
+    @staticmethod
+    def _terminate(process: subprocess.Popen[str]) -> None:
+        if process.poll() is not None:
+            return
+        process.terminate()
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=5)
 
     def _await_json(self, port: int, path: str) -> dict[str, Any]:
         deadline = time.monotonic() + self.timeout

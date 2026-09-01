@@ -40,65 +40,29 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: uv run --locked --extra youtube python main.py
 
+      - name: Report preparation
+        if: always()
+        shell: bash
+        run: |
+          if test -f nodes/quality-manifest.json; then
+            uv run --locked python main.py --report-publication
+          else
+            printf '%s\n' '## Publication preparation' '- Rejected before a quality manifest was produced'
+          fi >> "$GITHUB_STEP_SUMMARY"
+
       - name: Stage receipt-owned publication
         id: stage
         shell: bash
         run: |
           set -euo pipefail
-          admit_path() {
-            local path="$1"
-            case "$path" in
-              nodes/*|IMPORT.md) ;;
-              *) echo "Unsafe publication path: $path" >&2; return 1 ;;
-            esac
-            case "$path" in
-              *\\*) echo "Unsafe publication path: $path" >&2; return 1 ;;
-            esac
-            case "/$path/" in
-              *"/../"*|*"/./"*|*"//"*)
-                echo "Unsafe publication path: $path" >&2
-                return 1
-                ;;
-            esac
-          }
-          receipt=nodes/publication-receipt.json
-          test -f "$receipt"
-          jq -e '
-            .status == "accepted" and
-            .managed_files[-1] == "nodes/publication-receipt.json" and
-            ((.files | keys | sort) ==
-             ([.managed_files[] | select(. != "nodes/publication-receipt.json")] | sort)) and
-            (([.managed_files[], .removed_files[]] | length) ==
-             ([.managed_files[], .removed_files[]] | unique | length))
-          ' "$receipt" >/dev/null
-
-          test ! -e .publication-payload
-          mkdir .publication-payload
-          jq -r '.managed_files[]' "$receipt" > .git/freenodes-managed-paths
-          jq -r '.removed_files[]' "$receipt" > .git/freenodes-removed-paths
-
-          while IFS= read -r path; do
-            admit_path "$path"
-            test -f "$path"
-            if [ "$path" != "$receipt" ]; then
-              expected=$(jq -r --arg path "$path" '.files[$path] // empty' "$receipt")
-              actual=$(sha256sum "$path" | cut -d ' ' -f 1)
-              test -n "$expected"
-              test "$actual" = "$expected"
-            fi
-            install -D "$path" ".publication-payload/$path"
-          done < .git/freenodes-managed-paths
-
-          while IFS= read -r path; do
-            admit_path "$path"
-          done < .git/freenodes-removed-paths
-          echo "receipt_sha=$(sha256sum "$receipt" | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+          receipt_sha=$(uv run --locked python main.py --prepare-publication publication-payload)
+          echo "receipt_sha=$receipt_sha" >> "$GITHUB_OUTPUT"
 
       - name: Upload accepted publication
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: accepted-publication-${{ github.run_id }}
-          path: .publication-payload/
+          path: publication-payload/
           if-no-files-found: error
           retention-days: 1
           compression-level: 9
@@ -120,70 +84,26 @@ jobs:
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: accepted-publication-${{ github.run_id }}
-          path: .publication-payload
+          path: publication-payload
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          enable-cache: true
 
       - name: Admit and publish exact receipt paths
         id: publish
         shell: bash
         run: |
           set -euo pipefail
-          admit_path() {
-            local path="$1"
-            case "$path" in
-              nodes/*|IMPORT.md) ;;
-              *) echo "Unsafe publication path: $path" >&2; return 1 ;;
-            esac
-            case "$path" in
-              *\\*) echo "Unsafe publication path: $path" >&2; return 1 ;;
-            esac
-            case "/$path/" in
-              *"/../"*|*"/./"*|*"//"*)
-                echo "Unsafe publication path: $path" >&2
-                return 1
-                ;;
-            esac
-          }
-          receipt=.publication-payload/nodes/publication-receipt.json
-          test -f "$receipt"
-          test "$(sha256sum "$receipt" | cut -d ' ' -f 1)" = "${{ needs.prepare.outputs.receipt_sha }}"
-          jq -e '
-            .status == "accepted" and
-            .managed_files[-1] == "nodes/publication-receipt.json" and
-            ((.files | keys | sort) ==
-             ([.managed_files[] | select(. != "nodes/publication-receipt.json")] | sort)) and
-            (([.managed_files[], .removed_files[]] | length) ==
-             ([.managed_files[], .removed_files[]] | unique | length))
-          ' "$receipt" >/dev/null
-
-          jq -r '.managed_files[]' "$receipt" > .git/freenodes-managed-paths
-          jq -r '.removed_files[]' "$receipt" > .git/freenodes-removed-paths
-          find .publication-payload -type f -printf '%P\n' | sort > .git/freenodes-artifact-paths
-          sort .git/freenodes-managed-paths > .git/freenodes-expected-paths
-          cmp .git/freenodes-artifact-paths .git/freenodes-expected-paths
-
-          while IFS= read -r path; do
-            admit_path "$path"
-            source=".publication-payload/$path"
-            test -f "$source"
-            if [ "$path" != "nodes/publication-receipt.json" ]; then
-              expected=$(jq -r --arg path "$path" '.files[$path] // empty' "$receipt")
-              actual=$(sha256sum "$source" | cut -d ' ' -f 1)
-              test -n "$expected"
-              test "$actual" = "$expected"
-            fi
-            install -D "$source" "$path"
-          done < .git/freenodes-managed-paths
-
-          while IFS= read -r path; do
-            admit_path "$path"
-            rm -f -- "$path"
-          done < .git/freenodes-removed-paths
-
-          cat .git/freenodes-removed-paths >> .git/freenodes-managed-paths
-          sort -u -o .git/freenodes-managed-paths .git/freenodes-managed-paths
+          uv run --python 3.12 --locked python main.py \
+            --apply-publication publication-payload \
+            --receipt-sha "${{ needs.prepare.outputs.receipt_sha }}" \
+            --pathspec-output .git/freenodes-publication-paths
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A --pathspec-from-file=.git/freenodes-managed-paths
+          git add -A --pathspec-from-file=.git/freenodes-publication-paths
           if git diff --cached --quiet; then
             echo "No accepted profile changes"
           else
@@ -191,6 +111,18 @@ jobs:
             git push origin HEAD:main
           fi
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Report publication
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Publication commit"
+            echo "- Outcome: ${{ steps.publish.outcome }}"
+            if test -n "${{ steps.publish.outputs.sha }}"; then
+              printf '%s\n' '- Revision: `${{ steps.publish.outputs.sha }}`'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
   observe:
     needs: commit
@@ -210,10 +142,5 @@ jobs:
           version: "0.12.0"
           enable-cache: true
 
-      - name: Install locked project
-        run: |
-          uv python install 3.12
-          uv sync --locked
-
       - name: Observe public import entries
-        run: uv run --locked python main.py --verify-public
+        run: uv run --python 3.12 --locked python main.py --verify-public

@@ -177,11 +177,13 @@ def test_invalid_reality_public_key_is_rejected_before_mihomo():
     assert catalog.rejections[0].code == "invalid_reality_public_key"
 
 
-def test_stale_and_future_artifacts_are_rejected_before_parsing():
+def test_source_publication_time_controls_freshness_before_parsing():
     valid = "trojan://password@one.example:443#One"
-    stale = artifact(valid, observed_at=NOW - timedelta(hours=49))
+    stale = artifact(valid, published_on=(NOW - timedelta(days=3)).date())
     future = artifact(
-        valid, observed_at=NOW + timedelta(seconds=1), source_url="inline://future"
+        valid,
+        published_on=(NOW + timedelta(days=1)).date(),
+        source_url="inline://future",
     )
 
     catalog = nodes.admit_artifacts([stale, future], now=NOW)
@@ -194,11 +196,21 @@ def test_stale_and_future_artifacts_are_rejected_before_parsing():
     assert [item.freshness for item in catalog.receipts] == ["expired", "future"]
 
 
+def test_missing_source_publication_time_remains_unknown_not_fake_current():
+    source = artifact("trojan://password@one.example:443#One")
+
+    catalog = nodes.admit_artifacts([source], now=NOW)
+
+    assert catalog.accepted_count == 1
+    assert catalog.receipts[0].freshness == "unknown"
+
+
 def test_inline_uri_is_a_source_artifact_not_a_fake_download_url():
     source = nodes.SourceArtifact.inline(
         site="inline-source",
         content="trojan://password@one.example:443#One",
         observed_at=NOW,
+        published_on=NOW.date(),
     )
 
     catalog = nodes.admit_artifacts([source], now=NOW)
@@ -221,3 +233,34 @@ def test_duplicate_names_are_assigned_deterministically():
     ]
 
     assert names == ["Shared", "Shared_2"]
+
+
+def test_artifact_content_is_hashed_once_for_all_admitted_nodes(monkeypatch):
+    content = """proxies:
+  - {name: one, type: ss, server: one.example, port: 443, cipher: aes-128-gcm, password: secret}
+  - {name: two, type: ss, server: two.example, port: 443, cipher: aes-128-gcm, password: secret}
+"""
+    encoded = content.encode("utf-8")
+    real_sha256 = nodes.hashlib.sha256
+    content_hashes = 0
+
+    def observed_sha256(value=b""):
+        nonlocal content_hashes
+        if value == encoded:
+            content_hashes += 1
+        return real_sha256(value)
+
+    monkeypatch.setattr(nodes.hashlib, "sha256", observed_sha256)
+    source = nodes.SourceArtifact(
+        site="source",
+        source_url="https://example.test/nodes.yaml",
+        content=content,
+        observed_at=NOW,
+        published_on=NOW.date(),
+        media_type="application/yaml",
+    )
+
+    catalog = nodes.admit_artifacts((source,), now=NOW)
+
+    assert catalog.accepted_count == 2
+    assert content_hashes == 1

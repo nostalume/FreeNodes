@@ -9,7 +9,8 @@ import ipaddress
 import json
 import re
 from collections.abc import Mapping, Sequence
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
+from itertools import chain
 from typing import Annotated, Any, ClassVar, Literal
 from urllib.parse import parse_qs, parse_qsl, unquote, urlsplit
 from uuid import UUID
@@ -285,6 +286,7 @@ class SourceArtifact(FrozenModel):
     source_url: str
     content: str = Field(repr=False)
     observed_at: AwareDatetime
+    published_on: date | None = None
     media_type: str | None = None
 
     @field_validator("site", "source_url")
@@ -305,6 +307,7 @@ class SourceArtifact(FrozenModel):
         site: str,
         content: str,
         observed_at: datetime,
+        published_on: date | None = None,
         media_type: str = "text/plain",
     ) -> SourceArtifact:
         digest = hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
@@ -313,6 +316,7 @@ class SourceArtifact(FrozenModel):
             source_url=f"inline://{site}/{digest}",
             content=content,
             observed_at=observed_at,
+            published_on=published_on,
             media_type=media_type,
         )
 
@@ -321,6 +325,7 @@ class NodeProvenance(FrozenModel):
     site: str
     source_url: str
     observed_at: AwareDatetime
+    published_on: date | None = None
     artifact_digest: str
     item_index: int = Field(ge=0)
 
@@ -365,7 +370,8 @@ class SourceReceipt(FrozenModel):
     source_url: str
     artifact_digest: str
     observed_at: AwareDatetime
-    freshness: Literal["current", "stale", "expired", "future"]
+    published_on: date | None = None
+    freshness: Literal["current", "stale", "expired", "future", "unknown"]
 
 
 class NodeCatalog(FrozenModel):
@@ -380,6 +386,22 @@ class NodeCatalog(FrozenModel):
     @property
     def rejected_count(self) -> int:
         return len(self.rejections)
+
+    def latest_source_dates(self) -> dict[str, date | None]:
+        receipts = ((item.site, item.published_on) for item in self.receipts)
+        provenance = (
+            (item.site, item.published_on)
+            for node in self.nodes
+            for item in node.provenance
+        )
+        latest: dict[str, date | None] = {}
+        for source, published_on in chain(receipts, provenance):
+            previous = latest.setdefault(source, None)
+            if published_on is not None and (
+                previous is None or published_on > previous
+            ):
+                latest[source] = published_on
+        return latest
 
     @property
     def clash_nodes(self) -> tuple[ProbeableNode, ...]:
@@ -758,27 +780,43 @@ def _new_node(
     )
 
 
-def _merge_node(existing: Node, incoming: Node, provenance: NodeProvenance) -> Node:
-    combined = existing.provenance + (provenance,)
-    if existing.kind == "clash":
-        if incoming.kind == "uri":
-            return DualNode(
-                fingerprint=existing.fingerprint,
-                display_name=existing.display_name,
-                proxy=existing.proxy,
-                uri=incoming.uri,
-                provenance=combined,
-            )
-    elif existing.kind == "uri":
-        if incoming.kind == "clash":
-            return DualNode(
-                fingerprint=existing.fingerprint,
-                display_name=existing.display_name,
-                proxy=incoming.proxy,
-                uri=existing.uri,
-                provenance=combined,
-            )
-    return existing.model_copy(update={"provenance": combined})
+class _NodeBuilder:
+    """Accumulate duplicate provenance and freeze one admitted node once."""
+
+    __slots__ = ("display_name", "fingerprint", "provenance", "proxy", "uri")
+
+    def __init__(
+        self,
+        *,
+        fingerprint: str,
+        display_name: str,
+        proxy: Proxy | None,
+        uri: str | None,
+    ) -> None:
+        self.fingerprint = fingerprint
+        self.display_name = display_name
+        self.proxy = proxy
+        self.uri = uri
+        self.provenance: list[NodeProvenance] = []
+
+    def absorb(
+        self,
+        proxy: Proxy | None,
+        uri: str | None,
+        provenance: NodeProvenance,
+    ) -> None:
+        self.proxy = self.proxy or proxy
+        self.uri = self.uri or uri
+        self.provenance.append(provenance)
+
+    def freeze(self) -> Node:
+        return _new_node(
+            fingerprint=self.fingerprint,
+            display_name=self.display_name,
+            proxy=self.proxy,
+            uri=self.uri,
+            provenance=tuple(self.provenance),
+        )
 
 
 def admit_artifacts(
@@ -792,12 +830,20 @@ def admit_artifacts(
     if observed_now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
 
-    records: dict[str, Node] = {}
+    records: dict[str, _NodeBuilder] = {}
     rejections: list[Rejection] = []
     receipts: list[SourceReceipt] = []
     for artifact in artifacts:
-        age = observed_now - artifact.observed_at
-        if age.total_seconds() < 0:
+        artifact_digest = artifact.digest
+        age = (
+            observed_now.date() - artifact.published_on
+            if artifact.published_on is not None
+            else None
+        )
+        if age is None:
+            freshness = "unknown"
+            rejection_code = None
+        elif age.total_seconds() < 0:
             freshness = "future"
             rejection_code = "clock_inversion"
         elif age > expires_after:
@@ -810,8 +856,9 @@ def admit_artifacts(
             SourceReceipt(
                 site=artifact.site,
                 source_url=artifact.source_url,
-                artifact_digest=artifact.digest,
+                artifact_digest=artifact_digest,
                 observed_at=artifact.observed_at,
+                published_on=artifact.published_on,
                 freshness=freshness,
             )
         )
@@ -832,25 +879,26 @@ def admit_artifacts(
                 site=artifact.site,
                 source_url=artifact.source_url,
                 observed_at=artifact.observed_at,
-                artifact_digest=artifact.digest,
+                published_on=artifact.published_on,
+                artifact_digest=artifact_digest,
                 item_index=index,
             )
-            incoming = _new_node(
-                fingerprint=fingerprint,
-                display_name=name,
-                proxy=proxy,
-                uri=uri,
-                provenance=(provenance,),
+            builder = records.setdefault(
+                fingerprint,
+                _NodeBuilder(
+                    fingerprint=fingerprint,
+                    display_name=name,
+                    proxy=proxy,
+                    uri=uri,
+                ),
             )
-            existing = records.get(fingerprint)
-            records[fingerprint] = (
-                _merge_node(existing, incoming, provenance) if existing else incoming
-            )
+            builder.absorb(proxy, uri, provenance)
 
     used_names: set[str] = set()
     suffixes: dict[str, int] = {}
     named_records: list[Node] = []
-    for record in records.values():
+    for builder in records.values():
+        record = builder.freeze()
         base_name = record.display_name or "unknown"
         display_name = base_name
         if display_name in used_names:

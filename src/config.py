@@ -3,6 +3,7 @@
 import re
 from pathlib import Path
 from typing import Annotated, Literal
+from urllib.parse import quote
 
 import yaml
 from pydantic import (
@@ -188,8 +189,61 @@ class DriveSite(SiteBase):
     password_policy: PasswordPolicy = PASTE_PASSWORD_POLICY
 
 
+class GitHubSourceSite(FrozenModel):
+    type: Literal["github"] = "github"
+    name: str
+    owner: str
+    repository: str
+    branch: str
+    path: str
+    required: bool = False
+    description: str = ""
+
+    @field_validator("name", "owner", "repository", "branch")
+    @classmethod
+    def validate_identifier(cls, value: str) -> str:
+        if not value or value != value.strip() or re.search(r"[/\\?#]", value):
+            raise ValueError("must be one non-empty path component")
+        return value
+
+    @field_validator("path")
+    @classmethod
+    def validate_path(cls, value: str) -> str:
+        parts = value.split("/")
+        if (
+            not value
+            or value != value.strip()
+            or "\\" in value
+            or any(part in {"", ".", ".."} for part in parts)
+        ):
+            raise ValueError("path must be a relative normalized GitHub file path")
+        return value
+
+    @property
+    def raw_url(self) -> str:
+        return self.raw_url_at(self.branch)
+
+    def raw_url_at(self, revision: str) -> str:
+        path = "/".join(quote(part, safe="") for part in self.path.split("/"))
+        return (
+            "https://raw.githubusercontent.com/"
+            f"{quote(self.owner, safe='')}/{quote(self.repository, safe='')}/"
+            f"{quote(revision, safe='')}/{path}"
+        )
+
+    @property
+    def commits_api_url(self) -> str:
+        return (
+            "https://api.github.com/repos/"
+            f"{quote(self.owner, safe='')}/{quote(self.repository, safe='')}/commits"
+        )
+
+
+CrawlerSite = SimpleSite | PasswordSite | DriveSite
+
+
 Site = Annotated[
-    SimpleSite | PasswordSite | DriveSite,
+    CrawlerSite | GitHubSourceSite,
     Field(discriminator="type"),
 ]
 
@@ -215,6 +269,9 @@ class CrawlConfig(FrozenModel):
     timeout: int = Field(default=30, gt=0)
     concurrency: int = Field(default=3, gt=0)
     proxy: str = ""
+    max_source_artifacts: int = Field(default=12, gt=0)
+    max_source_bytes: int = Field(default=16 * 1024 * 1024, gt=0)
+    max_run_source_bytes: int = Field(default=64 * 1024 * 1024, gt=0)
 
 
 class OutputConfig(FrozenModel):
@@ -228,10 +285,18 @@ class RepositoryIdentity(FrozenModel):
 
 class Config(FrozenModel):
     sites: tuple[Site, ...] = Field(strict=False)
+    source_candidates: tuple[GitHubSourceSite, ...] = Field(default=(), strict=False)
     crawl: CrawlConfig = CrawlConfig()
     output: OutputConfig = OutputConfig()
     llm: LLMConfig = LLMConfig()
     repository: RepositoryIdentity = RepositoryIdentity()
+
+    @model_validator(mode="after")
+    def validate_source_names(self) -> "Config":
+        names = tuple(site.name for site in (*self.sites, *self.source_candidates))
+        if len(names) != len(set(names)):
+            raise ValueError("source names must be unique")
+        return self
 
 
 def load_config(path: str | Path = "config.yaml") -> Config:

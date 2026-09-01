@@ -9,7 +9,7 @@ import shutil
 import tempfile
 import uuid
 from collections.abc import Callable, Sequence
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path, PurePosixPath
 from types import MappingProxyType
 from typing import Literal, Protocol
@@ -27,6 +27,7 @@ from src.config import FrozenModel
 from src.mihomo import ConsumerValidation
 from src.nodes import NodeCatalog
 from src.profiles import OutputBundle
+from src.quality_manifest import QualityManifestV3
 
 RECEIPT_PATH = "nodes/publication-receipt.json"
 
@@ -92,6 +93,280 @@ class PublicationReceipt(FrozenModel):
         return MappingProxyType({item.path: item.digest for item in self.file_digests})
 
 
+class PreparedPublication(FrozenModel):
+    receipt_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    managed_files: tuple[str, ...] = Field(strict=False)
+    removed_files: tuple[str, ...] = Field(default=(), strict=False)
+
+
+class AppliedPublication(FrozenModel):
+    status: Literal["applied", "no_change"]
+    receipt_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    managed_files: tuple[str, ...] = Field(strict=False)
+    removed_files: tuple[str, ...] = Field(default=(), strict=False)
+    pathspec_output: Path | None = Field(default=None, strict=False)
+
+
+class PublicationArtifact(FrozenModel):
+    root: Path = Field(strict=False)
+    receipt: PublicationManifestV1
+    receipt_bytes: bytes = Field(repr=False)
+
+    @property
+    def receipt_sha256(self) -> str:
+        return hashlib.sha256(self.receipt_bytes).hexdigest()
+
+    @classmethod
+    def admit(
+        cls,
+        root: Path,
+        *,
+        exact_inventory: bool = False,
+        expected_receipt_sha256: str | None = None,
+    ) -> "PublicationArtifact":
+        admitted_root = root.resolve()
+        receipt_path = _local(admitted_root, _publication_relative(RECEIPT_PATH))
+        try:
+            receipt_bytes = receipt_path.read_bytes()
+            receipt = PublicationManifestV1.model_validate_json(receipt_bytes)
+            for value in (*receipt.managed_files, *receipt.removed_files):
+                _publication_relative(value)
+            for value in receipt.managed_files:
+                relative = _publication_relative(value)
+                source = _local(admitted_root, relative)
+                if not source.is_file() or source.is_symlink():
+                    raise PublicationError(f"publication file is missing: {value}")
+                if value != RECEIPT_PATH:
+                    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+                    if digest != receipt.files[value]:
+                        raise PublicationError(f"publication digest mismatch: {value}")
+            for value in receipt.removed_files:
+                if _local(admitted_root, _publication_relative(value)).exists():
+                    raise PublicationError(
+                        f"removed publication file is still present: {value}"
+                    )
+        except PublicationError:
+            raise
+        except (OSError, ValueError, ValidationError) as error:
+            raise PublicationError("publication artifact is invalid") from error
+        artifact = cls(
+            root=admitted_root,
+            receipt=receipt,
+            receipt_bytes=receipt_bytes,
+        )
+        if (
+            expected_receipt_sha256 is not None
+            and artifact.receipt_sha256 != expected_receipt_sha256
+        ):
+            raise PublicationError("publication receipt digest mismatch")
+        if exact_inventory and _file_inventory(admitted_root) != set(
+            receipt.managed_files
+        ):
+            raise PublicationError("publication artifact inventory mismatch")
+        return artifact
+
+    def stage_to(self, destination: Path) -> PreparedPublication:
+        payload = destination.resolve()
+        try:
+            payload.mkdir(parents=True, exist_ok=False)
+            for value in self.receipt.managed_files:
+                relative = _publication_relative(value)
+                target = _local(payload, relative)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(_local(self.root, relative), target)
+            PublicationArtifact.admit(
+                payload,
+                exact_inventory=True,
+                expected_receipt_sha256=self.receipt_sha256,
+            )
+        except Exception:
+            if payload.is_dir():
+                shutil.rmtree(payload)
+            raise
+        return PreparedPublication(
+            receipt_sha256=self.receipt_sha256,
+            managed_files=self.receipt.managed_files,
+            removed_files=self.receipt.removed_files,
+        )
+
+    def apply_to(
+        self,
+        repository_root: Path,
+        *,
+        pathspec_output: Path | None = None,
+        before_replace: BeforeReplace | None = None,
+    ) -> AppliedPublication:
+        repository = repository_root.resolve()
+        repository.mkdir(parents=True, exist_ok=True)
+        pathspec = self._pathspec(repository, pathspec_output)
+        temporary_pathspec = None
+        if pathspec:
+            temporary_pathspec = pathspec.with_name(
+                f".{pathspec.name}-{uuid.uuid4().hex}.tmp"
+            )
+            with temporary_pathspec.open("x", encoding="utf-8", newline="\n") as output:
+                paths = sorted(
+                    {*self.receipt.managed_files, *self.receipt.removed_files}
+                )
+                output.writelines(f"{value}\n" for value in paths)
+        try:
+            if self._matches(repository):
+                if pathspec and temporary_pathspec:
+                    os.replace(temporary_pathspec, pathspec)
+                return self._applied("no_change", pathspec)
+            self._replace(repository, pathspec, temporary_pathspec, before_replace)
+            return self._applied("applied", pathspec)
+        finally:
+            if temporary_pathspec:
+                temporary_pathspec.unlink(missing_ok=True)
+
+    @staticmethod
+    def _pathspec(repository: Path, output: Path | None) -> Path | None:
+        if output is None:
+            return None
+        pathspec = output.resolve()
+        try:
+            relative = pathspec.relative_to(repository)
+        except ValueError as error:
+            raise PublicationError(
+                "publication pathspec must stay in the repository"
+            ) from error
+        if len(relative.parts) < 2 or relative.parts[0] != ".git":
+            raise PublicationError("publication pathspec must stay in .git")
+        pathspec.parent.mkdir(parents=True, exist_ok=True)
+        return pathspec
+
+    def _matches(self, repository: Path) -> bool:
+        for value in self.receipt.managed_files:
+            relative = _publication_relative(value)
+            current = _local(repository, relative)
+            if not current.is_file() or current.is_symlink():
+                return False
+            if value == RECEIPT_PATH:
+                if current.read_bytes() != self.receipt_bytes:
+                    return False
+            elif (
+                hashlib.sha256(current.read_bytes()).hexdigest()
+                != self.receipt.files[value]
+            ):
+                return False
+        return all(
+            not _local(repository, _publication_relative(value)).exists()
+            for value in self.receipt.removed_files
+        )
+
+    def content_matches(self, repository: Path) -> bool:
+        return not self.receipt.removed_files and all(
+            (current := _local(repository, _publication_relative(value))).is_file()
+            and not current.is_symlink()
+            and hashlib.sha256(current.read_bytes()).hexdigest()
+            == self.receipt.files[value]
+            for value in self.receipt.managed_files[:-1]
+        )
+
+    def _replace(
+        self,
+        repository: Path,
+        pathspec: Path | None,
+        temporary_pathspec: Path | None,
+        before_replace: BeforeReplace | None,
+    ) -> None:
+        with tempfile.TemporaryDirectory(
+            prefix=".freenodes-apply-", dir=repository
+        ) as temporary:
+            staging = Path(temporary).resolve()
+            backup = staging / ".backup"
+            backup.mkdir()
+            for value in self.receipt.managed_files:
+                relative = _publication_relative(value)
+                staged = _local(staging, relative)
+                staged.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(_local(self.root, relative), staged)
+            targets = (*self.receipt.managed_files, *self.receipt.removed_files)
+            for value in dict.fromkeys(targets):
+                relative = _publication_relative(value)
+                current = _local(repository, relative)
+                if current.exists() and (not current.is_file() or current.is_symlink()):
+                    raise PublicationError(f"publication target is not a file: {value}")
+                if current.is_file():
+                    saved = _local(backup, relative)
+                    saved.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(current, saved)
+            touched: list[str] = []
+            try:
+                replacement_index = 0
+                for value in self.receipt.managed_files[:-1]:
+                    relative = _publication_relative(value)
+                    destination = _local(repository, relative)
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    if before_replace:
+                        before_replace(value, replacement_index)
+                    os.replace(_local(staging, relative), destination)
+                    touched.append(value)
+                    replacement_index += 1
+                for value in self.receipt.removed_files:
+                    destination = _local(repository, _publication_relative(value))
+                    if destination.is_file():
+                        if before_replace:
+                            before_replace(value, replacement_index)
+                        destination.unlink()
+                        touched.append(value)
+                        replacement_index += 1
+                receipt_relative = _publication_relative(RECEIPT_PATH)
+                receipt_destination = _local(repository, receipt_relative)
+                receipt_destination.parent.mkdir(parents=True, exist_ok=True)
+                if before_replace:
+                    before_replace(RECEIPT_PATH, replacement_index)
+                os.replace(_local(staging, receipt_relative), receipt_destination)
+                touched.append(RECEIPT_PATH)
+                if pathspec and temporary_pathspec:
+                    os.replace(temporary_pathspec, pathspec)
+            except Exception as error:
+                rollback_errors = self._restore(repository, backup, touched)
+                if rollback_errors:
+                    raise ExceptionGroup(
+                        "publication apply failed and rollback was incomplete",
+                        [error, *rollback_errors],
+                    )
+                raise PublicationError(
+                    "publication apply failed; previous snapshot restored"
+                ) from error
+
+    @staticmethod
+    def _restore(
+        repository: Path,
+        backup: Path,
+        touched: Sequence[str],
+    ) -> list[Exception]:
+        errors: list[Exception] = []
+        for value in reversed(touched):
+            relative = _publication_relative(value)
+            destination = _local(repository, relative)
+            saved = _local(backup, relative)
+            try:
+                if saved.is_file():
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    os.replace(saved, destination)
+                elif destination.is_file():
+                    destination.unlink()
+            except Exception as error:
+                errors.append(error)
+        return errors
+
+    def _applied(
+        self,
+        status: Literal["applied", "no_change"],
+        pathspec_output: Path | None,
+    ) -> AppliedPublication:
+        return AppliedPublication(
+            status=status,
+            receipt_sha256=self.receipt_sha256,
+            managed_files=self.receipt.managed_files,
+            removed_files=self.receipt.removed_files,
+            pathspec_output=pathspec_output,
+        )
+
+
 class BundleValidator(Protocol):
     def validate_bundle(self, output_dir: Path, /) -> ConsumerValidation: ...
 
@@ -141,7 +416,8 @@ class ValidationSource(FrozenModel):
     source_url_sha256: str = Field(min_length=64, max_length=64)
     artifact_sha256: str = Field(min_length=64, max_length=64)
     observed_at: str
-    freshness: Literal["current", "stale", "expired", "future"]
+    published_on: date | None = None
+    freshness: Literal["current", "stale", "expired", "future", "unknown"]
 
 
 class ValidationManifestV1(FrozenModel):
@@ -170,11 +446,100 @@ def _safe_relative(value: str) -> PurePosixPath:
     return path
 
 
+def _publication_relative(value: str) -> PurePosixPath:
+    if any(character in value for character in ("\0", "\r", "\n")):
+        raise PublicationError(f"unsafe publication path: {value!r}")
+    path = _safe_relative(value)
+    if value != "IMPORT.md" and (len(path.parts) < 2 or path.parts[0] != "nodes"):
+        raise PublicationError(f"unsafe publication path: {value!r}")
+    return path
+
+
 def _local(root: Path, relative: PurePosixPath) -> Path:
     destination = root.joinpath(*relative.parts).resolve()
     if root != destination and root not in destination.parents:
         raise PublicationError(f"unsafe publication path: {relative.as_posix()!r}")
     return destination
+
+
+def _file_inventory(root: Path) -> set[str]:
+    inventory: set[str] = set()
+    for path in root.rglob("*"):
+        if path.is_symlink():
+            raise PublicationError("publication artifact contains a symbolic link")
+        if path.is_file():
+            inventory.add(path.relative_to(root).as_posix())
+    return inventory
+
+
+def prepare_publication(
+    repository_root: Path,
+    payload_root: Path,
+) -> PreparedPublication:
+    """Copy exactly one admitted receipt-owned snapshot into a new payload."""
+    return PublicationArtifact.admit(repository_root).stage_to(payload_root)
+
+
+def apply_publication(
+    payload_root: Path,
+    repository_root: Path,
+    *,
+    expected_receipt_sha256: str,
+    pathspec_output: Path,
+    before_replace: BeforeReplace | None = None,
+) -> AppliedPublication:
+    """Admit and apply one exact artifact, then emit its bounded Git pathspec."""
+    artifact = PublicationArtifact.admit(
+        payload_root,
+        exact_inventory=True,
+        expected_receipt_sha256=expected_receipt_sha256,
+    )
+    return artifact.apply_to(
+        repository_root,
+        pathspec_output=pathspec_output,
+        before_replace=before_replace,
+    )
+
+
+def render_publication_report(repository_root: Path) -> str:
+    """Render one admitted, redacted quality summary for workflow output."""
+    manifest_path = repository_root.resolve() / "nodes" / "quality-manifest.json"
+    if not manifest_path.is_file():
+        return "## Publication preparation\n- Rejected before a quality manifest was produced\n"
+    try:
+        manifest = QualityManifestV3.model_validate_json(manifest_path.read_bytes())
+    except (OSError, ValueError, ValidationError):
+        return "## Publication preparation\n- Quality manifest is invalid\n"
+    lines = [
+        "## Publication preparation",
+        (
+            f"- Decision: {manifest.decision}; published "
+            f"{manifest.counts.published} of {manifest.counts.admitted} admitted nodes"
+        ),
+        (
+            f"- Node evidence: passed {manifest.counts.probe_success}, "
+            f"failed {manifest.counts.failed}, "
+            f"inconclusive {manifest.counts.inconclusive}, "
+            f"not probed {manifest.counts.not_probed}"
+        ),
+        "- Contributing authorities: " + ", ".join(manifest.contributing_authorities),
+    ]
+    lines.extend(
+        f"- Transfer target `{target.authority}`: controls "
+        f"{target.controls_passed}/{target.controls_attempted}, "
+        f"candidate attempts {target.candidate_attempts}"
+        for target in manifest.transfer_targets
+    )
+    lines.extend(
+        f"- Probe failure `{code}`: {count}"
+        for code, count in manifest.probe_failures.items()
+    )
+    lines.extend(
+        f"- Source `{source.name}`: {source.status} ({source.reason}); "
+        f"qualified {source.observation.qualified}/{source.observation.sampled}"
+        for source in manifest.sources
+    )
+    return "\n".join(lines) + "\n"
 
 
 def validate_bundle_output_parent(output_parent: Path, public_dir: Path) -> Path:
@@ -230,6 +595,7 @@ def _source_summary(catalog: NodeCatalog) -> tuple[ValidationSource, ...]:
             ).hexdigest(),
             artifact_sha256=receipt.artifact_digest,
             observed_at=receipt.observed_at.astimezone(UTC).isoformat(),
+            published_on=receipt.published_on,
             freshness=receipt.freshness,
         )
         for receipt in catalog.receipts
@@ -300,7 +666,7 @@ def _existing_managed(receipt_path: Path) -> tuple[str, ...]:
             receipt_path.read_text(encoding="utf-8")
         )
         for value in receipt.managed_files:
-            _safe_relative(value)
+            _publication_relative(value)
         return receipt.managed_files
     except (OSError, ValueError, ValidationError) as error:
         raise PublicationError("existing publication receipt is invalid") from error
@@ -320,17 +686,17 @@ def publish_bundle(
         raise PublicationError(
             "publication requires non-empty V2Ray and Clash profiles"
         )
-    relative_files = {name: _safe_relative(name) for name in bundle.files}
+    relative_files = {name: _publication_relative(name) for name in bundle.files}
     if "nodes/quality-manifest.json" not in bundle.files:
         raise PublicationError("publication requires a quality manifest")
 
     root = repository_root.resolve()
     root.mkdir(parents=True, exist_ok=True)
-    receipt_relative = _safe_relative(RECEIPT_PATH)
+    receipt_relative = _publication_relative(RECEIPT_PATH)
     receipt_destination = _local(root, receipt_relative)
     old_managed = set(_existing_managed(receipt_destination))
     for value in previous_managed:
-        old_managed.add(_safe_relative(value).as_posix())
+        old_managed.add(_publication_relative(value).as_posix())
     old_managed.discard(RECEIPT_PATH)
     new_managed = set(relative_files)
     obsolete = sorted(old_managed - new_managed)
@@ -370,8 +736,6 @@ def publish_bundle(
         prefix=".freenodes-publish-", dir=root
     ) as temporary:
         staging = Path(temporary).resolve()
-        backup = staging / ".backup"
-        backup.mkdir()
         for name, relative in relative_files.items():
             destination = _local(staging, relative)
             destination.parent.mkdir(parents=True, exist_ok=True)
@@ -382,17 +746,8 @@ def publish_bundle(
         staged_receipt.write_bytes(receipt_bytes)
 
         validator.validate_bundle(staging)
-        unchanged = (
-            not obsolete
-            and receipt_destination.is_file()
-            and all(
-                _local(root, relative).is_file()
-                and hashlib.sha256(_local(root, relative).read_bytes()).hexdigest()
-                == digests[name]
-                for name, relative in relative_files.items()
-            )
-        )
-        if unchanged:
+        artifact = PublicationArtifact.admit(staging, exact_inventory=True)
+        if artifact.content_matches(root):
             return PublicationReceipt(
                 status="no_change",
                 created_at=observed_at,
@@ -403,63 +758,7 @@ def publish_bundle(
                     for name, digest in sorted(digests.items())
                 ),
             )
-
-        targets = [*sorted(new_managed), *obsolete, RECEIPT_PATH]
-        for name in dict.fromkeys(targets):
-            relative = _safe_relative(name)
-            current = _local(root, relative)
-            if current.is_file():
-                saved = _local(backup, relative)
-                saved.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(current, saved)
-
-        touched: list[str] = []
-        replacement_index = 0
-        try:
-            for name in sorted(new_managed):
-                relative = relative_files[name]
-                destination = _local(root, relative)
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                if before_replace:
-                    before_replace(name, replacement_index)
-                os.replace(_local(staging, relative), destination)
-                touched.append(name)
-                replacement_index += 1
-            for name in obsolete:
-                destination = _local(root, _safe_relative(name))
-                if destination.is_file():
-                    if before_replace:
-                        before_replace(name, replacement_index)
-                    destination.unlink()
-                    touched.append(name)
-                    replacement_index += 1
-            if before_replace:
-                before_replace(RECEIPT_PATH, replacement_index)
-            receipt_destination.parent.mkdir(parents=True, exist_ok=True)
-            os.replace(staged_receipt, receipt_destination)
-            touched.append(RECEIPT_PATH)
-        except Exception as error:
-            rollback_errors: list[Exception] = []
-            for name in reversed(touched):
-                relative = _safe_relative(name)
-                destination = _local(root, relative)
-                saved = _local(backup, relative)
-                try:
-                    if saved.is_file():
-                        destination.parent.mkdir(parents=True, exist_ok=True)
-                        os.replace(saved, destination)
-                    elif destination.is_file():
-                        destination.unlink()
-                except Exception as rollback_error:
-                    rollback_errors.append(rollback_error)
-            if rollback_errors:
-                raise ExceptionGroup(
-                    "publication failed and rollback was incomplete",
-                    [error, *rollback_errors],
-                )
-            raise PublicationError(
-                "publication promotion failed; previous snapshot restored"
-            ) from error
+        artifact.apply_to(root, before_replace=before_replace)
 
     return PublicationReceipt(
         status="accepted",

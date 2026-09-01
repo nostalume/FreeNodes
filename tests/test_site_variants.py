@@ -3,6 +3,7 @@
 import asyncio
 from collections import deque
 from dataclasses import dataclass, field
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Protocol
 
@@ -26,7 +27,14 @@ from src.decryptor import (
 )
 from src.drive import DriveFailure, DriveFile, DriveFiles, DriveOutcome
 from src.llm_router import ExtractedLinks
-from src.mihomo import ConsumerValidation, DelayObservation, ProbeEvidence
+from src.mihomo import ConsumerValidation
+from src.quality import (
+    DelayObservation,
+    ProbeEvidence,
+    ProbeRunSuccess,
+    QualityPolicy,
+    TransferObservation,
+)
 from src.scheduler import Scheduler
 from src.site_processor import SiteProcessor
 from src.youtube import (
@@ -489,6 +497,9 @@ async def test_variant_yields_source_owned_artifact(site, source_url):
     assert outcome.site_name == site.name
     assert tuple(artifact.site for artifact in outcome.artifacts) == (site.name,)
     assert tuple(artifact.source_url for artifact in outcome.artifacts) == (source_url,)
+    assert tuple(artifact.published_on for artifact in outcome.artifacts) == (
+        date(2026, 8, 29),
+    )
 
 
 async def test_simple_inline_node_is_admitted_without_a_download():
@@ -566,6 +577,10 @@ async def test_simple_discovery_selects_newest_non_navigation_articles():
         newest_download,
         middle_download,
     )
+    assert tuple(artifact.published_on for artifact in outcome.artifacts) == (
+        date(2026, 8, 30),
+        date(2026, 8, 29),
+    )
 
 
 async def test_simple_discovery_uses_dated_markdown_when_links_are_absent():
@@ -617,6 +632,7 @@ async def test_simple_discovery_retries_failed_downloads(monkeypatch):
                 code="http_error",
                 url=url,
                 diagnostic="upstream unavailable",
+                retryable=True,
             )
 
     async def no_wait(delay: float) -> None:
@@ -642,6 +658,84 @@ async def test_simple_discovery_retries_failed_downloads(monkeypatch):
     assert outcome.kind == "failure"
     assert web.attempts == 3
     assert any("upstream unavailable" in error for error in outcome.errors)
+
+
+async def test_simple_discovery_does_not_retry_terminal_download_failure():
+    download = "https://files.test/forbidden.txt"
+    site = SimpleSite(
+        name="terminal-source",
+        start_url=SIMPLE_ROOT,
+        link_pattern=r"https://files\.test/forbidden\.txt",
+    )
+
+    @dataclass
+    class TerminalWeb(FakeWebCapability):
+        attempts: int = 0
+
+        async def download_file(self, url: str) -> DownloadOutcome:
+            self.attempts += 1
+            return DownloadFailure(
+                code="http_error",
+                url=url,
+                diagnostic="download returned HTTP 403",
+                retryable=False,
+            )
+
+    web = TerminalWeb(
+        pages={
+            SIMPLE_ROOT: page(SIMPLE_ROOT, links=article_link()),
+            SIMPLE_ARTICLE: page(SIMPLE_ARTICLE, html=download),
+        }
+    )
+
+    outcome = await SiteProcessor(
+        site,
+        config(site),
+        FakeLinkCapability(),
+        FakeYouTubeCapability(),
+        web,
+        FakeDecryptionFactory(),
+    ).discover()
+
+    assert outcome.kind == "failure"
+    assert web.attempts == 1
+
+
+async def test_simple_discovery_stops_network_work_at_artifact_limit():
+    downloads = tuple(f"https://files.test/{index}.txt" for index in range(3))
+    site = SimpleSite(
+        name="bounded-source",
+        start_url=SIMPLE_ROOT,
+        link_pattern=r"https://files\.test/\d+\.txt",
+    )
+    run_config = Config(
+        sites=(site,),
+        crawl=CrawlConfig(max_articles=1, max_source_artifacts=1),
+        llm=LLMConfig(),
+    )
+    web = FakeWebCapability(
+        pages={
+            SIMPLE_ROOT: page(SIMPLE_ROOT, links=article_link()),
+            SIMPLE_ARTICLE: page(SIMPLE_ARTICLE, html=" ".join(downloads)),
+        },
+        downloads={
+            url: subscription("bounded.example", str(index))
+            for index, url in enumerate(downloads)
+        },
+    )
+
+    outcome = await SiteProcessor(
+        site,
+        run_config,
+        FakeLinkCapability(),
+        FakeYouTubeCapability(),
+        web,
+        FakeDecryptionFactory(),
+    ).discover()
+
+    assert outcome.kind == "success"
+    assert web.downloaded == [downloads[0]]
+    assert len(outcome.artifacts) == 1
 
 
 @pytest.mark.parametrize("variant", ("simple", "yt_pwd", "cloud_drive"))
@@ -670,6 +764,7 @@ async def test_variant_unavailable_preserves_source_identity(variant):
         youtube,
         web,
         decryption,
+        FakeDriveFactory({}),
     ).discover()
 
     assert outcome.kind == "failure"
@@ -702,6 +797,7 @@ async def test_variant_empty_preserves_source_identity(variant):
         youtube,
         web,
         decryption,
+        FakeDriveFactory({}),
     ).discover()
 
     assert outcome.kind == "failure"
@@ -765,6 +861,7 @@ async def test_variant_malformed_effect_preserves_diagnosis(variant):
         youtube,
         web,
         decryption,
+        FakeDriveFactory({}),
     ).discover()
 
     assert outcome.kind == "failure"
@@ -1036,6 +1133,7 @@ async def test_variant_cancellation_propagates(variant):
             youtube,
             web,
             decryption,
+            FakeDriveFactory({}),
         ).discover()
 
 
@@ -1043,26 +1141,36 @@ class SuccessfulProbe:
     def __init__(self) -> None:
         self.sites: set[str] = set()
 
-    async def probe(self, nodes):
+    async def probe(self, nodes, policy):
         self.sites = {
-            provenance.site for node in nodes for provenance in node.provenance
+            provenance.site for node in nodes.nodes for provenance in node.provenance
         }
-        return tuple(
-            ProbeEvidence(
-                fingerprint=node.fingerprint,
-                proxy_name=node.display_name,
-                coarse=DelayObservation(
-                    endpoint="gstatic",
-                    status="success",
-                    delay_ms=50,
-                ),
-                confirm=DelayObservation(
-                    endpoint="cloudflare",
-                    status="success",
-                    delay_ms=60,
-                ),
+        return ProbeRunSuccess(
+            evidence=tuple(
+                ProbeEvidence(
+                    fingerprint=node.fingerprint,
+                    proxy_name=node.display_name,
+                    coarse=DelayObservation(
+                        endpoint="gstatic",
+                        status="success",
+                        delay_ms=50,
+                    ),
+                    confirm=DelayObservation(
+                        endpoint="cloudflare",
+                        status="success",
+                        delay_ms=60,
+                    ),
+                    transfer=TransferObservation(
+                        fingerprint=node.fingerprint,
+                        target="test",
+                        status="success",
+                        bytes_received=1024 * 1024,
+                        elapsed_ms=100,
+                        bytes_per_second=10_000_000,
+                    ),
+                )
+                for node in nodes.nodes
             )
-            for node in nodes
         )
 
 
@@ -1126,6 +1234,13 @@ async def test_all_variants_enter_one_quality_and_publication_flow(
         repository_root=tmp_path,
         validator=AcceptingValidator(),
         probe_session=probe,
+        policy=QualityPolicy(
+            min_source_nodes=1,
+            min_source_qualified=1,
+            min_source_pass_ratio=0.01,
+            min_source_unique=1,
+        ),
+        now=datetime(2026, 8, 29, tzinfo=UTC),
     )
 
     assert receipt.status == "accepted"

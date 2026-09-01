@@ -18,7 +18,7 @@ from pydantic import AwareDatetime, TypeAdapter, model_validator
 from src.config import FrozenModel
 from src.mihomo import MihomoValidator, ProviderProfile, StandaloneProfile
 from src.profiles import PublicEntryRegistry
-from src.quality_manifest import QualityManifestV1
+from src.quality_manifest import admit_quality_manifest_json
 
 
 class PublicVerificationError(RuntimeError):
@@ -113,7 +113,7 @@ class PublicEntryVerifier:
         if nested_hosts != {expected_host}:
             raise ValueError("provider profile mixes publication channels")
 
-        manifest = QualityManifestV1.model_validate_json(content["quality"])
+        manifest = admit_quality_manifest_json(content["quality"])
 
         self.validate_standalone(content["standalone"])
         self.smoke_provider(content["provider"])

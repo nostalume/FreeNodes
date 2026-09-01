@@ -1,6 +1,8 @@
 # FreeNodes
 
-FreeNodes discovers public proxy subscriptions, admits structurally valid nodes, tests reachability and HTTP delay with a pinned Mihomo core, and publishes only the bounded accepted snapshot.
+FreeNodes discovers public proxy subscriptions, admits structurally valid nodes,
+tests delay and bounded transfer completion with a pinned Mihomo core, and
+publishes only nodes from current, sufficiently healthy sources.
 
 ## Simple import URLs
 
@@ -15,7 +17,7 @@ Use the direct URL first. jsDelivr is a fallback and may temporarily serve an ol
 
 The standalone Clash profile embeds the accepted nodes and needs only one download. The provider profile is smaller, keeps sources separate, and refreshes nested provider files independently; those extra requests make it more sensitive to origin or CDN availability.
 
-The current non-secret quality summary is [quality-manifest.json](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/quality-manifest.json). Delay reflects the GitHub runner’s network vantage, not guaranteed performance from every user location.
+The current non-secret quality summary is [quality-manifest.json](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/quality-manifest.json). Delay and throughput reflect the GitHub runner’s network vantage and are not guaranteed performance from every user location.
 
 ## Data flow
 
@@ -23,8 +25,8 @@ The current non-secret quality summary is [quality-manifest.json](https://raw.gi
 configured sources
   -> immutable source artifacts
   -> typed, deduplicated node catalog
-  -> bounded two-endpoint Mihomo probes
-  -> deterministic delay and source quotas
+  -> bounded two-endpoint delay and 1 MiB transfer probes
+  -> deterministic node qualification and source-history policy
   -> V2Ray and Clash profiles from one accepted catalog
   -> Mihomo consumer validation
   -> rollback-capable publication with receipt written last

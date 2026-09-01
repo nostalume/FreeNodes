@@ -1,8 +1,18 @@
 """CLI grammar and process-exit contracts."""
 
+import hashlib
+import json
 import subprocess
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
+
+import main as cli
+from src.config import Config, LLMConfig
+from src.mihomo import AcquiredMihomo
+from src.publication import PublicationCounts, PublicationManifestV1
+from src.quality import QualityPolicy
+from src.quality_manifest import SourceAuditReceipt
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,7 +28,7 @@ def run_cli(*arguments: str) -> subprocess.CompletedProcess[str]:
     )
 
 
-def test_help_exposes_publish_discover_validate_and_verify_operations():
+def test_help_exposes_publish_discover_validate_verify_and_audit_operations():
     result = run_cli("--help")
 
     assert result.returncode == 0
@@ -27,6 +37,7 @@ def test_help_exposes_publish_discover_validate_and_verify_operations():
     assert "discover one site without publishing" in help_text
     assert "--validate-profiles" in help_text
     assert "--verify-public" in help_text
+    assert "--audit-sources" in help_text
 
 
 def test_validation_and_public_verification_are_mutually_exclusive():
@@ -45,3 +56,122 @@ def test_public_verification_rejects_a_source_target():
 
     assert result.returncode == 2
     assert "--verify-public does not accept a target" in result.stderr
+
+
+def test_source_audit_rejects_a_source_target():
+    result = run_cli("source", "--audit-sources")
+
+    assert result.returncode == 2
+    assert "--audit-sources does not accept a target" in result.stderr
+
+
+def test_publication_handoff_grammar_is_explicit_and_typed():
+    assert cli.parse_args(["--prepare-publication", "payload"]) == (
+        cli.PreparePublicationCommand(payload=Path("payload"))
+    )
+    assert cli.parse_args(
+        [
+            "--apply-publication",
+            "payload",
+            "--receipt-sha",
+            "a" * 64,
+            "--pathspec-output",
+            ".git/publication-paths",
+        ]
+    ) == cli.ApplyPublicationCommand(
+        payload=Path("payload"),
+        receipt_sha256="a" * 64,
+        pathspec_output=Path(".git/publication-paths"),
+    )
+    assert cli.parse_args(["--report-publication"]) == cli.ReportPublicationCommand()
+
+
+async def test_publication_handoff_runs_without_crawler_configuration(
+    monkeypatch, tmp_path, capsys
+):
+    repository = tmp_path / "repository"
+    managed = repository / "nodes" / "merged.yaml"
+    managed.parent.mkdir(parents=True)
+    managed.write_bytes(b"proxies: []\n")
+    receipt = PublicationManifestV1(
+        schema=1,
+        status="accepted",
+        created_at="2026-09-01T00:00:00+00:00",
+        counts=PublicationCounts(published=1, clash=1, uri=1),
+        files={"nodes/merged.yaml": hashlib.sha256(managed.read_bytes()).hexdigest()},
+        managed_files=(
+            "nodes/merged.yaml",
+            "nodes/publication-receipt.json",
+        ),
+        removed_files=(),
+    )
+    receipt_path = repository / "nodes" / "publication-receipt.json"
+    receipt_path.write_text(
+        json.dumps(receipt.model_dump(mode="json", by_alias=True)),
+        encoding="utf-8",
+    )
+    receipt_sha = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    payload = tmp_path / "payload"
+    pathspec = repository / ".git" / "publication-paths"
+    monkeypatch.chdir(repository)
+
+    def reject_config_load():
+        raise AssertionError("publication handoff loaded crawler configuration")
+
+    monkeypatch.setattr(cli, "load_config", reject_config_load)
+
+    assert await cli.run(cli.PreparePublicationCommand(payload=payload)) == 0
+    assert capsys.readouterr().out.strip() == receipt_sha
+    assert (
+        await cli.run(
+            cli.ApplyPublicationCommand(
+                payload=payload,
+                receipt_sha256=receipt_sha,
+                pathspec_output=pathspec,
+            )
+        )
+        == 0
+    )
+    assert "Publication artifact no_change" in capsys.readouterr().out
+    assert pathspec.read_text(encoding="utf-8").splitlines() == list(
+        receipt.managed_files
+    )
+
+
+async def test_source_audit_returns_nonzero_for_no_qualified_nodes(
+    monkeypatch,
+    capsys,
+):
+    receipt = SourceAuditReceipt(
+        status="no_qualified_nodes",
+        generated_at=datetime(2026, 8, 30, tzinfo=UTC),
+        runner_vantage="test",
+        policy=QualityPolicy(),
+        admitted_nodes=0,
+        selected_for_probe=0,
+        qualified_nodes=0,
+        failed_nodes=0,
+        inconclusive_nodes=0,
+        not_probed_nodes=0,
+        eligible_sources=0,
+        sources=(),
+    )
+
+    async def audit_sources(scheduler, **options):
+        return receipt
+
+    monkeypatch.setattr(cli, "load_config", lambda: Config(sites=[], llm=LLMConfig()))
+    monkeypatch.setattr(cli.Scheduler, "audit_sources", audit_sources)
+    monkeypatch.setattr(
+        cli,
+        "acquire_pinned_mihomo",
+        lambda path: AcquiredMihomo(
+            executable=path / "mihomo",
+            version="test",
+            executable_sha256="0" * 64,
+            asset_sha256="0" * 64,
+        ),
+    )
+
+    assert await cli.run(cli.AuditSourcesCommand()) == 2
+    assert '"status":"no_qualified_nodes"' in capsys.readouterr().out.replace(" ", "")

@@ -1,14 +1,23 @@
 """One-pass discovery-to-publication composition tests."""
 
+import json
 from datetime import UTC, datetime
 
 import pytest
 
 from src.config import Config, CrawlConfig, LLMConfig, SimpleSite
-from src.mihomo import ConsumerValidation, DelayObservation, ProbeEvidence
+from src.mihomo import ConsumerValidation
 from src.nodes import SourceArtifact
 from src.publication import PublicationError
-from src.quality import QualityPolicy
+from src.quality import (
+    DelayObservation,
+    ProbeDiagnostic,
+    ProbeEvidence,
+    ProbeRunFailure,
+    ProbeRunSuccess,
+    QualityPolicy,
+    TransferObservation,
+)
 from src.scheduler import Scheduler
 from src.site_processor import DiscoveryFailure, DiscoverySuccess
 
@@ -30,24 +39,34 @@ class SuccessfulProbe:
     def __init__(self):
         self.received = ()
 
-    async def probe(self, nodes):
-        self.received = tuple(nodes)
-        return tuple(
-            ProbeEvidence(
-                fingerprint=node.fingerprint,
-                proxy_name=node.display_name,
-                coarse=DelayObservation(
-                    endpoint="coarse",
-                    status="success",
-                    delay_ms=50,
-                ),
-                confirm=DelayObservation(
-                    endpoint="confirm",
-                    status="success",
-                    delay_ms=60,
-                ),
+    async def probe(self, nodes, policy):
+        self.received = nodes.nodes
+        return ProbeRunSuccess(
+            evidence=tuple(
+                ProbeEvidence(
+                    fingerprint=node.fingerprint,
+                    proxy_name=node.display_name,
+                    coarse=DelayObservation(
+                        endpoint="coarse",
+                        status="success",
+                        delay_ms=50,
+                    ),
+                    confirm=DelayObservation(
+                        endpoint="confirm",
+                        status="success",
+                        delay_ms=60,
+                    ),
+                    transfer=TransferObservation(
+                        fingerprint=node.fingerprint,
+                        target="test",
+                        status="success",
+                        bytes_received=1024 * 1024,
+                        elapsed_ms=100,
+                        bytes_per_second=10_000_000,
+                    ),
+                )
+                for node in nodes.nodes
             )
-            for node in nodes
         )
 
 
@@ -67,10 +86,9 @@ def config(root, sites=("a", "b"), required=()):
     )
 
 
-def artifact(site: str) -> SourceArtifact:
+def artifact(site: str, *, observed_at: datetime = NOW) -> SourceArtifact:
     # VMess retains one URI while also producing a Clash proxy.
     import base64
-    import json
 
     payload = base64.b64encode(
         json.dumps(
@@ -87,8 +105,44 @@ def artifact(site: str) -> SourceArtifact:
         ).encode()
     ).decode()
     return SourceArtifact.inline(
-        site=site, content=f"vmess://{payload}", observed_at=NOW
+        site=site,
+        content=f"vmess://{payload}",
+        observed_at=observed_at,
+        published_on=observed_at.date(),
     )
+
+
+def relaxed_policy() -> QualityPolicy:
+    return QualityPolicy(
+        min_source_nodes=1,
+        min_source_qualified=1,
+        min_source_pass_ratio=0.01,
+        min_source_unique=1,
+    )
+
+
+async def test_publish_freshness_uses_explicit_run_time_not_wall_clock(
+    monkeypatch, tmp_path
+):
+    as_of = datetime(2000, 1, 1, tzinfo=UTC)
+
+    async def discover(self):
+        return DiscoverySuccess(
+            site_name=self.site.name,
+            artifacts=(artifact(self.site.name, observed_at=as_of),),
+        )
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    receipt = await Scheduler(config(tmp_path)).publish_profiles(
+        repository_root=tmp_path,
+        validator=Validator(),
+        probe_session=SuccessfulProbe(),
+        policy=relaxed_policy(),
+        now=as_of,
+    )
+
+    assert receipt.status == "accepted"
 
 
 async def test_publish_composes_each_owner_once_and_replaces_legacy_site_text(
@@ -112,7 +166,7 @@ async def test_publish_composes_each_owner_once_and_replaces_legacy_site_text(
         repository_root=tmp_path,
         validator=Validator(),
         probe_session=probe,
-        policy=QualityPolicy(),
+        policy=relaxed_policy(),
         now=NOW,
     )
 
@@ -150,9 +204,13 @@ async def test_missing_required_source_preserves_previous_snapshot(
     assert sentinel.read_bytes() == b"previous"
 
 
-async def test_unavailable_optional_source_does_not_block_publication(
-    monkeypatch, tmp_path
+async def test_unavailable_optional_source_blocks_single_authority_publication(
+    monkeypatch, tmp_path, capsys
 ):
+    sentinel = tmp_path / "nodes" / "merged.yaml"
+    sentinel.parent.mkdir()
+    sentinel.write_bytes(b"previous")
+
     async def discover(self):
         if self.site.name == "b":
             return DiscoveryFailure(site_name="b", errors=("unavailable",))
@@ -160,15 +218,19 @@ async def test_unavailable_optional_source_does_not_block_publication(
 
     monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
 
-    receipt = await Scheduler(config(tmp_path)).publish_profiles(
-        repository_root=tmp_path,
-        validator=Validator(),
-        probe_session=SuccessfulProbe(),
-        now=NOW,
-    )
+    with pytest.raises(PublicationError, match="insufficient authority diversity"):
+        await Scheduler(config(tmp_path)).publish_profiles(
+            repository_root=tmp_path,
+            validator=Validator(),
+            probe_session=SuccessfulProbe(),
+            policy=relaxed_policy(),
+            now=NOW,
+        )
 
-    assert receipt.status == "accepted"
-    assert (tmp_path / "nodes" / "publication-receipt.json").exists()
+    assert sentinel.read_bytes() == b"previous"
+    output = capsys.readouterr().out
+    assert "SUMMARY" in output
+    assert "[b] unavailable" in output
 
 
 async def test_empty_quality_result_preserves_previous_snapshot(monkeypatch, tmp_path):
@@ -182,29 +244,102 @@ async def test_empty_quality_result_preserves_previous_snapshot(monkeypatch, tmp
         )
 
     class FailedProbe:
-        async def probe(self, nodes):
-            return tuple(
-                ProbeEvidence(
-                    fingerprint=node.fingerprint,
-                    proxy_name=node.display_name,
-                    coarse=DelayObservation(
-                        endpoint="coarse",
-                        status="timeout",
-                    ),
+        async def probe(self, nodes, policy):
+            return ProbeRunSuccess(
+                evidence=tuple(
+                    ProbeEvidence(
+                        fingerprint=node.fingerprint,
+                        proxy_name=node.display_name,
+                        coarse=DelayObservation(
+                            endpoint="coarse",
+                            status="timeout",
+                            diagnostic=ProbeDiagnostic(code="request_timeout"),
+                        ),
+                    )
+                    for node in nodes.nodes
                 )
-                for node in nodes
             )
 
     monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
 
     with pytest.raises(
         PublicationError,
-        match=r"quality policy published no nodes \(timeout=1\)",
+        match=(
+            r"no qualified nodes "
+            r"\(timeout/request_timeout=1\)"
+        ),
     ):
         await Scheduler(config(tmp_path, ("a",))).publish_profiles(
             repository_root=tmp_path,
             validator=Validator(),
             probe_session=FailedProbe(),
+            now=NOW,
+        )
+
+    assert sentinel.read_bytes() == b"previous"
+
+
+async def test_incomplete_transfer_evidence_is_reported_as_publication_failure(
+    monkeypatch, tmp_path
+):
+    async def discover(self):
+        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
+
+    class DelayOnlyProbe:
+        async def probe(self, plan, policy):
+            return ProbeRunSuccess(
+                evidence=tuple(
+                    ProbeEvidence(
+                        fingerprint=node.fingerprint,
+                        proxy_name=node.display_name,
+                        coarse=DelayObservation(
+                            endpoint="coarse", status="success", delay_ms=50
+                        ),
+                        confirm=DelayObservation(
+                            endpoint="confirm", status="success", delay_ms=60
+                        ),
+                    )
+                    for node in plan.nodes
+                )
+            )
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    with pytest.raises(PublicationError, match="quality evidence is invalid"):
+        await Scheduler(config(tmp_path, ("a",))).publish_profiles(
+            repository_root=tmp_path,
+            validator=Validator(),
+            probe_session=DelayOnlyProbe(),
+            policy=relaxed_policy(),
+            now=NOW,
+        )
+
+
+async def test_inconclusive_probe_run_preserves_previous_snapshot(
+    monkeypatch, tmp_path
+):
+    sentinel = tmp_path / "nodes" / "merged.yaml"
+    sentinel.parent.mkdir()
+    sentinel.write_bytes(b"previous")
+
+    async def discover(self):
+        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
+
+    class InconclusiveProbe:
+        async def probe(self, plan, policy):
+            return ProbeRunFailure(
+                phase="pre_control",
+                diagnostic=ProbeDiagnostic(code="control_transfer"),
+            )
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    with pytest.raises(PublicationError, match="probe run is inconclusive"):
+        await Scheduler(config(tmp_path, ("a",))).publish_profiles(
+            repository_root=tmp_path,
+            validator=Validator(),
+            probe_session=InconclusiveProbe(),
+            policy=relaxed_policy(),
             now=NOW,
         )
 

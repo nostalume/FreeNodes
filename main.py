@@ -3,7 +3,7 @@
 
 Usage:
     uv run python main.py
-    uv run python main.py clashmeta
+    uv run python main.py freeclashnode
     uv run python main.py --validate-profiles .private/profile-validation
     uv run python main.py --help
 """
@@ -13,17 +13,26 @@ import asyncio
 import logging
 import os
 import sys
+from contextlib import redirect_stdout
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Annotated, Literal, Protocol, cast
 
 from dotenv import load_dotenv
 from pydantic import Field
 
 from src.config import FrozenModel, load_config
-from src.mihomo import MihomoProbeSession, MihomoValidator, acquire_pinned_mihomo
+from src.mihomo import MihomoValidator, acquire_pinned_mihomo
+from src.probe import MihomoProbeSession
 from src.profiles import PublicEntryRegistry
 from src.public_verification import PublicVerificationError, verify_remote_entries
-from src.publication import PublicationError, validate_bundle_output_parent
+from src.publication import (
+    PublicationError,
+    apply_publication,
+    prepare_publication,
+    render_publication_report,
+    validate_bundle_output_parent,
+)
 from src.scheduler import Scheduler
 
 
@@ -67,8 +76,35 @@ class VerifyPublicCommand(FrozenModel):
     kind: Literal["verify_public"] = "verify_public"
 
 
+class AuditSourcesCommand(FrozenModel):
+    kind: Literal["audit_sources"] = "audit_sources"
+
+
+class PreparePublicationCommand(FrozenModel):
+    kind: Literal["prepare_publication"] = "prepare_publication"
+    payload: Path = Field(strict=False)
+
+
+class ApplyPublicationCommand(FrozenModel):
+    kind: Literal["apply_publication"] = "apply_publication"
+    payload: Path = Field(strict=False)
+    receipt_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    pathspec_output: Path = Field(strict=False)
+
+
+class ReportPublicationCommand(FrozenModel):
+    kind: Literal["report_publication"] = "report_publication"
+
+
 Command = Annotated[
-    PublishCommand | DiscoverCommand | ValidateCommand | VerifyPublicCommand,
+    PublishCommand
+    | DiscoverCommand
+    | ValidateCommand
+    | VerifyPublicCommand
+    | AuditSourcesCommand
+    | PreparePublicationCommand
+    | ApplyPublicationCommand
+    | ReportPublicationCommand,
     Field(discriminator="kind"),
 ]
 
@@ -90,6 +126,11 @@ def parse_args(argv: list[str] | None = None) -> Command:
         help="fetch and consume the published direct/CDN import entries without writing files",
     )
     modes.add_argument(
+        "--audit-sources",
+        action="store_true",
+        help="assess active and candidate sources without writing project files",
+    )
+    modes.add_argument(
         "--validate-profiles",
         dest="validation_output",
         metavar="OUTPUT_DIR",
@@ -98,7 +139,60 @@ def parse_args(argv: list[str] | None = None) -> Command:
             "directory; public nodes, README, and config are not changed"
         ),
     )
+    modes.add_argument(
+        "--prepare-publication",
+        metavar="PAYLOAD_DIR",
+        help="copy exactly the receipt-owned publication into a new payload",
+    )
+    modes.add_argument(
+        "--apply-publication",
+        metavar="PAYLOAD_DIR",
+        help="admit and apply an exact receipt-owned publication payload",
+    )
+    modes.add_argument(
+        "--report-publication",
+        action="store_true",
+        help="render the admitted quality manifest as a Markdown summary",
+    )
+    parser.add_argument(
+        "--receipt-sha",
+        help="expected publication receipt SHA-256 for --apply-publication",
+    )
+    parser.add_argument(
+        "--pathspec-output",
+        help="contained Git pathspec output for --apply-publication",
+    )
     args = parser.parse_args(argv)
+    if args.prepare_publication:
+        if args.target:
+            parser.error("--prepare-publication does not accept a target")
+        if args.receipt_sha or args.pathspec_output:
+            parser.error("apply options require --apply-publication")
+        return PreparePublicationCommand(payload=args.prepare_publication)
+    if args.apply_publication:
+        if args.target:
+            parser.error("--apply-publication does not accept a target")
+        if not args.receipt_sha:
+            parser.error("--apply-publication requires --receipt-sha")
+        return ApplyPublicationCommand(
+            payload=args.apply_publication,
+            receipt_sha256=args.receipt_sha,
+            pathspec_output=(
+                args.pathspec_output or ".git/freenodes-publication-paths"
+            ),
+        )
+    if args.report_publication:
+        if args.target:
+            parser.error("--report-publication does not accept a target")
+        if args.receipt_sha or args.pathspec_output:
+            parser.error("apply options require --apply-publication")
+        return ReportPublicationCommand()
+    if args.receipt_sha or args.pathspec_output:
+        parser.error("apply options require --apply-publication")
+    if args.audit_sources:
+        if args.target:
+            parser.error("--audit-sources does not accept a target")
+        return AuditSourcesCommand()
     if args.verify_public:
         if args.target:
             parser.error("--verify-public does not accept a target")
@@ -114,9 +208,39 @@ def parse_args(argv: list[str] | None = None) -> Command:
 
 
 async def run(command: Command) -> int:
+    if command.kind == "prepare_publication":
+        prepared = prepare_publication(Path.cwd(), command.payload)
+        print(prepared.receipt_sha256)
+        return 0
+    if command.kind == "apply_publication":
+        applied = apply_publication(
+            command.payload,
+            Path.cwd(),
+            expected_receipt_sha256=command.receipt_sha256,
+            pathspec_output=command.pathspec_output,
+        )
+        print(f"Publication artifact {applied.status}: {applied.receipt_sha256}")
+        return 0
+    if command.kind == "report_publication":
+        print(render_publication_report(Path.cwd()), end="")
+        return 0
     config = load_config()
 
     scheduler = Scheduler(config)
+    if command.kind == "audit_sources":
+        with TemporaryDirectory(prefix="freenodes-audit-") as temporary:
+            with redirect_stdout(sys.stderr):
+                acquired = acquire_pinned_mihomo(Path(temporary) / "mihomo")
+                receipt = await scheduler.audit_sources(
+                    probe_session=MihomoProbeSession(acquired.executable),
+                    runner_vantage=(
+                        "github-actions"
+                        if os.environ.get("GITHUB_ACTIONS")
+                        else "local"
+                    ),
+                )
+        print(receipt.model_dump_json(indent=2, by_alias=True))
+        return 0 if receipt.status == "accepted" else 2
     if command.kind == "verify_public":
         acquired = acquire_pinned_mihomo(Path(".cache") / "mihomo")
         receipt = await verify_remote_entries(

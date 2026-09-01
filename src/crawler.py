@@ -53,9 +53,10 @@ class DownloadedText(FrozenModel):
 
 class DownloadFailure(FrozenModel):
     kind: Literal["failure"] = "failure"
-    code: Literal["http_error", "oversize"]
+    code: Literal["http_error", "oversize", "empty"]
     url: str
     diagnostic: str
+    retryable: bool = False
 
 
 DownloadOutcome = Annotated[
@@ -67,7 +68,12 @@ DownloadOutcome = Annotated[
 class WebCapability(Protocol):
     async def fetch_page(self, url: str, timeout_ms: int = 60000) -> Page: ...
 
-    async def download_file(self, url: str) -> DownloadOutcome: ...
+    async def download_file(
+        self,
+        url: str,
+        *,
+        max_bytes: int = 4 * 1024 * 1024,
+    ) -> DownloadOutcome: ...
 
 
 class _ExternalModel(BaseModel):
@@ -167,6 +173,10 @@ class WebClient:
                             diagnostic=(
                                 f"download returned HTTP {response.status_code}"
                             ),
+                            retryable=(
+                                response.status_code in {408, 429}
+                                or response.status_code >= 500
+                            ),
                         )
                     declared = response.headers.get("content-length")
                     if declared:
@@ -191,6 +201,12 @@ class WebClient:
                             )
                         chunks.append(chunk)
             body = b"".join(chunks)
+            if not body.strip():
+                return DownloadFailure(
+                    code="empty",
+                    url=url,
+                    diagnostic="download returned an empty body",
+                )
             return DownloadedText(
                 url=url,
                 content=body.decode("utf-8", errors="replace"),
@@ -201,4 +217,5 @@ class WebClient:
                 code="http_error",
                 url=url,
                 diagnostic=str(error)[:200] or "download failed",
+                retryable=True,
             )

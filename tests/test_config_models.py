@@ -60,3 +60,67 @@ def test_config_decodes_ordered_password_policy(tmp_path: Path):
         "subtitles",
         "aabb",
     )
+
+
+def test_config_keeps_github_candidates_outside_active_sites(tmp_path: Path):
+    path = tmp_path / "config.yaml"
+    path.write_text(
+        """
+crawl: {}
+output:
+  dir: nodes
+llm: {}
+sites:
+  - name: active
+    start_url: https://example.test
+    type: simple
+source_candidates:
+  - name: reserve
+    owner: upstream
+    repository: subscriptions
+    branch: main
+    path: output/mihomo.yaml
+    type: github
+""",
+        encoding="utf-8",
+    )
+
+    config = load_config(path)
+    candidate = config.source_candidates[0]
+
+    assert tuple(site.name for site in config.sites) == ("active",)
+    assert candidate.raw_url == (
+        "https://raw.githubusercontent.com/upstream/subscriptions/"
+        "main/output/mihomo.yaml"
+    )
+    assert candidate.commits_api_url == (
+        "https://api.github.com/repos/upstream/subscriptions/commits"
+    )
+
+
+@pytest.mark.parametrize("path_value", ("../nodes.yaml", "/nodes.yaml", "a\\b.yaml"))
+def test_config_rejects_unsafe_github_candidate_path(
+    tmp_path: Path,
+    path_value: str,
+):
+    path = tmp_path / "config.yaml"
+    path.write_text(
+        f"""
+crawl: {{}}
+output:
+  dir: nodes
+llm: {{}}
+sites: []
+source_candidates:
+  - name: reserve
+    owner: upstream
+    repository: subscriptions
+    branch: main
+    path: {path_value}
+    type: github
+""",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValidationError, match="path"):
+        load_config(path)

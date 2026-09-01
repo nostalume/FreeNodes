@@ -56,6 +56,27 @@ async def test_download_http_failure_is_explicit():
     assert outcome.kind == "failure"
     assert outcome.code == "http_error"
     assert outcome.url == URL
+    assert outcome.retryable is False
+
+
+async def test_download_marks_transient_http_status_for_retry():
+    transport = httpx.MockTransport(lambda request: httpx.Response(503))
+
+    outcome = await WebClient().download_file(URL, transport=transport)
+
+    assert outcome.kind == "failure"
+    assert outcome.retryable is True
+
+
+async def test_download_rejects_empty_success_body():
+    transport = httpx.MockTransport(lambda request: httpx.Response(200, content=b""))
+
+    outcome = await WebClient().download_file(URL, transport=transport)
+
+    assert outcome.kind == "failure"
+    assert outcome.code == "empty"
+    assert outcome.url == URL
+    assert outcome.retryable is False
 
 
 async def test_download_limit_is_enforced_while_reading():

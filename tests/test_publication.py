@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+import src.publication as publication
 from src.mihomo import ConsumerValidation
 from src.nodes import SourceArtifact, admit_artifacts
 from src.profiles import OutputBundle, render_profiles
@@ -47,6 +48,7 @@ def sample_catalog():
                     "port: 8388, cipher: aes-128-gcm, password: hidden}\n"
                 ),
                 observed_at=NOW,
+                published_on=NOW.date(),
                 media_type="application/yaml",
             )
         ],
@@ -126,6 +128,7 @@ def test_private_validation_is_exclusive_and_receipted_without_secrets(tmp_path)
         parsed["files"]["nodes/merged.yaml"]
         == hashlib.sha256(profiles.files["nodes/merged.yaml"]).hexdigest()
     )
+    assert parsed["sources"][0]["published_on"] == "2026-08-29"
 
 
 def test_private_bundle_rejects_path_traversal_before_writing(tmp_path):
@@ -186,7 +189,7 @@ def test_failure_before_commit_restores_every_live_byte(tmp_path):
         if index == 3:
             raise RuntimeError("injected replacement failure")
 
-    with pytest.raises(PublicationError, match="promotion failed"):
+    with pytest.raises(PublicationError, match="apply failed"):
         publish_bundle(
             bundle("new"),
             tmp_path,
@@ -264,3 +267,149 @@ def test_partial_existing_receipt_cannot_authorize_deletion(tmp_path):
         publish_bundle(bundle(), tmp_path, validator=Validator(), now=NOW)
 
     assert obsolete.read_bytes() == b"keep"
+
+
+def test_prepare_publication_copies_only_receipt_owned_files(tmp_path):
+    repository = tmp_path / "repository"
+    payload = tmp_path / "payload"
+    publish_bundle(bundle(), repository, validator=Validator(), now=NOW)
+    receipt = repository / "nodes" / "publication-receipt.json"
+
+    prepared = publication.prepare_publication(repository, payload)
+
+    assert prepared.receipt_sha256 == hashlib.sha256(receipt.read_bytes()).hexdigest()
+    assert {
+        path.relative_to(payload).as_posix()
+        for path in payload.rglob("*")
+        if path.is_file()
+    } == set(prepared.managed_files)
+    assert (payload / "nodes" / "publication-receipt.json").read_bytes() == (
+        receipt.read_bytes()
+    )
+
+
+def test_apply_publication_replaces_exact_snapshot_and_emits_pathspec(tmp_path):
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    repository = tmp_path / "repository"
+    obsolete = source / "nodes" / "obsolete.yaml"
+    obsolete.parent.mkdir(parents=True)
+    obsolete.write_bytes(b"obsolete")
+    publish_bundle(
+        bundle(),
+        source,
+        validator=Validator(),
+        now=NOW,
+        previous_managed=("nodes/obsolete.yaml",),
+    )
+    prepared = publication.prepare_publication(source, payload)
+    (repository / "nodes").mkdir(parents=True)
+    (repository / "nodes" / "obsolete.yaml").write_bytes(b"old")
+    (repository / "nodes" / "user.yaml").write_bytes(b"keep")
+    pathspec = repository / ".git" / "publication-paths"
+
+    applied = publication.apply_publication(
+        payload,
+        repository,
+        expected_receipt_sha256=prepared.receipt_sha256,
+        pathspec_output=pathspec,
+    )
+
+    assert applied.status == "applied"
+    assert not (repository / "nodes" / "obsolete.yaml").exists()
+    assert (repository / "nodes" / "user.yaml").read_bytes() == b"keep"
+    assert (repository / "nodes" / "merged.yaml").read_bytes() == (
+        source / "nodes" / "merged.yaml"
+    ).read_bytes()
+    assert pathspec.read_text(encoding="utf-8").splitlines() == sorted(
+        {*prepared.managed_files, *prepared.removed_files}
+    )
+
+
+@pytest.mark.parametrize("defect", ("digest", "inventory", "receipt"))
+def test_apply_publication_rejects_invalid_artifact_before_mutation(tmp_path, defect):
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    repository = tmp_path / "repository"
+    publish_bundle(bundle(), source, validator=Validator(), now=NOW)
+    prepared = publication.prepare_publication(source, payload)
+    repository.mkdir()
+    sentinel = repository / "sentinel"
+    sentinel.write_bytes(b"unchanged")
+    expected = prepared.receipt_sha256
+    if defect == "digest":
+        (payload / "nodes" / "merged.yaml").write_bytes(b"tampered")
+    elif defect == "inventory":
+        (payload / "extra").write_bytes(b"unexpected")
+    else:
+        expected = "0" * 64
+
+    with pytest.raises(PublicationError, match="digest|inventory"):
+        publication.apply_publication(
+            payload,
+            repository,
+            expected_receipt_sha256=expected,
+            pathspec_output=repository / ".git" / "publication-paths",
+        )
+
+    assert sentinel.read_bytes() == b"unchanged"
+    assert not (repository / "nodes").exists()
+
+
+def test_apply_publication_rolls_back_partial_replacement(tmp_path):
+    old = tmp_path / "old"
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    publish_bundle(bundle("old"), old, validator=Validator(), now=NOW)
+    publish_bundle(bundle("new"), source, validator=Validator(), now=NOW)
+    prepared = publication.prepare_publication(source, payload)
+    before = snapshot(old)
+
+    def fail_midway(relative: str, index: int):
+        if index == 3:
+            raise RuntimeError("injected apply failure")
+
+    with pytest.raises(PublicationError, match="apply failed"):
+        publication.apply_publication(
+            payload,
+            old,
+            expected_receipt_sha256=prepared.receipt_sha256,
+            pathspec_output=old / ".git" / "publication-paths",
+            before_replace=fail_midway,
+        )
+
+    assert snapshot(old) == before
+
+
+def test_reapplying_identical_publication_is_a_no_change(tmp_path):
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    repository = tmp_path / "repository"
+    publish_bundle(bundle(), source, validator=Validator(), now=NOW)
+    prepared = publication.prepare_publication(source, payload)
+    options = {
+        "expected_receipt_sha256": prepared.receipt_sha256,
+        "pathspec_output": repository / ".git" / "publication-paths",
+    }
+    publication.apply_publication(payload, repository, **options)
+    before = snapshot(repository / "nodes")
+
+    repeated = publication.apply_publication(payload, repository, **options)
+
+    assert repeated.status == "no_change"
+    assert snapshot(repository / "nodes") == before
+
+
+def test_prepare_publication_rejects_unsafe_receipt_path(tmp_path):
+    repository = tmp_path / "repository"
+    publish_bundle(bundle(), repository, validator=Validator(), now=NOW)
+    receipt_path = repository / "nodes" / "publication-receipt.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["files"]["../escape"] = hashlib.sha256(b"escape").hexdigest()
+    receipt["managed_files"].insert(-1, "../escape")
+    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+
+    with pytest.raises(PublicationError, match="unsafe"):
+        publication.prepare_publication(repository, tmp_path / "payload")
+
+    assert not (tmp_path / "payload").exists()

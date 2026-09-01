@@ -23,19 +23,29 @@ output:
 repository:
   owner: nostalume
   repository: FreeNodes
+source_candidates:
+- branch: main
+  description: pre-tested aggregate candidate; read-only until source audit accepts it
+  name: wzmwayne
+  owner: wzmwayne
+  path: output/aio/clash.yaml
+  repository: proxy-node
+  type: github
+- branch: main
+  description: independent aggregate candidate; read-only until source audit accepts it
+  name: kooker
+  owner: kooker
+  path: mihomo.yaml
+  repository: FreeSubsCheck
+  type: github
+- branch: main
+  description: reserve aggregate candidate; read-only until source audit accepts it
+  name: shaoyouvip
+  owner: shaoyouvip
+  path: mihomo.yaml
+  repository: free
+  type: github
 sites:
-- description: blog site, article titles contain dates (month-day format), each article
-    provides subscription links directly
-  link_pattern: https?://clash-meta\.github\.io/uploads/\d{4}/\d{2}/[\w\-\.]+\.(?:txt|yaml|json)
-  name: clashmeta
-  start_url: https://clash-meta.github.io/free-nodes/
-  type: simple
-- description: blog listing articles with date in title like '6月19日|...', each article
-    contains clash/v2ray txt/yaml subscription links
-  link_pattern: https://node\.nodev2ray\.com/uploads/\d{4}/\d{2}/(?:[0-9]+-)?\d{8}\.(?:txt|yaml|json)
-  name: nodev2ray
-  start_url: https://nodev2ray.com/free-node/
-  type: simple
 - description: blog with dated articles (URLs contain YYYY-M-D), each article lists
     clash/v2ray/sing-box subscription file links
   link_pattern: https://node\.freeclashnode\.com/uploads/\d{4}/\d{2}/[\d\w\.-]+
@@ -48,29 +58,11 @@ sites:
   name: clashnode
   start_url: https://clashnode.cc/free-node/
   type: simple
-- description: blog with article titles containing dates (month-day format), articles
-    contain clash/v2ray subscription links
-  link_pattern: https://oss\.oneclash\.cc/\d{4}/\d{2}/\d{8}\.(?:txt|yaml)
-  name: oneclash
-  start_url: https://oneclash.cc/freenode/
-  type: simple
 - description: blogger blog, article dates in title as 'YYYY年MM月DD日', each post contains
     subscription links
   link_pattern: https://nodebuf\.com/files/public/[a-z0-9]+/preview
   name: cfmem
   start_url: https://www.cfmem.com/
-  type: simple
-- description: blog with dated articles (title format '2026-06-19'), each article
-    lists free subscription links
-  link_pattern: https://jichangx\.com/nodes/v2ray-\d{8}-\d+
-  name: jichangx
-  start_url: https://jichangx.com/free-subscription/
-  type: simple
-- description: blog listing articles with date in title like '2026/6/19' or '6月19日',
-    each contains SSR/V2Ray/Clash links
-  link_pattern: https?://starcorenode\.cczzuu\.top/node/\d{8}(?:\.txt|\.yaml)
-  name: clashstair
-  start_url: https://clashstair.com/category/freenode/
   type: simple
 - description: blog with dates in both title ('YYYY年MM月DD日') and URL (/post/YYYYMMDD/),
     each post has subscription links
@@ -99,21 +91,4 @@ sites:
     zip file contains subscription files
   name: fxrj
   start_url: https://www.youtube.com/@fxrj/videos/
-  type: cloud_drive
-- description: YouTube channel, each video description contains a paste.to link, paste.to
-    requires password from subtitles
-  name: zyfxs
-  password_policy:
-    max_candidates: 51
-    sources:
-    - type: empty
-    - type: subtitles
-      limit: 5
-    - type: description
-      limit: 5
-    - type: aabb
-      limit: 20
-    - type: abab
-      limit: 20
-  start_url: https://www.youtube.com/@ZYFXS/videos/
   type: cloud_drive

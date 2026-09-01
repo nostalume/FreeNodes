@@ -16,12 +16,12 @@ from pydantic import Field
 
 from src.config import (
     Config,
+    CrawlerSite,
     DriveSite,
     FrozenModel,
     PasswordEvidence,
     PasswordPolicy,
     PasswordSite,
-    Site,
 )
 from src.crawler import (
     DownloadFailure,
@@ -104,6 +104,8 @@ class _DiscoveryProgress(FrozenModel):
     active_pattern: str | None = None
     errors: tuple[str, ...] = Field(default=(), strict=False)
     artifacts: tuple[SourceArtifact, ...] = Field(default=(), strict=False, repr=False)
+    artifact_limit: int = Field(default=12, gt=0, repr=False)
+    byte_limit: int = Field(default=16 * 1024 * 1024, gt=0, repr=False)
 
     def with_error(self, message: str) -> "_DiscoveryProgress":
         return self.model_copy(update={"errors": self.errors + (message,)})
@@ -113,18 +115,18 @@ class _DiscoveryProgress(FrozenModel):
         artifact: SourceArtifact,
         *,
         content_kind: Literal["txt", "yaml", "other"],
-        count_bytes: bool = True,
     ) -> "_DiscoveryProgress":
+        if len(self.artifacts) >= self.artifact_limit:
+            return self.with_error("source artifact count limit exceeded")
+        byte_count = len(artifact.content.encode("utf-8"))
+        if self.total_bytes + byte_count > self.byte_limit:
+            return self.with_error("source byte limit exceeded")
         return self.model_copy(
             update={
                 "artifacts": self.artifacts + (artifact,),
                 "txt_count": self.txt_count + int(content_kind == "txt"),
                 "yaml_count": self.yaml_count + int(content_kind == "yaml"),
-                "total_bytes": (
-                    self.total_bytes + len(artifact.content)
-                    if count_bytes
-                    else self.total_bytes
-                ),
+                "total_bytes": self.total_bytes + byte_count,
             }
         )
 
@@ -194,7 +196,7 @@ class DirectLinks(FrozenModel):
 class FetchedArticles(FrozenModel):
     kind: Literal["articles"] = "articles"
     selected_count: int = 0
-    pages: tuple[Page, ...] = Field(default=(), strict=False, repr=False)
+    pages: tuple["FetchedArticle", ...] = Field(default=(), strict=False, repr=False)
     errors: tuple[str, ...] = Field(default=(), strict=False)
 
 
@@ -209,15 +211,30 @@ FetchedArticleOutcome = Annotated[
 ]
 
 
+class FetchedArticle(FrozenModel):
+    article: Article
+    page: Page = Field(repr=False)
+
+
+class DatedResource(FrozenModel):
+    value: str = Field(repr=False)
+    published_on: date
+
+
 class ArticleResources(FrozenModel):
     articles_processed: int = 0
-    downloads: tuple[str, ...] = Field(default=(), strict=False)
-    inline: tuple[str, ...] = Field(default=(), strict=False, repr=False)
-    unresolved: tuple[Page, ...] = Field(default=(), strict=False, repr=False)
+    downloads: tuple[DatedResource, ...] = Field(default=(), strict=False)
+    inline: tuple[DatedResource, ...] = Field(default=(), strict=False, repr=False)
+    unresolved: tuple[FetchedArticle, ...] = Field(default=(), strict=False, repr=False)
     errors: tuple[str, ...] = Field(default=(), strict=False)
     pattern_generated: bool = False
 
-    def add_resolution(self, resolution: LinkResolution) -> "ArticleResources":
+    def add_resolution(
+        self,
+        resolution: LinkResolution,
+        *,
+        published_on: date,
+    ) -> "ArticleResources":
         if resolution.kind == "failure":
             return self.model_copy(
                 update={"errors": self.errors + (resolution.diagnostic,)}
@@ -227,8 +244,16 @@ class ArticleResources(FrozenModel):
         )
         return self.model_copy(
             update={
-                "downloads": self.downloads + tuple(downloads),
-                "inline": self.inline + tuple(inline),
+                "downloads": self.downloads
+                + tuple(
+                    DatedResource(value=value, published_on=published_on)
+                    for value in downloads
+                ),
+                "inline": self.inline
+                + tuple(
+                    DatedResource(value=value, published_on=published_on)
+                    for value in inline
+                ),
             }
         )
 
@@ -238,7 +263,7 @@ class SiteProcessor:
 
     def __init__(
         self,
-        site: Site,
+        site: CrawlerSite,
         config: Config,
         llm: LLMRouter,
         youtube: YouTubeCapability,
@@ -324,7 +349,11 @@ class SiteProcessor:
         policy: PasswordPolicy,
     ) -> _DiscoveryProgress:
         """Resolve each dated video to one typed resource and admit its content."""
-        result = _DiscoveryProgress(site_name=self.site.name)
+        result = _DiscoveryProgress(
+            site_name=self.site.name,
+            artifact_limit=self.config.crawl.max_source_artifacts,
+            byte_limit=self.config.crawl.max_source_bytes,
+        )
         print(f"\n{'=' * 60}")
         print(f"SITE: {self.site.name} (cloud_drive)")
         print(f"URL:  {self.site.start_url}")
@@ -366,6 +395,7 @@ class SiteProcessor:
         print(f"\n[2/3] Processing {len(picked)} videos...")
         for picked_video in picked:
             print(f"  → {picked_video.title[:60]}")
+            published_on = date.fromisoformat(picked_video.date)
             try:
                 video = await self.youtube.get_video_details(picked_video.url)
                 if video.kind == "failure":
@@ -377,7 +407,10 @@ class SiteProcessor:
                 match resource.kind:
                     case "google_drive":
                         result = await self._admit_drive_resource(
-                            result, drive, resource
+                            result,
+                            drive,
+                            resource,
+                            published_on=published_on,
                         )
                     case "paste":
                         result = await self._admit_paste_resource(
@@ -389,6 +422,7 @@ class SiteProcessor:
                                 subtitles=video.subtitles_text,
                                 description=video.description,
                             ),
+                            published_on=published_on,
                         )
                     case "unsupported":
                         result = result.with_error(
@@ -414,18 +448,26 @@ class SiteProcessor:
         progress: _DiscoveryProgress,
         drive: DriveCapability,
         resource: GoogleDriveResource,
+        *,
+        published_on: date,
     ) -> _DiscoveryProgress:
         outcome = await drive.download_archive(resource.file_id)
         if outcome.kind == "failure":
             return progress.with_error(f"drive {outcome.code}: {outcome.diagnostic}")
         if outcome.kind == "empty":
             return progress.with_error(f"drive {outcome.code}: {outcome.file_id}")
-        return self._admit_drive_files(progress, outcome)
+        return self._admit_drive_files(
+            progress,
+            outcome,
+            published_on=published_on,
+        )
 
     def _admit_drive_files(
         self,
         progress: _DiscoveryProgress,
         outcome: DriveFiles,
+        *,
+        published_on: date,
     ) -> _DiscoveryProgress:
         for resource in outcome.files:
             content_kind: Literal["txt", "yaml", "other"] = (
@@ -437,6 +479,7 @@ class SiteProcessor:
                     source_url=f"drive://{outcome.file_id}/{resource.name}",
                     content=resource.text,
                     observed_at=datetime.now(UTC),
+                    published_on=published_on,
                     media_type=resource.media_type,
                 ),
                 content_kind=content_kind,
@@ -451,6 +494,8 @@ class SiteProcessor:
         resource: PasteResource,
         policy: PasswordPolicy,
         evidence: PasswordEvidence,
+        *,
+        published_on: date,
     ) -> _DiscoveryProgress:
         decrypted = await decryption.decrypt_paste(
             resource.url,
@@ -483,6 +528,7 @@ class SiteProcessor:
                     source_url=url,
                     content=downloaded.content,
                     observed_at=datetime.now(UTC),
+                    published_on=published_on,
                     media_type=(
                         "application/yaml" if content_kind == "yaml" else "text/plain"
                     ),
@@ -511,14 +557,14 @@ class SiteProcessor:
         if not articles:
             return ArticleFetchFailure(diagnostic="no articles found")
 
-        pages: list[Page] = []
+        pages: list[FetchedArticle] = []
         errors: list[str] = []
         print(f"\n[3/4] Fetching {len(articles)} articles...")
         for index, article in enumerate(articles, start=1):
             print(f"  [{index}/{len(articles)}] {article.url}")
             page = await self.web.fetch_page(article.url, timeout_ms=60000)
             if page.success:
-                pages.append(page)
+                pages.append(FetchedArticle(article=article, page=page))
             else:
                 errors.append(f"article fetch failed: {page.error[:80]}")
         return FetchedArticles(
@@ -531,24 +577,32 @@ class SiteProcessor:
         self,
         fetched: FetchedArticles,
     ) -> ArticleResources:
-        downloads: list[str] = []
-        inline: list[str] = []
-        unresolved: list[Page] = []
+        downloads: dict[str, DatedResource] = {}
+        inline: list[DatedResource] = []
+        unresolved: list[FetchedArticle] = []
         pattern_generated = False
-        for page in fetched.pages:
-            direct = await self._extract_links(page)
+        for fetched_article in fetched.pages:
+            published_on = date.fromisoformat(fetched_article.article.date)
+            direct = await self._extract_links(fetched_article.page)
             if not direct.values:
-                unresolved.append(page)
+                unresolved.append(fetched_article)
                 continue
             direct_downloads, direct_inline = self._separate_inline_nodes(
                 list(direct.values)
             )
-            downloads.extend(direct_downloads)
-            inline.extend(direct_inline)
+            for value in direct_downloads:
+                downloads.setdefault(
+                    value,
+                    DatedResource(value=value, published_on=published_on),
+                )
+            inline.extend(
+                DatedResource(value=value, published_on=published_on)
+                for value in direct_inline
+            )
             pattern_generated = pattern_generated or bool(direct.generated_pattern)
         return ArticleResources(
             articles_processed=fetched.selected_count,
-            downloads=tuple(dict.fromkeys(downloads)),
+            downloads=tuple(downloads.values()),
             inline=tuple(inline),
             unresolved=tuple(unresolved),
             errors=fetched.errors,
@@ -562,14 +616,17 @@ class SiteProcessor:
         site: PasswordSite,
     ) -> ArticleResources:
         resolved = resources.model_copy(update={"unresolved": ()})
-        for page in resources.unresolved:
+        for fetched_article in resources.unresolved:
             resolution = await self._try_youtube_password_flow(
-                page,
+                fetched_article.page,
                 decryption=decryption,
                 policy=site.password_policy,
                 paste_policy=site.paste_policy,
             )
-            resolved = resolved.add_resolution(resolution)
+            resolved = resolved.add_resolution(
+                resolution,
+                published_on=date.fromisoformat(fetched_article.article.date),
+            )
         return resolved
 
     async def _materialize_articles(
@@ -580,6 +637,8 @@ class SiteProcessor:
         result = _DiscoveryProgress(
             site_name=self.site.name,
             errors=resources.errors,
+            artifact_limit=self.config.crawl.max_source_artifacts,
+            byte_limit=self.config.crawl.max_source_bytes,
         ).summarize(
             articles_processed=resources.articles_processed,
             pattern_generated=resources.pattern_generated,
@@ -593,18 +652,26 @@ class SiteProcessor:
         if not total_links and not resources.inline:
             return result.with_error("no subscription links found")
 
-        print(f"\n[4/4] Downloading {total_links} files (up to 3 retries)...")
+        print(
+            f"\n[4/4] Downloading until {result.artifact_limit} artifacts "
+            f"are admitted from {total_links} links "
+            "(up to 3 attempts for transient failures)..."
+        )
         for payload in resources.inline:
             result = result.with_artifact(
                 SourceArtifact.inline(
                     site=self.site.name,
-                    content=payload,
+                    content=payload.value,
                     observed_at=datetime.now(UTC),
+                    published_on=payload.published_on,
                 ),
                 content_kind="txt",
             )
 
-        for url in resources.downloads:
+        for resource in resources.downloads:
+            if len(result.artifacts) >= result.artifact_limit:
+                break
+            url = resource.value
             downloaded = await self._download_retry(url)
             if downloaded.kind == "failure":
                 result = result.with_error(
@@ -623,6 +690,7 @@ class SiteProcessor:
                     source_url=url,
                     content=body,
                     observed_at=datetime.now(UTC),
+                    published_on=resource.published_on,
                     media_type=(
                         "application/yaml" if content_kind == "yaml" else "text/plain"
                     ),
@@ -793,7 +861,7 @@ class SiteProcessor:
         """Fallback: parse markdown headings for ``[title](url)`` article links with Chinese dates.
 
         Handles WordPress blogs where articles are rendered in headings
-        but not captured in Crawl4AI's ``links`` structure (e.g. yudou, oneclash).
+        but not captured in Crawl4AI's ``links`` structure (for example, yudou).
         """
         articles: list[Article] = []
         # Match markdown headings: ## [title text](url)
@@ -1007,12 +1075,10 @@ class SiteProcessor:
                 if outcome.kind == "downloaded":
                     return outcome
                 failure = outcome
-                if attempt < retries - 1:
-                    print(
-                        f"    retry {attempt + 1}/{retries} {url} "
-                        f"({failure.diagnostic})"
-                    )
-                    await asyncio.sleep(1.5)
+                if not failure.retryable or attempt == retries - 1:
+                    break
+                print(f"    retry {attempt + 1}/{retries} {url} ({failure.diagnostic})")
+                await asyncio.sleep(1.5)
             except asyncio.CancelledError:
                 raise
             except Exception as error:
@@ -1021,12 +1087,7 @@ class SiteProcessor:
                     url=url,
                     diagnostic=str(error)[:200] or "download failed",
                 )
-                if attempt < retries - 1:
-                    print(
-                        f"    retry {attempt + 1}/{retries} {url} "
-                        f"({failure.diagnostic})"
-                    )
-                    await asyncio.sleep(1.5)
+                break
         return failure
 
     @staticmethod

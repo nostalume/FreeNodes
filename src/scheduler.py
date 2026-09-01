@@ -12,9 +12,9 @@ from src.config import Config, FrozenModel, Site
 from src.crawler import WebCapability, WebClient
 from src.decryptor import DecryptionFactory, create_decryption_client
 from src.drive import DriveFactory, create_drive_client
+from src.github_source import GitHubSourceClient
 from src.llm_router import LLMRouter
-from src.mihomo import ProbeEvidence
-from src.nodes import NodeCatalog, ProbeableNode, SourceArtifact, admit_artifacts
+from src.nodes import NodeCatalog, SourceArtifact, admit_artifacts
 from src.profiles import OutputBundle, PublicEntryRegistry, render_profiles, site_slug
 from src.publication import (
     BundleValidator,
@@ -26,13 +26,22 @@ from src.publication import (
     write_validated_bundle,
 )
 from src.quality import (
-    QualityHistory,
+    ProbeEvidence,
+    ProbePlan,
+    ProbeRunResult,
+    QualityError,
     QualityPolicy,
     QualitySelection,
+    SourceHistory,
+    TransferTargetEvidence,
     assess_quality,
-    select_probe_candidates,
+    plan_probe_candidates,
 )
-from src.quality_manifest import load_quality_history, render_quality_bundle
+from src.quality_manifest import (
+    SourceAuditReceipt,
+    load_quality_history,
+    render_quality_bundle,
+)
 from src.site_processor import (
     DiscoveryFailure,
     DiscoveryOutcome,
@@ -46,8 +55,9 @@ logger = logging.getLogger(__name__)
 class ProbeSession(Protocol):
     async def probe(
         self,
-        nodes: tuple[ProbeableNode, ...],
-    ) -> tuple[ProbeEvidence, ...]: ...
+        plan: ProbePlan,
+        policy: QualityPolicy,
+    ) -> ProbeRunResult: ...
 
 
 class YouTubeFactory(Protocol):
@@ -61,6 +71,45 @@ class YouTubeFactory(Protocol):
 
 class WebFactory(Protocol):
     def __call__(self) -> WebCapability: ...
+
+
+class GitHubFactory(Protocol):
+    def __call__(self, web: WebCapability) -> GitHubSourceClient: ...
+
+
+class DiscoveryBudget:
+    """Admit bounded completed source content for one scheduler run."""
+
+    def __init__(self, config: Config):
+        self.source_artifacts = config.crawl.max_source_artifacts
+        self.source_bytes = config.crawl.max_source_bytes
+        self.run_bytes = config.crawl.max_run_source_bytes
+        self.retained_bytes = 0
+
+    def admit(self, outcome: DiscoveryOutcome) -> DiscoveryOutcome:
+        if outcome.kind == "failure":
+            return outcome
+        if len(outcome.artifacts) > self.source_artifacts:
+            return self._failure(outcome, "source artifact count limit exceeded")
+        if outcome.total_bytes > self.source_bytes:
+            return self._failure(outcome, "source byte limit exceeded")
+        if self.retained_bytes + outcome.total_bytes > self.run_bytes:
+            return self._failure(outcome, "run source byte limit exceeded")
+        self.retained_bytes += outcome.total_bytes
+        return outcome
+
+    @staticmethod
+    def _failure(outcome: DiscoveryOutcome, error: str) -> DiscoveryFailure:
+        return DiscoveryFailure(
+            site_name=outcome.site_name,
+            articles_processed=outcome.articles_processed,
+            txt_count=0,
+            yaml_count=0,
+            total_bytes=0,
+            pattern_generated=outcome.pattern_generated,
+            active_pattern=outcome.active_pattern,
+            errors=(*outcome.errors, error),
+        )
 
 
 def create_youtube_client(
@@ -92,67 +141,88 @@ class AdmittedRun(FrozenModel):
     """A catalog tied to the discovery evidence it admitted."""
 
     kind: Literal["admitted"] = "admitted"
-    discovered: DiscoveredRun
+    context: RunContext
     catalog: NodeCatalog
-
-    @property
-    def context(self) -> RunContext:
-        return self.discovered.context
+    unavailable_sources: tuple[str, ...] = Field(default=(), strict=False)
 
 
 class ProbedRun(FrozenModel):
     """Probe evidence bound to the exact admitted candidates and policy."""
 
     kind: Literal["probed"] = "probed"
-    admitted: AdmittedRun
+    context: RunContext
+    catalog: NodeCatalog
     policy: QualityPolicy
-    history: tuple[QualityHistory, ...] = Field(default=(), strict=False)
+    history: tuple[SourceHistory, ...] = Field(default=(), strict=False)
+    unavailable_sources: tuple[str, ...] = Field(default=(), strict=False)
+    plan: ProbePlan
     evidence: tuple[ProbeEvidence, ...] = Field(strict=False)
+    transfer_targets: tuple[TransferTargetEvidence, ...] = Field(
+        default=(), strict=False
+    )
 
     @model_validator(mode="after")
     def validate_evidence(self) -> "ProbedRun":
-        candidates = select_probe_candidates(self.admitted.catalog, self.policy)
-        expected = tuple(node.fingerprint for node in candidates)
+        limits = (
+            self.policy.max_candidates,
+            self.policy.max_full_probes,
+            self.policy.max_probe_per_source,
+        )
+        if limits != (
+            self.plan.candidate_ceiling,
+            self.plan.full_probe_limit,
+            self.plan.source_probe_limit,
+        ):
+            raise ValueError("probe plan does not belong to its quality policy")
+        expected = tuple(item.node.fingerprint for item in self.plan.entries)
         observed = tuple(item.fingerprint for item in self.evidence)
         if observed != expected:
             raise ValueError("probe evidence does not cover the selected candidates")
-        candidate_names = {node.fingerprint: node.display_name for node in candidates}
+        candidate_names = {
+            item.node.fingerprint: item.node.display_name for item in self.plan.entries
+        }
         if any(
             candidate_names[item.fingerprint] != item.proxy_name
             for item in self.evidence
         ):
             raise ValueError("probe evidence name does not match its candidate")
-        history_ids = tuple(item.fingerprint for item in self.history)
-        catalog_ids = {node.fingerprint for node in self.admitted.catalog.nodes}
+        history_ids = tuple(item.source for item in self.history)
         if len(set(history_ids)) != len(history_ids):
-            raise ValueError("duplicate quality history fingerprint")
-        if not set(history_ids).issubset(catalog_ids):
-            raise ValueError("quality history does not belong to the admitted catalog")
+            raise ValueError("duplicate source quality history")
         return self
 
-    def history_index(self) -> dict[str, QualityHistory]:
-        return {item.fingerprint: item for item in self.history}
+    def history_index(self) -> dict[str, SourceHistory]:
+        return {item.source: item for item in self.history}
 
 
 class SelectedRun(FrozenModel):
     """One quality decision ledger bound to the probe evidence it consumes."""
 
     kind: Literal["selected"] = "selected"
-    probed: ProbedRun
+    context: RunContext
+    policy: QualityPolicy
+    history: tuple[SourceHistory, ...] = Field(default=(), strict=False)
     selection: QualitySelection
+    transfer_targets: tuple[TransferTargetEvidence, ...] = Field(
+        default=(), strict=False
+    )
 
     @model_validator(mode="after")
     def validate_selection(self) -> "SelectedRun":
-        if self.selection.catalog != self.probed.admitted.catalog:
-            raise ValueError("selection does not belong to the probed catalog")
+        catalog_ids = {node.fingerprint for node in self.selection.catalog.nodes}
+        published_ids = {node.fingerprint for node in self.selection.published.nodes}
+        if not published_ids.issubset(catalog_ids):
+            raise ValueError("published selection does not belong to its catalog")
         return self
+
+    def history_index(self) -> dict[str, SourceHistory]:
+        return {item.source: item for item in self.history}
 
 
 class RenderedRun(FrozenModel):
     """Public bytes bound to the selected quality decision."""
 
     kind: Literal["rendered"] = "rendered"
-    selected: SelectedRun
     bundle: OutputBundle
 
 
@@ -163,6 +233,10 @@ class RunFailure(FrozenModel):
     code: str
     message: str
     sites: tuple[str, ...] = Field(default=(), strict=False)
+    selected_for_probe: int = Field(default=0, ge=0, strict=True)
+    transfer_targets: tuple[TransferTargetEvidence, ...] = Field(
+        default=(), strict=False
+    )
 
 
 class Scheduler:
@@ -181,6 +255,7 @@ class Scheduler:
         *,
         youtube_factory: YouTubeFactory = create_youtube_client,
         web_factory: WebFactory = WebClient,
+        github_factory: GitHubFactory = GitHubSourceClient,
         decryption_factory: DecryptionFactory = create_decryption_client,
         drive_factory: DriveFactory = create_drive_client,
     ):
@@ -188,6 +263,7 @@ class Scheduler:
         self.llm = LLMRouter(config)
         self.youtube_factory = youtube_factory
         self.web_factory = web_factory
+        self.github_factory = github_factory
         self.decryption_factory = decryption_factory
         self.drive_factory = drive_factory
         self.registry = PublicEntryRegistry.from_identity(config.repository)
@@ -210,17 +286,76 @@ class Scheduler:
         self._print_summary(discovered.outcomes)
         return list(discovered.outcomes)
 
+    async def audit_sources(
+        self,
+        *,
+        probe_session: ProbeSession,
+        policy: QualityPolicy | None = None,
+        now: datetime | None = None,
+        runner_vantage: str = "local",
+    ) -> SourceAuditReceipt:
+        """Assess active and candidate sources without persistent effects."""
+        observed_at = now or datetime.now(UTC)
+        context = RunContext(
+            sites=(*self.config.sites, *self.config.source_candidates),
+            observed_at=observed_at,
+        )
+        discovered = await self._discover(context)
+        admitted = self._admit_available(discovered, allow_empty=True)
+        if admitted.kind == "failure":
+            raise PublicationError(admitted.message)
+        quality_policy = policy or QualityPolicy()
+        probed = await self._probe(
+            admitted,
+            probe_session,
+            quality_policy,
+            (),
+            sample_overflow=True,
+        )
+        if probed.kind == "failure":
+            if probed.code == "probe_run_inconclusive":
+                return SourceAuditReceipt.measurement_inconclusive(
+                    generated_at=observed_at,
+                    runner_vantage=runner_vantage,
+                    policy=quality_policy,
+                    admitted_nodes=len(admitted.catalog.nodes),
+                    selected_for_probe=probed.selected_for_probe,
+                    diagnostic=probed.message,
+                    transfer_targets=probed.transfer_targets,
+                )
+            raise PublicationError(probed.message)
+        selected = self._select(probed, allow_empty=True)
+        if selected.kind == "failure":
+            raise PublicationError(selected.message)
+        return SourceAuditReceipt.from_selection(
+            selected.selection,
+            generated_at=observed_at,
+            runner_vantage=runner_vantage,
+            policy=quality_policy,
+            selected_for_probe=len(probed.plan.entries),
+            transfer_targets=probed.transfer_targets,
+        )
+
     async def _discover(self, context: RunContext) -> DiscoveredRun:
         semaphore = asyncio.Semaphore(self.config.crawl.concurrency)
+        budget = DiscoveryBudget(self.config)
         youtube = self.youtube_factory(
             proxy=self.config.crawl.proxy,
             concurrency=self.config.crawl.concurrency,
         )
         web = self.web_factory()
+        github = self.github_factory(web)
         outcomes = tuple(
             await asyncio.gather(
                 *(
-                    self._discover_site(site, semaphore, youtube, web)
+                    self._discover_site(
+                        site,
+                        semaphore,
+                        budget,
+                        youtube,
+                        web,
+                        github,
+                    )
                     for site in context.sites
                 )
             )
@@ -231,20 +366,27 @@ class Scheduler:
         self,
         site: Site,
         semaphore: asyncio.Semaphore,
+        budget: DiscoveryBudget,
         youtube: YouTubeCapability,
         web: WebCapability,
+        github: GitHubSourceClient,
     ) -> DiscoveryOutcome:
         async with semaphore:
             try:
-                return await SiteProcessor(
-                    site,
-                    self.config,
-                    self.llm,
-                    youtube,
-                    web,
-                    self.decryption_factory,
-                    self.drive_factory,
-                ).discover()
+                match site.type:
+                    case "github":
+                        outcome = await github.discover(site)
+                    case "simple" | "yt_pwd" | "youtube_password" | "cloud_drive":
+                        outcome = await SiteProcessor(
+                            site,
+                            self.config,
+                            self.llm,
+                            youtube,
+                            web,
+                            self.decryption_factory,
+                            self.drive_factory,
+                        ).discover()
+                return budget.admit(outcome)
             except asyncio.CancelledError:
                 raise
             except Exception as error:
@@ -271,14 +413,15 @@ class Scheduler:
         if start.kind == "failure":
             raise PublicationError(start.message)
         discovered = await self._discover(start)
+        self._print_summary(discovered.outcomes)
         admission = self._require_admission(discovered)
+        del discovered
         if admission.kind == "failure":
             raise PublicationError(admission.message)
         quality_policy = policy or QualityPolicy()
         repository = repository_root.resolve()
         history = load_quality_history(
             repository / "nodes" / "quality-manifest.json",
-            admission.catalog,
             quality_policy,
             as_of=observed_at.date(),
         )
@@ -316,16 +459,38 @@ class Scheduler:
         admitted: AdmittedRun,
         probe_session: ProbeSession,
         policy: QualityPolicy,
-        history: tuple[QualityHistory, ...],
+        history: tuple[SourceHistory, ...],
+        *,
+        sample_overflow: bool = False,
     ) -> ProbedRun | RunFailure:
-        candidates = select_probe_candidates(admitted.catalog, policy)
-        evidence = await probe_session.probe(candidates)
+        plan = plan_probe_candidates(
+            admitted.catalog,
+            policy,
+            sample_overflow=sample_overflow,
+        )
+        result = await probe_session.probe(plan, policy)
+        if result.status == "inconclusive":
+            detail = f": {result.diagnostic.detail}" if result.diagnostic.detail else ""
+            return RunFailure(
+                code="probe_run_inconclusive",
+                message=(
+                    "probe run is inconclusive: "
+                    f"{result.phase}/{result.diagnostic.code}"
+                    f"{detail}"
+                ),
+                selected_for_probe=len(plan.entries),
+                transfer_targets=result.transfer_targets,
+            )
         try:
             return ProbedRun(
-                admitted=admitted,
+                context=admitted.context,
+                catalog=admitted.catalog,
                 policy=policy,
                 history=history,
-                evidence=evidence,
+                unavailable_sources=admitted.unavailable_sources,
+                plan=plan,
+                evidence=result.evidence,
+                transfer_targets=result.transfer_targets,
             )
         except ValidationError as error:
             return RunFailure(
@@ -334,28 +499,54 @@ class Scheduler:
             )
 
     @staticmethod
-    def _select(probed: ProbedRun) -> SelectedRun | RunFailure:
-        selection = assess_quality(
-            probed.admitted.catalog,
-            probed.evidence,
-            probed.policy,
-            history=probed.history_index(),
-            as_of=probed.admitted.context.observed_at.date(),
-        )
-        if not selection.published.nodes:
+    def _select(
+        probed: ProbedRun,
+        *,
+        allow_empty: bool = False,
+    ) -> SelectedRun | RunFailure:
+        try:
+            selection = assess_quality(
+                probed.catalog,
+                probed.plan,
+                probed.evidence,
+                probed.policy,
+                history=probed.history_index(),
+                unavailable_sources=probed.unavailable_sources,
+                as_of=probed.context.observed_at.date(),
+            )
+        except QualityError as error:
+            return RunFailure(
+                code="invalid_quality_evidence",
+                message=f"quality evidence is invalid: {error}",
+            )
+        if not allow_empty and not selection.published.nodes:
             status_counts: dict[str, int] = {}
             for assessment in selection.assessments:
-                status_counts[assessment.status] = (
-                    status_counts.get(assessment.status, 0) + 1
-                )
+                summary_status = assessment.summary_status()
+                status_counts[summary_status] = status_counts.get(summary_status, 0) + 1
             status_summary = ", ".join(
                 f"{status}={count}" for status, count in sorted(status_counts.items())
             )
             return RunFailure(
-                code="quality_selection_empty",
-                message=f"quality policy published no nodes ({status_summary})",
+                code="no_qualified_nodes",
+                message=f"no qualified nodes ({status_summary})",
             )
-        return SelectedRun(probed=probed, selection=selection)
+        if not allow_empty and len(selection.contributing_authorities) < 2:
+            authorities = ", ".join(selection.contributing_authorities) or "none"
+            return RunFailure(
+                code="insufficient_authority_diversity",
+                message=(
+                    "insufficient authority diversity among passed nodes "
+                    f"({authorities})"
+                ),
+            )
+        return SelectedRun(
+            context=probed.context,
+            policy=probed.policy,
+            history=probed.history,
+            selection=selection,
+            transfer_targets=probed.transfer_targets,
+        )
 
     @staticmethod
     def _render(
@@ -363,16 +554,16 @@ class Scheduler:
         registry: PublicEntryRegistry,
         runner_vantage: str,
     ) -> RenderedRun:
-        context = selected.probed.admitted.context
         bundle = render_quality_bundle(
             selected.selection,
-            selected.probed.policy,
+            selected.policy,
             registry,
-            generated_at=context.observed_at,
+            generated_at=selected.context.observed_at,
             runner_vantage=runner_vantage,
-            history=selected.probed.history_index(),
+            history=selected.history_index(),
+            transfer_targets=selected.transfer_targets,
         )
-        return RenderedRun(selected=selected, bundle=bundle)
+        return RenderedRun(bundle=bundle)
 
     async def validate_profiles(
         self,
@@ -391,6 +582,7 @@ class Scheduler:
             raise PublicationError(start.message)
         discovered = await self._discover(start)
         admission = self._admit_available(discovered)
+        del discovered
         if admission.kind == "failure":
             raise PublicationError(admission.message)
         catalog = admission.catalog
@@ -456,26 +648,34 @@ class Scheduler:
         return admitted
 
     @staticmethod
-    def _admit_available(discovered: DiscoveredRun) -> AdmittedRun | RunFailure:
+    def _admit_available(
+        discovered: DiscoveredRun,
+        *,
+        allow_empty: bool = False,
+    ) -> AdmittedRun | RunFailure:
         artifacts: list[SourceArtifact] = []
         failures: list[str] = []
+        unavailable: list[str] = []
         for outcome in discovered.outcomes:
             if outcome.kind == "failure":
+                unavailable.append(outcome.site_name)
                 failures.extend(
                     f"{outcome.site_name}: {error}" for error in outcome.errors
                 )
                 continue
+            if not outcome.artifacts:
+                unavailable.append(outcome.site_name)
             artifacts.extend(outcome.artifacts)
             failures.extend(f"{outcome.site_name}: {error}" for error in outcome.errors)
-        if not artifacts:
+        if not artifacts and not allow_empty:
             detail = "; ".join(failures[:3]) or "discovery returned no artifacts"
             return RunFailure(
                 code="no_source_artifacts",
                 message=f"discovery has no source artifacts: {detail}",
             )
 
-        catalog = admit_artifacts(artifacts, now=discovered.completed_at)
-        if catalog.accepted_count == 0:
+        catalog = admit_artifacts(artifacts, now=discovered.context.observed_at)
+        if catalog.accepted_count == 0 and not allow_empty:
             return RunFailure(
                 code="admission_empty",
                 message=(
@@ -483,7 +683,11 @@ class Scheduler:
                     f"({catalog.rejected_count} rejection(s))"
                 ),
             )
-        return AdmittedRun(discovered=discovered, catalog=catalog)
+        return AdmittedRun(
+            context=discovered.context,
+            catalog=catalog,
+            unavailable_sources=tuple(sorted(set(unavailable))),
+        )
 
     def _resolve_sites(self, target: str | None) -> list[Site]:
         """Resolve a target name to admitted site configurations."""
