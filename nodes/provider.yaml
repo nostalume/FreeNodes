@@ -52,18 +52,6 @@ proxy-providers:
       timeout: 5000
       lazy: true
       expected-status: 204
-  clashnode:
-    type: http
-    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashnode.yaml
-    path: ./proxy_providers/clashnode.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
   datiya:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/datiya.yaml
@@ -192,7 +180,6 @@ proxy-groups:
   - au1rxx-v2ray
   - cfmem
   - clashmeta
-  - clashnode
   - datiya
   - freeclashnode
   - jichangx
@@ -216,7 +203,6 @@ proxy-groups:
   - au1rxx-v2ray
   - cfmem
   - clashmeta
-  - clashnode
   - datiya
   - freeclashnode
   - jichangx
