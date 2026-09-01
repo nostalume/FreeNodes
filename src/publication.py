@@ -99,12 +99,63 @@ class PreparedPublication(FrozenModel):
     removed_files: tuple[str, ...] = Field(default=(), strict=False)
 
 
+class PublicationPathspecs(FrozenModel):
+    managed: Path = Field(strict=False)
+    removed: Path = Field(strict=False)
+
+    @classmethod
+    def contained(
+        cls,
+        repository: Path,
+        output: Path | None,
+    ) -> "PublicationPathspecs | None":
+        if output is None:
+            return None
+        base = output.resolve()
+        try:
+            relative = base.relative_to(repository)
+        except ValueError as error:
+            raise PublicationError(
+                "publication pathspec must stay in the repository"
+            ) from error
+        if len(relative.parts) < 2 or relative.parts[0] != ".git":
+            raise PublicationError("publication pathspec must stay in .git")
+        base.parent.mkdir(parents=True, exist_ok=True)
+        return cls(
+            managed=base.with_name(f"{base.name}-managed"),
+            removed=base.with_name(f"{base.name}-removed"),
+        )
+
+    def temporary(self) -> "PublicationPathspecs":
+        nonce = uuid.uuid4().hex
+        return PublicationPathspecs(
+            managed=self.managed.with_name(f".{self.managed.name}-{nonce}.tmp"),
+            removed=self.removed.with_name(f".{self.removed.name}-{nonce}.tmp"),
+        )
+
+    def write(self, receipt: PublicationManifestV1) -> None:
+        for path, values in (
+            (self.managed, receipt.managed_files),
+            (self.removed, receipt.removed_files),
+        ):
+            with path.open("x", encoding="utf-8", newline="\n") as output:
+                output.writelines(f"{value}\n" for value in sorted(values))
+
+    def promote_to(self, destination: "PublicationPathspecs") -> None:
+        os.replace(self.managed, destination.managed)
+        os.replace(self.removed, destination.removed)
+
+    def cleanup(self) -> None:
+        self.managed.unlink(missing_ok=True)
+        self.removed.unlink(missing_ok=True)
+
+
 class AppliedPublication(FrozenModel):
     status: Literal["applied", "no_change"]
     receipt_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     managed_files: tuple[str, ...] = Field(strict=False)
     removed_files: tuple[str, ...] = Field(default=(), strict=False)
-    pathspec_output: Path | None = Field(default=None, strict=False)
+    pathspecs: PublicationPathspecs | None = None
 
 
 class PublicationArtifact(FrozenModel):
@@ -198,43 +249,25 @@ class PublicationArtifact(FrozenModel):
     ) -> AppliedPublication:
         repository = repository_root.resolve()
         repository.mkdir(parents=True, exist_ok=True)
-        pathspec = self._pathspec(repository, pathspec_output)
-        temporary_pathspec = None
-        if pathspec:
-            temporary_pathspec = pathspec.with_name(
-                f".{pathspec.name}-{uuid.uuid4().hex}.tmp"
-            )
-            with temporary_pathspec.open("x", encoding="utf-8", newline="\n") as output:
-                paths = sorted(
-                    {*self.receipt.managed_files, *self.receipt.removed_files}
-                )
-                output.writelines(f"{value}\n" for value in paths)
+        pathspecs = PublicationPathspecs.contained(repository, pathspec_output)
+        temporary_pathspecs = pathspecs.temporary() if pathspecs else None
+        if temporary_pathspecs:
+            temporary_pathspecs.write(self.receipt)
         try:
             if self._matches(repository):
-                if pathspec and temporary_pathspec:
-                    os.replace(temporary_pathspec, pathspec)
-                return self._applied("no_change", pathspec)
-            self._replace(repository, pathspec, temporary_pathspec, before_replace)
-            return self._applied("applied", pathspec)
+                if pathspecs and temporary_pathspecs:
+                    temporary_pathspecs.promote_to(pathspecs)
+                return self._applied("no_change", pathspecs)
+            self._replace(
+                repository,
+                pathspecs,
+                temporary_pathspecs,
+                before_replace,
+            )
+            return self._applied("applied", pathspecs)
         finally:
-            if temporary_pathspec:
-                temporary_pathspec.unlink(missing_ok=True)
-
-    @staticmethod
-    def _pathspec(repository: Path, output: Path | None) -> Path | None:
-        if output is None:
-            return None
-        pathspec = output.resolve()
-        try:
-            relative = pathspec.relative_to(repository)
-        except ValueError as error:
-            raise PublicationError(
-                "publication pathspec must stay in the repository"
-            ) from error
-        if len(relative.parts) < 2 or relative.parts[0] != ".git":
-            raise PublicationError("publication pathspec must stay in .git")
-        pathspec.parent.mkdir(parents=True, exist_ok=True)
-        return pathspec
+            if temporary_pathspecs:
+                temporary_pathspecs.cleanup()
 
     def _matches(self, repository: Path) -> bool:
         for value in self.receipt.managed_files:
@@ -267,8 +300,8 @@ class PublicationArtifact(FrozenModel):
     def _replace(
         self,
         repository: Path,
-        pathspec: Path | None,
-        temporary_pathspec: Path | None,
+        pathspecs: PublicationPathspecs | None,
+        temporary_pathspecs: PublicationPathspecs | None,
         before_replace: BeforeReplace | None,
     ) -> None:
         with tempfile.TemporaryDirectory(
@@ -319,8 +352,8 @@ class PublicationArtifact(FrozenModel):
                     before_replace(RECEIPT_PATH, replacement_index)
                 os.replace(_local(staging, receipt_relative), receipt_destination)
                 touched.append(RECEIPT_PATH)
-                if pathspec and temporary_pathspec:
-                    os.replace(temporary_pathspec, pathspec)
+                if pathspecs and temporary_pathspecs:
+                    temporary_pathspecs.promote_to(pathspecs)
             except Exception as error:
                 rollback_errors = self._restore(repository, backup, touched)
                 if rollback_errors:
@@ -356,14 +389,14 @@ class PublicationArtifact(FrozenModel):
     def _applied(
         self,
         status: Literal["applied", "no_change"],
-        pathspec_output: Path | None,
+        pathspecs: PublicationPathspecs | None,
     ) -> AppliedPublication:
         return AppliedPublication(
             status=status,
             receipt_sha256=self.receipt_sha256,
             managed_files=self.receipt.managed_files,
             removed_files=self.receipt.removed_files,
-            pathspec_output=pathspec_output,
+            pathspecs=pathspecs,
         )
 
 
@@ -488,7 +521,7 @@ def apply_publication(
     pathspec_output: Path,
     before_replace: BeforeReplace | None = None,
 ) -> AppliedPublication:
-    """Admit and apply one exact artifact, then emit its bounded Git pathspec."""
+    """Admit and apply one exact artifact, then emit bounded Git pathspecs."""
     artifact = PublicationArtifact.admit(
         payload_root,
         exact_inventory=True,

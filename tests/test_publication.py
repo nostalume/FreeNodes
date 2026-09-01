@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -321,9 +322,83 @@ def test_apply_publication_replaces_exact_snapshot_and_emits_pathspec(tmp_path):
     assert (repository / "nodes" / "merged.yaml").read_bytes() == (
         source / "nodes" / "merged.yaml"
     ).read_bytes()
-    assert pathspec.read_text(encoding="utf-8").splitlines() == sorted(
-        {*prepared.managed_files, *prepared.removed_files}
+    assert pathspec.with_name(f"{pathspec.name}-managed").read_text(
+        encoding="utf-8"
+    ).splitlines() == sorted(prepared.managed_files)
+    assert pathspec.with_name(f"{pathspec.name}-removed").read_text(
+        encoding="utf-8"
+    ).splitlines() == sorted(prepared.removed_files)
+
+
+def test_git_staging_ignores_never_tracked_receipt_removals(tmp_path):
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    repository = tmp_path / "repository"
+    tracked = "nodes/obsolete.yaml"
+    never_tracked = "nodes/datiya.txt"
+    publish_bundle(
+        bundle(),
+        source,
+        validator=Validator(),
+        now=NOW,
+        previous_managed=(tracked, never_tracked),
     )
+    prepared = publication.prepare_publication(source, payload)
+    tracked_path = repository / tracked
+    tracked_path.parent.mkdir(parents=True)
+    tracked_path.write_bytes(b"legacy")
+    subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"],
+        cwd=repository,
+        check=True,
+    )
+    subprocess.run(
+        ["git", "config", "user.name", "Publication Test"],
+        cwd=repository,
+        check=True,
+    )
+    subprocess.run(["git", "add", tracked], cwd=repository, check=True)
+    subprocess.run(["git", "commit", "-qm", "base"], cwd=repository, check=True)
+    pathspec = repository / ".git" / "publication-paths"
+
+    publication.apply_publication(
+        payload,
+        repository,
+        expected_receipt_sha256=prepared.receipt_sha256,
+        pathspec_output=pathspec,
+    )
+    subprocess.run(
+        [
+            "git",
+            "add",
+            "--pathspec-from-file=.git/publication-paths-managed",
+        ],
+        cwd=repository,
+        check=True,
+    )
+    subprocess.run(
+        [
+            "git",
+            "rm",
+            "--cached",
+            "--ignore-unmatch",
+            "--pathspec-from-file=.git/publication-paths-removed",
+        ],
+        cwd=repository,
+        check=True,
+    )
+    staged = subprocess.run(
+        ["git", "diff", "--cached", "--name-only"],
+        cwd=repository,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+
+    assert tracked in staged
+    assert never_tracked not in staged
+    assert "nodes/publication-receipt.json" in staged
 
 
 @pytest.mark.parametrize("defect", ("digest", "inventory", "receipt"))

@@ -133,8 +133,11 @@ async def test_publication_handoff_runs_without_crawler_configuration(
         == 0
     )
     assert "Publication artifact no_change" in capsys.readouterr().out
-    assert pathspec.read_text(encoding="utf-8").splitlines() == list(
-        receipt.managed_files
+    assert pathspec.with_name(f"{pathspec.name}-managed").read_text(
+        encoding="utf-8"
+    ).splitlines() == list(receipt.managed_files)
+    assert (
+        pathspec.with_name(f"{pathspec.name}-removed").read_text(encoding="utf-8") == ""
     )
 
 
