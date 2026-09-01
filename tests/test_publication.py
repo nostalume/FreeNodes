@@ -347,6 +347,7 @@ def test_git_staging_ignores_never_tracked_receipt_removals(tmp_path):
     tracked_path = repository / tracked
     tracked_path.parent.mkdir(parents=True)
     tracked_path.write_bytes(b"legacy")
+    (repository / ".gitignore").write_text("nodes/*.json\n", encoding="utf-8")
     subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
     subprocess.run(
         ["git", "config", "user.email", "test@example.invalid"],
@@ -358,7 +359,7 @@ def test_git_staging_ignores_never_tracked_receipt_removals(tmp_path):
         cwd=repository,
         check=True,
     )
-    subprocess.run(["git", "add", tracked], cwd=repository, check=True)
+    subprocess.run(["git", "add", ".gitignore", tracked], cwd=repository, check=True)
     subprocess.run(["git", "commit", "-qm", "base"], cwd=repository, check=True)
     pathspec = repository / ".git" / "publication-paths"
 
@@ -372,6 +373,7 @@ def test_git_staging_ignores_never_tracked_receipt_removals(tmp_path):
         [
             "git",
             "add",
+            "-f",
             "--pathspec-from-file=.git/publication-paths-managed",
         ],
         cwd=repository,

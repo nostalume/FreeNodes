@@ -103,7 +103,7 @@ jobs:
             --pathspec-output .git/freenodes-publication-paths
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add --pathspec-from-file=.git/freenodes-publication-paths-managed
+          git add -f --pathspec-from-file=.git/freenodes-publication-paths-managed
           git rm --cached --ignore-unmatch \
             --pathspec-from-file=.git/freenodes-publication-paths-removed
           if git diff --cached --quiet; then
