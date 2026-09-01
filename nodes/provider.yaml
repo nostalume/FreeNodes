@@ -4,10 +4,58 @@ mode: rule
 log-level: info
 ipv6: true
 proxy-providers:
+  au1rxx-clash:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/au1rxx-clash.yaml
+    path: ./proxy_providers/au1rxx-clash.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  au1rxx-v2ray:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/au1rxx-v2ray.yaml
+    path: ./proxy_providers/au1rxx-v2ray.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
   cfmem:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/cfmem.yaml
     path: ./proxy_providers/cfmem.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  clashnode:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashnode.yaml
+    path: ./proxy_providers/clashnode.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  datiya:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/datiya.yaml
+    path: ./proxy_providers/datiya.yaml
     interval: 3600
     health-check:
       enable: true
@@ -28,12 +76,133 @@ proxy-providers:
       timeout: 5000
       lazy: true
       expected-status: 204
+  jichangx:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/jichangx.yaml
+    path: ./proxy_providers/jichangx.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  kooker:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/kooker.yaml
+    path: ./proxy_providers/kooker.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  nodev2ray:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/nodev2ray.yaml
+    path: ./proxy_providers/nodev2ray.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  radikal:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/radikal.yaml
+    path: ./proxy_providers/radikal.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  shaoyouvip:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/shaoyouvip.yaml
+    path: ./proxy_providers/shaoyouvip.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  ts-sf-clash:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/ts-sf-clash.yaml
+    path: ./proxy_providers/ts-sf-clash.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  ts-sf-v2ray:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/ts-sf-v2ray.yaml
+    path: ./proxy_providers/ts-sf-v2ray.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  wzmwayne:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/wzmwayne.yaml
+    path: ./proxy_providers/wzmwayne.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
+  yudou:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/yudou.yaml
+    path: ./proxy_providers/yudou.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+      timeout: 5000
+      lazy: true
+      expected-status: 204
 proxy-groups:
 - name: 🚀 自动选择
   type: url-test
   use:
+  - au1rxx-clash
+  - au1rxx-v2ray
   - cfmem
+  - clashnode
+  - datiya
   - freeclashnode
+  - jichangx
+  - kooker
+  - nodev2ray
+  - radikal
+  - shaoyouvip
+  - ts-sf-clash
+  - ts-sf-v2ray
+  - wzmwayne
+  - yudou
   url: https://www.gstatic.com/generate_204
   interval: 300
   tolerance: 50
@@ -43,7 +212,20 @@ proxy-groups:
   - 🚀 自动选择
   - DIRECT
   use:
+  - au1rxx-clash
+  - au1rxx-v2ray
   - cfmem
+  - clashnode
+  - datiya
   - freeclashnode
+  - jichangx
+  - kooker
+  - nodev2ray
+  - radikal
+  - shaoyouvip
+  - ts-sf-clash
+  - ts-sf-v2ray
+  - wzmwayne
+  - yudou
 rules:
 - MATCH,🌍 手动选择
