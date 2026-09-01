@@ -11,7 +11,12 @@ from typing import Annotated, Literal
 from pydantic import Field, TypeAdapter, model_validator
 
 from src.config import FrozenModel
-from src.nodes import Node, NodeCatalog, ProbeableNode
+from src.nodes import (
+    Node,
+    NodeCatalog,
+    ProbeableNode,
+    assign_unique_display_names,
+)
 
 ProbeStatus = Literal["success", "timeout", "api_error", "process_error", "cancelled"]
 ProbeFailureCode = Literal[
@@ -580,6 +585,7 @@ def plan_probe_candidates(
             if queue and source_counts[source] < policy.max_probe_per_source:
                 remaining_sources.append(source)
         source_names = remaining_sources
+    selected = list(assign_unique_display_names(selected))
     return ProbePlan(
         candidate_ceiling=policy.max_candidates,
         full_probe_limit=policy.max_full_probes,

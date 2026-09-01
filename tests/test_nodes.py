@@ -133,7 +133,7 @@ def test_arbitrary_text_and_malformed_yaml_are_decisively_rejected():
 
     assert catalog.accepted_count == 0
     assert {rejection.code for rejection in catalog.rejections} == {
-        "unsupported_content",
+        "malformed_node",
         "malformed_yaml",
     }
 
@@ -179,10 +179,13 @@ def test_invalid_reality_public_key_is_rejected_before_mihomo():
 
 def test_source_publication_time_controls_freshness_before_parsing():
     valid = "trojan://password@one.example:443#One"
-    stale = artifact(valid, published_on=(NOW - timedelta(days=3)).date())
+    stale = artifact(
+        valid,
+        publication_time=nodes.PublishedDate(on=(NOW - timedelta(days=3)).date()),
+    )
     future = artifact(
         valid,
-        published_on=(NOW + timedelta(days=1)).date(),
+        publication_time=nodes.PublishedDate(on=(NOW + timedelta(days=1)).date()),
         source_url="inline://future",
     )
 
@@ -203,6 +206,113 @@ def test_missing_source_publication_time_remains_unknown_not_fake_current():
 
     assert catalog.accepted_count == 1
     assert catalog.receipts[0].freshness == "unknown"
+
+
+@pytest.mark.parametrize(
+    ("days", "freshness", "rejection"),
+    (
+        (-1, "future", "clock_inversion"),
+        (0, "current", None),
+        (1, "stale", None),
+        (2, "stale", None),
+        (3, "expired", "source_expired"),
+    ),
+)
+def test_date_only_publication_time_uses_calendar_boundaries(
+    days, freshness, rejection
+):
+    source = artifact(
+        "trojan://password@one.example:443#One",
+        publication_time=nodes.PublishedDate(on=(NOW - timedelta(days=days)).date()),
+    )
+
+    catalog = nodes.admit_artifacts([source], now=NOW)
+
+    assert catalog.receipts[0].freshness == freshness
+    assert ([item.code for item in catalog.rejections] or [None]) == [rejection]
+
+
+@pytest.mark.parametrize(
+    ("age", "freshness", "rejection"),
+    (
+        (timedelta(hours=-1), "future", "clock_inversion"),
+        (timedelta(hours=24), "current", None),
+        (timedelta(hours=24, microseconds=1), "stale", None),
+        (timedelta(hours=48), "stale", None),
+        (timedelta(hours=48, microseconds=1), "expired", "source_expired"),
+    ),
+)
+def test_exact_publication_time_uses_hour_boundaries(age, freshness, rejection):
+    source = artifact(
+        "trojan://password@one.example:443#One",
+        publication_time=nodes.PublishedInstant(at=NOW - age),
+    )
+
+    catalog = nodes.admit_artifacts([source], now=NOW)
+
+    assert catalog.receipts[0].freshness == freshness
+    assert ([item.code for item in catalog.rejections] or [None]) == [rejection]
+
+
+def test_admission_accounts_every_candidate_and_rejects_non_global_literal():
+    duplicate = "trojan://password@one.example:443#One"
+    catalog = nodes.admit_artifacts(
+        [
+            artifact(f"{duplicate}\n{duplicate}\nnot-a-node"),
+            artifact(
+                """proxies:
+  - {name: local, type: trojan, server: 127.0.0.1, port: 443, password: secret}
+""",
+                source_url="https://example.test/local.yaml",
+                media_type="application/yaml",
+            ),
+        ],
+        now=NOW,
+    )
+
+    assert catalog.accepted_count == 1
+    assert catalog.summary is not None
+    assert catalog.summary.counts.candidate_records == 4
+    assert catalog.summary.counts.rejected_records == 2
+    assert catalog.summary.counts.eligible_occurrences == 2
+    assert catalog.summary.counts.unique_eligible == 1
+    assert catalog.summary.counts.duplicate_occurrences == 1
+    assert {item.code for item in catalog.summary.rejection_codes} >= {
+        "duplicate",
+        "endpoint_scope",
+        "malformed_node",
+    }
+
+
+def test_source_fair_selection_prevents_dominant_authority_monopoly():
+    dominant = "\n".join(
+        f"trojan://password@a{index}.example:443#A{index}" for index in range(8)
+    )
+    catalog = nodes.admit_artifacts(
+        [
+            nodes.SourceArtifact.inline(
+                site="a",
+                authority="a",
+                content=dominant,
+                observed_at=NOW,
+            ),
+            nodes.SourceArtifact.inline(
+                site="b",
+                authority="b",
+                content="trojan://password@b.example:443#B",
+                observed_at=NOW,
+            ),
+        ],
+        now=NOW,
+    )
+
+    selected = nodes.select_source_fair(catalog, ("a", "b"), limit=4)
+
+    assert len(selected.nodes) == 4
+    assert {item.authority for node in selected.nodes for item in node.provenance} >= {
+        "a",
+        "b",
+    }
 
 
 def test_inline_uri_is_a_source_artifact_not_a_fake_download_url():
@@ -228,9 +338,9 @@ def test_duplicate_names_are_assigned_deterministically():
 """
     )
 
-    names = [
-        node.display_name for node in nodes.admit_artifacts([source], now=NOW).nodes
-    ]
+    catalog = nodes.admit_artifacts([source], now=NOW)
+    selected = nodes.select_source_fair(catalog, ("source",), limit=2)
+    names = [node.display_name for node in selected.nodes]
 
     assert names == ["Shared", "Shared_2"]
 
@@ -256,7 +366,7 @@ def test_artifact_content_is_hashed_once_for_all_admitted_nodes(monkeypatch):
         source_url="https://example.test/nodes.yaml",
         content=content,
         observed_at=NOW,
-        published_on=NOW.date(),
+        publication_time=nodes.PublishedDate(on=NOW.date()),
         media_type="application/yaml",
     )
 

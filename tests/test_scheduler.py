@@ -76,7 +76,7 @@ class TestRun:
             llm=LLMConfig(),
         )
 
-        async def direct_discovery(client, site):
+        async def direct_discovery(client, site, *, observed_at):
             return DiscoverySuccess(site_name=site.name)
 
         async def invalid_blog_dispatch(processor):
@@ -145,6 +145,53 @@ class TestRun:
         assert "artifact count limit" in results[1].errors[0]
         assert "source byte limit" in results[2].errors[0]
         assert sum(result.total_bytes for result in results) == 8
+
+    async def test_run_budget_is_independent_of_network_completion_order(
+        self, tmp_path, monkeypatch
+    ):
+        config = Config(
+            sites=[
+                SimpleSite(name=name, start_url=f"http://{name}.test/")
+                for name in ("a", "b")
+            ],
+            crawl=CrawlConfig(
+                concurrency=2,
+                max_source_artifacts=1,
+                max_source_bytes=4,
+                max_run_source_bytes=4,
+            ),
+            output={"dir": str(tmp_path / "nodes")},
+            llm=LLMConfig(),
+        )
+        reverse = False
+        peer_finished = asyncio.Event()
+
+        async def discover(self):
+            if (self.site.name == "a") == reverse:
+                await peer_finished.wait()
+            else:
+                peer_finished.set()
+            return DiscoverySuccess(
+                site_name=self.site.name,
+                total_bytes=4,
+                artifacts=(
+                    SourceArtifact.inline(
+                        site=self.site.name,
+                        content="aaaa",
+                        observed_at=datetime(2026, 8, 30, tzinfo=UTC),
+                    ),
+                ),
+            )
+
+        monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+        first = await Scheduler(config).run()
+        reverse = True
+        peer_finished = asyncio.Event()
+        second = await Scheduler(config).run()
+
+        assert [result.kind for result in first] == ["success", "failure"]
+        assert [result.kind for result in second] == ["success", "failure"]
+        assert first[1].errors == second[1].errors
 
     async def test_run_all_sites_reports_aggregate_summary(
         self, three_site_config, monkeypatch, capsys

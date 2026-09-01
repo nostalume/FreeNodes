@@ -1,6 +1,7 @@
 """Remote import-entry verification contracts."""
 
 import base64
+import hashlib
 import json
 
 import pytest
@@ -45,49 +46,66 @@ def bodies(
         }
     ).encode()
 
+    files = {
+        "nodes/v2ray.txt": base64.b64encode(uri),
+        "nodes/merged.txt": uri,
+        "nodes/merged.yaml": standalone,
+        "nodes/provider.yaml": direct_provider,
+        "nodes/provider-cdn.yaml": cdn_provider,
+    }
+
     def manifest(generated):
         return json.dumps(
             {
-                "schema": 1,
-                "status": "quality_verified",
-                "generated_at": generated,
-                "tool": {"name": "freenodespider", "version": "0.1.0"},
-                "runner_vantage": "test",
-                "policy": {
-                    "max_candidates": 1,
-                    "max_published": 1,
-                    "max_per_source": 1,
-                    "max_delay_ms": 2500,
-                    "history_days": 7,
-                    "required_endpoints": 2,
+                "schema": 2,
+                "status": "accepted",
+                "created_at": generated,
+                "base_revision": None,
+                "selection_limit": 500,
+                "admission": {
+                    "attempted_sources": 1,
+                    "failed_sources": 0,
+                    "empty_sources": 0,
+                    "sources_with_artifacts": 1,
+                    "discovered_artifacts": 1,
+                    "rejected_artifacts": 0,
+                    "decoded_artifacts": 1,
+                    "candidate_records": 1,
+                    "rejected_records": 0,
+                    "eligible_occurrences": 1,
+                    "unique_eligible": 1,
+                    "duplicate_occurrences": 0,
                 },
                 "counts": {
-                    "admitted": 1,
-                    "selected_for_probe": 1,
-                    "probe_success": 1,
                     "published": 1,
-                    "excluded": 0,
+                    "clash": 1,
+                    "uri": 1,
                 },
-                "exclusions": {},
+                "rejection_codes": [],
                 "sources": [],
-                "published": [
-                    {"id": "0" * 24, "worst_delay_ms": 50, "reliability": None}
+                "files": {
+                    path: hashlib.sha256(body).hexdigest()
+                    for path, body in files.items()
+                },
+                "managed_files": [
+                    *sorted(files),
+                    "nodes/publication-receipt.json",
                 ],
-                "history": [],
+                "removed_files": [],
             }
         ).encode()
 
     return {
-        registry.v2ray.direct: base64.b64encode(uri),
-        registry.v2ray.cdn: base64.b64encode(uri),
+        registry.v2ray.direct: files["nodes/v2ray.txt"],
+        registry.v2ray.cdn: files["nodes/v2ray.txt"],
         registry.legacy.direct: uri,
         registry.legacy.cdn: uri,
         registry.clash.direct: standalone,
         registry.clash.cdn: standalone,
         registry.provider.direct: direct_provider,
         registry.provider.cdn: cdn_provider,
-        registry.quality.direct: manifest("2026-08-29T00:00:00+00:00"),
-        registry.quality.cdn: manifest(cdn_generation),
+        registry.receipt.direct: manifest("2026-08-29T00:00:00+00:00"),
+        registry.receipt.cdn: manifest(cdn_generation),
     }
 
 
@@ -142,6 +160,31 @@ async def test_direct_format_failure_is_a_release_error():
     )
     content = bodies(registry)
     content[registry.v2ray.direct] = b"not matching base64"
+
+    async def fetch(url):
+        return content[url]
+
+    with pytest.raises(PublicVerificationError, match="direct"):
+        await PublicEntryVerifier(
+            registry,
+            fetch=fetch,
+            validate_standalone=lambda body: None,
+            smoke_provider=lambda body: None,
+        ).verify()
+
+
+async def test_direct_profile_digest_mismatch_is_a_release_error():
+    registry = PublicEntryRegistry.from_identity(
+        RepositoryIdentity(owner="owner", repository="repo")
+    )
+    content = bodies(registry)
+    content[registry.clash.direct] = yaml.safe_dump(
+        {
+            "proxies": [{"name": "changed", "type": "direct"}],
+            "proxy-groups": [],
+            "rules": [],
+        }
+    ).encode()
 
     async def fetch(url):
         return content[url]

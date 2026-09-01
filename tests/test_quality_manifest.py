@@ -13,11 +13,11 @@ from src.nodes import (
     Node,
     NodeCatalog,
     NodeProvenance,
+    PublishedDate,
     SourceReceipt,
     admit_proxy,
 )
 from src.profiles import PublicEntryRegistry
-from src.publication import render_publication_report
 from src.quality import (
     DelayObservation,
     ProbeDiagnostic,
@@ -56,10 +56,11 @@ def node(index: int, site: str) -> DualNode:
         uri=f"trojan://{SECRET}@secret.example:443#SECRET-NODE-{index}",
         provenance=(
             NodeProvenance(
+                authority=site,
                 site=site,
                 source_url=f"https://{site}.test/{SECRET}",
                 observed_at=NOW,
-                published_on=NOW.date(),
+                publication_time=PublishedDate(on=NOW.date()),
                 artifact_digest=f"{index:064x}",
                 item_index=index,
             ),
@@ -111,6 +112,7 @@ def quality_bundle():
         nodes=(fast, slow),
         receipts=(
             SourceReceipt(
+                authority="source-a",
                 site="source-a",
                 source_url=f"https://a.test/{SECRET}",
                 artifact_digest="a" * 64,
@@ -118,6 +120,7 @@ def quality_bundle():
                 freshness="current",
             ),
             SourceReceipt(
+                authority="source-b",
                 site="source-b",
                 source_url=f"https://b.test/{SECRET}",
                 artifact_digest="b" * 64,
@@ -165,19 +168,6 @@ def test_quality_bundle_renders_only_published_nodes_in_every_profile():
     assert "SECRET-NODE-1" in plain and "SECRET-NODE-2" not in plain
     assert sum(len(provider["proxies"]) for provider in providers) == 1
     assert len(selection.published.nodes) == 1
-
-
-def test_publication_report_uses_the_admitted_quality_manifest(tmp_path):
-    _, bundle = quality_bundle()
-    manifest = tmp_path / "nodes" / "quality-manifest.json"
-    manifest.parent.mkdir()
-    manifest.write_bytes(bundle.files["nodes/quality-manifest.json"])
-
-    report = render_publication_report(tmp_path)
-
-    assert "Decision: insufficient_authority_diversity" in report
-    assert "published 1 of 2 admitted nodes" in report
-    assert "Node evidence: passed 1, failed 1, inconclusive 0, not probed 0" in report
 
 
 def test_quality_manifest_reconciles_counts_and_contains_no_node_secrets():

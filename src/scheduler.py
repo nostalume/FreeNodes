@@ -2,20 +2,28 @@
 
 import asyncio
 import logging
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Literal, Protocol
 
 from pydantic import AwareDatetime, Field, ValidationError, model_validator
 
-from src.config import Config, FrozenModel, Site
+from src.config import Config, FrozenModel, PublicationPolicy, Site
 from src.crawler import WebCapability, WebClient
 from src.decryptor import DecryptionFactory, create_decryption_client
 from src.drive import DriveFactory, create_drive_client
 from src.github_source import GitHubSourceClient
 from src.llm_router import LLMRouter
-from src.nodes import NodeCatalog, SourceArtifact, admit_artifacts
-from src.profiles import OutputBundle, PublicEntryRegistry, render_profiles, site_slug
+from src.nodes import (
+    AdmissionCounts,
+    AdmissionSummary,
+    NodeCatalog,
+    SourceAdmissionSummary,
+    SourceArtifact,
+    admit_artifacts,
+    select_source_fair,
+)
+from src.profiles import PublicEntryRegistry, render_profiles, site_slug
 from src.publication import (
     BundleValidator,
     PublicationError,
@@ -37,11 +45,7 @@ from src.quality import (
     assess_quality,
     plan_probe_candidates,
 )
-from src.quality_manifest import (
-    SourceAuditReceipt,
-    load_quality_history,
-    render_quality_bundle,
-)
+from src.quality_manifest import SourceAuditReceipt
 from src.site_processor import (
     DiscoveryFailure,
     DiscoveryOutcome,
@@ -126,6 +130,7 @@ class RunContext(FrozenModel):
     kind: Literal["context"] = "context"
     sites: tuple[Site, ...] = Field(strict=False)
     observed_at: AwareDatetime = Field(default_factory=lambda: datetime.now(UTC))
+    publication: PublicationPolicy = PublicationPolicy()
 
 
 class DiscoveredRun(FrozenModel):
@@ -144,6 +149,13 @@ class AdmittedRun(FrozenModel):
     context: RunContext
     catalog: NodeCatalog
     unavailable_sources: tuple[str, ...] = Field(default=(), strict=False)
+
+
+class PublishableRun(FrozenModel):
+    kind: Literal["publishable"] = "publishable"
+    context: RunContext
+    catalog: NodeCatalog
+    summary: AdmissionSummary
 
 
 class ProbedRun(FrozenModel):
@@ -219,13 +231,6 @@ class SelectedRun(FrozenModel):
         return {item.source: item for item in self.history}
 
 
-class RenderedRun(FrozenModel):
-    """Public bytes bound to the selected quality decision."""
-
-    kind: Literal["rendered"] = "rendered"
-    bundle: OutputBundle
-
-
 class RunFailure(FrozenModel):
     """Typed failure at a boundary between run states."""
 
@@ -284,6 +289,17 @@ class Scheduler:
 
         discovered = await self._discover(start)
         self._print_summary(discovered.outcomes)
+        admitted = self._admit_available(discovered, allow_empty=True)
+        if admitted.kind == "admitted":
+            summary = admitted.catalog.summary
+            assert summary is not None
+            counts = summary.counts
+            print(
+                "ADMISSION: "
+                f"{counts.unique_eligible} unique, "
+                f"{counts.rejected_records} rejected, "
+                f"{counts.duplicate_occurrences} duplicate occurrence(s)"
+            )
         return list(discovered.outcomes)
 
     async def audit_sources(
@@ -299,6 +315,7 @@ class Scheduler:
         context = RunContext(
             sites=(*self.config.sites, *self.config.source_candidates),
             observed_at=observed_at,
+            publication=self.config.publication,
         )
         discovered = await self._discover(context)
         admitted = self._admit_available(discovered, allow_empty=True)
@@ -337,7 +354,6 @@ class Scheduler:
         )
 
     async def _discover(self, context: RunContext) -> DiscoveredRun:
-        semaphore = asyncio.Semaphore(self.config.crawl.concurrency)
         budget = DiscoveryBudget(self.config)
         youtube = self.youtube_factory(
             proxy=self.config.crawl.proxy,
@@ -345,113 +361,126 @@ class Scheduler:
         )
         web = self.web_factory()
         github = self.github_factory(web)
-        outcomes = tuple(
-            await asyncio.gather(
-                *(
+        concurrency = self.config.crawl.concurrency
+        pending: dict[int, asyncio.Task[DiscoveryOutcome]] = {}
+        committed: list[DiscoveryOutcome] = []
+        next_start = 0
+        next_commit = 0
+
+        def refill() -> None:
+            nonlocal next_start
+            while next_start < len(context.sites) and len(pending) < concurrency:
+                site = context.sites[next_start]
+                pending[next_start] = asyncio.create_task(
                     self._discover_site(
                         site,
-                        semaphore,
-                        budget,
+                        context.observed_at,
                         youtube,
                         web,
                         github,
                     )
-                    for site in context.sites
                 )
-            )
-        )
-        return DiscoveredRun(context=context, outcomes=outcomes)
+                next_start += 1
+
+        refill()
+        try:
+            while next_commit < len(context.sites):
+                outcome = await pending.pop(next_commit)
+                committed.append(budget.admit(outcome))
+                next_commit += 1
+                while next_commit in pending and pending[next_commit].done():
+                    committed.append(budget.admit(await pending.pop(next_commit)))
+                    next_commit += 1
+                refill()
+        except asyncio.CancelledError:
+            for task in pending.values():
+                task.cancel()
+            await asyncio.gather(*pending.values(), return_exceptions=True)
+            raise
+        return DiscoveredRun(context=context, outcomes=tuple(committed))
 
     async def _discover_site(
         self,
         site: Site,
-        semaphore: asyncio.Semaphore,
-        budget: DiscoveryBudget,
+        observed_at: datetime,
         youtube: YouTubeCapability,
         web: WebCapability,
         github: GitHubSourceClient,
     ) -> DiscoveryOutcome:
-        async with semaphore:
-            try:
-                match site.type:
-                    case "github":
-                        outcome = await github.discover(site)
-                    case "simple" | "yt_pwd" | "youtube_password" | "cloud_drive":
-                        outcome = await SiteProcessor(
-                            site,
-                            self.config,
-                            self.llm,
-                            youtube,
-                            web,
-                            self.decryption_factory,
-                            self.drive_factory,
-                        ).discover()
-                return budget.admit(outcome)
-            except asyncio.CancelledError:
-                raise
-            except Exception as error:
-                logger.error("Site %s crashed: %s", site.name, error)
-                return DiscoveryFailure(
-                    site_name=site.name,
-                    errors=(f"unhandled exception: {error}",),
-                )
+        try:
+            match site.type:
+                case "github":
+                    return await github.discover(site, observed_at=observed_at)
+                case "simple" | "yt_pwd" | "youtube_password" | "cloud_drive":
+                    return await SiteProcessor(
+                        site,
+                        self.config,
+                        self.llm,
+                        youtube,
+                        web,
+                        self.decryption_factory,
+                        self.drive_factory,
+                    ).discover()
+        except asyncio.CancelledError:
+            raise
+        except Exception as error:
+            logger.error("Site %s crashed: %s", site.name, error)
+            return DiscoveryFailure(
+                site_name=site.name,
+                errors=(f"unhandled exception: {error}",),
+            )
 
     async def publish_profiles(
         self,
         *,
         repository_root: Path,
         validator: BundleValidator,
-        probe_session: ProbeSession,
-        policy: QualityPolicy | None = None,
         registry: PublicEntryRegistry | None = None,
         now: datetime | None = None,
-        runner_vantage: str = "github-actions",
+        base_revision: str | None = None,
     ) -> PublicationReceipt:
-        """Discover, admit, probe, select, render, validate, and promote once."""
+        """Publish one bounded snapshot from deterministic source evidence."""
         observed_at = now or datetime.now(UTC)
         start = self._begin_run(None, observed_at=observed_at)
         if start.kind == "failure":
             raise PublicationError(start.message)
         discovered = await self._discover(start)
         self._print_summary(discovered.outcomes)
-        admission = self._require_admission(discovered)
+        admission = self._admit_available(discovered)
         del discovered
         if admission.kind == "failure":
             raise PublicationError(admission.message)
-        quality_policy = policy or QualityPolicy()
-        repository = repository_root.resolve()
-        history = load_quality_history(
-            repository / "nodes" / "quality-manifest.json",
-            quality_policy,
-            as_of=observed_at.date(),
+        authority_order = tuple(
+            site.authority if site.type == "github" else site.name
+            for site in admission.context.sites
         )
-        probed = await self._probe(
-            admission,
-            probe_session,
-            quality_policy,
-            tuple(history.values()),
+        catalog = select_source_fair(
+            admission.catalog,
+            authority_order,
+            limit=admission.context.publication.max_nodes,
         )
-        if probed.kind == "failure":
-            raise PublicationError(probed.message)
-        selected = self._select(probed)
-        if selected.kind == "failure":
-            raise PublicationError(selected.message)
-        rendered = self._render(
-            selected,
-            registry or self.registry,
-            runner_vantage,
+        summary = catalog.summary
+        assert summary is not None
+        publishable = PublishableRun(
+            context=admission.context,
+            catalog=catalog,
+            summary=summary,
         )
+        bundle = render_profiles(publishable.catalog, registry or self.registry)
         previous_managed = tuple(
             f"nodes/{site_slug(site.name)}.{extension}"
             for site in admission.context.sites
             for extension in ("txt", "yaml")
         )
         return publish_bundle(
-            rendered.bundle,
-            repository,
+            bundle,
+            repository_root.resolve(),
             validator=validator,
             now=observed_at,
             previous_managed=previous_managed,
+            admission_summary=publishable.summary,
+            selection_limit=publishable.context.publication.max_nodes,
+            base_revision=base_revision,
         )
 
     @staticmethod
@@ -548,23 +577,6 @@ class Scheduler:
             transfer_targets=probed.transfer_targets,
         )
 
-    @staticmethod
-    def _render(
-        selected: SelectedRun,
-        registry: PublicEntryRegistry,
-        runner_vantage: str,
-    ) -> RenderedRun:
-        bundle = render_quality_bundle(
-            selected.selection,
-            selected.policy,
-            registry,
-            generated_at=selected.context.observed_at,
-            runner_vantage=runner_vantage,
-            history=selected.history_index(),
-            transfer_targets=selected.transfer_targets,
-        )
-        return RenderedRun(bundle=bundle)
-
     async def validate_profiles(
         self,
         *,
@@ -606,46 +618,13 @@ class Scheduler:
             return RunContext(
                 sites=sites,
                 observed_at=observed_at or datetime.now(UTC),
+                publication=self.config.publication,
             )
         purpose = "profile validation" if target else "publication"
         return RunFailure(
             code="no_sites",
             message=f"no sites selected for {purpose}",
         )
-
-    @staticmethod
-    def _require_admission(discovered: DiscoveredRun) -> AdmittedRun | RunFailure:
-        required = {site.name for site in discovered.context.sites if site.required}
-        missing: list[str] = []
-        for outcome in discovered.outcomes:
-            if outcome.site_name in required and (
-                outcome.kind == "failure" or not outcome.artifacts
-            ):
-                missing.append(outcome.site_name)
-        if missing:
-            sites = tuple(sorted(missing))
-            return RunFailure(
-                code="required_discovery_unavailable",
-                message="required source discovery unavailable: " + ", ".join(sites),
-                sites=sites,
-            )
-
-        admitted = Scheduler._admit_available(discovered)
-        if admitted.kind == "failure":
-            return admitted
-        catalog = admitted.catalog
-        admitted_sites = {
-            provenance.site for node in catalog.nodes for provenance in node.provenance
-        }
-        missing_admission = tuple(sorted(required - admitted_sites))
-        if missing_admission:
-            return RunFailure(
-                code="required_admission_empty",
-                message="required source admitted no nodes: "
-                + ", ".join(missing_admission),
-                sites=missing_admission,
-            )
-        return admitted
 
     @staticmethod
     def _admit_available(
@@ -674,7 +653,72 @@ class Scheduler:
                 message=f"discovery has no source artifacts: {detail}",
             )
 
-        catalog = admit_artifacts(artifacts, now=discovered.context.observed_at)
+        policy = discovered.context.publication
+        catalog = admit_artifacts(
+            artifacts,
+            now=discovered.context.observed_at,
+            stale_after=timedelta(hours=policy.stale_after_hours),
+            expires_after=timedelta(hours=policy.expires_after_hours),
+        )
+        admitted_summary = catalog.summary
+        assert admitted_summary is not None
+        admitted_sources = {item.source: item for item in admitted_summary.sources}
+        sites = {site.name: site for site in discovered.context.sites}
+
+        def authority(source: str) -> str:
+            site = sites[source]
+            match site.type:
+                case "github":
+                    return site.authority
+                case "simple" | "yt_pwd" | "youtube_password" | "cloud_drive":
+                    return site.name
+
+        failed_sources = sum(
+            outcome.kind == "failure" for outcome in discovered.outcomes
+        )
+        empty_sources = sum(
+            outcome.kind == "success" and not outcome.artifacts
+            for outcome in discovered.outcomes
+        )
+        source_summaries: list[SourceAdmissionSummary] = []
+        for outcome in discovered.outcomes:
+            admitted_source = admitted_sources.get(outcome.site_name)
+            if admitted_source is not None:
+                source_summaries.append(admitted_source)
+                continue
+            source_summaries.append(
+                SourceAdmissionSummary(
+                    source=outcome.site_name,
+                    authority=authority(outcome.site_name),
+                    status="failed" if outcome.kind == "failure" else "empty",
+                    artifacts=0,
+                    candidate_records=0,
+                    unique_eligible=0,
+                )
+            )
+        admitted_counts = admitted_summary.counts
+        counts = AdmissionCounts(
+            attempted_sources=len(discovered.outcomes),
+            failed_sources=failed_sources,
+            empty_sources=empty_sources,
+            sources_with_artifacts=(
+                len(discovered.outcomes) - failed_sources - empty_sources
+            ),
+            discovered_artifacts=admitted_counts.discovered_artifacts,
+            rejected_artifacts=admitted_counts.rejected_artifacts,
+            decoded_artifacts=admitted_counts.decoded_artifacts,
+            candidate_records=admitted_counts.candidate_records,
+            rejected_records=admitted_counts.rejected_records,
+            eligible_occurrences=admitted_counts.eligible_occurrences,
+            unique_eligible=admitted_counts.unique_eligible,
+            duplicate_occurrences=admitted_counts.duplicate_occurrences,
+        )
+        summary = AdmissionSummary(
+            counts=counts,
+            rejection_codes=admitted_summary.rejection_codes,
+            sources=tuple(source_summaries),
+        )
+        catalog = catalog.model_copy(update={"summary": summary})
         if catalog.accepted_count == 0 and not allow_empty:
             return RunFailure(
                 code="admission_empty",

@@ -281,10 +281,7 @@ async def run(command: Command) -> int:
     receipt = await scheduler.publish_profiles(
         repository_root=Path.cwd(),
         validator=validator,
-        probe_session=MihomoProbeSession(acquired.executable),
-        runner_vantage="github-actions"
-        if os.environ.get("GITHUB_ACTIONS")
-        else "local",
+        base_revision=os.environ.get("GITHUB_SHA"),
     )
     print(f"Publication {receipt.status}: {len(receipt.managed_files)} managed files")
     return 0

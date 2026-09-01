@@ -25,9 +25,14 @@ from pydantic import (
 
 from src.config import FrozenModel
 from src.mihomo import ConsumerValidation
-from src.nodes import NodeCatalog
+from src.nodes import (
+    AdmissionCounts,
+    AdmissionSummary,
+    CodeCount,
+    NodeCatalog,
+    SourceAdmissionSummary,
+)
 from src.profiles import OutputBundle
-from src.quality_manifest import QualityManifestV3
 
 RECEIPT_PATH = "nodes/publication-receipt.json"
 
@@ -59,21 +64,74 @@ class PublicationManifestV1(FrozenModel):
 
     @model_validator(mode="after")
     def validate_authority(self) -> "PublicationManifestV1":
-        if not self.managed_files or self.managed_files[-1] != RECEIPT_PATH:
-            raise ValueError("publication receipt must be the final managed file")
-        if len(set(self.managed_files)) != len(self.managed_files):
-            raise ValueError("duplicate managed file")
-        if set(self.files) != set(self.managed_files) - {RECEIPT_PATH}:
-            raise ValueError("file digests do not match managed files")
-        if set(self.removed_files) & set(self.managed_files):
-            raise ValueError("removed and managed files overlap")
-        hexadecimal = set("0123456789abcdef")
-        if any(
-            len(digest) != 64 or not set(digest).issubset(hexadecimal)
-            for digest in self.files.values()
-        ):
-            raise ValueError("invalid file digest")
+        _validate_manifest_inventory(
+            self.files,
+            self.managed_files,
+            self.removed_files,
+        )
         return self
+
+
+class PublicationManifestV2(FrozenModel):
+    schema_version: Literal[2] = Field(alias="schema")
+    status: Literal["accepted"]
+    created_at: str = Field(min_length=1)
+    base_revision: str | None = Field(default=None, pattern=r"^[0-9a-f]{40}$")
+    selection_limit: int = Field(gt=0, strict=True)
+    admission: AdmissionCounts
+    counts: PublicationCounts
+    rejection_codes: tuple[CodeCount, ...] = Field(default=(), strict=False)
+    sources: tuple[SourceAdmissionSummary, ...] = Field(default=(), strict=False)
+    files: dict[str, str]
+    managed_files: tuple[str, ...] = Field(strict=False)
+    removed_files: tuple[str, ...] = Field(strict=False)
+
+    @field_validator("created_at")
+    @classmethod
+    def validate_created_at(cls, value: str) -> str:
+        TypeAdapter(AwareDatetime).validate_python(value)
+        return value
+
+    @model_validator(mode="after")
+    def validate_authority(self) -> "PublicationManifestV2":
+        expected = min(self.admission.unique_eligible, self.selection_limit)
+        if self.counts.published != expected:
+            raise ValueError("published count does not match bounded selection")
+        _validate_manifest_inventory(
+            self.files,
+            self.managed_files,
+            self.removed_files,
+        )
+        return self
+
+
+PublicationManifest = PublicationManifestV1 | PublicationManifestV2
+PUBLICATION_MANIFEST_ADAPTER = TypeAdapter(PublicationManifest)
+
+
+def _validate_manifest_inventory(
+    files: dict[str, str],
+    managed_files: tuple[str, ...],
+    removed_files: tuple[str, ...],
+) -> None:
+    if not managed_files or managed_files[-1] != RECEIPT_PATH:
+        raise ValueError("publication receipt must be the final managed file")
+    if len(set(managed_files)) != len(managed_files):
+        raise ValueError("duplicate managed file")
+    if set(files) != set(managed_files) - {RECEIPT_PATH}:
+        raise ValueError("file digests do not match managed files")
+    if set(removed_files) & set(managed_files):
+        raise ValueError("removed and managed files overlap")
+    hexadecimal = set("0123456789abcdef")
+    if any(
+        len(digest) != 64 or not set(digest).issubset(hexadecimal)
+        for digest in files.values()
+    ):
+        raise ValueError("invalid file digest")
+
+
+def admit_publication_manifest_json(content: bytes) -> PublicationManifest:
+    return PUBLICATION_MANIFEST_ADAPTER.validate_json(content)
 
 
 class PublishedFile(FrozenModel):
@@ -133,7 +191,7 @@ class PublicationPathspecs(FrozenModel):
             removed=self.removed.with_name(f".{self.removed.name}-{nonce}.tmp"),
         )
 
-    def write(self, receipt: PublicationManifestV1) -> None:
+    def write(self, receipt: PublicationManifest) -> None:
         for path, values in (
             (self.managed, receipt.managed_files),
             (self.removed, receipt.removed_files),
@@ -160,7 +218,7 @@ class AppliedPublication(FrozenModel):
 
 class PublicationArtifact(FrozenModel):
     root: Path = Field(strict=False)
-    receipt: PublicationManifestV1
+    receipt: PublicationManifest
     receipt_bytes: bytes = Field(repr=False)
 
     @property
@@ -179,7 +237,7 @@ class PublicationArtifact(FrozenModel):
         receipt_path = _local(admitted_root, _publication_relative(RECEIPT_PATH))
         try:
             receipt_bytes = receipt_path.read_bytes()
-            receipt = PublicationManifestV1.model_validate_json(receipt_bytes)
+            receipt = admit_publication_manifest_json(receipt_bytes)
             for value in (*receipt.managed_files, *receipt.removed_files):
                 _publication_relative(value)
             for value in receipt.managed_files:
@@ -535,41 +593,42 @@ def apply_publication(
 
 
 def render_publication_report(repository_root: Path) -> str:
-    """Render one admitted, redacted quality summary for workflow output."""
-    manifest_path = repository_root.resolve() / "nodes" / "quality-manifest.json"
-    if not manifest_path.is_file():
-        return "## Publication preparation\n- Rejected before a quality manifest was produced\n"
+    """Render one admitted, redacted publication summary for workflow output."""
     try:
-        manifest = QualityManifestV3.model_validate_json(manifest_path.read_bytes())
-    except (OSError, ValueError, ValidationError):
-        return "## Publication preparation\n- Quality manifest is invalid\n"
+        manifest = PublicationArtifact.admit(repository_root).receipt
+    except PublicationError:
+        return (
+            "## Publication preparation\n- Publication receipt is absent or invalid\n"
+        )
+    if isinstance(manifest, PublicationManifestV1):
+        return (
+            "## Publication preparation\n"
+            f"- Legacy receipt: published {manifest.counts.published} nodes\n"
+        )
     lines = [
         "## Publication preparation",
         (
-            f"- Decision: {manifest.decision}; published "
-            f"{manifest.counts.published} of {manifest.counts.admitted} admitted nodes"
+            f"- Published {manifest.counts.published} of "
+            f"{manifest.admission.unique_eligible} unique eligible nodes"
         ),
         (
-            f"- Node evidence: passed {manifest.counts.probe_success}, "
-            f"failed {manifest.counts.failed}, "
-            f"inconclusive {manifest.counts.inconclusive}, "
-            f"not probed {manifest.counts.not_probed}"
+            f"- Sources: attempted {manifest.admission.attempted_sources}, "
+            f"failed {manifest.admission.failed_sources}, "
+            f"empty {manifest.admission.empty_sources}, "
+            f"productive {manifest.admission.sources_with_artifacts}"
         ),
-        "- Contributing authorities: " + ", ".join(manifest.contributing_authorities),
+        (
+            f"- Records: discovered {manifest.admission.candidate_records}, "
+            f"rejected {manifest.admission.rejected_records}, "
+            f"duplicates {manifest.admission.duplicate_occurrences}"
+        ),
     ]
     lines.extend(
-        f"- Transfer target `{target.authority}`: controls "
-        f"{target.controls_passed}/{target.controls_attempted}, "
-        f"candidate attempts {target.candidate_attempts}"
-        for target in manifest.transfer_targets
+        f"- Rejection `{item.code}`: {item.count}" for item in manifest.rejection_codes
     )
     lines.extend(
-        f"- Probe failure `{code}`: {count}"
-        for code, count in manifest.probe_failures.items()
-    )
-    lines.extend(
-        f"- Source `{source.name}`: {source.status} ({source.reason}); "
-        f"qualified {source.observation.qualified}/{source.observation.sampled}"
+        f"- Source `{source.source}`: {source.status}; "
+        f"eligible {source.unique_eligible}/{source.candidate_records}"
         for source in manifest.sources
     )
     return "\n".join(lines) + "\n"
@@ -695,9 +754,7 @@ def _existing_managed(receipt_path: Path) -> tuple[str, ...]:
     if not receipt_path.is_file():
         return ()
     try:
-        receipt = PublicationManifestV1.model_validate_json(
-            receipt_path.read_text(encoding="utf-8")
-        )
+        receipt = admit_publication_manifest_json(receipt_path.read_bytes())
         for value in receipt.managed_files:
             _publication_relative(value)
         return receipt.managed_files
@@ -713,6 +770,9 @@ def publish_bundle(
     now: datetime | None = None,
     previous_managed: Sequence[str] = (),
     before_replace: BeforeReplace | None = None,
+    admission_summary: AdmissionSummary,
+    selection_limit: int,
+    base_revision: str | None = None,
 ) -> PublicationReceipt:
     """Validate staging, replace managed files, and publish the receipt last."""
     if min(bundle.accepted_count, bundle.clash_count, bundle.uri_count) <= 0:
@@ -720,8 +780,6 @@ def publish_bundle(
             "publication requires non-empty V2Ray and Clash profiles"
         )
     relative_files = {name: _publication_relative(name) for name in bundle.files}
-    if "nodes/quality-manifest.json" not in bundle.files:
-        raise PublicationError("publication requires a quality manifest")
 
     root = repository_root.resolve()
     root.mkdir(parents=True, exist_ok=True)
@@ -742,15 +800,20 @@ def publish_bundle(
         for name, content in sorted(bundle.files.items())
     }
     managed_files = tuple([*sorted(new_managed), RECEIPT_PATH])
-    receipt_manifest = PublicationManifestV1(
-        schema=1,
+    receipt_manifest = PublicationManifestV2(
+        schema=2,
         status="accepted",
         created_at=observed_at.astimezone(UTC).isoformat(),
+        base_revision=base_revision,
+        selection_limit=selection_limit,
+        admission=admission_summary.counts,
         counts=PublicationCounts(
             published=bundle.accepted_count,
             clash=bundle.clash_count,
             uri=bundle.uri_count,
         ),
+        rejection_codes=admission_summary.rejection_codes,
+        sources=admission_summary.sources,
         files=digests,
         managed_files=managed_files,
         removed_files=tuple(obsolete),

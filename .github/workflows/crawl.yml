@@ -2,7 +2,7 @@ name: Publish verified profiles
 
 on:
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -41,14 +41,7 @@ jobs:
         run: uv run --locked --extra youtube python main.py
 
       - name: Report preparation
-        if: always()
-        shell: bash
-        run: |
-          if test -f nodes/quality-manifest.json; then
-            uv run --locked python main.py --report-publication
-          else
-            printf '%s\n' '## Publication preparation' '- Rejected before a quality manifest was produced'
-          fi >> "$GITHUB_STEP_SUMMARY"
+        run: uv run --locked python main.py --report-publication >> "$GITHUB_STEP_SUMMARY"
 
       - name: Stage receipt-owned publication
         id: stage

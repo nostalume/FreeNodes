@@ -42,7 +42,7 @@ from src.drive import (
     create_drive_client,
 )
 from src.llm_router import ExtractedLinks, LLMRouter
-from src.nodes import SourceArtifact
+from src.nodes import PublishedDate, SourceArtifact
 from src.youtube import (
     GoogleDriveResource,
     PasteResource,
@@ -118,7 +118,7 @@ class _DiscoveryProgress(FrozenModel):
     ) -> "_DiscoveryProgress":
         if len(self.artifacts) >= self.artifact_limit:
             return self.with_error("source artifact count limit exceeded")
-        byte_count = len(artifact.content.encode("utf-8"))
+        byte_count = len(artifact.content)
         if self.total_bytes + byte_count > self.byte_limit:
             return self.with_error("source byte limit exceeded")
         return self.model_copy(
@@ -475,11 +475,12 @@ class SiteProcessor:
             )
             progress = progress.with_artifact(
                 SourceArtifact(
+                    authority=self.site.name,
                     site=self.site.name,
                     source_url=f"drive://{outcome.file_id}/{resource.name}",
                     content=resource.text,
                     observed_at=datetime.now(UTC),
-                    published_on=published_on,
+                    publication_time=PublishedDate(on=published_on),
                     media_type=resource.media_type,
                 ),
                 content_kind=content_kind,
@@ -524,11 +525,12 @@ class SiteProcessor:
             )
             progress = progress.with_artifact(
                 SourceArtifact(
+                    authority=self.site.name,
                     site=self.site.name,
                     source_url=url,
                     content=downloaded.content,
                     observed_at=datetime.now(UTC),
-                    published_on=published_on,
+                    publication_time=PublishedDate(on=published_on),
                     media_type=(
                         "application/yaml" if content_kind == "yaml" else "text/plain"
                     ),
@@ -686,11 +688,12 @@ class SiteProcessor:
             print(f"  OK  {content_kind}: {url} ({len(body)}B)")
             result = result.with_artifact(
                 SourceArtifact(
+                    authority=self.site.name,
                     site=self.site.name,
                     source_url=url,
                     content=body,
                     observed_at=datetime.now(UTC),
-                    published_on=resource.published_on,
+                    publication_time=PublishedDate(on=resource.published_on),
                     media_type=(
                         "application/yaml" if content_kind == "yaml" else "text/plain"
                     ),

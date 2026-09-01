@@ -11,7 +11,9 @@ from src.nodes import (
     Node,
     NodeCatalog,
     NodeProvenance,
+    PublishedDate,
     SourceReceipt,
+    UnknownPublicationTime,
     UriNode,
     admit_proxy,
 )
@@ -53,10 +55,11 @@ def node(
         "display_name": f"node-{index}",
         "provenance": (
             NodeProvenance(
+                authority=site,
                 site=site,
                 source_url=f"https://{site}.test/nodes",
                 observed_at=datetime(2026, 8, 29, tzinfo=UTC),
-                published_on=TEST_DAY,
+                publication_time=PublishedDate(on=TEST_DAY),
                 artifact_digest="a" * 64,
                 item_index=index,
             ),
@@ -474,7 +477,11 @@ def test_source_older_than_the_age_boundary_is_rejected():
             update={
                 "provenance": tuple(
                     item.model_copy(
-                        update={"published_on": TEST_DAY - timedelta(days=2)}
+                        update={
+                            "publication_time": PublishedDate(
+                                on=TEST_DAY - timedelta(days=2)
+                            )
+                        }
                     )
                     for item in node(index, "a").provenance
                 )
@@ -515,11 +522,16 @@ def test_unadmitted_source_receipt_remains_stale_instead_of_unavailable(
     freshness,
 ):
     receipt = SourceReceipt(
+        authority="a",
         site="a",
         source_url="https://a.test/expired",
         artifact_digest="a" * 64,
         observed_at=datetime(2026, 8, 29, tzinfo=UTC),
-        published_on=published_on,
+        publication_time=(
+            PublishedDate(on=published_on)
+            if published_on is not None
+            else UnknownPublicationTime()
+        ),
         freshness=freshness,
     )
 
@@ -535,7 +547,11 @@ def test_old_artifacts_cannot_inflate_a_current_source_population():
             update={
                 "provenance": tuple(
                     item.model_copy(
-                        update={"published_on": TEST_DAY - timedelta(days=2)}
+                        update={
+                            "publication_time": PublishedDate(
+                                on=TEST_DAY - timedelta(days=2)
+                            )
+                        }
                     )
                     for item in node(index, "a").provenance
                 )

@@ -266,7 +266,7 @@ def node(index: int, name: str) -> ClashNode:
             {
                 "name": "source name",
                 "type": "ss",
-                "server": "127.0.0.1",
+                "server": f"node-{index}.example",
                 "port": 10000 + index,
                 "cipher": "aes-128-gcm",
                 "password": "secret",
@@ -274,6 +274,7 @@ def node(index: int, name: str) -> ClashNode:
         ),
         provenance=(
             NodeProvenance(
+                authority="source-a",
                 site="source-a",
                 source_url="https://example.test/nodes",
                 observed_at=datetime(2026, 1, 1, tzinfo=UTC),

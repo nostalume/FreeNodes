@@ -1,5 +1,6 @@
-"""One-pass discovery-to-publication composition tests."""
+"""One-pass deterministic discovery-to-publication behavior."""
 
+import base64
 import json
 from datetime import UTC, datetime
 
@@ -9,64 +10,22 @@ from src.config import Config, CrawlConfig, LLMConfig, SimpleSite
 from src.mihomo import ConsumerValidation
 from src.nodes import SourceArtifact
 from src.publication import PublicationError
-from src.quality import (
-    DelayObservation,
-    ProbeDiagnostic,
-    ProbeEvidence,
-    ProbeRunFailure,
-    ProbeRunSuccess,
-    QualityPolicy,
-    TransferObservation,
-)
 from src.scheduler import Scheduler
 from src.site_processor import DiscoveryFailure, DiscoverySuccess
 
 NOW = datetime(2026, 8, 29, tzinfo=UTC)
 
 
-class Validator:
+class StructuralValidator:
     def validate_bundle(self, root):
-        assert (root / "nodes" / "quality-manifest.json").exists()
+        assert (root / "nodes" / "merged.yaml").exists()
+        assert (root / "nodes" / "v2ray.txt").exists()
+        assert not (root / "nodes" / "quality-manifest.json").exists()
         return ConsumerValidation(
             profiles=("nodes/merged.yaml",),
-            provider_profiles=(),
-            provider_names=(),
+            provider_profiles=("nodes/provider.yaml",),
+            provider_names=("a",),
             group_names=("select",),
-        )
-
-
-class SuccessfulProbe:
-    def __init__(self):
-        self.received = ()
-
-    async def probe(self, nodes, policy):
-        self.received = nodes.nodes
-        return ProbeRunSuccess(
-            evidence=tuple(
-                ProbeEvidence(
-                    fingerprint=node.fingerprint,
-                    proxy_name=node.display_name,
-                    coarse=DelayObservation(
-                        endpoint="coarse",
-                        status="success",
-                        delay_ms=50,
-                    ),
-                    confirm=DelayObservation(
-                        endpoint="confirm",
-                        status="success",
-                        delay_ms=60,
-                    ),
-                    transfer=TransferObservation(
-                        fingerprint=node.fingerprint,
-                        target="test",
-                        status="success",
-                        bytes_received=1024 * 1024,
-                        elapsed_ms=100,
-                        bytes_per_second=10_000_000,
-                    ),
-                )
-                for node in nodes.nodes
-            )
         )
 
 
@@ -87,9 +46,6 @@ def config(root, sites=("a", "b"), required=()):
 
 
 def artifact(site: str, *, observed_at: datetime = NOW) -> SourceArtifact:
-    # VMess retains one URI while also producing a Clash proxy.
-    import base64
-
     payload = base64.b64encode(
         json.dumps(
             {
@@ -112,13 +68,33 @@ def artifact(site: str, *, observed_at: datetime = NOW) -> SourceArtifact:
     )
 
 
-def relaxed_policy() -> QualityPolicy:
-    return QualityPolicy(
-        min_source_nodes=1,
-        min_source_qualified=1,
-        min_source_pass_ratio=0.01,
-        min_source_unique=1,
+async def test_publication_uses_deterministic_admission_without_network_probe(
+    monkeypatch, tmp_path, capsys
+):
+    async def discover(self):
+        if self.site.name == "b":
+            return DiscoveryFailure(site_name="b", errors=("unavailable",))
+        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    receipt = await Scheduler(config(tmp_path)).publish_profiles(
+        repository_root=tmp_path,
+        validator=StructuralValidator(),
+        now=NOW,
     )
+
+    assert receipt.status == "accepted"
+    assert (tmp_path / "nodes" / "merged.yaml").exists()
+    assert (tmp_path / "nodes" / "v2ray.txt").exists()
+    assert not (tmp_path / "nodes" / "quality-manifest.json").exists()
+    manifest = json.loads(
+        (tmp_path / "nodes" / "publication-receipt.json").read_bytes()
+    )
+    assert manifest["schema"] == 2
+    assert manifest["admission"]["attempted_sources"] == 2
+    assert manifest["admission"]["failed_sources"] == 1
+    assert "[b] unavailable" in capsys.readouterr().out
 
 
 async def test_publish_freshness_uses_explicit_run_time_not_wall_clock(
@@ -136,16 +112,14 @@ async def test_publish_freshness_uses_explicit_run_time_not_wall_clock(
 
     receipt = await Scheduler(config(tmp_path)).publish_profiles(
         repository_root=tmp_path,
-        validator=Validator(),
-        probe_session=SuccessfulProbe(),
-        policy=relaxed_policy(),
+        validator=StructuralValidator(),
         now=as_of,
     )
 
     assert receipt.status == "accepted"
 
 
-async def test_publish_composes_each_owner_once_and_replaces_legacy_site_text(
+async def test_publish_discovers_each_source_once_and_removes_legacy_site_text(
     monkeypatch, tmp_path
 ):
     calls: list[str] = []
@@ -160,186 +134,61 @@ async def test_publish_composes_each_owner_once_and_replaces_legacy_site_text(
     legacy = tmp_path / "nodes" / "a.txt"
     legacy.parent.mkdir()
     legacy.write_text("legacy", encoding="utf-8")
-    probe = SuccessfulProbe()
 
     receipt = await Scheduler(config(tmp_path)).publish_profiles(
         repository_root=tmp_path,
-        validator=Validator(),
-        probe_session=probe,
-        policy=relaxed_policy(),
+        validator=StructuralValidator(),
         now=NOW,
     )
 
     assert receipt.status == "accepted"
     assert calls == ["a", "b"]
-    assert len(probe.received) == 2
     assert not legacy.exists()
-    assert (tmp_path / "nodes" / "merged.yaml").exists()
-    assert (tmp_path / "nodes" / "v2ray.txt").exists()
-    assert (tmp_path / "nodes" / "publication-receipt.json").exists()
 
 
-async def test_missing_required_source_preserves_previous_snapshot(
+async def test_required_source_failure_is_local_to_that_source(monkeypatch, tmp_path):
+    async def discover(self):
+        if self.site.name == "b":
+            return DiscoveryFailure(site_name="b", errors=("unavailable",))
+        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    receipt = await Scheduler(config(tmp_path, required=("b",))).publish_profiles(
+        repository_root=tmp_path,
+        validator=StructuralValidator(),
+        now=NOW,
+    )
+
+    assert receipt.status == "accepted"
+
+
+async def test_zero_deterministically_eligible_nodes_preserves_snapshot(
     monkeypatch, tmp_path
 ):
-    sentinel = tmp_path / "nodes" / "merged.yaml"
-    sentinel.parent.mkdir()
-    sentinel.write_bytes(b"previous")
-
-    async def discover(self):
-        if self.site.name == "b":
-            return DiscoveryFailure(site_name="b", errors=("unavailable",))
-        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
-
-    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
-
-    with pytest.raises(PublicationError, match="required source"):
-        await Scheduler(config(tmp_path, required=("b",))).publish_profiles(
-            repository_root=tmp_path,
-            validator=Validator(),
-            probe_session=SuccessfulProbe(),
-            now=NOW,
-        )
-
-    assert sentinel.read_bytes() == b"previous"
-
-
-async def test_unavailable_optional_source_blocks_single_authority_publication(
-    monkeypatch, tmp_path, capsys
-):
-    sentinel = tmp_path / "nodes" / "merged.yaml"
-    sentinel.parent.mkdir()
-    sentinel.write_bytes(b"previous")
-
-    async def discover(self):
-        if self.site.name == "b":
-            return DiscoveryFailure(site_name="b", errors=("unavailable",))
-        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
-
-    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
-
-    with pytest.raises(PublicationError, match="insufficient authority diversity"):
-        await Scheduler(config(tmp_path)).publish_profiles(
-            repository_root=tmp_path,
-            validator=Validator(),
-            probe_session=SuccessfulProbe(),
-            policy=relaxed_policy(),
-            now=NOW,
-        )
-
-    assert sentinel.read_bytes() == b"previous"
-    output = capsys.readouterr().out
-    assert "SUMMARY" in output
-    assert "[b] unavailable" in output
-
-
-async def test_empty_quality_result_preserves_previous_snapshot(monkeypatch, tmp_path):
     sentinel = tmp_path / "nodes" / "merged.yaml"
     sentinel.parent.mkdir()
     sentinel.write_bytes(b"previous")
 
     async def discover(self):
         return DiscoverySuccess(
-            site_name=self.site.name, artifacts=(artifact(self.site.name),)
+            site_name=self.site.name,
+            artifacts=(
+                SourceArtifact.inline(
+                    site=self.site.name,
+                    content="not a proxy",
+                    observed_at=NOW,
+                    published_on=NOW.date(),
+                ),
+            ),
         )
-
-    class FailedProbe:
-        async def probe(self, nodes, policy):
-            return ProbeRunSuccess(
-                evidence=tuple(
-                    ProbeEvidence(
-                        fingerprint=node.fingerprint,
-                        proxy_name=node.display_name,
-                        coarse=DelayObservation(
-                            endpoint="coarse",
-                            status="timeout",
-                            diagnostic=ProbeDiagnostic(code="request_timeout"),
-                        ),
-                    )
-                    for node in nodes.nodes
-                )
-            )
 
     monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
 
-    with pytest.raises(
-        PublicationError,
-        match=(
-            r"no qualified nodes "
-            r"\(timeout/request_timeout=1\)"
-        ),
-    ):
+    with pytest.raises(PublicationError, match="admitted no nodes"):
         await Scheduler(config(tmp_path, ("a",))).publish_profiles(
             repository_root=tmp_path,
-            validator=Validator(),
-            probe_session=FailedProbe(),
-            now=NOW,
-        )
-
-    assert sentinel.read_bytes() == b"previous"
-
-
-async def test_incomplete_transfer_evidence_is_reported_as_publication_failure(
-    monkeypatch, tmp_path
-):
-    async def discover(self):
-        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
-
-    class DelayOnlyProbe:
-        async def probe(self, plan, policy):
-            return ProbeRunSuccess(
-                evidence=tuple(
-                    ProbeEvidence(
-                        fingerprint=node.fingerprint,
-                        proxy_name=node.display_name,
-                        coarse=DelayObservation(
-                            endpoint="coarse", status="success", delay_ms=50
-                        ),
-                        confirm=DelayObservation(
-                            endpoint="confirm", status="success", delay_ms=60
-                        ),
-                    )
-                    for node in plan.nodes
-                )
-            )
-
-    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
-
-    with pytest.raises(PublicationError, match="quality evidence is invalid"):
-        await Scheduler(config(tmp_path, ("a",))).publish_profiles(
-            repository_root=tmp_path,
-            validator=Validator(),
-            probe_session=DelayOnlyProbe(),
-            policy=relaxed_policy(),
-            now=NOW,
-        )
-
-
-async def test_inconclusive_probe_run_preserves_previous_snapshot(
-    monkeypatch, tmp_path
-):
-    sentinel = tmp_path / "nodes" / "merged.yaml"
-    sentinel.parent.mkdir()
-    sentinel.write_bytes(b"previous")
-
-    async def discover(self):
-        return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
-
-    class InconclusiveProbe:
-        async def probe(self, plan, policy):
-            return ProbeRunFailure(
-                phase="pre_control",
-                diagnostic=ProbeDiagnostic(code="control_transfer"),
-            )
-
-    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
-
-    with pytest.raises(PublicationError, match="probe run is inconclusive"):
-        await Scheduler(config(tmp_path, ("a",))).publish_profiles(
-            repository_root=tmp_path,
-            validator=Validator(),
-            probe_session=InconclusiveProbe(),
-            policy=relaxed_policy(),
+            validator=StructuralValidator(),
             now=NOW,
         )
 

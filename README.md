@@ -1,8 +1,9 @@
 # FreeNodes
 
-FreeNodes discovers public proxy subscriptions, admits structurally valid nodes,
-tests delay and bounded transfer completion with a pinned Mihomo core, and
-publishes only nodes from current, sufficiently healthy sources.
+FreeNodes discovers public proxy subscriptions and publishes a bounded,
+deduplicated catalog that passes deterministic freshness, syntax, endpoint-scope,
+and Mihomo consumer checks. Live node choice runs in Clash Verge from the user's
+network; runner-relative network measurements remain an optional audit.
 
 ## Simple import URLs
 
@@ -17,22 +18,22 @@ Use the direct URL first. jsDelivr is a fallback and may temporarily serve an ol
 
 The standalone Clash profile embeds the accepted nodes and needs only one download. The provider profile is smaller, keeps sources separate, and refreshes nested provider files independently; those extra requests make it more sensitive to origin or CDN availability.
 
-The current non-secret quality summary is [quality-manifest.json](https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/quality-manifest.json). Delay and throughput reflect the GitHub runner’s network vantage and are not guaranteed performance from every user location.
-
 ## Data flow
 
 ```text
 configured sources
   -> immutable source artifacts
-  -> typed, deduplicated node catalog
-  -> bounded two-endpoint delay and 1 MiB transfer probes
-  -> deterministic node qualification and source-history policy
-  -> V2Ray and Clash profiles from one accepted catalog
+  -> deterministic freshness and typed node admission
+  -> semantic deduplication and source-fair bounded selection
+  -> V2Ray and Clash profiles from one selected catalog
   -> Mihomo consumer validation
   -> rollback-capable publication with receipt written last
 ```
 
-Discovery uses OpenRouter’s `openrouter/free` route only when `OPENROUTER_API_KEY` is present. It is bounded to 30 requests per run and 3 per source. Missing credentials, rate limits, failed sources, empty quality results, and consumer rejection do not replace the previous accepted snapshot.
+Discovery uses OpenRouter’s `openrouter/free` route only when `OPENROUTER_API_KEY` is present. It is bounded to 30 requests per run and 3 per source. Missing credentials, rate limits, zero eligible results, and consumer rejection do not replace the previous accepted snapshot.
+One source failure does not discard productive peers. `python main.py --audit-sources`
+runs the retained Mihomo delay and bounded-transfer measurement as a read-only
+diagnostic; its runner-relative results never authorize publication.
 
 ## Development
 
@@ -46,9 +47,9 @@ uv run --locked --extra youtube python main.py --validate-profiles .private/prof
 uv run --locked python main.py --verify-public
 ```
 
-The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-backed sources. Google Drive discovery uses the core HTTP dependency. The normal `uv run --locked --extra youtube python main.py` command performs discovery, quality probing, validation, and local publication. Supplying a source name performs discovery only and does not change public files. `--verify-public` reads the published direct and CDN URLs, checks their schemas and generation, and asks pinned Mihomo to consume both Clash forms without changing repository files.
+The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-backed sources. Google Drive discovery uses the core HTTP dependency. The normal `uv run --locked --extra youtube python main.py` command performs deterministic discovery, admission, consumer validation, and local publication. Supplying a source name performs discovery and typed-admission diagnostics only; it does not change public files. `--verify-public` reads the published direct and CDN URLs, checks receipt digests, counts, schemas, and generation, and asks pinned Mihomo to consume both Clash forms without changing repository files.
 
-Pushes and pull requests run the same locked formatting, lint, type, and test sequence used before scheduled publication. Publication preparation has no repository write permission; a separate job admits only receipt-owned paths and commits them, then a read-only job observes the public URLs. Failed checks, discovery, quality admission, consumer validation, receipt admission, commit, or direct remote observation stop that run. CDN lag or temporary CDN failure is reported without invalidating a current direct publication.
+Pushes and pull requests run the same locked formatting, lint, type, and test sequence used before scheduled publication. Publication preparation has no repository write permission; a separate job admits only receipt-owned paths and commits them, then a read-only job observes the public URLs. Failed checks, empty deterministic admission, consumer validation, receipt admission, commit, or direct remote observation stop that run. CDN lag or temporary CDN failure is reported without invalidating a current direct publication.
 
 ## Disclaimer
 

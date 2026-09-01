@@ -238,6 +238,10 @@ class GitHubSourceSite(FrozenModel):
             f"{quote(self.owner, safe='')}/{quote(self.repository, safe='')}/commits"
         )
 
+    @property
+    def authority(self) -> str:
+        return f"github:{self.owner.casefold()}/{self.repository.casefold()}"
+
 
 CrawlerSite = SimpleSite | PasswordSite | DriveSite
 
@@ -274,6 +278,18 @@ class CrawlConfig(FrozenModel):
     max_run_source_bytes: int = Field(default=64 * 1024 * 1024, gt=0)
 
 
+class PublicationPolicy(FrozenModel):
+    stale_after_hours: int = Field(default=24, gt=0, strict=True)
+    expires_after_hours: int = Field(default=48, gt=0, strict=True)
+    max_nodes: int = Field(default=500, gt=0, strict=True)
+
+    @model_validator(mode="after")
+    def validate_freshness_window(self) -> "PublicationPolicy":
+        if self.expires_after_hours <= self.stale_after_hours:
+            raise ValueError("expiry must be later than stale admission")
+        return self
+
+
 class OutputConfig(FrozenModel):
     dir: Path = Field(default=Path("nodes"), strict=False)
 
@@ -289,13 +305,22 @@ class Config(FrozenModel):
     crawl: CrawlConfig = CrawlConfig()
     output: OutputConfig = OutputConfig()
     llm: LLMConfig = LLMConfig()
+    publication: PublicationPolicy = PublicationPolicy()
     repository: RepositoryIdentity = RepositoryIdentity()
 
     @model_validator(mode="after")
     def validate_source_names(self) -> "Config":
-        names = tuple(site.name for site in (*self.sites, *self.source_candidates))
+        sources = (*self.sites, *self.source_candidates)
+        names = tuple(site.name for site in sources)
         if len(names) != len(set(names)):
             raise ValueError("source names must be unique")
+        github_paths = tuple(
+            (site.owner.casefold(), site.repository.casefold(), site.branch, site.path)
+            for site in sources
+            if site.type == "github"
+        )
+        if len(github_paths) != len(set(github_paths)):
+            raise ValueError("GitHub source paths must be unique")
         return self
 
 

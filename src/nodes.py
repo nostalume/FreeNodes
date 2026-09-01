@@ -8,10 +8,11 @@ import hashlib
 import ipaddress
 import json
 import re
+from collections import Counter, defaultdict, deque
 from collections.abc import Mapping, Sequence
 from datetime import UTC, date, datetime, timedelta
 from itertools import chain
-from typing import Annotated, Any, ClassVar, Literal
+from typing import Annotated, Any, ClassVar, Literal, TypeVar
 from urllib.parse import parse_qs, parse_qsl, unquote, urlsplit
 from uuid import UUID
 
@@ -54,10 +55,11 @@ def _valid_host(value: str) -> str:
     if not host or any(char.isspace() for char in host):
         raise ValueError("invalid server")
     try:
-        ipaddress.ip_address(host)
-        return value
+        address = ipaddress.ip_address(host)
     except ValueError:
-        pass
+        address = None
+    if address is not None:
+        return value
     labels = host.split(".")
     if len(labels) <= 1 or not all(
         label
@@ -67,6 +69,13 @@ def _valid_host(value: str) -> str:
     ):
         raise ValueError("invalid server")
     return value
+
+
+def _globally_scoped_endpoint(value: str) -> bool:
+    try:
+        return ipaddress.ip_address(value).is_global
+    except ValueError:
+        return True
 
 
 class RealityOptions(BaseModel):
@@ -127,6 +136,9 @@ class ProxyBase(BaseModel):
         payload = self.mihomo_payload()
         payload.pop("name", None)
         return payload
+
+    def endpoint(self) -> str:
+        return self.server
 
 
 class VmessProxy(ProxyBase):
@@ -257,6 +269,9 @@ class DirectProxy(BaseModel):
         payload.pop("name", None)
         return payload
 
+    def endpoint(self) -> None:
+        return None
+
 
 Proxy = Annotated[
     VmessProxy
@@ -281,12 +296,43 @@ def admit_proxy(value: object) -> Proxy:
     return PROXY_ADAPTER.validate_python(value)
 
 
+class PublishedInstant(FrozenModel):
+    kind: Literal["instant"] = "instant"
+    at: AwareDatetime
+
+
+class PublishedDate(FrozenModel):
+    kind: Literal["date"] = "date"
+    on: date
+
+
+class UnknownPublicationTime(FrozenModel):
+    kind: Literal["unknown"] = "unknown"
+
+
+PublicationTime = Annotated[
+    PublishedInstant | PublishedDate | UnknownPublicationTime,
+    Field(discriminator="kind"),
+]
+
+
+def _publication_date(value: PublicationTime) -> date | None:
+    match value:
+        case PublishedInstant(at=published_at):
+            return published_at.date()
+        case PublishedDate(on=published_on):
+            return published_on
+        case UnknownPublicationTime():
+            return None
+
+
 class SourceArtifact(FrozenModel):
+    authority: str = ""
     site: str
     source_url: str
-    content: str = Field(repr=False)
+    content: bytes = Field(repr=False)
     observed_at: AwareDatetime
-    published_on: date | None = None
+    publication_time: PublicationTime = UnknownPublicationTime()
     media_type: str | None = None
 
     @field_validator("site", "source_url")
@@ -296,9 +342,22 @@ class SourceArtifact(FrozenModel):
             raise ValueError("must not be empty")
         return value
 
+    @field_validator("content", mode="before")
+    @classmethod
+    def encode_content(cls, value: bytes | str) -> bytes:
+        return value.encode("utf-8") if isinstance(value, str) else value
+
+    @property
+    def authority_id(self) -> str:
+        return self.authority or self.site
+
+    @property
+    def published_on(self) -> date | None:
+        return _publication_date(self.publication_time)
+
     @property
     def digest(self) -> str:
-        return hashlib.sha256(self.content.encode("utf-8")).hexdigest()
+        return hashlib.sha256(self.content).hexdigest()
 
     @classmethod
     def inline(
@@ -308,26 +367,41 @@ class SourceArtifact(FrozenModel):
         content: str,
         observed_at: datetime,
         published_on: date | None = None,
+        published_at: datetime | None = None,
+        authority: str = "",
         media_type: str = "text/plain",
     ) -> SourceArtifact:
-        digest = hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
+        encoded = content.encode("utf-8")
+        digest = hashlib.sha256(encoded).hexdigest()[:16]
+        if published_at is not None:
+            publication_time: PublicationTime = PublishedInstant(at=published_at)
+        elif published_on is not None:
+            publication_time = PublishedDate(on=published_on)
+        else:
+            publication_time = UnknownPublicationTime()
         return cls(
+            authority=authority,
             site=site,
             source_url=f"inline://{site}/{digest}",
-            content=content,
+            content=encoded,
             observed_at=observed_at,
-            published_on=published_on,
+            publication_time=publication_time,
             media_type=media_type,
         )
 
 
 class NodeProvenance(FrozenModel):
+    authority: str
     site: str
     source_url: str
     observed_at: AwareDatetime
-    published_on: date | None = None
+    publication_time: PublicationTime = UnknownPublicationTime()
     artifact_digest: str
     item_index: int = Field(ge=0)
+
+    @property
+    def published_on(self) -> date | None:
+        return _publication_date(self.publication_time)
 
 
 class NodeBase(FrozenModel):
@@ -355,6 +429,7 @@ class DualNode(NodeBase):
 Node = Annotated[ClashNode | UriNode | DualNode, Field(discriminator="kind")]
 ProbeableNode = ClashNode | DualNode
 UriCapableNode = UriNode | DualNode
+NodeT = TypeVar("NodeT", bound=ClashNode | UriNode | DualNode)
 
 
 class Rejection(FrozenModel):
@@ -366,18 +441,80 @@ class Rejection(FrozenModel):
 
 
 class SourceReceipt(FrozenModel):
+    authority: str
     site: str
     source_url: str
     artifact_digest: str
     observed_at: AwareDatetime
-    published_on: date | None = None
+    publication_time: PublicationTime = UnknownPublicationTime()
     freshness: Literal["current", "stale", "expired", "future", "unknown"]
+
+    @property
+    def published_on(self) -> date | None:
+        return _publication_date(self.publication_time)
+
+
+class CodeCount(FrozenModel):
+    code: str
+    count: int = Field(ge=0, strict=True)
+
+
+class SourceAdmissionSummary(FrozenModel):
+    source: str
+    authority: str
+    status: Literal["available", "empty", "failed"]
+    artifacts: int = Field(ge=0, strict=True)
+    candidate_records: int = Field(ge=0, strict=True)
+    unique_eligible: int = Field(ge=0, strict=True)
+    rejection_codes: tuple[CodeCount, ...] = Field(default=(), strict=False)
+
+
+class AdmissionCounts(FrozenModel):
+    attempted_sources: int = Field(ge=0, strict=True)
+    failed_sources: int = Field(ge=0, strict=True)
+    empty_sources: int = Field(ge=0, strict=True)
+    sources_with_artifacts: int = Field(ge=0, strict=True)
+    discovered_artifacts: int = Field(ge=0, strict=True)
+    rejected_artifacts: int = Field(ge=0, strict=True)
+    decoded_artifacts: int = Field(ge=0, strict=True)
+    candidate_records: int = Field(ge=0, strict=True)
+    rejected_records: int = Field(ge=0, strict=True)
+    eligible_occurrences: int = Field(ge=0, strict=True)
+    unique_eligible: int = Field(ge=0, strict=True)
+    duplicate_occurrences: int = Field(ge=0, strict=True)
+
+    @model_validator(mode="after")
+    def validate_accounting(self) -> "AdmissionCounts":
+        if self.attempted_sources != (
+            self.failed_sources + self.empty_sources + self.sources_with_artifacts
+        ):
+            raise ValueError("source accounting does not balance")
+        if self.discovered_artifacts != (
+            self.rejected_artifacts + self.decoded_artifacts
+        ):
+            raise ValueError("artifact accounting does not balance")
+        if self.candidate_records != (
+            self.rejected_records + self.eligible_occurrences
+        ):
+            raise ValueError("candidate accounting does not balance")
+        if self.eligible_occurrences != (
+            self.unique_eligible + self.duplicate_occurrences
+        ):
+            raise ValueError("deduplication accounting does not balance")
+        return self
+
+
+class AdmissionSummary(FrozenModel):
+    counts: AdmissionCounts
+    rejection_codes: tuple[CodeCount, ...] = Field(default=(), strict=False)
+    sources: tuple[SourceAdmissionSummary, ...] = Field(default=(), strict=False)
 
 
 class NodeCatalog(FrozenModel):
     nodes: tuple[Node, ...] = Field(default=(), strict=False)
     rejections: tuple[Rejection, ...] = Field(default=(), strict=False)
     receipts: tuple[SourceReceipt, ...] = Field(default=(), strict=False)
+    summary: AdmissionSummary | None = None
 
     @property
     def accepted_count(self) -> int:
@@ -385,7 +522,12 @@ class NodeCatalog(FrozenModel):
 
     @property
     def rejected_count(self) -> int:
-        return len(self.rejections)
+        if self.summary is None:
+            return len(self.rejections)
+        return (
+            self.summary.counts.rejected_artifacts
+            + self.summary.counts.rejected_records
+        )
 
     def latest_source_dates(self) -> dict[str, date | None]:
         receipts = ((item.site, item.published_on) for item in self.receipts)
@@ -666,18 +808,17 @@ def _proxy_from_uri(uri: str) -> tuple[Proxy | None, str, str] | None:
         return None
 
 
-def _looks_like_yaml(artifact: SourceArtifact) -> bool:
+def _looks_like_yaml(artifact: SourceArtifact, content: str) -> bool:
     media_type = (artifact.media_type or "").casefold()
-    return "yaml" in media_type or bool(
-        re.search(r"(?m)^\s*proxies\s*:", artifact.content)
-    )
+    return "yaml" in media_type or bool(re.search(r"(?m)^\s*proxies\s*:", content))
 
 
 def _yaml_candidates(
     artifact: SourceArtifact,
+    content: str,
 ) -> tuple[list[tuple[Proxy, str, str]], list[Rejection]]:
     try:
-        documents = tuple(yaml.safe_load_all(artifact.content))
+        documents = yaml.safe_load_all(content)
     except yaml.YAMLError:
         return [], [
             Rejection(
@@ -689,7 +830,19 @@ def _yaml_candidates(
     accepted: list[tuple[Proxy, str, str]] = []
     rejected: list[Rejection] = []
     item_index = 0
-    for raw_document in documents:
+    while True:
+        try:
+            raw_document = next(documents)
+        except StopIteration:
+            break
+        except yaml.YAMLError:
+            return [], [
+                Rejection(
+                    code="malformed_yaml",
+                    site=artifact.site,
+                    source_url=artifact.source_url,
+                )
+            ]
         try:
             document = _DOCUMENT_ADAPTER.validate_python(raw_document)
         except ValidationError:
@@ -723,22 +876,40 @@ def _yaml_candidates(
 def _artifact_candidates(
     artifact: SourceArtifact,
 ) -> tuple[list[tuple[Proxy | None, str | None, str, str]], list[Rejection]]:
-    if _looks_like_yaml(artifact):
-        accepted, rejected = _yaml_candidates(artifact)
+    content = artifact.content.decode("utf-8", errors="replace")
+    if _looks_like_yaml(artifact, content):
+        accepted, rejected = _yaml_candidates(artifact, content)
         return [
             (proxy, None, name, fingerprint) for proxy, name, fingerprint in accepted
         ], rejected
 
-    decoded = _decode_base64_container(artifact.content)
-    content = decoded if decoded is not None else artifact.content
+    decoded = _decode_base64_container(content)
+    content = decoded if decoded is not None else content
     accepted: list[tuple[Proxy | None, str | None, str, str]] = []
-    for line in (line.strip() for line in content.splitlines() if line.strip()):
+    rejected: list[Rejection] = []
+    for index, line in enumerate(
+        line.strip() for line in content.splitlines() if line.strip()
+    ):
         parsed = _proxy_from_uri(line)
         if parsed is not None:
             proxy, name, fingerprint = parsed
             accepted.append((proxy, line, name, fingerprint))
-    if accepted:
-        return accepted, []
+            continue
+        match = _URI_LINE.match(line)
+        rejected.append(
+            Rejection(
+                code=(
+                    "unsupported_protocol"
+                    if match and match.group("scheme").casefold() not in _URI_SCHEMES
+                    else "malformed_node"
+                ),
+                site=artifact.site,
+                source_url=artifact.source_url,
+                item_index=index,
+            )
+        )
+    if accepted or rejected:
+        return accepted, rejected
     return [], [
         Rejection(
             code="unsupported_content",
@@ -783,7 +954,14 @@ def _new_node(
 class _NodeBuilder:
     """Accumulate duplicate provenance and freeze one admitted node once."""
 
-    __slots__ = ("display_name", "fingerprint", "provenance", "proxy", "uri")
+    __slots__ = (
+        "display_name",
+        "fingerprint",
+        "provenance",
+        "provenance_keys",
+        "proxy",
+        "uri",
+    )
 
     def __init__(
         self,
@@ -798,6 +976,7 @@ class _NodeBuilder:
         self.proxy = proxy
         self.uri = uri
         self.provenance: list[NodeProvenance] = []
+        self.provenance_keys: set[tuple[str, str, str]] = set()
 
     def absorb(
         self,
@@ -807,6 +986,10 @@ class _NodeBuilder:
     ) -> None:
         self.proxy = self.proxy or proxy
         self.uri = self.uri or uri
+        key = (provenance.authority, provenance.site, provenance.artifact_digest)
+        if key in self.provenance_keys:
+            return
+        self.provenance_keys.add(key)
         self.provenance.append(provenance)
 
     def freeze(self) -> Node:
@@ -817,6 +1000,59 @@ class _NodeBuilder:
             uri=self.uri,
             provenance=tuple(self.provenance),
         )
+
+
+def _freshness(
+    publication_time: PublicationTime,
+    observed_at: datetime,
+    *,
+    stale_after: timedelta,
+    expires_after: timedelta,
+) -> tuple[Literal["current", "stale", "expired", "future", "unknown"], str | None]:
+    match publication_time:
+        case PublishedInstant(at=published_at):
+            age = observed_at - published_at
+            if age.total_seconds() < 0:
+                return "future", "clock_inversion"
+            if age <= stale_after:
+                return "current", None
+            if age <= expires_after:
+                return "stale", None
+            return "expired", "source_expired"
+        case PublishedDate(on=published_on):
+            days = (observed_at.date() - published_on).days
+            if days < 0:
+                return "future", "clock_inversion"
+            if days == 0:
+                return "current", None
+            if days <= 2:
+                return "stale", None
+            return "expired", "source_expired"
+        case UnknownPublicationTime():
+            return "unknown", None
+
+
+def _code_counts(values: Counter[str]) -> tuple[CodeCount, ...]:
+    return tuple(
+        CodeCount(code=code, count=count) for code, count in sorted(values.items())
+    )
+
+
+def assign_unique_display_names(nodes: Sequence[NodeT]) -> tuple[NodeT, ...]:
+    used: set[str] = set()
+    suffixes: dict[str, int] = {}
+    result: list[NodeT] = []
+    for node in nodes:
+        base = node.display_name or "unknown"
+        name = base
+        suffix = suffixes.get(base, 2)
+        while name in used:
+            name = f"{base}_{suffix}"
+            suffix += 1
+        suffixes[base] = suffix
+        used.add(name)
+        result.append(node.model_copy(update={"display_name": name}))
+    return tuple(result)
 
 
 def admit_artifacts(
@@ -832,38 +1068,48 @@ def admit_artifacts(
 
     records: dict[str, _NodeBuilder] = {}
     rejections: list[Rejection] = []
+    rejection_samples: Counter[tuple[str, str]] = Counter()
     receipts: list[SourceReceipt] = []
+    code_counts: Counter[str] = Counter()
+    source_candidates: Counter[str] = Counter()
+    source_unique: dict[str, set[str]] = defaultdict(set)
+    source_codes: dict[str, Counter[str]] = defaultdict(Counter)
+    rejected_artifacts = 0
+    decoded_artifacts = 0
+    candidate_records = 0
+    rejected_records = 0
+    eligible_occurrences = 0
+
+    def retain_sample(rejection: Rejection) -> None:
+        key = (rejection.site, rejection.code)
+        if rejection_samples[key] < 3:
+            rejections.append(rejection)
+            rejection_samples[key] += 1
+
     for artifact in artifacts:
         artifact_digest = artifact.digest
-        age = (
-            observed_now.date() - artifact.published_on
-            if artifact.published_on is not None
-            else None
+        freshness, rejection_code = _freshness(
+            artifact.publication_time,
+            observed_now,
+            stale_after=stale_after,
+            expires_after=expires_after,
         )
-        if age is None:
-            freshness = "unknown"
-            rejection_code = None
-        elif age.total_seconds() < 0:
-            freshness = "future"
-            rejection_code = "clock_inversion"
-        elif age > expires_after:
-            freshness = "expired"
-            rejection_code = "source_expired"
-        else:
-            freshness = "stale" if age > stale_after else "current"
-            rejection_code = None
         receipts.append(
             SourceReceipt(
+                authority=artifact.authority_id,
                 site=artifact.site,
                 source_url=artifact.source_url,
                 artifact_digest=artifact_digest,
                 observed_at=artifact.observed_at,
-                published_on=artifact.published_on,
+                publication_time=artifact.publication_time,
                 freshness=freshness,
             )
         )
         if rejection_code:
-            rejections.append(
+            rejected_artifacts += 1
+            code_counts[rejection_code] += 1
+            source_codes[artifact.site][rejection_code] += 1
+            retain_sample(
                 Rejection(
                     code=rejection_code,
                     site=artifact.site,
@@ -872,17 +1118,44 @@ def admit_artifacts(
             )
             continue
 
+        decoded_artifacts += 1
         candidates, artifact_rejections = _artifact_candidates(artifact)
-        rejections.extend(artifact_rejections)
+        rejected_records += len(artifact_rejections)
+        candidate_records += len(candidates) + len(artifact_rejections)
+        source_candidates[artifact.site] += len(candidates) + len(artifact_rejections)
+        for rejection in artifact_rejections:
+            retain_sample(rejection)
+            code_counts[rejection.code] += 1
+            source_codes[artifact.site][rejection.code] += 1
         for index, (proxy, uri, name, fingerprint) in enumerate(candidates):
+            server = (
+                proxy.endpoint() if proxy is not None else urlsplit(uri or "").hostname
+            )
+            if server is not None and not _globally_scoped_endpoint(server):
+                rejected_records += 1
+                rejection = Rejection(
+                    code="endpoint_scope",
+                    site=artifact.site,
+                    source_url=artifact.source_url,
+                    item_index=index,
+                )
+                retain_sample(rejection)
+                code_counts[rejection.code] += 1
+                source_codes[artifact.site][rejection.code] += 1
+                continue
+            eligible_occurrences += 1
             provenance = NodeProvenance(
+                authority=artifact.authority_id,
                 site=artifact.site,
                 source_url=artifact.source_url,
                 observed_at=artifact.observed_at,
-                published_on=artifact.published_on,
+                publication_time=artifact.publication_time,
                 artifact_digest=artifact_digest,
                 item_index=index,
             )
+            if fingerprint in records:
+                code_counts["duplicate"] += 1
+                source_codes[artifact.site]["duplicate"] += 1
             builder = records.setdefault(
                 fingerprint,
                 _NodeBuilder(
@@ -893,25 +1166,111 @@ def admit_artifacts(
                 ),
             )
             builder.absorb(proxy, uri, provenance)
+            source_unique[artifact.site].add(fingerprint)
 
-    used_names: set[str] = set()
-    suffixes: dict[str, int] = {}
-    named_records: list[Node] = []
-    for builder in records.values():
-        record = builder.freeze()
-        base_name = record.display_name or "unknown"
-        display_name = base_name
-        if display_name in used_names:
-            suffix = suffixes.get(base_name, 2)
-            while f"{base_name}_{suffix}" in used_names:
-                suffix += 1
-            display_name = f"{base_name}_{suffix}"
-            suffixes[base_name] = suffix + 1
-        used_names.add(display_name)
-        named_records.append(record.model_copy(update={"display_name": display_name}))
-
+    source_names = tuple(dict.fromkeys(artifact.site for artifact in artifacts))
+    counts = AdmissionCounts(
+        attempted_sources=len(source_names),
+        failed_sources=0,
+        empty_sources=0,
+        sources_with_artifacts=len(source_names),
+        discovered_artifacts=len(artifacts),
+        rejected_artifacts=rejected_artifacts,
+        decoded_artifacts=decoded_artifacts,
+        candidate_records=candidate_records,
+        rejected_records=rejected_records,
+        eligible_occurrences=eligible_occurrences,
+        unique_eligible=len(records),
+        duplicate_occurrences=eligible_occurrences - len(records),
+    )
+    summary = AdmissionSummary(
+        counts=counts,
+        rejection_codes=_code_counts(code_counts),
+        sources=tuple(
+            SourceAdmissionSummary(
+                source=source,
+                authority=next(
+                    artifact.authority_id
+                    for artifact in artifacts
+                    if artifact.site == source
+                ),
+                status="available",
+                artifacts=sum(artifact.site == source for artifact in artifacts),
+                candidate_records=source_candidates[source],
+                unique_eligible=len(source_unique[source]),
+                rejection_codes=_code_counts(source_codes[source]),
+            )
+            for source in source_names
+        ),
+    )
     return NodeCatalog(
-        nodes=tuple(named_records),
+        nodes=tuple(builder.freeze() for builder in records.values()),
         rejections=tuple(rejections),
         receipts=tuple(receipts),
+        summary=summary,
+    )
+
+
+def select_source_fair(
+    catalog: NodeCatalog,
+    authority_order: Sequence[str],
+    *,
+    limit: int,
+) -> NodeCatalog:
+    """Select a deterministic bounded catalog without network evidence."""
+    if limit <= 0:
+        raise ValueError("selection limit must be positive")
+    nodes = {node.fingerprint: node for node in catalog.nodes}
+    memberships: dict[str, set[str]] = defaultdict(set)
+    for node in catalog.nodes:
+        for authority in {item.authority for item in node.provenance}:
+            memberships[authority].add(node.fingerprint)
+    ordered = list(dict.fromkeys(authority_order))
+    ordered.extend(sorted(set(memberships) - set(ordered)))
+    buckets = {authority: sorted(memberships[authority]) for authority in ordered}
+    selected: list[str] = []
+    emitted: set[str] = set()
+
+    def reserve(kind: Literal["clash", "uri"]) -> None:
+        if len(selected) >= limit:
+            return
+        for authority in ordered:
+            for fingerprint in buckets[authority]:
+                node = nodes[fingerprint]
+                compatible = (
+                    node.kind in {"clash", "dual"}
+                    if kind == "clash"
+                    else node.kind in {"uri", "dual"}
+                )
+                if compatible and fingerprint not in emitted:
+                    selected.append(fingerprint)
+                    emitted.add(fingerprint)
+                    return
+
+    reserve("clash")
+    reserve("uri")
+    cursors = {authority: 0 for authority in ordered}
+    active = deque(authority for authority in ordered if buckets[authority])
+    while active and len(selected) < limit:
+        authority = active.popleft()
+        bucket = buckets[authority]
+        cursor = cursors[authority]
+        while cursor < len(bucket) and bucket[cursor] in emitted:
+            cursor += 1
+        if cursor < len(bucket):
+            fingerprint = bucket[cursor]
+            selected.append(fingerprint)
+            emitted.add(fingerprint)
+            cursor += 1
+        cursors[authority] = cursor
+        if cursor < len(bucket):
+            active.append(authority)
+    selected_nodes = assign_unique_display_names(
+        tuple(nodes[fingerprint] for fingerprint in selected)
+    )
+    return NodeCatalog(
+        nodes=selected_nodes,
+        rejections=catalog.rejections,
+        receipts=catalog.receipts,
+        summary=catalog.summary,
     )

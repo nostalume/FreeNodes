@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import binascii
+import hashlib
 import tempfile
 from collections.abc import Awaitable, Callable
 from pathlib import Path
@@ -18,7 +19,7 @@ from pydantic import AwareDatetime, TypeAdapter, model_validator
 from src.config import FrozenModel
 from src.mihomo import MihomoValidator, ProviderProfile, StandaloneProfile
 from src.profiles import PublicEntryRegistry
-from src.quality_manifest import admit_quality_manifest_json
+from src.publication import admit_publication_manifest_json
 
 
 class PublicVerificationError(RuntimeError):
@@ -90,9 +91,10 @@ class PublicEntryVerifier:
             "plain": self.registry.legacy.for_channel(cdn=cdn),
             "standalone": self.registry.clash.for_channel(cdn=cdn),
             "provider": self.registry.provider.for_channel(cdn=cdn),
-            "quality": self.registry.quality.for_channel(cdn=cdn),
+            "receipt": self.registry.receipt.for_channel(cdn=cdn),
         }
-        content = {name: await self.fetch(url) for name, url in urls.items()}
+        bodies = await asyncio.gather(*(self.fetch(url) for url in urls.values()))
+        content = dict(zip(urls, bodies, strict=True))
         if any(not body for body in content.values()):
             raise ValueError("empty public entry")
         try:
@@ -102,7 +104,9 @@ class PublicEntryVerifier:
         if decoded != content["plain"] or not decoded.strip():
             raise ValueError("V2Ray base64 and plain URI entries differ")
 
-        StandaloneProfile.model_validate(yaml.safe_load(content["standalone"]))
+        standalone = StandaloneProfile.model_validate(
+            yaml.safe_load(content["standalone"])
+        )
         provider = ProviderProfile.model_validate(yaml.safe_load(content["provider"]))
         if not provider.proxy_providers:
             raise ValueError("provider Clash profile has no providers")
@@ -113,11 +117,24 @@ class PublicEntryVerifier:
         if nested_hosts != {expected_host}:
             raise ValueError("provider profile mixes publication channels")
 
-        manifest = admit_quality_manifest_json(content["quality"])
+        manifest = admit_publication_manifest_json(content["receipt"])
+        profile_paths = {
+            "encoded": "nodes/v2ray.txt",
+            "plain": "nodes/merged.txt",
+            "standalone": "nodes/merged.yaml",
+            "provider": ("nodes/provider-cdn.yaml" if cdn else "nodes/provider.yaml"),
+        }
+        for name, path in profile_paths.items():
+            if hashlib.sha256(content[name]).hexdigest() != manifest.files.get(path):
+                raise ValueError(f"public digest mismatch: {path}")
+        if len(decoded.splitlines()) != manifest.counts.uri:
+            raise ValueError("published URI count disagrees with receipt")
+        if len(standalone.proxies) != manifest.counts.clash:
+            raise ValueError("published Clash count disagrees with receipt")
 
         self.validate_standalone(content["standalone"])
         self.smoke_provider(content["provider"])
-        return manifest.generated_at
+        return manifest.created_at
 
 
 async def verify_remote_entries(

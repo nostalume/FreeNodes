@@ -28,13 +28,6 @@ from src.decryptor import (
 from src.drive import DriveFailure, DriveFile, DriveFiles, DriveOutcome
 from src.llm_router import ExtractedLinks
 from src.mihomo import ConsumerValidation
-from src.quality import (
-    DelayObservation,
-    ProbeEvidence,
-    ProbeRunSuccess,
-    QualityPolicy,
-    TransferObservation,
-)
 from src.scheduler import Scheduler
 from src.site_processor import SiteProcessor
 from src.youtube import (
@@ -522,7 +515,9 @@ async def test_simple_inline_node_is_admitted_without_a_download():
     ).discover()
 
     assert outcome.kind == "success"
-    assert tuple(artifact.content for artifact in outcome.artifacts) == (inline,)
+    assert tuple(artifact.content for artifact in outcome.artifacts) == (
+        inline.encode(),
+    )
     assert web.downloaded == []
 
 
@@ -1137,43 +1132,6 @@ async def test_variant_cancellation_propagates(variant):
         ).discover()
 
 
-class SuccessfulProbe:
-    def __init__(self) -> None:
-        self.sites: set[str] = set()
-
-    async def probe(self, nodes, policy):
-        self.sites = {
-            provenance.site for node in nodes.nodes for provenance in node.provenance
-        }
-        return ProbeRunSuccess(
-            evidence=tuple(
-                ProbeEvidence(
-                    fingerprint=node.fingerprint,
-                    proxy_name=node.display_name,
-                    coarse=DelayObservation(
-                        endpoint="gstatic",
-                        status="success",
-                        delay_ms=50,
-                    ),
-                    confirm=DelayObservation(
-                        endpoint="cloudflare",
-                        status="success",
-                        delay_ms=60,
-                    ),
-                    transfer=TransferObservation(
-                        fingerprint=node.fingerprint,
-                        target="test",
-                        status="success",
-                        bytes_received=1024 * 1024,
-                        elapsed_ms=100,
-                        bytes_per_second=10_000_000,
-                    ),
-                )
-                for node in nodes.nodes
-            )
-        )
-
-
 class AcceptingValidator:
     def validate_bundle(self, root: Path) -> ConsumerValidation:
         assert (root / "nodes" / "merged.yaml").exists()
@@ -1211,7 +1169,7 @@ class FakeWebFactory:
         return self.client
 
 
-async def test_all_variants_enter_one_quality_and_publication_flow(
+async def test_all_variants_enter_one_deterministic_publication_flow(
     tmp_path,
 ):
     simple = simple_site()
@@ -1228,18 +1186,9 @@ async def test_all_variants_enter_one_quality_and_publication_flow(
         drive_factory=capabilities.drive,
     )
     scheduler.llm = capabilities.llm
-    probe = SuccessfulProbe()
-
     receipt = await scheduler.publish_profiles(
         repository_root=tmp_path,
         validator=AcceptingValidator(),
-        probe_session=probe,
-        policy=QualityPolicy(
-            min_source_nodes=1,
-            min_source_qualified=1,
-            min_source_pass_ratio=0.01,
-            min_source_unique=1,
-        ),
         now=datetime(2026, 8, 29, tzinfo=UTC),
     )
 
@@ -1252,5 +1201,4 @@ async def test_all_variants_enter_one_quality_and_publication_flow(
     assert capabilities.drive.calls == [("", 30.0)]
     assert capabilities.drive.clients[0].enter_calls == 1
     assert capabilities.drive.clients[0].close_calls == 1
-    assert probe.sites == {simple.name, password.name, drive_source.name}
     assert (tmp_path / "nodes" / "publication-receipt.json").exists()

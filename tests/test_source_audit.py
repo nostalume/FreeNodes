@@ -113,7 +113,7 @@ async def test_audit_reports_every_source_without_writing(
     async def discover_active(processor):
         return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
 
-    async def discover_candidate(client, site):
+    async def discover_candidate(client, site, *, observed_at):
         if candidate_available:
             return DiscoverySuccess(site_name="b", artifacts=(artifact("b"),))
         return DiscoveryFailure(site_name="b", errors=("token=private",))
@@ -149,7 +149,7 @@ async def test_audit_reports_underlying_control_failure(monkeypatch, tmp_path):
     async def discover_active(processor):
         return DiscoverySuccess(site_name="a", artifacts=(artifact("a"),))
 
-    async def discover_candidate(client, site):
+    async def discover_candidate(client, site, *, observed_at):
         return DiscoverySuccess(site_name="b", artifacts=(artifact("b"),))
 
     class InconclusiveProbe:

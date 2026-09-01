@@ -64,8 +64,8 @@ class PublicEntryRegistry(FrozenModel):
         return self._pair("nodes/provider.yaml", "nodes/provider-cdn.yaml")
 
     @property
-    def quality(self) -> EntryPair:
-        return self._pair("nodes/quality-manifest.json")
+    def receipt(self) -> EntryPair:
+        return self._pair("nodes/publication-receipt.json")
 
     def site_provider(self, slug: str, *, cdn: bool) -> str:
         pair = self._pair(f"nodes/{site_slug(slug)}.yaml")
@@ -290,17 +290,20 @@ def render_profiles(
     uri_lines = [node.uri for node in catalog.uri_nodes]
     plain = (("\n".join(uri_lines) + "\n") if uri_lines else "").encode("utf-8")
     clash_nodes = catalog.clash_nodes
-    proxies = [_render_proxy(node) for node in clash_nodes]
+    proxies_by_fingerprint = {
+        node.fingerprint: _render_proxy(node) for node in clash_nodes
+    }
+    proxies = list(proxies_by_fingerprint.values())
     slugs_by_site = _site_slugs(catalog)
 
     site_nodes: dict[str, list[dict[str, Any]]] = {
         slug: [] for slug in slugs_by_site.values()
     }
     for node in clash_nodes:
-        proxy = _render_proxy(node)
+        proxy = proxies_by_fingerprint[node.fingerprint]
         sites = {item.site for item in node.provenance}
         for site in sites:
-            site_nodes[slugs_by_site[site]].append(dict(proxy))
+            site_nodes[slugs_by_site[site]].append(proxy)
 
     files: dict[str, bytes] = {
         "nodes/merged.txt": plain,

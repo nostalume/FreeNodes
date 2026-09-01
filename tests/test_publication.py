@@ -10,17 +10,54 @@ import pytest
 
 import src.publication as publication
 from src.mihomo import ConsumerValidation
-from src.nodes import SourceArtifact, admit_artifacts
+from src.nodes import (
+    AdmissionCounts,
+    AdmissionSummary,
+    PublishedDate,
+    SourceArtifact,
+    admit_artifacts,
+)
 from src.profiles import OutputBundle, render_profiles
 from src.publication import (
     PublicationError,
-    publish_bundle,
+    render_publication_report,
     validate_bundle_output_parent,
     write_bundle,
     write_validated_bundle,
 )
+from src.publication import (
+    publish_bundle as _publish_bundle,
+)
 
 NOW = datetime(2026, 8, 29, 6, 0, tzinfo=UTC)
+
+
+def admission_summary() -> AdmissionSummary:
+    return AdmissionSummary(
+        counts=AdmissionCounts(
+            attempted_sources=1,
+            failed_sources=0,
+            empty_sources=0,
+            sources_with_artifacts=1,
+            discovered_artifacts=1,
+            rejected_artifacts=0,
+            decoded_artifacts=1,
+            candidate_records=1,
+            rejected_records=0,
+            eligible_occurrences=1,
+            unique_eligible=1,
+            duplicate_occurrences=0,
+        )
+    )
+
+
+def publish_bundle(*args, **kwargs):
+    return _publish_bundle(
+        *args,
+        admission_summary=admission_summary(),
+        selection_limit=500,
+        **kwargs,
+    )
 
 
 class AcceptingValidator:
@@ -49,7 +86,7 @@ def sample_catalog():
                     "port: 8388, cipher: aes-128-gcm, password: hidden}\n"
                 ),
                 observed_at=NOW,
-                published_on=NOW.date(),
+                publication_time=PublishedDate(on=NOW.date()),
                 media_type="application/yaml",
             )
         ],
@@ -83,7 +120,6 @@ def bundle(version: str = "new") -> OutputBundle:
             "nodes/v2ray.txt": b"encoded",
             "nodes/provider.yaml": b"proxy-providers: {}\n",
             "nodes/provider-cdn.yaml": b"proxy-providers: {}\n",
-            "nodes/quality-manifest.json": b'{"status":"quality_verified"}\n',
             "nodes/source.yaml": b"proxies: []\n",
         },
         accepted_count=1,
@@ -180,6 +216,16 @@ def test_promotion_validates_staging_and_writes_receipt_last(tmp_path):
     persisted = json.loads((tmp_path / replacements[-1]).read_text())
     assert persisted["status"] == "accepted"
     assert persisted["managed_files"][-1] == "nodes/publication-receipt.json"
+
+
+def test_publication_report_uses_redacted_receipt_accounting(tmp_path):
+    publish_bundle(bundle(), tmp_path, validator=Validator(), now=NOW)
+
+    report = render_publication_report(tmp_path)
+
+    assert "Published 1 of 1 unique eligible nodes" in report
+    assert "Sources: attempted 1" in report
+    assert "quality" not in report.casefold()
 
 
 def test_failure_before_commit_restores_every_live_byte(tmp_path):

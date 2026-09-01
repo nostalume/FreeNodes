@@ -16,7 +16,7 @@ from pydantic import (
 
 from src.config import FrozenModel, GitHubSourceSite
 from src.crawler import WebCapability
-from src.nodes import SourceArtifact
+from src.nodes import PublishedInstant, SourceArtifact
 from src.site_processor import DiscoveryFailure, DiscoveryOutcome, DiscoverySuccess
 
 
@@ -123,8 +123,13 @@ class GitHubSourceClient:
         self.commits = commits or GitHubCommitClient()
         self.clock = clock
 
-    async def discover(self, site: GitHubSourceSite) -> DiscoveryOutcome:
-        observed_at = self.clock()
+    async def discover(
+        self,
+        site: GitHubSourceSite,
+        *,
+        observed_at: datetime | None = None,
+    ) -> DiscoveryOutcome:
+        observed_at = observed_at or self.clock()
         commit = await self.commits.latest(site, observed_at=observed_at)
         if commit.kind == "failure":
             return DiscoveryFailure(site_name=site.name, errors=(commit.diagnostic,))
@@ -141,11 +146,12 @@ class GitHubSourceClient:
             )
         yaml_count = int(site.path.lower().endswith((".yaml", ".yml")))
         artifact = SourceArtifact(
+            authority=site.authority,
             site=site.name,
             source_url=source_url,
             content=downloaded.content,
             observed_at=observed_at,
-            published_on=commit.committed_at.date(),
+            publication_time=PublishedInstant(at=commit.committed_at),
             media_type="application/yaml" if yaml_count else "text/plain",
         )
         return DiscoverySuccess(
