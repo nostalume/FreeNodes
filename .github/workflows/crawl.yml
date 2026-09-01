@@ -115,12 +115,14 @@ jobs:
       - name: Report publication
         if: always()
         shell: bash
+        env:
+          PUBLISHED_SHA: ${{ steps.publish.outputs.sha }}
         run: |
           {
             echo "## Publication commit"
             echo "- Outcome: ${{ steps.publish.outcome }}"
-            if test -n "${{ steps.publish.outputs.sha }}"; then
-              printf '%s\n' '- Revision: `${{ steps.publish.outputs.sha }}`'
+            if test -n "$PUBLISHED_SHA"; then
+              printf '%s\n' "- Revision: \`$PUBLISHED_SHA\`"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
