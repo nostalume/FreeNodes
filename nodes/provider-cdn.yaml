@@ -3,189 +3,14 @@ allow-lan: false
 mode: rule
 log-level: info
 ipv6: true
-proxy-providers:
-  au1rxx-clash:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/au1rxx-clash.yaml
-    path: ./proxy_providers/au1rxx-clash.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  au1rxx-v2ray:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/au1rxx-v2ray.yaml
-    path: ./proxy_providers/au1rxx-v2ray.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  cfmem:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/cfmem.yaml
-    path: ./proxy_providers/cfmem.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  clashmeta:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/clashmeta.yaml
-    path: ./proxy_providers/clashmeta.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  clashnode:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/clashnode.yaml
-    path: ./proxy_providers/clashnode.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  datiya:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/datiya.yaml
-    path: ./proxy_providers/datiya.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  freeclashnode:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/freeclashnode.yaml
-    path: ./proxy_providers/freeclashnode.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  jichangx:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/jichangx.yaml
-    path: ./proxy_providers/jichangx.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  kooker:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/kooker.yaml
-    path: ./proxy_providers/kooker.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  radikal:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/radikal.yaml
-    path: ./proxy_providers/radikal.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  shaoyouvip:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/shaoyouvip.yaml
-    path: ./proxy_providers/shaoyouvip.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  ts-sf-clash:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/ts-sf-clash.yaml
-    path: ./proxy_providers/ts-sf-clash.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  ts-sf-v2ray:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/ts-sf-v2ray.yaml
-    path: ./proxy_providers/ts-sf-v2ray.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  wzmwayne:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/wzmwayne.yaml
-    path: ./proxy_providers/wzmwayne.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
-  yudou:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/yudou.yaml
-    path: ./proxy_providers/yudou.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-      timeout: 5000
-      lazy: true
-      expected-status: 204
+profile:
+  store-selected: true
+geodata-mode: true
+geodata-loader: memconservative
+geo-auto-update: true
+geo-update-interval: 24
 proxy-groups:
-- name: 🚀 自动选择
+- name: 🚀 Auto
   type: url-test
   use:
   - au1rxx-clash
@@ -193,23 +18,23 @@ proxy-groups:
   - cfmem
   - clashmeta
   - clashnode
-  - datiya
   - freeclashnode
   - jichangx
   - kooker
   - radikal
   - shaoyouvip
-  - ts-sf-clash
-  - ts-sf-v2ray
   - wzmwayne
   - yudou
   url: https://www.gstatic.com/generate_204
-  interval: 300
-  tolerance: 50
-- name: 🌍 手动选择
+  interval: 600
+  tolerance: 150
+  lazy: true
+  timeout: 5000
+  expected-status: 204
+- name: 🌍 Proxy
   type: select
   proxies:
-  - 🚀 自动选择
+  - 🚀 Auto
   - DIRECT
   use:
   - au1rxx-clash
@@ -217,15 +42,101 @@ proxy-groups:
   - cfmem
   - clashmeta
   - clashnode
-  - datiya
   - freeclashnode
   - jichangx
   - kooker
   - radikal
   - shaoyouvip
-  - ts-sf-clash
-  - ts-sf-v2ray
   - wzmwayne
   - yudou
+- name: 🇨🇳 Mainland China
+  type: select
+  proxies:
+  - DIRECT
+  - 🌍 Proxy
+- name: 🤖 AI
+  type: select
+  proxies:
+  - 🌍 Proxy
+  - DIRECT
+- name: 🎬 Media
+  type: select
+  proxies:
+  - 🌍 Proxy
+  - DIRECT
+- name: 💬 Messaging
+  type: select
+  proxies:
+  - 🌍 Proxy
+  - DIRECT
 rules:
-- MATCH,🌍 手动选择
+- GEOSITE,private,DIRECT
+- GEOIP,private,DIRECT,no-resolve
+- GEOSITE,category-ai-!cn,🤖 AI
+- GEOSITE,youtube,🎬 Media
+- GEOSITE,netflix,🎬 Media
+- GEOSITE,telegram,💬 Messaging
+- GEOSITE,cn,🇨🇳 Mainland China
+- GEOIP,CN,🇨🇳 Mainland China,no-resolve
+- MATCH,🌍 Proxy
+proxy-providers:
+  au1rxx-clash:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/au1rxx-clash.yaml
+    path: ./proxy_providers/au1rxx-clash.yaml
+    interval: 3600
+  au1rxx-v2ray:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/au1rxx-v2ray.yaml
+    path: ./proxy_providers/au1rxx-v2ray.yaml
+    interval: 3600
+  cfmem:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/cfmem.yaml
+    path: ./proxy_providers/cfmem.yaml
+    interval: 3600
+  clashmeta:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/clashmeta.yaml
+    path: ./proxy_providers/clashmeta.yaml
+    interval: 3600
+  clashnode:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/clashnode.yaml
+    path: ./proxy_providers/clashnode.yaml
+    interval: 3600
+  freeclashnode:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/freeclashnode.yaml
+    path: ./proxy_providers/freeclashnode.yaml
+    interval: 3600
+  jichangx:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/jichangx.yaml
+    path: ./proxy_providers/jichangx.yaml
+    interval: 3600
+  kooker:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/kooker.yaml
+    path: ./proxy_providers/kooker.yaml
+    interval: 3600
+  radikal:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/radikal.yaml
+    path: ./proxy_providers/radikal.yaml
+    interval: 3600
+  shaoyouvip:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/shaoyouvip.yaml
+    path: ./proxy_providers/shaoyouvip.yaml
+    interval: 3600
+  wzmwayne:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/wzmwayne.yaml
+    path: ./proxy_providers/wzmwayne.yaml
+    interval: 3600
+  yudou:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/yudou.yaml
+    path: ./proxy_providers/yudou.yaml
+    interval: 3600
