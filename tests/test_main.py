@@ -4,15 +4,13 @@ import hashlib
 import json
 import subprocess
 import sys
-from datetime import UTC, datetime
 from pathlib import Path
 
 import main as cli
 from src.config import Config, LLMConfig
 from src.mihomo import AcquiredMihomo
 from src.publication import PublicationCounts, PublicationManifestV1
-from src.quality import QualityPolicy
-from src.quality_manifest import SourceAuditReceipt
+from src.quality import CapabilityRunReceipt, ProbeDiagnostic
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -145,19 +143,9 @@ async def test_source_audit_returns_nonzero_for_no_qualified_nodes(
     monkeypatch,
     capsys,
 ):
-    receipt = SourceAuditReceipt(
-        status="no_qualified_nodes",
-        generated_at=datetime(2026, 8, 30, tzinfo=UTC),
-        runner_vantage="test",
-        policy=QualityPolicy(),
-        admitted_nodes=0,
-        selected_for_probe=0,
-        qualified_nodes=0,
-        failed_nodes=0,
-        inconclusive_nodes=0,
-        not_probed_nodes=0,
-        eligible_sources=0,
-        sources=(),
+    receipt = CapabilityRunReceipt(
+        status="inconclusive",
+        diagnostic=ProbeDiagnostic(code="control_unavailable"),
     )
 
     async def audit_sources(scheduler, **options):
@@ -177,4 +165,4 @@ async def test_source_audit_returns_nonzero_for_no_qualified_nodes(
     )
 
     assert await cli.run(cli.AuditSourcesCommand()) == 2
-    assert '"status":"no_qualified_nodes"' in capsys.readouterr().out.replace(" ", "")
+    assert '"status":"inconclusive"' in capsys.readouterr().out.replace(" ", "")

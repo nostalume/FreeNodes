@@ -1,9 +1,9 @@
 # FreeNodes
 
 FreeNodes discovers public proxy subscriptions and publishes a bounded,
-deduplicated catalog that passes deterministic freshness, syntax, endpoint-scope,
-and Mihomo consumer checks. Live node choice runs in Clash Verge from the user's
-network; runner-relative network measurements remain an optional audit.
+deduplicated catalog that passes deterministic freshness and syntax admission,
+then proves real HTTPS service capability through Mihomo before publication.
+Live node choice still runs in Clash Verge from the user's network.
 
 ## Simple import URLs
 
@@ -37,16 +37,17 @@ uses the GEO data currently loaded by Clash Verge/Mihomo.
 configured sources
   -> immutable source artifacts
   -> deterministic freshness and typed node admission
-  -> semantic deduplication and source-fair bounded selection
-  -> canonical V2Ray and Clash profiles from one selected catalog
+  -> semantic deduplication and source-fair bounded capability planning
+  -> controlled 2-of-3 HTTPS requests through Mihomo
+  -> canonical V2Ray and Clash profiles from the capable catalog
   -> Mihomo syntax, group, and non-empty provider validation
   -> rollback-capable publication with receipt written last
 ```
 
-Discovery uses OpenRouter’s `openrouter/free` route only when `OPENROUTER_API_KEY` is present. It is bounded to 30 requests per run and 3 per source. Missing credentials, rate limits, zero eligible results, and consumer rejection do not replace the previous accepted snapshot.
-One source failure does not discard productive peers. `python main.py --audit-sources`
-runs the retained Mihomo delay and bounded-transfer measurement as a read-only
-diagnostic; its runner-relative results never authorize publication.
+Discovery uses OpenRouter’s `openrouter/free` route only when `OPENROUTER_API_KEY` is present. It is bounded to 30 requests per run and 3 per source. Missing credentials, rate limits, zero eligible results, inconclusive target controls, and consumer rejection do not replace the previous accepted snapshot.
+One source failure does not discard productive peers. Normal publication requires
+runner-relative capability evidence; `python main.py --audit-sources` performs the
+same bounded measurement without publishing.
 
 ## Development
 
@@ -60,7 +61,7 @@ uv run --locked --extra youtube python main.py --validate-profiles .private/prof
 uv run --locked python main.py --verify-public
 ```
 
-The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-backed sources. Google Drive discovery uses the core HTTP dependency. The normal `uv run --locked --extra youtube python main.py` command performs deterministic discovery, admission, consumer validation, and local publication. Supplying a source name performs discovery and typed-admission diagnostics only; it does not change public files. `--verify-public` reads the published direct and CDN URLs, checks receipt digests, counts, schemas, and generation, and asks pinned Mihomo to consume both Clash forms without changing repository files.
+The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-backed sources. Google Drive discovery uses the core HTTP dependency. The normal `uv run --locked --extra youtube python main.py` command performs deterministic discovery, admission, capability measurement, consumer validation, and local publication. Supplying a source name performs discovery and typed-admission diagnostics only; it does not change public files. `--verify-public` reads the published direct and CDN URLs, checks receipt digests, counts, schemas, and generation, and asks pinned Mihomo to consume both Clash forms without changing repository files.
 
 Pushes and pull requests run the same locked formatting, lint, type, and test sequence used before scheduled publication. Publication preparation has no repository write permission; a separate job admits only receipt-owned paths and commits them, then a read-only job observes the public URLs. Failed checks, empty deterministic admission, consumer validation, receipt admission, commit, or direct remote observation stop that run. CDN lag or temporary CDN failure is reported without invalidating a current direct publication.
 

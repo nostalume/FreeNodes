@@ -28,6 +28,7 @@ from src.decryptor import (
 from src.drive import DriveFailure, DriveFile, DriveFiles, DriveOutcome
 from src.llm_router import ExtractedLinks
 from src.mihomo import ConsumerValidation
+from src.quality import CapabilityRunReceipt, NodeCapabilityDecision
 from src.scheduler import Scheduler
 from src.site_processor import SiteProcessor
 from src.youtube import (
@@ -1169,6 +1170,24 @@ class FakeWebFactory:
         return self.client
 
 
+class CapableProbe:
+    async def probe_capabilities(self, plan, targets, policy):
+        decisions = tuple(
+            NodeCapabilityDecision(
+                fingerprint=entry.node.fingerprint,
+                status="capable",
+                successful_targets=("github", "google"),
+                reason="quorum",
+            )
+            for entry in plan.entries
+        )
+        return CapabilityRunReceipt(
+            status="complete",
+            decisions=decisions,
+            accepted_fingerprints=tuple(item.fingerprint for item in decisions),
+        )
+
+
 async def test_all_variants_enter_one_deterministic_publication_flow(
     tmp_path,
 ):
@@ -1189,6 +1208,7 @@ async def test_all_variants_enter_one_deterministic_publication_flow(
     receipt = await scheduler.publish_profiles(
         repository_root=tmp_path,
         validator=AcceptingValidator(),
+        probe_session=CapableProbe(),
         now=datetime(2026, 8, 29, tzinfo=UTC),
     )
 

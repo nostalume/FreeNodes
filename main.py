@@ -152,7 +152,7 @@ def parse_args(argv: list[str] | None = None) -> Command:
     modes.add_argument(
         "--report-publication",
         action="store_true",
-        help="render the admitted quality manifest as a Markdown summary",
+        help="render the admitted publication receipt as a Markdown summary",
     )
     parser.add_argument(
         "--receipt-sha",
@@ -233,14 +233,9 @@ async def run(command: Command) -> int:
                 acquired = acquire_pinned_mihomo(Path(temporary) / "mihomo")
                 receipt = await scheduler.audit_sources(
                     probe_session=MihomoProbeSession(acquired.executable),
-                    runner_vantage=(
-                        "github-actions"
-                        if os.environ.get("GITHUB_ACTIONS")
-                        else "local"
-                    ),
                 )
         print(receipt.model_dump_json(indent=2, by_alias=True))
-        return 0 if receipt.status == "accepted" else 2
+        return 0 if receipt.status == "complete" and receipt.capable_fingerprints else 2
     if command.kind == "verify_public":
         acquired = acquire_pinned_mihomo(Path(".cache") / "mihomo")
         receipt = await verify_remote_entries(
@@ -281,6 +276,10 @@ async def run(command: Command) -> int:
     receipt = await scheduler.publish_profiles(
         repository_root=Path.cwd(),
         validator=validator,
+        probe_session=MihomoProbeSession(acquired.executable),
+        runner_vantage="github-actions"
+        if os.environ.get("GITHUB_ACTIONS")
+        else "local",
         base_revision=os.environ.get("GITHUB_SHA"),
     )
     print(f"Publication {receipt.status}: {len(receipt.managed_files)} managed files")

@@ -19,6 +19,7 @@ from src.nodes import (
 )
 from src.profiles import OutputBundle, render_profiles
 from src.publication import (
+    PublicationCapability,
     PublicationError,
     render_publication_report,
     validate_bundle_output_parent,
@@ -28,6 +29,7 @@ from src.publication import (
 from src.publication import (
     publish_bundle as _publish_bundle,
 )
+from src.quality import DEFAULT_CAPABILITY_TARGETS
 
 NOW = datetime(2026, 8, 29, 6, 0, tzinfo=UTC)
 
@@ -219,12 +221,28 @@ def test_promotion_validates_staging_and_writes_receipt_last(tmp_path):
 
 
 def test_publication_report_uses_redacted_receipt_accounting(tmp_path):
-    publish_bundle(bundle(), tmp_path, validator=Validator(), now=NOW)
+    publish_bundle(
+        bundle(),
+        tmp_path,
+        validator=Validator(),
+        now=NOW,
+        capability=PublicationCapability(
+            targets=DEFAULT_CAPABILITY_TARGETS,
+            runner_vantage="fixture-runner",
+            attempted=1,
+            capable=1,
+            failed=0,
+            inconclusive=0,
+            accepted=1,
+        ),
+    )
 
     report = render_publication_report(tmp_path)
 
     assert "Published 1 of 1 unique eligible nodes" in report
     assert "Sources: attempted 1" in report
+    assert "Capability (fixture-runner, quorum 2)" in report
+    assert "capable 1, failed 0, inconclusive 0, accepted 1" in report
     assert "quality" not in report.casefold()
 
 

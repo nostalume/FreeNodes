@@ -10,10 +10,48 @@ from src.config import Config, CrawlConfig, LLMConfig, SimpleSite
 from src.mihomo import ConsumerValidation
 from src.nodes import SourceArtifact
 from src.publication import PublicationError
+from src.quality import CapabilityRunReceipt, NodeCapabilityDecision
 from src.scheduler import Scheduler
 from src.site_processor import DiscoveryFailure, DiscoverySuccess
 
 NOW = datetime(2026, 8, 29, tzinfo=UTC)
+
+
+class CapableProbe:
+    async def probe_capabilities(self, plan, targets, policy):
+        decisions = tuple(
+            NodeCapabilityDecision(
+                fingerprint=entry.node.fingerprint,
+                status="capable",
+                successful_targets=("github", "google"),
+                reason="quorum",
+            )
+            for entry in plan.entries
+        )
+        return CapabilityRunReceipt(
+            status="complete",
+            decisions=decisions,
+            accepted_fingerprints=tuple(item.fingerprint for item in decisions),
+        )
+
+
+class FirstOnlyProbe:
+    async def probe_capabilities(self, plan, targets, policy):
+        decisions = tuple(
+            NodeCapabilityDecision(
+                fingerprint=entry.node.fingerprint,
+                status="capable" if index == 0 else "failed",
+                successful_targets=("github", "google") if index == 0 else (),
+                failed_targets=() if index == 0 else ("github", "google"),
+                reason="quorum" if index == 0 else "target_failures",
+            )
+            for index, entry in enumerate(plan.entries)
+        )
+        return CapabilityRunReceipt(
+            status="complete",
+            decisions=decisions,
+            accepted_fingerprints=(decisions[0].fingerprint,),
+        )
 
 
 class StructuralValidator:
@@ -68,7 +106,7 @@ def artifact(site: str, *, observed_at: datetime = NOW) -> SourceArtifact:
     )
 
 
-async def test_publication_uses_deterministic_admission_without_network_probe(
+async def test_publication_requires_capability_after_deterministic_admission(
     monkeypatch, tmp_path, capsys
 ):
     async def discover(self):
@@ -81,6 +119,7 @@ async def test_publication_uses_deterministic_admission_without_network_probe(
     receipt = await Scheduler(config(tmp_path)).publish_profiles(
         repository_root=tmp_path,
         validator=StructuralValidator(),
+        probe_session=CapableProbe(),
         now=NOW,
     )
 
@@ -91,7 +130,8 @@ async def test_publication_uses_deterministic_admission_without_network_probe(
     manifest = json.loads(
         (tmp_path / "nodes" / "publication-receipt.json").read_bytes()
     )
-    assert manifest["schema"] == 2
+    assert manifest["schema"] == 3
+    assert manifest["capability"]["accepted"] == 1
     assert manifest["admission"]["attempted_sources"] == 2
     assert manifest["admission"]["failed_sources"] == 1
     assert "[b] unavailable" in capsys.readouterr().out
@@ -113,10 +153,41 @@ async def test_publish_freshness_uses_explicit_run_time_not_wall_clock(
     receipt = await Scheduler(config(tmp_path)).publish_profiles(
         repository_root=tmp_path,
         validator=StructuralValidator(),
+        probe_session=CapableProbe(),
         now=as_of,
     )
 
     assert receipt.status == "accepted"
+
+
+async def test_publication_projects_only_the_accepted_capable_identity(
+    monkeypatch, tmp_path
+):
+    async def discover(self):
+        return DiscoverySuccess(
+            site_name=self.site.name, artifacts=(artifact(self.site.name),)
+        )
+
+    monkeypatch.setattr("src.scheduler.SiteProcessor.discover", discover)
+
+    receipt = await Scheduler(config(tmp_path)).publish_profiles(
+        repository_root=tmp_path,
+        validator=StructuralValidator(),
+        probe_session=FirstOnlyProbe(),
+        now=NOW,
+    )
+
+    manifest = json.loads(
+        (tmp_path / "nodes" / "publication-receipt.json").read_bytes()
+    )
+    profile = (tmp_path / "nodes" / "merged.yaml").read_text(encoding="utf-8")
+    assert receipt.status == "accepted"
+    assert manifest["admission"]["unique_eligible"] == 2
+    assert tuple(
+        manifest["capability"][key]
+        for key in ("attempted", "capable", "failed", "inconclusive", "accepted")
+    ) == (2, 1, 1, 0, 1)
+    assert "a.example" in profile and "b.example" not in profile
 
 
 async def test_publish_discovers_each_source_once_and_removes_legacy_site_text(
@@ -138,6 +209,7 @@ async def test_publish_discovers_each_source_once_and_removes_legacy_site_text(
     receipt = await Scheduler(config(tmp_path)).publish_profiles(
         repository_root=tmp_path,
         validator=StructuralValidator(),
+        probe_session=CapableProbe(),
         now=NOW,
     )
 
@@ -157,6 +229,7 @@ async def test_required_source_failure_is_local_to_that_source(monkeypatch, tmp_
     receipt = await Scheduler(config(tmp_path, required=("b",))).publish_profiles(
         repository_root=tmp_path,
         validator=StructuralValidator(),
+        probe_session=CapableProbe(),
         now=NOW,
     )
 
@@ -189,6 +262,7 @@ async def test_zero_deterministically_eligible_nodes_preserves_snapshot(
         await Scheduler(config(tmp_path, ("a",))).publish_profiles(
             repository_root=tmp_path,
             validator=StructuralValidator(),
+            probe_session=CapableProbe(),
             now=NOW,
         )
 

@@ -33,6 +33,7 @@ from src.nodes import (
     SourceAdmissionSummary,
 )
 from src.profiles import OutputBundle
+from src.quality import CapabilityRunReceipt, CapabilityTarget
 
 RECEIPT_PATH = "nodes/publication-receipt.json"
 
@@ -45,6 +46,48 @@ class PublicationCounts(FrozenModel):
     published: int = Field(gt=0, strict=True)
     clash: int = Field(gt=0, strict=True)
     uri: int = Field(gt=0, strict=True)
+
+
+class PublicationCapability(FrozenModel):
+    targets: tuple[CapabilityTarget, ...] = Field(strict=False)
+    quorum: Literal[2] = 2
+    runner_vantage: str = Field(min_length=1)
+    attempted: int = Field(ge=0, strict=True)
+    capable: int = Field(ge=0, strict=True)
+    failed: int = Field(ge=0, strict=True)
+    inconclusive: int = Field(ge=0, strict=True)
+    accepted: int = Field(gt=0, strict=True)
+
+    @classmethod
+    def from_run(
+        cls,
+        run: CapabilityRunReceipt,
+        targets: Sequence[CapabilityTarget],
+        runner_vantage: str,
+    ) -> "PublicationCapability":
+        if run.status != "complete":
+            raise ValueError("only complete capability runs can be published")
+        counts = {
+            status: sum(item.status == status for item in run.decisions)
+            for status in ("capable", "failed", "inconclusive")
+        }
+        return cls(
+            targets=CapabilityTarget.admit_registry(targets, quorum=2),
+            runner_vantage=runner_vantage,
+            attempted=run.attempted,
+            capable=counts["capable"],
+            failed=counts["failed"],
+            inconclusive=counts["inconclusive"],
+            accepted=len(run.accepted_fingerprints),
+        )
+
+    @model_validator(mode="after")
+    def reconcile_counts(self) -> "PublicationCapability":
+        if self.attempted != self.capable + self.failed + self.inconclusive:
+            raise ValueError("capability counts do not reconcile")
+        if self.accepted > self.capable:
+            raise ValueError("accepted capability count exceeds capable nodes")
+        return self
 
 
 class PublicationManifestV1(FrozenModel):
@@ -105,7 +148,25 @@ class PublicationManifestV2(FrozenModel):
         return self
 
 
-PublicationManifest = PublicationManifestV1 | PublicationManifestV2
+class PublicationManifestV3(PublicationManifestV2):
+    schema_version: Literal[3] = Field(alias="schema")
+    capability: PublicationCapability
+
+    @model_validator(mode="after")
+    def validate_authority(self) -> "PublicationManifestV3":
+        if self.counts.published != self.capability.accepted:
+            raise ValueError("published count does not match capability acceptance")
+        _validate_manifest_inventory(
+            self.files,
+            self.managed_files,
+            self.removed_files,
+        )
+        return self
+
+
+PublicationManifest = (
+    PublicationManifestV1 | PublicationManifestV2 | PublicationManifestV3
+)
 PUBLICATION_MANIFEST_ADAPTER = TypeAdapter(PublicationManifest)
 
 
@@ -623,6 +684,14 @@ def render_publication_report(repository_root: Path) -> str:
             f"duplicates {manifest.admission.duplicate_occurrences}"
         ),
     ]
+    if isinstance(manifest, PublicationManifestV3):
+        capability = manifest.capability
+        lines.append(
+            f"- Capability ({capability.runner_vantage}, quorum {capability.quorum}): "
+            f"attempted {capability.attempted}, capable {capability.capable}, "
+            f"failed {capability.failed}, inconclusive {capability.inconclusive}, "
+            f"accepted {capability.accepted}"
+        )
     lines.extend(
         f"- Rejection `{item.code}`: {item.count}" for item in manifest.rejection_codes
     )
@@ -773,6 +842,7 @@ def publish_bundle(
     admission_summary: AdmissionSummary,
     selection_limit: int,
     base_revision: str | None = None,
+    capability: PublicationCapability | None = None,
 ) -> PublicationReceipt:
     """Validate staging, replace managed files, and publish the receipt last."""
     if min(bundle.accepted_count, bundle.clash_count, bundle.uri_count) <= 0:
@@ -800,24 +870,42 @@ def publish_bundle(
         for name, content in sorted(bundle.files.items())
     }
     managed_files = tuple([*sorted(new_managed), RECEIPT_PATH])
-    receipt_manifest = PublicationManifestV2(
-        schema=2,
-        status="accepted",
-        created_at=observed_at.astimezone(UTC).isoformat(),
-        base_revision=base_revision,
-        selection_limit=selection_limit,
-        admission=admission_summary.counts,
-        counts=PublicationCounts(
-            published=bundle.accepted_count,
-            clash=bundle.clash_count,
-            uri=bundle.uri_count,
-        ),
-        rejection_codes=admission_summary.rejection_codes,
-        sources=admission_summary.sources,
-        files=digests,
-        managed_files=managed_files,
-        removed_files=tuple(obsolete),
+    counts = PublicationCounts(
+        published=bundle.accepted_count,
+        clash=bundle.clash_count,
+        uri=bundle.uri_count,
     )
+    if capability is None:
+        receipt_manifest: PublicationManifest = PublicationManifestV2(
+            schema=2,
+            status="accepted",
+            created_at=observed_at.astimezone(UTC).isoformat(),
+            base_revision=base_revision,
+            selection_limit=selection_limit,
+            admission=admission_summary.counts,
+            counts=counts,
+            rejection_codes=admission_summary.rejection_codes,
+            sources=admission_summary.sources,
+            files=digests,
+            managed_files=managed_files,
+            removed_files=tuple(obsolete),
+        )
+    else:
+        receipt_manifest = PublicationManifestV3(
+            schema=3,
+            status="accepted",
+            created_at=observed_at.astimezone(UTC).isoformat(),
+            base_revision=base_revision,
+            selection_limit=selection_limit,
+            admission=admission_summary.counts,
+            counts=counts,
+            rejection_codes=admission_summary.rejection_codes,
+            sources=admission_summary.sources,
+            files=digests,
+            managed_files=managed_files,
+            removed_files=tuple(obsolete),
+            capability=capability,
+        )
     receipt_bytes = (
         json.dumps(
             receipt_manifest.model_dump(mode="json", by_alias=True),
