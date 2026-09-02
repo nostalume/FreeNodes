@@ -339,21 +339,15 @@ def _sources(node: Node) -> tuple[str, ...]:
 def plan_probe_candidates(
     catalog: NodeCatalog,
     policy: QualityPolicy,
-    *,
-    sample_overflow: bool = False,
 ) -> ProbePlan:
     """Build one stable, source-fair capability plan before network I/O."""
     grouped: dict[str, dict[str, list[ProbeableNode]]] = defaultdict(
         lambda: defaultdict(list)
     )
     memberships: dict[str, tuple[str, ...]] = {}
-    probeable_count = 0
     for node in catalog.nodes:
         if node.kind == "uri":
             continue
-        probeable_count += 1
-        if not sample_overflow and probeable_count > policy.max_candidates:
-            raise QualityError("probe candidate ceiling exceeded")
         sources = _sources(node)
         bucket = grouped[sources[0]][node.proxy.type]
         bucket.append(node)
@@ -361,8 +355,6 @@ def plan_probe_candidates(
         memberships[node.fingerprint] = sources
         if len(bucket) > policy.max_probe_per_source:
             memberships.pop(bucket.pop().fingerprint)
-        if not sample_overflow and len(memberships) > policy.max_candidates:
-            raise QualityError("probe candidate ceiling exceeded")
 
     source_queues: dict[str, deque[ProbeableNode]] = {}
     for source, protocols in grouped.items():

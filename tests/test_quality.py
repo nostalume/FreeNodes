@@ -2,10 +2,8 @@
 
 from datetime import UTC, datetime
 
-import pytest
-
 from src.nodes import ClashNode, NodeCatalog, NodeProvenance, UriNode, admit_proxy
-from src.quality import QualityError, QualityPolicy, plan_probe_candidates
+from src.quality import QualityPolicy, plan_probe_candidates
 
 NOW = datetime(2026, 9, 2, tzinfo=UTC)
 
@@ -59,7 +57,7 @@ def test_plan_is_stable_source_fair_and_protocol_interleaved():
     assert {entry.protocol for entry in first.entries} == {"direct", "ss"}
 
 
-def test_plan_excludes_uri_only_and_enforces_hard_candidate_ceiling():
+def test_plan_excludes_uri_only_and_bounds_probe_effects_on_catalog_overflow():
     uri = UriNode(
         fingerprint="f" * 64,
         display_name="opaque",
@@ -68,19 +66,15 @@ def test_plan_excludes_uri_only_and_enforces_hard_candidate_ceiling():
     )
     catalog = NodeCatalog(nodes=(node(1, "a"), uri, node(2, "b")))
 
-    with pytest.raises(QualityError, match="ceiling"):
-        plan_probe_candidates(
-            catalog,
-            QualityPolicy(max_candidates=1, max_full_probes=1),
-        )
-
-    sampled = plan_probe_candidates(
-        catalog,
-        QualityPolicy(max_candidates=1, max_full_probes=1),
-        sample_overflow=True,
+    policy = QualityPolicy(max_candidates=1, max_full_probes=1)
+    planned = plan_probe_candidates(catalog, policy)
+    reordered = plan_probe_candidates(
+        catalog.model_copy(update={"nodes": tuple(reversed(catalog.nodes))}), policy
     )
-    assert len(sampled.entries) == 1
-    assert sampled.entries[0].node.kind != "uri"
+
+    assert len(planned.entries) == 1
+    assert planned.entries[0].node.kind != "uri"
+    assert planned.entries[0].node.fingerprint == reordered.entries[0].node.fingerprint
 
 
 def test_plan_caps_each_source_and_makes_duplicate_proxy_names_safe():

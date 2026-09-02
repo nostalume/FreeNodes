@@ -239,7 +239,6 @@ class Scheduler:
         plan = plan_probe_candidates(
             admitted.catalog,
             quality_policy,
-            sample_overflow=True,
         )
         return await probe_session.probe_capabilities(plan, targets, quality_policy)
 
