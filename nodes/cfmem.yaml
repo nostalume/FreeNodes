@@ -7,6 +7,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 19f72087-4591-4d72-930b-2697078ec2be
+- name: CN · SS · cfmem · 078F4188
+  type: ss
+  server: 121.46.230.232
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
 - name: PL→NL · VLESS · cfmem · 00242816
   type: vless
   server: 178.95.170.115
@@ -27,6 +35,30 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 436114b5f36b2e704bdfa0927d57b6cd
+- name: MY · SS · cfmem · 14C11A77
+  type: ss
+  server: 118.107.222.231
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: CN→FR · VMESS · cfmem · 05D691A6
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: CN→US · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: US · VMESS · cfmem · 1BB42466
   type: vmess
   server: guanwang.awsno.com
@@ -36,14 +68,6 @@ proxies:
   cipher: auto
   network: tcp
   tls: true
-- name: CN · VMESS · cfmem · 27130FE8
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  network: tcp
 - name: US · VLESS · cfmem · 125B1F8C
   type: vless
   server: 188.114.97.6
@@ -66,5 +90,15 @@ proxies:
   tls: true
   flow: xtls-rprx-vision
   client-fingerprint: qq
+  skip-cert-verify: true
+  udp: true
+- name: CN→FR · VMESS · cfmem · 4153EE35
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
