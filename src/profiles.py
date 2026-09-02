@@ -7,12 +7,139 @@ import re
 from collections.abc import Mapping
 from types import MappingProxyType
 from typing import Any
+from urllib.parse import quote, urlsplit, urlunsplit
 
 import yaml
-from pydantic import Field, model_validator
+from pydantic import Field, TypeAdapter, ValidationError, model_validator
+from pydantic_extra_types.country import CountryAlpha2
 
 from src.config import FrozenModel, RepositoryIdentity
-from src.nodes import NodeCatalog, ProbeableNode
+from src.nodes import Node, NodeCatalog, VmessUriPayload
+
+_COUNTRY = TypeAdapter(CountryAlpha2)
+_FLAG = re.compile(r"[\U0001F1E6-\U0001F1FF]{2}")
+_ALPHA2 = re.compile(r"(?<![A-Za-z])([A-Z]{2})(?![A-Za-z])")
+_ROUTE = re.compile(r"(?:->|→|➡️?)")
+_REGION_GROUPS = ("HK", "TW", "JP", "SG", "US")
+_PROBE_URL = "https://www.gstatic.com/generate_204"
+
+
+def _admit_country(value: str) -> CountryAlpha2 | None:
+    try:
+        return _COUNTRY.validate_python(value)
+    except ValidationError:
+        return None
+
+
+def _country_evidence(value: str) -> tuple[CountryAlpha2, ...]:
+    flags = (
+        "".join(chr(ord(char) - 0x1F1E6 + ord("A")) for char in match.group())
+        for match in _FLAG.finditer(value)
+    )
+    tokens = (match.group(1) for match in _ALPHA2.finditer(value))
+    return tuple(code for raw in (*flags, *tokens) if (code := _admit_country(raw)))
+
+
+class RegionHint(FrozenModel):
+    route: tuple[CountryAlpha2, ...] = Field(default=(), max_length=2, strict=False)
+
+    @classmethod
+    def from_label(cls, label: str) -> "RegionHint":
+        bounded = label[:256]
+        sides = _ROUTE.split(bounded, maxsplit=1)
+        if len(sides) == 2:
+            origin, destination = map(_country_evidence, sides)
+            if origin and destination:
+                return cls(route=(origin[0], destination[0]))
+        found = _country_evidence(bounded)
+        return cls(route=found[:1])
+
+    @property
+    def text(self) -> str:
+        return "→".join(self.route) if self.route else "ZZ"
+
+
+class CanonicalLabel(FrozenModel):
+    region: RegionHint
+    protocol: str
+    source: str
+    identity: str = Field(pattern=r"^[0-9A-F]{8}$")
+
+    @classmethod
+    def from_node(cls, node: Node) -> "CanonicalLabel":
+        if not node.provenance:
+            raise ValueError("canonical node has no provenance")
+        provenance = min(
+            node.provenance,
+            key=lambda item: (
+                item.authority,
+                item.site,
+                item.artifact_digest,
+                item.item_index,
+            ),
+        )
+        source = re.sub(r"[^a-z0-9]+", "-", provenance.site.casefold()).strip("-")
+        if not source:
+            raise ValueError("canonical node source has no ASCII slug")
+        match node.kind:
+            case "clash" | "dual":
+                protocol = node.proxy.type
+            case "uri":
+                protocol = urlsplit(node.uri).scheme
+        return cls(
+            region=RegionHint.from_label(node.display_name),
+            protocol=protocol.upper(),
+            source=source[:24],
+            identity=node.fingerprint[:8].upper(),
+        )
+
+    @property
+    def text(self) -> str:
+        return f"{self.region.text} · {self.protocol} · {self.source} · {self.identity}"
+
+
+class FragmentShare(FrozenModel):
+    base_uri: str = Field(repr=False)
+
+    @classmethod
+    def from_uri(cls, uri: str) -> "FragmentShare":
+        parsed = urlsplit(uri)
+        return cls(base_uri=urlunsplit((*parsed[:4], "")))
+
+    def render(self, label: str) -> str:
+        return f"{self.base_uri}#{quote(label)}"
+
+
+class ProxyGroupBase(FrozenModel):
+    name: str
+    proxies: tuple[str, ...] = ()
+    use: tuple[str, ...] = ()
+
+    def _payload(self, kind: str) -> dict[str, Any]:
+        group: dict[str, Any] = {"name": self.name, "type": kind}
+        if self.proxies:
+            group["proxies"] = list(self.proxies)
+        if self.use:
+            group["use"] = list(self.use)
+        return group
+
+
+class UrlTestGroup(ProxyGroupBase):
+    def payload(self) -> dict[str, Any]:
+        return {
+            **self._payload("url-test"),
+            "url": _PROBE_URL,
+            "interval": 600,
+            "tolerance": 150,
+            "lazy": True,
+            "timeout": 5000,
+            "expected-status": 204,
+        }
+
+
+class SelectGroup(ProxyGroupBase):
+    def payload(self) -> dict[str, Any]:
+        return self._payload("select")
 
 
 class EntryPair(FrozenModel):
@@ -185,48 +312,81 @@ def _site_slugs(catalog: NodeCatalog) -> dict[str, str]:
     return result
 
 
-def _render_proxy(node: ProbeableNode) -> dict[str, Any]:
-    return {**node.proxy.mihomo_payload(), "name": node.display_name}
-
-
-def _standalone_config(proxies: list[dict[str, Any]]) -> dict[str, Any]:
-    names = [str(proxy["name"]) for proxy in proxies]
-    if not names:
-        return {
-            "mixed-port": 7890,
-            "allow-lan": False,
-            "mode": "rule",
-            "log-level": "info",
-            "proxies": [],
-            "proxy-groups": [
-                {"name": "🌍 手动选择", "type": "select", "proxies": ["DIRECT"]}
-            ],
-            "rules": ["MATCH,🌍 手动选择"],
-        }
+def _policy_config(groups: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "mixed-port": 7890,
         "allow-lan": False,
         "mode": "rule",
         "log-level": "info",
         "ipv6": True,
-        "proxies": proxies,
-        "proxy-groups": [
-            {
-                "name": "🚀 自动选择",
-                "type": "url-test",
-                "proxies": names,
-                "url": "https://www.gstatic.com/generate_204",
-                "interval": 300,
-                "tolerance": 50,
-            },
-            {
-                "name": "🌍 手动选择",
-                "type": "select",
-                "proxies": ["🚀 自动选择", "DIRECT", *names],
-            },
+        "profile": {"store-selected": True},
+        "geodata-mode": True,
+        "geodata-loader": "memconservative",
+        "geo-auto-update": True,
+        "geo-update-interval": 24,
+        "proxy-groups": groups,
+        "rules": [
+            "GEOSITE,private,DIRECT",
+            "GEOIP,private,DIRECT,no-resolve",
+            "GEOSITE,category-ai-!cn,🤖 AI",
+            "GEOSITE,youtube,🎬 Media",
+            "GEOSITE,netflix,🎬 Media",
+            "GEOSITE,telegram,💬 Messaging",
+            "GEOSITE,cn,🇨🇳 Mainland China",
+            "GEOIP,CN,🇨🇳 Mainland China,no-resolve",
+            "MATCH,🌍 Proxy",
         ],
-        "rules": ["MATCH,🌍 手动选择"],
     }
+
+
+def _policy_groups(
+    auto: UrlTestGroup,
+    *,
+    node_names: tuple[str, ...] = (),
+    provider_names: tuple[str, ...] = (),
+    regions: tuple[UrlTestGroup, ...] = (),
+) -> list[dict[str, Any]]:
+    region_names = tuple(group.name for group in regions)
+    proxy = SelectGroup(
+        name="🌍 Proxy",
+        proxies=("🚀 Auto", *region_names, "DIRECT", *node_names),
+        use=provider_names,
+    )
+    services = ("🤖 AI", "🎬 Media", "💬 Messaging")
+    return [
+        auto.payload(),
+        *(group.payload() for group in regions),
+        proxy.payload(),
+        SelectGroup(name="🇨🇳 Mainland China", proxies=("DIRECT", "🌍 Proxy")).payload(),
+        *(
+            SelectGroup(
+                name=name, proxies=("🌍 Proxy", *region_names, "DIRECT")
+            ).payload()
+            for name in services
+        ),
+    ]
+
+
+def _standalone_config(
+    proxies: list[dict[str, Any]], regions: Mapping[str, str]
+) -> dict[str, Any]:
+    names = [str(proxy["name"]) for proxy in proxies]
+    if not names:
+        return {**_policy_config([]), "proxies": []}
+    regional = tuple(
+        UrlTestGroup(
+            name=f"🌐 {region}",
+            proxies=tuple(name for name in names if regions.get(name) == region),
+        )
+        for region in _REGION_GROUPS
+        if sum(regions.get(name) == region for name in names) >= 2
+    )
+    groups = _policy_groups(
+        UrlTestGroup(name="🚀 Auto", proxies=tuple(names)),
+        node_names=tuple(names),
+        regions=regional,
+    )
+    return {**_policy_config(groups), "proxies": proxies}
 
 
 def _provider_config(
@@ -241,43 +401,18 @@ def _provider_config(
             "url": registry.site_provider(slug, cdn=cdn),
             "path": f"./proxy_providers/{slug}.yaml",
             "interval": 3600,
-            "health-check": {
-                "enable": True,
-                "url": "https://www.gstatic.com/generate_204",
-                "interval": 300,
-                "timeout": 5000,
-                "lazy": True,
-                "expected-status": 204,
-            },
         }
         for slug in slugs
     }
     if not providers:
-        return _standalone_config([])
+        return _standalone_config([], {})
+    groups = _policy_groups(
+        UrlTestGroup(name="🚀 Auto", use=tuple(slugs)),
+        provider_names=tuple(slugs),
+    )
     return {
-        "mixed-port": 7890,
-        "allow-lan": False,
-        "mode": "rule",
-        "log-level": "info",
-        "ipv6": True,
+        **_policy_config(groups),
         "proxy-providers": providers,
-        "proxy-groups": [
-            {
-                "name": "🚀 自动选择",
-                "type": "url-test",
-                "use": slugs,
-                "url": "https://www.gstatic.com/generate_204",
-                "interval": 300,
-                "tolerance": 50,
-            },
-            {
-                "name": "🌍 手动选择",
-                "type": "select",
-                "proxies": ["🚀 自动选择", "DIRECT"],
-                "use": slugs,
-            },
-        ],
-        "rules": ["MATCH,🌍 手动选择"],
     }
 
 
@@ -287,28 +422,48 @@ def render_profiles(
 ) -> OutputBundle:
     """Project one catalog into every supported subscription format."""
     entries = registry or PublicEntryRegistry()
-    uri_lines = [node.uri for node in catalog.uri_nodes]
+    labels = {
+        node.fingerprint: CanonicalLabel.from_node(node) for node in catalog.nodes
+    }
+    rendered_labels = [label.text for label in labels.values()]
+    if len(rendered_labels) != len(set(rendered_labels)):
+        raise ValueError("canonical node identity prefix collision")
+    uri_lines = []
+    for node in catalog.uri_nodes:
+        share = (
+            VmessUriPayload.from_uri(node.uri)
+            if urlsplit(node.uri).scheme.casefold() == "vmess"
+            else FragmentShare.from_uri(node.uri)
+        )
+        uri_lines.append(share.render(labels[node.fingerprint].text))
     plain = (("\n".join(uri_lines) + "\n") if uri_lines else "").encode("utf-8")
     clash_nodes = catalog.clash_nodes
     proxies_by_fingerprint = {
-        node.fingerprint: _render_proxy(node) for node in clash_nodes
+        node.fingerprint: {
+            **node.proxy.mihomo_payload(),
+            "name": labels[node.fingerprint].text,
+        }
+        for node in clash_nodes
     }
     proxies = list(proxies_by_fingerprint.values())
+    regions = {
+        labels[node.fingerprint].text: labels[node.fingerprint].region.route[-1]
+        for node in clash_nodes
+        if labels[node.fingerprint].region.route
+    }
     slugs_by_site = _site_slugs(catalog)
 
-    site_nodes: dict[str, list[dict[str, Any]]] = {
-        slug: [] for slug in slugs_by_site.values()
-    }
+    site_nodes: dict[str, list[dict[str, Any]]] = {}
     for node in clash_nodes:
         proxy = proxies_by_fingerprint[node.fingerprint]
         sites = {item.site for item in node.provenance}
         for site in sites:
-            site_nodes[slugs_by_site[site]].append(proxy)
+            site_nodes.setdefault(slugs_by_site[site], []).append(proxy)
 
     files: dict[str, bytes] = {
         "nodes/merged.txt": plain,
         "nodes/v2ray.txt": base64.b64encode(plain),
-        "nodes/merged.yaml": _yaml_bytes(_standalone_config(proxies)),
+        "nodes/merged.yaml": _yaml_bytes(_standalone_config(proxies, regions)),
         "nodes/provider.yaml": _yaml_bytes(
             _provider_config(sorted(site_nodes), entries, cdn=False)
         ),

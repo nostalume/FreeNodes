@@ -17,7 +17,12 @@ import yaml
 from pydantic import AwareDatetime, TypeAdapter, model_validator
 
 from src.config import FrozenModel
-from src.mihomo import MihomoValidator, ProviderProfile, StandaloneProfile
+from src.mihomo import (
+    MihomoValidator,
+    ProviderLoadReceipt,
+    ProviderProfile,
+    StandaloneProfile,
+)
 from src.profiles import PublicEntryRegistry
 from src.publication import admit_publication_manifest_json
 
@@ -28,6 +33,7 @@ class PublicVerificationError(RuntimeError):
 
 FetchBytes = Callable[[str], Awaitable[bytes]]
 ContentCheck = Callable[[bytes], None]
+ProviderCheck = Callable[[bytes], ProviderLoadReceipt]
 
 
 class PublicVerificationReceipt(FrozenModel):
@@ -58,7 +64,7 @@ class PublicEntryVerifier:
         *,
         fetch: FetchBytes,
         validate_standalone: ContentCheck,
-        smoke_provider: ContentCheck,
+        smoke_provider: ProviderCheck,
     ):
         self.registry = registry
         self.fetch = fetch
@@ -133,7 +139,7 @@ class PublicEntryVerifier:
             raise ValueError("published Clash count disagrees with receipt")
 
         self.validate_standalone(content["standalone"])
-        self.smoke_provider(content["provider"])
+        ProviderLoadReceipt.model_validate(self.smoke_provider(content["provider"]))
         return manifest.created_at
 
 
@@ -153,15 +159,15 @@ async def verify_remote_entries(
         with tempfile.TemporaryDirectory(prefix="freenodes-remote-clash-") as temporary:
             profile = Path(temporary) / "standalone.yaml"
             profile.write_bytes(content)
-            validator.validate_config(profile)
+            validator.validate_standalone(profile)
 
-    def smoke_provider(content: bytes) -> None:
+    def smoke_provider(content: bytes) -> ProviderLoadReceipt:
         with tempfile.TemporaryDirectory(
             prefix="freenodes-remote-provider-"
         ) as temporary:
             profile = Path(temporary) / "provider.yaml"
             profile.write_bytes(content)
-            validator.smoke_remote_provider(profile)
+            return validator.smoke_remote_provider(profile)
 
     last_error: PublicVerificationError | None = None
     last_receipt: PublicVerificationReceipt | None = None

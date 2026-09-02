@@ -8,8 +8,13 @@ import pytest
 import yaml
 
 from src.config import RepositoryIdentity
+from src.mihomo import ProviderLoadReceipt
 from src.profiles import PublicEntryRegistry
 from src.public_verification import PublicEntryVerifier, PublicVerificationError
+
+LOADED_PROVIDER = ProviderLoadReceipt(
+    counts=(("source", 1),), total_nodes=1, groups=("🚀 Auto",)
+)
 
 
 def bodies(
@@ -120,11 +125,15 @@ async def test_direct_and_current_cdn_entries_are_admitted_as_user_operations():
     async def fetch(url):
         return content[url]
 
+    def smoke_provider(body):
+        provider_checks.append(body)
+        return LOADED_PROVIDER
+
     verifier = PublicEntryVerifier(
         registry,
         fetch=fetch,
         validate_standalone=lambda body: standalone_checks.append(body),
-        smoke_provider=lambda body: provider_checks.append(body),
+        smoke_provider=smoke_provider,
     )
     receipt = await verifier.verify()
 
@@ -147,7 +156,7 @@ async def test_valid_older_cdn_is_reported_as_lagging_not_current():
         registry,
         fetch=fetch,
         validate_standalone=lambda body: None,
-        smoke_provider=lambda body: None,
+        smoke_provider=lambda body: LOADED_PROVIDER,
     ).verify()
 
     assert receipt.direct == "current"
@@ -169,7 +178,7 @@ async def test_direct_format_failure_is_a_release_error():
             registry,
             fetch=fetch,
             validate_standalone=lambda body: None,
-            smoke_provider=lambda body: None,
+            smoke_provider=lambda body: LOADED_PROVIDER,
         ).verify()
 
 
@@ -194,7 +203,7 @@ async def test_direct_profile_digest_mismatch_is_a_release_error():
             registry,
             fetch=fetch,
             validate_standalone=lambda body: None,
-            smoke_provider=lambda body: None,
+            smoke_provider=lambda body: LOADED_PROVIDER,
         ).verify()
 
 
@@ -212,8 +221,26 @@ async def test_provider_channel_cannot_mix_direct_and_cdn_nested_urls():
         registry,
         fetch=fetch,
         validate_standalone=lambda body: None,
-        smoke_provider=lambda body: None,
+        smoke_provider=lambda body: LOADED_PROVIDER,
     ).verify()
 
     assert receipt.direct == "current"
     assert receipt.cdn == "degraded"
+
+
+async def test_provider_name_only_smoke_is_not_public_verification():
+    registry = PublicEntryRegistry.from_identity(
+        RepositoryIdentity(owner="owner", repository="repo")
+    )
+    content = bodies(registry)
+
+    async def fetch(url):
+        return content[url]
+
+    with pytest.raises(PublicVerificationError, match="direct"):
+        await PublicEntryVerifier(
+            registry,
+            fetch=fetch,
+            validate_standalone=lambda body: None,
+            smoke_provider=lambda body: None,
+        ).verify()

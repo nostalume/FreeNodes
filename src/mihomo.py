@@ -26,9 +26,11 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    PositiveInt,
     TypeAdapter,
     ValidationError,
     field_validator,
+    model_validator,
 )
 
 from src.config import FrozenModel
@@ -59,17 +61,37 @@ class ProxyGroup(_ExternalModel):
 class ProviderProfile(_ExternalModel):
     proxy_providers: dict[str, HttpProvider] = Field(alias="proxy-providers")
     proxy_groups: tuple[ProxyGroup, ...] = Field(default=(), alias="proxy-groups")
+    rules: tuple[str, ...] = ()
 
     def yaml_payload(self) -> dict[str, Any]:
         return self.model_dump(by_alias=True, exclude_none=True, mode="python")
 
+    def smoke_payload(self) -> dict[str, Any]:
+        return {**self.yaml_payload(), "rules": self.rules[-1:]}
+
 
 class StandaloneProfile(_ExternalModel):
     proxies: tuple[dict[str, Any], ...] = Field(min_length=1)
+    rules: tuple[str, ...] = ()
+
+    def smoke_payload(self) -> dict[str, Any]:
+        return {
+            **self.model_dump(by_alias=True, exclude_none=True, mode="python"),
+            "rules": self.rules[-1:],
+        }
+
+
+class ProviderProxy(_ExternalModel):
+    name: str
+
+
+class ProviderRecord(_ExternalModel):
+    vehicle_type: str = Field(alias="vehicleType")
+    proxies: tuple[ProviderProxy, ...] = ()
 
 
 class _ProviderInventory(_ExternalModel):
-    providers: dict[str, Any]
+    providers: dict[str, ProviderRecord]
 
 
 class _ProxyInventory(_ExternalModel):
@@ -178,6 +200,18 @@ class ConsumerValidation(FrozenModel):
     provider_profiles: tuple[str, ...] = Field(strict=False)
     provider_names: tuple[str, ...] = Field(strict=False)
     group_names: tuple[str, ...] = Field(strict=False)
+
+
+class ProviderLoadReceipt(FrozenModel):
+    counts: tuple[tuple[str, PositiveInt], ...] = Field(strict=False)
+    total_nodes: int = Field(gt=0, strict=True)
+    groups: tuple[str, ...] = Field(strict=False)
+
+    @model_validator(mode="after")
+    def reconcile_total(self) -> "ProviderLoadReceipt":
+        if sum(count for _name, count in self.counts) != self.total_nodes:
+            raise ValueError("provider counts do not reconcile")
+        return self
 
 
 def verify_sha256(path: Path, expected: str) -> str:
@@ -333,13 +367,27 @@ class MihomoValidator:
         ) as temporary_home:
             home = (home_dir or Path(temporary_home)).resolve()
             home.mkdir(parents=True, exist_ok=True)
-            result = subprocess.run(
-                [str(self.executable), "-t", "-d", str(home), "-f", str(config_path)],
-                capture_output=True,
-                text=True,
-                timeout=self.timeout,
-                check=False,
-            )
+            try:
+                result = subprocess.run(
+                    [
+                        str(self.executable),
+                        "-t",
+                        "-d",
+                        str(home),
+                        "-f",
+                        str(config_path),
+                    ],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    timeout=self.timeout,
+                    check=False,
+                )
+            except subprocess.TimeoutExpired as error:
+                raise MihomoValidationError(
+                    "Mihomo configuration check timed out"
+                ) from error
         if result.returncode != 0:
             raise MihomoValidationError(
                 f"Mihomo configuration rejected: {config_path.name}"
@@ -348,17 +396,21 @@ class MihomoValidator:
     def validate_bundle(self, output_dir: Path) -> ConsumerValidation:
         output_dir = output_dir.resolve()
         standalone = output_dir / "nodes" / "merged.yaml"
-        self.validate_config(standalone)
         provider_files = [
             output_dir / "nodes" / "provider.yaml",
             output_dir / "nodes" / "provider-cdn.yaml",
         ]
         provider_names: set[str] = set()
         group_names: set[str] = set()
-        for profile in provider_files:
-            providers, groups = self._smoke_provider_profile(output_dir, profile)
-            provider_names.update(providers)
-            group_names.update(groups)
+        with tempfile.TemporaryDirectory(
+            prefix="freenodes-mihomo-bundle-"
+        ) as temporary:
+            home = Path(temporary)
+            self.validate_standalone(standalone, home)
+            for profile in provider_files:
+                loaded = self._smoke_provider_profile(output_dir, profile, home)
+                provider_names.update(name for name, _count in loaded.counts)
+                group_names.update(loaded.groups)
         return ConsumerValidation(
             profiles=(
                 "nodes/merged.yaml",
@@ -370,11 +422,25 @@ class MihomoValidator:
             group_names=tuple(sorted(group_names)),
         )
 
+    def validate_standalone(self, profile: Path, home: Path | None = None) -> None:
+        try:
+            admitted = StandaloneProfile.model_validate(
+                yaml.safe_load(profile.read_text(encoding="utf-8"))
+            )
+        except Exception as error:
+            raise MihomoValidationError("standalone profile is invalid") from error
+        with tempfile.TemporaryDirectory(prefix="freenodes-standalone-") as temporary:
+            consumer_home = home or Path(temporary)
+            smoke = consumer_home / "standalone-smoke.yaml"
+            smoke.write_text(yaml.safe_dump(admitted.smoke_payload()), encoding="utf-8")
+            self.validate_config(smoke, consumer_home)
+
     def _smoke_provider_profile(
         self,
         bundle_dir: Path,
         profile: Path,
-    ) -> tuple[set[str], set[str]]:
+        home: Path,
+    ) -> ProviderLoadReceipt:
         handler = partial(_QuietHandler, directory=str(bundle_dir))
         server = _QuietHTTPServer(("127.0.0.1", 0), handler)
         server_thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -382,13 +448,13 @@ class MihomoValidator:
         try:
             origin = f"http://127.0.0.1:{server.server_port}"
             config = rewrite_provider_urls(profile, origin)
-            return self._boot_provider_config(config, profile.name)
+            return self._boot_provider_config(config, profile.name, home)
         finally:
             server.shutdown()
             server.server_close()
             server_thread.join(timeout=5)
 
-    def smoke_remote_provider(self, profile: Path) -> tuple[set[str], set[str]]:
+    def smoke_remote_provider(self, profile: Path) -> ProviderLoadReceipt:
         """Boot a provider profile without rewriting its remote nested URLs."""
         try:
             config = ProviderProfile.model_validate(
@@ -404,27 +470,29 @@ class MihomoValidator:
         self,
         config: dict[str, Any],
         profile_name: str,
-    ) -> tuple[set[str], set[str]]:
+        home: Path | None = None,
+    ) -> ProviderLoadReceipt:
         process: subprocess.Popen[str] | None = None
         with tempfile.TemporaryDirectory(prefix="freenodes-mihomo-smoke-") as temporary:
             temp_path = Path(temporary)
             controller_port = loopback_port()
             profile = ProviderProfile.model_validate(config)
-            config = profile.yaml_payload()
+            config = profile.smoke_payload()
             config["external-controller"] = f"127.0.0.1:{controller_port}"
             smoke_config = temp_path / profile_name
             smoke_config.write_text(
                 yaml.safe_dump(config, allow_unicode=True, sort_keys=False),
                 encoding="utf-8",
             )
-            self.validate_config(smoke_config, temp_path / "check-home")
+            consumer_home = home or temp_path / "home"
+            self.validate_config(smoke_config, consumer_home)
             creation_flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
             try:
                 process = subprocess.Popen(
                     [
                         str(self.executable),
                         "-d",
-                        str(temp_path / "run-home"),
+                        str(consumer_home),
                         "-f",
                         str(smoke_config),
                     ],
@@ -433,20 +501,54 @@ class MihomoValidator:
                     text=True,
                     creationflags=creation_flags,
                 )
-                providers = self._await_json(controller_port, "/providers/proxies")
                 proxies = self._await_json(controller_port, "/proxies")
-                provider_map = _ProviderInventory.model_validate(providers).providers
                 proxy_map = _ProxyInventory.model_validate(proxies).proxies
                 expected_providers = set(profile.proxy_providers)
-                if not expected_providers.issubset(provider_map):
-                    raise MihomoValidationError("Mihomo did not load every provider")
                 expected_groups = {item.name for item in profile.proxy_groups}
                 if not expected_groups.issubset(proxy_map):
                     raise MihomoValidationError("Mihomo did not expose every group")
-                return expected_providers, expected_groups
+                return self._await_provider_load(
+                    controller_port, expected_providers, expected_groups
+                )
             finally:
                 if process is not None:
                     self._terminate(process)
+
+    def _await_provider_load(
+        self,
+        port: int,
+        expected: set[str],
+        groups: set[str],
+    ) -> ProviderLoadReceipt:
+        deadline = time.monotonic() + self.timeout
+        while True:
+            try:
+                payload = self._await_json(port, "/providers/proxies")
+                providers = _ProviderInventory.model_validate(payload).providers
+            except ValidationError as error:
+                raise MihomoValidationError(
+                    "Mihomo provider inventory is invalid"
+                ) from error
+            missing = expected - providers.keys()
+            empty = {name for name in expected - missing if not providers[name].proxies}
+            invalid = {
+                name
+                for name in expected - missing
+                if providers[name].vehicle_type != "HTTP"
+            }
+            if not (missing or empty or invalid):
+                counts = tuple(
+                    (name, len(providers[name].proxies)) for name in sorted(expected)
+                )
+                return ProviderLoadReceipt(
+                    counts=counts,
+                    total_nodes=sum(count for _name, count in counts),
+                    groups=sorted(groups),
+                )
+            if time.monotonic() >= deadline:
+                details = f"missing={sorted(missing)}, empty={sorted(empty)}, invalid={sorted(invalid)}"
+                raise MihomoValidationError(f"Mihomo provider load failed: {details}")
+            time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
 
     @staticmethod
     def _terminate(process: subprocess.Popen[str]) -> None:

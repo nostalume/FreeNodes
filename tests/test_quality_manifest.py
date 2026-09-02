@@ -42,7 +42,7 @@ SECRET = "manifest-must-not-leak-this-password"
 
 def node(index: int, site: str) -> DualNode:
     return DualNode(
-        fingerprint=f"{index:064x}",
+        fingerprint=f"{index:08x}" + "0" * 56,
         display_name=f"SECRET NODE {index}",
         proxy=admit_proxy(
             {
@@ -164,8 +164,8 @@ def test_quality_bundle_renders_only_published_nodes_in_every_profile():
         for name, content in bundle.files.items()
         if name.startswith("nodes/source-") and name.endswith(".yaml")
     ]
-    assert [proxy["name"] for proxy in standalone["proxies"]] == ["SECRET NODE 1"]
-    assert "SECRET-NODE-1" in plain and "SECRET-NODE-2" not in plain
+    assert standalone["proxies"][0]["name"].endswith("source-a · 00000001")
+    assert "00000001" in plain and "00000002" not in plain
     assert sum(len(provider["proxies"]) for provider in providers) == 1
     assert len(selection.published.nodes) == 1
 
@@ -358,7 +358,7 @@ def test_manifest_is_identical_when_catalog_and_receipts_are_reordered():
     policy = manifest_policy()
     plan = plan_probe_candidates(catalog, policy)
     by_id = {
-        node.fingerprint: observed(node, 50 if int(node.fingerprint, 16) == 1 else 2600)
+        node.fingerprint: observed(node, 50 if node.fingerprint[7] == "1" else 2600)
         for node in catalog.nodes
     }
     reordered = assess_quality(

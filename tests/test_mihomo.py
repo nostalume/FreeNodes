@@ -2,6 +2,9 @@
 
 import hashlib
 import importlib
+import os
+from datetime import UTC, datetime
+from pathlib import Path
 
 import pytest
 import yaml
@@ -94,3 +97,84 @@ def test_provider_rewrite_targets_loopback_without_file_providers(tmp_path):
     assert provider["type"] == "http"
     assert provider["url"] == "http://127.0.0.1:12345/nodes/site.yaml"
     assert provider["path"] == "./proxy_providers/site.yaml"
+
+
+def provider_profile(tmp_path):
+    profile = tmp_path / "provider.yaml"
+    profile.write_text(
+        "proxy-providers:\n"
+        "  site: {type: http, url: https://example.test/site}\n"
+        "proxy-groups:\n"
+        "  - {name: 🚀 Auto, type: url-test, use: [site]}\n",
+        encoding="utf-8",
+    )
+    return profile
+
+
+def provider_validator(monkeypatch, tmp_path, proxies, *, timeout=20):
+    mihomo = mihomo_module()
+    validator = mihomo.MihomoValidator(tmp_path / "mihomo", timeout=timeout)
+    monkeypatch.setattr(validator, "validate_config", lambda *args: None)
+    monkeypatch.setattr(validator, "_terminate", lambda process: None)
+    monkeypatch.setattr(mihomo.subprocess, "Popen", lambda *args, **kwargs: object())
+
+    def controller(_port, path):
+        if path == "/providers/proxies":
+            return {
+                "providers": {
+                    "site": {"vehicleType": "HTTP", "proxies": proxies},
+                    "default": {"vehicleType": "Compatible", "proxies": []},
+                }
+            }
+        return {"proxies": {"🚀 Auto": {}}}
+
+    monkeypatch.setattr(validator, "_await_json", controller)
+    return mihomo, validator
+
+
+def test_remote_provider_rejects_name_only_inventory(monkeypatch, tmp_path):
+    mihomo, validator = provider_validator(monkeypatch, tmp_path, [], timeout=0.01)
+
+    with pytest.raises(mihomo.MihomoValidationError, match="empty.*site"):
+        validator.smoke_remote_provider(provider_profile(tmp_path))
+
+
+def test_remote_provider_returns_loaded_counts_and_ignores_builtins(
+    monkeypatch, tmp_path
+):
+    _, validator = provider_validator(
+        monkeypatch, tmp_path, [{"name": "one"}, {"name": "two"}]
+    )
+
+    receipt = validator.smoke_remote_provider(provider_profile(tmp_path))
+
+    assert receipt.counts == (("site", 2),)
+    assert receipt.total_nodes == 2
+    assert receipt.groups == ("🚀 Auto",)
+
+
+@pytest.mark.skipif(
+    os.getenv("FREENODES_REAL_MIHOMO") != "1"
+    or not Path(".cache/mihomo/mihomo.exe").is_file(),
+    reason="real pinned Mihomo integration is opt-in",
+)
+def test_real_mihomo_loads_every_rendered_provider_node(tmp_path):
+    from src.nodes import SourceArtifact, admit_artifacts
+    from src.profiles import render_profiles
+
+    now = datetime(2026, 9, 1, tzinfo=UTC)
+    uri = "trojan://secret@real.example:443#US"
+    artifact = SourceArtifact.inline(site="real", content=uri, observed_at=now)
+    catalog = admit_artifacts([artifact], now=now)
+    for name, content in render_profiles(catalog).files.items():
+        output = tmp_path / name
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_bytes(content)
+
+    receipt = (
+        mihomo_module()
+        .MihomoValidator(Path(".cache/mihomo/mihomo.exe"))
+        .validate_bundle(tmp_path)
+    )
+
+    assert receipt.provider_names == ("real",)

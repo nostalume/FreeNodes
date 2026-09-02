@@ -683,7 +683,7 @@ def _decode_base64_container(content: str) -> str | None:
     )
 
 
-class _VmessUriPayload(BaseModel):
+class VmessUriPayload(BaseModel):
     model_config = ConfigDict(extra="allow", frozen=True, populate_by_name=True)
     name: str = Field(default="vmess", alias="ps")
     server: str = Field(alias="add")
@@ -697,17 +697,28 @@ class _VmessUriPayload(BaseModel):
     path: str = "/"
     host: str | None = None
 
+    @classmethod
+    def from_uri(cls, uri: str) -> "VmessUriPayload":
+        payload = uri.removeprefix("vmess://").split("#", 1)[0]
+        padded = payload + "=" * (-len(payload) % 4)
+        return cls.model_validate_json(base64.urlsafe_b64decode(padded))
+
+    def render(self, name: str) -> str:
+        payload = self.model_copy(update={"name": name}).model_dump(
+            by_alias=True, exclude_none=True, mode="json"
+        )
+        serialized = json.dumps(
+            payload, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+        )
+        encoded = base64.urlsafe_b64encode(serialized.encode()).decode().rstrip("=")
+        return f"vmess://{encoded}"
+
 
 def _vmess_from_uri(uri: str) -> tuple[Proxy, str, str] | None:
-    payload = uri.removeprefix("vmess://").split("#", 1)[0]
-    padded = payload + "=" * (-len(payload) % 4)
     try:
-        decoded = json.loads(base64.urlsafe_b64decode(padded).decode("utf-8"))
-        raw = _VmessUriPayload.model_validate(decoded)
+        raw = VmessUriPayload.from_uri(uri)
     except (
         binascii.Error,
-        UnicodeDecodeError,
-        json.JSONDecodeError,
         ValidationError,
         ValueError,
     ):
@@ -1038,23 +1049,6 @@ def _code_counts(values: Counter[str]) -> tuple[CodeCount, ...]:
     )
 
 
-def assign_unique_display_names(nodes: Sequence[NodeT]) -> tuple[NodeT, ...]:
-    used: set[str] = set()
-    suffixes: dict[str, int] = {}
-    result: list[NodeT] = []
-    for node in nodes:
-        base = node.display_name or "unknown"
-        name = base
-        suffix = suffixes.get(base, 2)
-        while name in used:
-            name = f"{base}_{suffix}"
-            suffix += 1
-        suffixes[base] = suffix
-        used.add(name)
-        result.append(node.model_copy(update={"display_name": name}))
-    return tuple(result)
-
-
 def admit_artifacts(
     artifacts: Sequence[SourceArtifact],
     *,
@@ -1265,11 +1259,8 @@ def select_source_fair(
         cursors[authority] = cursor
         if cursor < len(bucket):
             active.append(authority)
-    selected_nodes = assign_unique_display_names(
-        tuple(nodes[fingerprint] for fingerprint in selected)
-    )
     return NodeCatalog(
-        nodes=selected_nodes,
+        nodes=tuple(nodes[fingerprint] for fingerprint in selected),
         rejections=catalog.rejections,
         receipts=catalog.receipts,
         summary=catalog.summary,

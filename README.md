@@ -18,6 +18,19 @@ Use the direct URL first. jsDelivr is a fallback and may temporarily serve an ol
 
 The standalone Clash profile embeds the accepted nodes and needs only one download. The provider profile is smaller, keeps sources separate, and refreshes nested provider files independently; those extra requests make it more sensitive to origin or CDN availability.
 
+Node remarks use `region hint · protocol · source · identity`, for example
+`US · VLESS · wzmwayne · A1B2C3D4`. Region hints come only from explicit source
+labels and are not verified exit locations. Clash and URI/VMess subscriptions use
+the same remark for the same semantic node.
+
+For Clash Verge, import the standalone URL, choose **Rule** mode, then enable
+System Proxy or TUN. `🚀 Auto` lazily chooses by delay; `🌍 Proxy` also permits
+manual regions, individual nodes, and `DIRECT`. Private traffic is direct. The
+Mainland China policy defaults to `DIRECT`, named AI/media/messaging traffic and
+unmatched traffic default to `🌍 Proxy`, and each selector can be changed on the
+Proxies page. Choices persist across subscription updates. China classification
+uses the GEO data currently loaded by Clash Verge/Mihomo.
+
 ## Data flow
 
 ```text
@@ -25,8 +38,8 @@ configured sources
   -> immutable source artifacts
   -> deterministic freshness and typed node admission
   -> semantic deduplication and source-fair bounded selection
-  -> V2Ray and Clash profiles from one selected catalog
-  -> Mihomo consumer validation
+  -> canonical V2Ray and Clash profiles from one selected catalog
+  -> Mihomo syntax, group, and non-empty provider validation
   -> rollback-capable publication with receipt written last
 ```
 

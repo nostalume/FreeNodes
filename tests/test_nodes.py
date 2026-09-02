@@ -330,21 +330,6 @@ def test_inline_uri_is_a_source_artifact_not_a_fake_download_url():
     assert catalog.nodes[0].provenance[0].source_url == source.source_url
 
 
-def test_duplicate_names_are_assigned_deterministically():
-    source = artifact(
-        """proxies:
-  - {name: Shared, type: trojan, server: one.example, port: 443, password: a}
-  - {name: Shared, type: trojan, server: two.example, port: 443, password: b}
-"""
-    )
-
-    catalog = nodes.admit_artifacts([source], now=NOW)
-    selected = nodes.select_source_fair(catalog, ("source",), limit=2)
-    names = [node.display_name for node in selected.nodes]
-
-    assert names == ["Shared", "Shared_2"]
-
-
 def test_artifact_content_is_hashed_once_for_all_admitted_nodes(monkeypatch):
     content = """proxies:
   - {name: one, type: ss, server: one.example, port: 443, cipher: aes-128-gcm, password: secret}
