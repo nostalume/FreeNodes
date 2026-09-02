@@ -7,7 +7,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 19f72087-4591-4d72-930b-2697078ec2be
-- name: CN · SS · cfmem · 078F4188
+- name: CN→US · SS · cfmem · 078F4188
   type: ss
   server: 121.46.230.232
   port: 65443
@@ -43,22 +43,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: CN→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: CN→US · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
+- name: CN→JP · SS · cfmem · 3B4A79F1
+  type: ss
+  server: 121.46.230.137
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
 - name: US · VMESS · cfmem · 1BB42466
   type: vmess
   server: guanwang.awsno.com
@@ -78,6 +70,28 @@ proxies:
     path: /?ed=2560
     headers:
       Host: zb1zi.s3nx.dyz.hh.vavava.kdns.fr
+- name: FR · SS · cfmem · B3E80520
+  type: ss
+  server: 95.170.13.47
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: NL · VLESS · cfmem · 1AED7FE3
+  type: vless
+  server: 31.76.61.232
+  port: 443
+  reality-opts:
+    public-key: CMTA5uuaIVIeqHslZMT3CbFwP8F5ysMLii72ybsTlyY
+    short-id: e2a4c6b8
+  uuid: 791a171e-c0af-4bd7-b8ce-43541c7585db
+  servername: policies.google.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
 - name: GB · VLESS · cfmem · 28D82A19
   type: vless
   server: 31.76.4.128
@@ -100,5 +114,23 @@ proxies:
   alterId: 2
   cipher: auto
   tls: false
+  skip-cert-verify: true
+  udp: true
+- name: CN→US · SS · cfmem · D29CBBED
+  type: ss
+  server: 121.46.230.233
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: US · VMESS · cfmem · 4788F701
+  type: vmess
+  server: 192.227.247.27
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
   skip-cert-verify: true
   udp: true
