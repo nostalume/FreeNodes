@@ -7,26 +7,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 19f72087-4591-4d72-930b-2697078ec2be
-- name: CN→US · SS · cfmem · 078F4188
-  type: ss
-  server: 121.46.230.232
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
-- name: PL→NL · VLESS · cfmem · 00242816
-  type: vless
-  server: 178.95.170.115
-  port: 2087
-  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
-  network: ws
-  tls: false
-  client-fingerprint: chrome
-  ws-opts:
-    path: /4bc027a44532
-  skip-cert-verify: true
-  udp: true
 - name: SG · HYSTERIA2 · cfmem · 72A7BB75
   type: hysteria2
   server: 47.241.108.227
@@ -43,6 +23,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
+- name: CN→FR · VMESS · cfmem · 05D691A6
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: CN→JP · SS · cfmem · 3B4A79F1
   type: ss
   server: 121.46.230.137
@@ -51,6 +39,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
+- name: CN→US · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: US · VMESS · cfmem · 1BB42466
   type: vmess
   server: guanwang.awsno.com
@@ -60,6 +56,14 @@ proxies:
   cipher: auto
   network: tcp
   tls: true
+- name: CA · SS · cfmem · 6CFB93DD
+  type: ss
+  server: 35.182.226.121
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
 - name: US · VLESS · cfmem · 125B1F8C
   type: vless
   server: 188.114.97.6
@@ -70,6 +74,24 @@ proxies:
     path: /?ed=2560
     headers:
       Host: zb1zi.s3nx.dyz.hh.vavava.kdns.fr
+- name: CN→DE · VMESS · cfmem · 31FE287E
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: none
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: TH · SS · cfmem · 6EFEC3A8
+  type: ss
+  server: 103.169.67.34
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
 - name: FR · SS · cfmem · B3E80520
   type: ss
   server: 95.170.13.47
@@ -78,18 +100,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: NL · VLESS · cfmem · 1AED7FE3
-  type: vless
-  server: 31.76.61.232
-  port: 443
-  reality-opts:
-    public-key: CMTA5uuaIVIeqHslZMT3CbFwP8F5ysMLii72ybsTlyY
-    short-id: e2a4c6b8
-  uuid: 791a171e-c0af-4bd7-b8ce-43541c7585db
-  servername: policies.google.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
+- name: CN→JP · VMESS · cfmem · 409EDD40
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: none
+  tls: false
   skip-cert-verify: true
   udp: true
 - name: GB · VLESS · cfmem · 28D82A19

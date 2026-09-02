@@ -1,30 +1,19 @@
 proxies:
-- name: HK · ANYTLS · shaoyouvip · 35B19233
-  type: anytls
-  server: yazhouany02.downapptwo.cc
-  port: 25135
-  skip-cert-verify: true
-  sni: hk27.pulsarcore.site
-  udp: true
-  password: bd54ceae-9b5c-477d-b364-ffd8e5c734a7
-- name: JP · HTTP · shaoyouvip · E8CD1FAE
+- name: GB · HTTP · shaoyouvip · 0D29728A
   type: http
-  server: c5f5a67c-tdups0-tf8z9r-1pr35.jp.oshuawei.com
-  port: 443
-  sni: c5f5a67c-tdups0-tf8z9r-1pr35.jp.oshuawei.com
+  server: 37.120.233.34
+  port: 9443
+  skip-cert-verify: true
   tls: true
   udp: true
-  username: 6b7c1278-ff9d-11ee-84ca-f23c913c8d2b
-  password: 6b7c1278-ff9d-11ee-84ca-f23c913c8d2b
-- name: NL · HYSTERIA2 · shaoyouvip · D7338413
-  type: hysteria2
-  server: 46.229.243.152
-  port: 8443
-  skip-cert-verify: true
-  sni: grape-turbo-fr.roxa.org
+  password: None
+- name: US · SOCKS5 · shaoyouvip · 1F0F89A2
+  type: socks5
+  server: 50cc947d-tk7400-tlvq5w-1jcwu.sj.oshuawei.com
+  port: 443
   udp: true
-  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-  auth: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
+  username: f93486ce-cc84-11ed-9e98-f23c913c8d2b
+  password: f93486ce-cc84-11ed-9e98-f23c913c8d2b
 - name: KR · SS · shaoyouvip · E899E879
   type: ss
   server: 121.46.230.138
@@ -32,58 +21,41 @@ proxies:
   cipher: aes-256-cfb
   udp: true
   password: 7eadc6dbe2ae
-- name: HK · VLESS · shaoyouvip · 0C61DB24
+- name: NL · VLESS · shaoyouvip · 1981C6AD
   type: vless
-  server: hk4-r.link-t7.com
-  port: 10129
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: c1ce3941-ac6f-4e98-9791-3b33abbaf64f
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: movie
-  network: grpc
-  packet-encoding: xudp
-  tls: true
+  server: 141.148.245.146
+  port: 62145
+  uuid: 8fb65472-5957-4f64-ba2d-b5812b2f155a
+  network: tcp
   udp: true
-  servername: s0.awsstatic.com
-- name: HK · VMESS · shaoyouvip · 37C81FF2
-  type: vmess
-  server: planb.mojcn.com.linuxlh.xin
-  port: 16632
-  uuid: bc8a58c9-a544-4f85-87cf-274f6eb4d8cb
-  alterId: 0
-  cipher: auto
-  network: ws
-  skip-cert-verify: false
-  tls: false
-  udp: true
-  ws-opts:
-    headers:
-      Host: 9531724e3efc3135bdf7f4339b2e04d7.mobgslb.tbcache.com
-    path: /
   xudp: true
   packet-encoding: xudp
-- name: NL · HYSTERIA2 · shaoyouvip · FA6B804B
-  type: hysteria2
-  server: 46.229.243.132
-  port: 8443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
+- name: NL · HTTP · kooker · 6415793A
+  type: http
+  server: 84.17.47.148
+  port: 9002
   skip-cert-verify: true
-  sni: grape-turbo-fr.roxa.org
-  up: ''
+  tls: true
   udp: true
-  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-- name: HK · VLESS · shaoyouvip · 283E56D3
+  password: None
+- name: US · HTTP · shaoyouvip · 1327C004
+  type: http
+  server: 138.199.35.219
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · SOCKS5 · shaoyouvip · BC0436D0
+  type: socks5
+  server: 56e6e1f9-tk7400-tlbcwm-1rfon.los.gotochinatown.net
+  port: 443
+  udp: true
+  username: aed1cc24-351d-11ef-ba52-f23c9164ca5d
+  password: aed1cc24-351d-11ef-ba52-f23c9164ca5d
+- name: SG · VLESS · shaoyouvip · 443159A2
   type: vless
-  server: hk2-r.link-t7.com
-  port: 10127
+  server: sg4-r.link-t7.com
+  port: 10039
   reality-opts:
     public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
     short-id: 686c0ef0
@@ -97,24 +69,14 @@ proxies:
   packet-encoding: xudp
   tls: true
   udp: true
-  servername: s0.awsstatic.com
-- name: HK · VMESS · shaoyouvip · C74A6259
-  type: vmess
-  server: planb.mojcn.com.linuxlh.xin
-  port: 16632
-  uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
-  alterId: 0
-  cipher: auto
-  network: ws
-  skip-cert-verify: false
-  tls: false
+  servername: d1.awsstatic.com
+- name: RO · HTTP · shaoyouvip · 158DC25B
+  type: http
+  server: 193.176.84.38
+  port: 9002
+  skip-cert-verify: true
+  tls: true
   udp: true
-  ws-opts:
-    headers:
-      Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
-    path: /
-  xudp: true
-  packet-encoding: xudp
 - name: HK · VLESS · shaoyouvip · 65219491
   type: vless
   server: hk3-r.link-t7.com
@@ -133,54 +95,120 @@ proxies:
   tls: true
   udp: true
   servername: s0.awsstatic.com
-- name: DE · VLESS · shaoyouvip · 90F7B602
-  type: vless
-  server: ger22.orangesms.ir
-  port: 61169
-  uuid: 44b5f266-2b4f-46ca-83ff-99df77147c30
-  encryption: none
-  http-opts:
-    headers:
-      Host:
-      - amp-api-edge.apps.apple.com
-    path:
-    - /
-  network: http
+- name: NL · HTTP · kooker · 97F8B333
+  type: http
+  server: 84.17.47.146
+  port: 9002
+  skip-cert-verify: true
+  tls: true
   udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: JP · VMESS · shaoyouvip · CB02D217
+- name: HK · VMESS · shaoyouvip · C74A6259
   type: vmess
-  server: 54.168.242.25
-  port: 8555
-  uuid: 7aa3a024-e333-4b63-99a2-3db9d3b2054e
+  server: planb.mojcn.com.linuxlh.xin
+  port: 16632
+  uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
   alterId: 0
   cipher: auto
   network: ws
-  skip-cert-verify: true
+  skip-cert-verify: false
+  tls: false
+  udp: true
   ws-opts:
     headers:
-      Host: a.189.cn
+      Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
     path: /
-  udp: true
-- name: SG · VLESS · shaoyouvip · B72C2CF6
-  type: vless
-  server: sg4-r.link-t7.com
-  port: 10039
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: f2987fba-b653-444d-8057-6b6474e448c6
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-service-name: update
-  network: grpc
+  xudp: true
+  packet-encoding: xudp
+- name: US · HTTP · shaoyouvip · 1AB8D760
+  type: http
+  server: 138.199.35.210
+  port: 9002
+  skip-cert-verify: true
   tls: true
+  udp: true
+- name: FI · VLESS · shaoyouvip · 8756FC0C
+  type: vless
+  server: 151.101.56.6
+  port: 443
+  uuid: d60e2537-13e8-41db-bdad-cd5c054a0ec7
+  alpn:
+  - h2
+  client-fingerprint: firefox
+  encryption: none
+  network: ws
+  tls: true
+  udp: true
+  ws-opts:
+    headers:
+      Host: c12.com
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
+    path: /?TELEGRAM--KANAL--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray
+  xudp: true
+  packet-encoding: xudp
+  servername: ssl.fastly.com
+- name: US · HTTP · shaoyouvip · 1B4F015D
+  type: http
+  server: 138.199.35.217
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  username: ''
+  password: ''
+- name: CA · VLESS · shaoyouvip · A885C9D7
+  type: vless
+  server: 155.248.229.115
+  port: 8443
+  reality-opts:
+    public-key: SfFw8nx4WUjN5xs-4-al4coSfu31GWgWTpTJiwse420
+  uuid: 911a03bc-6628-43af-948d-cc092f3df78a
+  client-fingerprint: edge
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  servername: tesla.com
+- name: NL · HTTP · kooker · DFA82CB5
+  type: http
+  server: 84.17.47.148
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: FR · HTTP · shaoyouvip · 1D557FD3
+  type: http
+  server: 85a31919-tk7400-tlbcwm-1rfon.fr.oshuawei.com
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  sni: 85a31919-tk7400-tlbcwm-1rfon.fr.oshuawei.com
+  username: aed1cc24-351d-11ef-ba52-f23c9164ca5d
+  password: aed1cc24-351d-11ef-ba52-f23c9164ca5d
+- name: GB · VLESS · shaoyouvip · AD4A86A4
+  type: vless
+  server: 13.134.70.15
+  port: 22223
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  encryption: none
+  network: tcp
   udp: true
   xudp: true
   packet-encoding: xudp
-  servername: d1.awsstatic.com
+- name: IT · HTTP · shaoyouvip · 202BA837
+  type: http
+  server: 185.183.105.130
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · kooker · FA6562D1
+  type: http
+  server: 84.17.47.150
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
 - name: HK · VLESS · shaoyouvip · C2DBFD2F
   type: vless
   server: hk5-r.link-t7.com
@@ -198,6 +226,30 @@ proxies:
   udp: true
   xudp: true
   packet-encoding: xudp
+  servername: s0.awsstatic.com
+- name: RO · HTTP · shaoyouvip · 204EDCA1
+  type: http
+  server: 193.176.84.29
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: SG · VLESS · shaoyouvip · C5859994
+  type: vless
+  server: sg2-r.link-t7.com
+  port: 10037
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: f2987fba-b653-444d-8057-6b6474e448c6
+  client-fingerprint: chrome
+  encryption: none
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
   servername: s0.awsstatic.com
 - name: HK · VLESS · shaoyouvip · C6DEF665
   type: vless
@@ -217,38 +269,43 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: s0.awsstatic.com
-- name: JP · VLESS · shaoyouvip · E2294738
-  type: vless
-  server: 172.64.229.30
-  port: 443
-  uuid: 450ed4bd-fc3e-4aab-b50d-33f2cdfcfc18
-  client-fingerprint: chrome
-  network: ws
+- name: US · HTTP · shaoyouvip · 21766868
+  type: http
+  server: 138.199.35.215
+  port: 9002
+  skip-cert-verify: true
   tls: true
   udp: true
-  ws-opts:
-    headers:
-      Host: jp1-jp1.aiopen.sbs
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-    path: /kbjc/jp1
+- name: CA · VLESS · shaoyouvip · D83D557C
+  type: vless
+  server: 155.248.229.115
+  port: 8443
+  reality-opts:
+    public-key: SfFw8nx4WUjN5xs-4-al4coSfu31GWgWTpTJiwse420
+    short-id: ''
+  uuid: d6b91cae-8867-44e5-9e91-a19baf5e121e
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
   xudp: true
   packet-encoding: xudp
-  servername: jp1-jp1.aiopen.sbs
-- name: HK · VLESS · shaoyouvip · ECE4D690
-  type: vless
-  server: hk6-r.link-t7.com
-  port: 10136
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: f2987fba-b653-444d-8057-6b6474e448c6
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: movie
-  network: grpc
-  packet-encoding: xudp
+  servername: tesla.com
+- name: GB · HTTP · shaoyouvip · 2235CB01
+  type: http
+  server: 185.235.0.34
+  port: 443
+  skip-cert-verify: true
   tls: true
   udp: true
-  servername: s0.awsstatic.com
+  password: None
+- name: US · HTTP · shaoyouvip · 251B7D06
+  type: http
+  server: 3a204117-tk7400-tlbcwm-1rfon.u12.oshuawei.com
+  port: 443
+  sni: 3a204117-tk7400-tlbcwm-1rfon.u12.oshuawei.com
+  tls: true
+  udp: true
+  username: aed1cc24-351d-11ef-ba52-f23c9164ca5d
+  password: aed1cc24-351d-11ef-ba52-f23c9164ca5d
