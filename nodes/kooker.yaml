@@ -1,81 +1,4 @@
 proxies:
-- name: US · HTTP · kooker · 3E69BC05
-  type: http
-  server: 154.21.89.32
-  port: 12344
-- name: DE · VLESS · kooker · 6941B492
-  type: vless
-  server: 188.72.103.4
-  port: 443
-  uuid: 9329556f-f4c2-42fe-8859-c52ce5f95c23
-  client-fingerprint: firefox
-  network: xhttp
-  tls: true
-  udp: true
-  xhttp-opts:
-    host: cdn.huananconn.xyz
-    mode: packet-up
-    path: /api/v1/assets
-    uplink-http-method: GET
-    x-padding-bytes: 16-64
-    x-padding-header: X-Signature
-    x-padding-key: _token
-    x-padding-method: tokenish
-    x-padding-obfs-mode: true
-    x-padding-placement: query
-  servername: cdn.huananconn.xyz
-- name: HK · VMESS · kooker · 1B514574
-  type: vmess
-  server: planb.mojcn.com.linuxlh.xin
-  port: 16632
-  uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
-  alterId: 0
-  cipher: auto
-  network: ws
-  skip-cert-verify: false
-  tls: false
-  ws-opts:
-    headers:
-      Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
-    path: /
-- name: US · HTTP · kooker · BACA0A2A
-  type: http
-  server: 154.21.89.32
-  port: 12344
-  password: None
-- name: US · VLESS · kooker · 71DD5676
-  type: vless
-  server: 85.155.178.96
-  port: 443
-  reality-opts:
-    public-key: QJW15WZWLNjA8KEpe4GqSdOe4rfW8KgqjjVmKxPk-ng
-    short-id: 3fa234ea9feaa048
-  uuid: d7430ae7-320c-4658-808b-3006d0627d82
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-service-name: gun
-  network: grpc
-  tls: true
-  udp: true
-  xudp: true
-  servername: us03.glaveda.net
-- name: IN · VMESS · kooker · A85EF55F
-  type: vmess
-  server: planb.mojcn.com.linuxlh.xin
-  port: 16626
-  uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
-  alterId: 0
-  cipher: auto
-  network: ws
-  skip-cert-verify: false
-  tls: false
-  udp: true
-  ws-opts:
-    headers:
-      Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
-    path: /
-  xudp: true
 - name: JP · HTTP · kooker · C04F9361
   type: http
   server: fan.571589.xyz
@@ -84,3 +7,15 @@ proxies:
   tls: true
   username: "null"
   password: "null"
+- name: US · SS · kooker · 6027A62D
+  type: ss
+  server: 121.46.230.232
+  port: 65443
+  cipher: aes-256-cfb
+  password: 7eadc6dbe2ae
+- name: KR · SS · kooker · F5CE3489
+  type: ss
+  server: 121.46.230.138
+  port: 65443
+  cipher: aes-256-cfb
+  password: 7eadc6dbe2ae
