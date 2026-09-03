@@ -1,4 +1,16 @@
 proxies:
+- name: DE · HYSTERIA · cfmem · 38EEEAF3
+  type: hysteria
+  server: 5.83.129.153
+  port: 20088
+  up: '500'
+  down: '1000'
+  sni: apple.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  udp: true
+  auth-str: dongtaiwang.com
 - name: IE · SS · cfmem · 05847717
   type: ss
   server: 3.252.205.48
@@ -15,6 +27,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
+- name: GB · TROJAN · cfmem · CC97530A
+  type: trojan
+  server: 45.85.88.194
+  port: 2234
+  sni: vps.tropicalhosting.net
+  skip-cert-verify: true
+  udp: true
+  password: tripitropa994825
 - name: US · VMESS · cfmem · 1BB42466
   type: vmess
   server: guanwang.awsno.com
@@ -32,14 +52,20 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: CN · VMESS · cfmem · 27130FE8
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  network: tcp
+- name: NL · VLESS · cfmem · 1AED7FE3
+  type: vless
+  server: 31.76.61.232
+  port: 443
+  reality-opts:
+    public-key: CMTA5uuaIVIeqHslZMT3CbFwP8F5ysMLii72ybsTlyY
+    short-id: e2a4c6b8
+  uuid: 791a171e-c0af-4bd7-b8ce-43541c7585db
+  servername: policies.google.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
 - name: CA · SS · cfmem · 157CF840
   type: ss
   server: 3.97.16.160
@@ -48,14 +74,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: CN→JP · SS · cfmem · 3B4A79F1
-  type: ss
-  server: 121.46.230.137
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
 - name: GB · VLESS · cfmem · 28D82A19
   type: vless
   server: 31.76.4.128
@@ -105,6 +123,14 @@ proxies:
 - name: FR · SS · cfmem · B3E80520
   type: ss
   server: 95.170.13.47
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: CN→US · SS · cfmem · D29CBBED
+  type: ss
+  server: 121.46.230.233
   port: 65443
   cipher: aes-256-cfb
   skip-cert-verify: true
