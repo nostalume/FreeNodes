@@ -1,39 +1,29 @@
 proxies:
-- name: JP · ANYTLS · kooker · E70E7B43
-  type: anytls
-  server: 154.64.252.38
-  port: 10005
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-  password: c0cc55a3-b4bd-710c-db35-52db8cfbbc9e
-- name: MY · HTTP · kooker · 0DEB3C4F
+- name: US · HTTP · kooker · 3E69BC05
   type: http
-  server: 3bae395a-tk7400-tlvq5w-1jcwu.my.oshuawei.com
-  port: 5228
-  skip-cert-verify: true
-  tls: true
-  sni: 3bae395a-tk7400-tlvq5w-1jcwu.my.oshuawei.com
-  username: f93486ce-cc84-11ed-9e98-f23c913c8d2b
-  password: f93486ce-cc84-11ed-9e98-f23c913c8d2b
-- name: US · VLESS · kooker · 2B43C7F4
+  server: 154.21.89.32
+  port: 12344
+- name: DE · VLESS · kooker · 6941B492
   type: vless
-  server: 172.67.173.191
+  server: 188.72.103.4
   port: 443
-  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
-  client-fingerprint: chrome
-  encryption: none
-  network: ws
+  uuid: 9329556f-f4c2-42fe-8859-c52ce5f95c23
+  client-fingerprint: firefox
+  network: xhttp
   tls: true
   udp: true
-  ws-opts:
-    headers:
-      Host: 4-m20.e00e.ccwu.cc
-      User-Agent: Mozilla/5.0 (Linux; Android 7.0; SM-G610F Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.111
-        Mobile Safari/537.36
-    path: /8qMLgNapWf6SBxo8fhQlVPYO
-  xudp: true
-  servername: 4-m20.e00e.ccwu.cc
+  xhttp-opts:
+    host: cdn.huananconn.xyz
+    mode: packet-up
+    path: /api/v1/assets
+    uplink-http-method: GET
+    x-padding-bytes: 16-64
+    x-padding-header: X-Signature
+    x-padding-key: _token
+    x-padding-method: tokenish
+    x-padding-obfs-mode: true
+    x-padding-placement: query
+  servername: cdn.huananconn.xyz
 - name: HK · VMESS · kooker · 1B514574
   type: vmess
   server: planb.mojcn.com.linuxlh.xin
@@ -48,58 +38,44 @@ proxies:
     headers:
       Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
     path: /
-- name: NL · HTTP · kooker · 6415793A
+- name: US · HTTP · kooker · BACA0A2A
   type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
+  server: 154.21.89.32
+  port: 12344
+  password: None
+- name: US · VLESS · kooker · 71DD5676
+  type: vless
+  server: 85.155.178.96
+  port: 443
+  reality-opts:
+    public-key: QJW15WZWLNjA8KEpe4GqSdOe4rfW8KgqjjVmKxPk-ng
+    short-id: 3fa234ea9feaa048
+  uuid: d7430ae7-320c-4658-808b-3006d0627d82
+  client-fingerprint: chrome
+  encryption: none
+  grpc-opts:
+    grpc-service-name: gun
+  network: grpc
   tls: true
   udp: true
-  password: None
-- name: FR · SS · kooker · 4268F02B
-  type: ss
-  server: 95.170.13.47
-  port: 65443
-  cipher: aes-256-cfb
-  password: 7eadc6dbe2ae
-- name: US · VMESS · kooker · 36ABB127
+  xudp: true
+  servername: us03.glaveda.net
+- name: IN · VMESS · kooker · A85EF55F
   type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
+  server: planb.mojcn.com.linuxlh.xin
+  port: 16626
+  uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
+  alterId: 0
   cipher: auto
-  network: tcp
+  network: ws
   skip-cert-verify: false
   tls: false
   udp: true
+  ws-opts:
+    headers:
+      Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
+    path: /
   xudp: true
-- name: GB · HTTP · kooker · 841DF08C
-  type: http
-  server: 212.102.63.31
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: US · SS · kooker · AC1F8BFF
-  type: ss
-  server: 121.46.230.233
-  port: 65443
-  cipher: aes-256-cfb
-  password: 7eadc6dbe2ae
-- name: NL · HTTP · kooker · 97F8B333
-  type: http
-  server: 84.17.47.146
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: KR · SS · kooker · F5CE3489
-  type: ss
-  server: 121.46.230.138
-  port: 65443
-  cipher: aes-256-cfb
-  password: 7eadc6dbe2ae
 - name: JP · HTTP · kooker · C04F9361
   type: http
   server: fan.571589.xyz
@@ -108,47 +84,3 @@ proxies:
   tls: true
   username: "null"
   password: "null"
-- name: JP · HTTP · kooker · CE5C704D
-  type: http
-  server: 54bcaef3-tcev40-th02zb-m0b9.jp.oshuawei.com
-  port: 443
-  tls: true
-  sni: 54bcaef3-tcev40-th02zb-m0b9.jp.oshuawei.com
-  username: bb85e074-b0c2-11ea-ad28-f23c913c8d2b
-  password: bb85e074-b0c2-11ea-ad28-f23c913c8d2b
-- name: NL · HTTP · kooker · DFA82CB5
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · E3E25B81
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · E5953371
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · FA6562D1
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · FEA813FE
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None

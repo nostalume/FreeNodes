@@ -1,111 +1,79 @@
 proxies:
-- name: GB · HTTP · shaoyouvip · 0D29728A
-  type: http
-  server: 37.120.233.34
-  port: 9443
+- name: JP · ANYTLS · shaoyouvip · 14FAC649
+  type: anytls
+  server: jpglobal-identity-federation-auth.younai-ytl.shop
+  port: 12791
   skip-cert-verify: true
+  sni: jp10.pulsarcore.site
+  udp: true
+  password: bd54ceae-9b5c-477d-b364-ffd8e5c734a7
+- name: RO · HTTP · shaoyouvip · 0BA8A056
+  type: http
+  server: 193.176.84.37
+  port: 9002
+  skip-cert-verify: true
+  sni: www.bing.com
   tls: true
   udp: true
-  password: None
-- name: US · SOCKS5 · shaoyouvip · 1F0F89A2
-  type: socks5
-  server: 50cc947d-tk7400-tlvq5w-1jcwu.sj.oshuawei.com
+- name: DE · VLESS · kooker · 6941B492
+  type: vless
+  server: 188.72.103.4
   port: 443
+  uuid: 9329556f-f4c2-42fe-8859-c52ce5f95c23
+  client-fingerprint: firefox
+  network: xhttp
+  tls: true
   udp: true
-  username: f93486ce-cc84-11ed-9e98-f23c913c8d2b
-  password: f93486ce-cc84-11ed-9e98-f23c913c8d2b
-- name: KR · SS · shaoyouvip · E899E879
+  xhttp-opts:
+    host: cdn.huananconn.xyz
+    mode: packet-up
+    path: /api/v1/assets
+    uplink-http-method: GET
+    x-padding-bytes: 16-64
+    x-padding-header: X-Signature
+    x-padding-key: _token
+    x-padding-method: tokenish
+    x-padding-obfs-mode: true
+    x-padding-placement: query
+  servername: cdn.huananconn.xyz
+- name: ZZ · HYSTERIA · shaoyouvip · 61FB4CB7
+  type: hysteria
+  server: 5.83.129.153
+  port: 20088
+  skip-cert-verify: true
+  udp: true
+  sni: apple.com
+  alpn:
+  - h3
+  protocol: udp
+  up: 500
+  down: 1000
+  auth-str: dongtaiwang.com
+- name: CA · SS · shaoyouvip · 030B1BE7
   type: ss
-  server: 121.46.230.138
-  port: 65443
+  server: 3.96.144.93
+  port: 443
   cipher: aes-256-cfb
   udp: true
-  password: 7eadc6dbe2ae
-- name: NL · VLESS · shaoyouvip · 1981C6AD
-  type: vless
-  server: 141.148.245.146
-  port: 62145
-  uuid: 8fb65472-5957-4f64-ba2d-b5812b2f155a
-  network: tcp
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: NL · HTTP · kooker · 6415793A
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: US · HTTP · shaoyouvip · 1327C004
-  type: http
-  server: 138.199.35.219
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · SOCKS5 · shaoyouvip · BC0436D0
-  type: socks5
-  server: 56e6e1f9-tk7400-tlbcwm-1rfon.los.gotochinatown.net
+  password: amazonskr05
+- name: FR · TROJAN · shaoyouvip · 00DC624F
+  type: trojan
+  server: ip.myip2.qzz.io
   port: 443
-  udp: true
-  username: aed1cc24-351d-11ef-ba52-f23c9164ca5d
-  password: aed1cc24-351d-11ef-ba52-f23c9164ca5d
-- name: SG · VLESS · shaoyouvip · 443159A2
-  type: vless
-  server: sg4-r.link-t7.com
-  port: 10039
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: c1ce3941-ac6f-4e98-9791-3b33abbaf64f
   client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: update
-  network: grpc
-  packet-encoding: xudp
-  tls: true
+  network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
   udp: true
-  servername: d1.awsstatic.com
-- name: RO · HTTP · shaoyouvip · 158DC25B
-  type: http
-  server: 193.176.84.38
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: HK · VLESS · shaoyouvip · 65219491
-  type: vless
-  server: hk3-r.link-t7.com
-  port: 10128
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: f2987fba-b653-444d-8057-6b6474e448c6
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: movie
-  network: grpc
-  packet-encoding: xudp
-  tls: true
-  udp: true
-  servername: s0.awsstatic.com
-- name: NL · HTTP · kooker · 97F8B333
-  type: http
-  server: 84.17.47.146
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: HK · VMESS · shaoyouvip · C74A6259
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
+    path: /assignment
+  password: humanity
+- name: IN · VMESS · shaoyouvip · 7503184A
   type: vmess
   server: planb.mojcn.com.linuxlh.xin
-  port: 16632
+  port: 16626
   uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
   alterId: 0
   cipher: auto
@@ -119,6 +87,183 @@ proxies:
     path: /
   xudp: true
   packet-encoding: xudp
+- name: US · ANYTLS · shaoyouvip · 36CAECAC
+  type: anytls
+  server: svip.skycon808.com
+  port: 53504
+  skip-cert-verify: true
+  sni: us63.swiftrelay.cc
+  udp: true
+  password: bd54ceae-9b5c-477d-b364-ffd8e5c734a7
+- name: ZZ · HTTP · shaoyouvip · 0BC3A4D7
+  type: http
+  server: 193.176.84.36
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  sni: www.bing.com
+- name: US · SOCKS5 · shaoyouvip · F2A4E837
+  type: socks5
+  server: 185.145.99.41
+  port: 1080
+  udp: true
+  username: test123
+  password: test123
+- name: CA · SS · shaoyouvip · 1DCC7FD1
+  type: ss
+  server: 3.97.16.160
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: FR · TROJAN · shaoyouvip · 02F292CE
+  type: trojan
+  server: 216.24.57.1
+  port: 443
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+    path: /assignment
+  password: humanity
+- name: GB · HTTP · shaoyouvip · 0D29728A
+  type: http
+  server: 37.120.233.34
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: CA · SS · shaoyouvip · AF7EEC43
+  type: ss
+  server: 15.223.120.129
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: GB · TROJAN · shaoyouvip · 273987B2
+  type: trojan
+  server: xn--1ugy405pdua.gayvibe.dpdns.org
+  port: 2174
+  alpn:
+  - http/1.1
+  client-fingerprint: firefox
+  skip-cert-verify: false
+  udp: true
+  network: tcp
+  sni: xn--1ugy405pdua.gayvibe.dpdns.org
+  password: tripitropa444
+- name: HK · VLESS · shaoyouvip · 1BE1EF53
+  type: vless
+  server: hk1-r.link-t7.com
+  port: 10126
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: c1ce3941-ac6f-4e98-9791-3b33abbaf64f
+  client-fingerprint: chrome
+  encryption: none
+  grpc-opts:
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  xudp: true
+  packet-encoding: xudp
+  servername: s0.awsstatic.com
+- name: TR · ANYTLS · shaoyouvip · DB9D010B
+  type: anytls
+  server: jpglobal-identity-federation-auth.younai-ytl.shop
+  port: 64293
+  skip-cert-verify: true
+  sni: trq002.swiftrelay.cc
+  udp: true
+  password: bd54ceae-9b5c-477d-b364-ffd8e5c734a7
+- name: US · HTTP · shaoyouvip · 0F9DF5A3
+  type: http
+  server: 209.148.53.153
+  port: 8090
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: FR · TROJAN · shaoyouvip · 8BBD6613
+  type: trojan
+  server: 104.19.229.21
+  port: 443
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+    path: /assignment
+  password: humanity
+- name: US · VLESS · shaoyouvip · 1F191F4C
+  type: vless
+  server: 85.155.178.96
+  port: 443
+  reality-opts:
+    public-key: QJW15WZWLNjA8KEpe4GqSdOe4rfW8KgqjjVmKxPk-ng
+    short-id: 3fa234ea9feaa048
+  uuid: d7430ae7-320c-4658-808b-3006d0627d82
+  client-fingerprint: chrome
+  encryption: none
+  grpc-opts:
+    grpc-service-name: gun
+  network: grpc
+  tls: true
+  udp: true
+  xudp: true
+  packet-encoding: xudp
+  servername: us03.glaveda.net
+- name: RO · HTTP · shaoyouvip · 1174D8EF
+  type: http
+  server: 193.176.84.22
+  port: 9002
+  skip-cert-verify: true
+  sni: www.bing.com
+  tls: true
+  udp: true
+- name: FR · TROJAN · shaoyouvip · B499BE72
+  type: trojan
+  server: 8.6.112.0
+  port: 443
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36
+    path: /assignment
+  password: humanity
+- name: US · VLESS · shaoyouvip · 1F23F161
+  type: vless
+  server: 91.193.59.27
+  port: 2096
+  uuid: a1de0630-5786-48a0-84f6-dc6f2de10d6d
+  client-fingerprint: chrome
+  encryption: none
+  network: ws
+  tls: true
+  udp: true
+  ws-opts:
+    headers:
+      Host: vlso300.1d.mom
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36
+    path: /socks5=888:888@hkip.1d.mom:1080
+  xudp: true
+  packet-encoding: xudp
+  servername: vlso300.1d.mom
 - name: US · HTTP · shaoyouvip · 1AB8D760
   type: http
   server: 138.199.35.210
@@ -126,26 +271,37 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: FI · VLESS · shaoyouvip · 8756FC0C
-  type: vless
-  server: 151.101.56.6
+- name: FR · TROJAN · shaoyouvip · B75E09FE
+  type: trojan
+  server: 104.16.174.148
   port: 443
-  uuid: d60e2537-13e8-41db-bdad-cd5c054a0ec7
-  alpn:
-  - h2
-  client-fingerprint: firefox
-  encryption: none
+  client-fingerprint: chrome
   network: ws
-  tls: true
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
   udp: true
   ws-opts:
     headers:
-      Host: c12.com
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
-    path: /?TELEGRAM--KANAL--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray--@mainv2ray
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+    path: /assignment
+  password: humanity
+- name: NL · VLESS · shaoyouvip · 2068D063
+  type: vless
+  server: 193.233.82.32
+  port: 443
+  uuid: 5999a497-a2da-41d0-92cb-5b758082f83c
+  alpn:
+  - h2
+  - http/1.1
+  client-fingerprint: firefox
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
   xudp: true
   packet-encoding: xudp
-  servername: ssl.fastly.com
+  servername: som1.api3-max.ru
 - name: US · HTTP · shaoyouvip · 1B4F015D
   type: http
   server: 138.199.35.217
@@ -155,157 +311,17 @@ proxies:
   udp: true
   username: ''
   password: ''
-- name: CA · VLESS · shaoyouvip · A885C9D7
-  type: vless
-  server: 155.248.229.115
-  port: 8443
-  reality-opts:
-    public-key: SfFw8nx4WUjN5xs-4-al4coSfu31GWgWTpTJiwse420
-  uuid: 911a03bc-6628-43af-948d-cc092f3df78a
-  client-fingerprint: edge
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  servername: tesla.com
-- name: NL · HTTP · kooker · DFA82CB5
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: FR · HTTP · shaoyouvip · 1D557FD3
-  type: http
-  server: 85a31919-tk7400-tlbcwm-1rfon.fr.oshuawei.com
+- name: FR · TROJAN · shaoyouvip · CCE5586B
+  type: trojan
+  server: 104.26.14.137
   port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  sni: 85a31919-tk7400-tlbcwm-1rfon.fr.oshuawei.com
-  username: aed1cc24-351d-11ef-ba52-f23c9164ca5d
-  password: aed1cc24-351d-11ef-ba52-f23c9164ca5d
-- name: GB · VLESS · shaoyouvip · AD4A86A4
-  type: vless
-  server: 13.134.70.15
-  port: 22223
-  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
-  encryption: none
-  network: tcp
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: IT · HTTP · shaoyouvip · 202BA837
-  type: http
-  server: 185.183.105.130
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · FA6562D1
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: HK · VLESS · shaoyouvip · C2DBFD2F
-  type: vless
-  server: hk5-r.link-t7.com
-  port: 10130
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: f2987fba-b653-444d-8057-6b6474e448c6
   client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-service-name: movie
-  network: grpc
-  tls: true
+  network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
   udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: s0.awsstatic.com
-- name: RO · HTTP · shaoyouvip · 204EDCA1
-  type: http
-  server: 193.176.84.29
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: SG · VLESS · shaoyouvip · C5859994
-  type: vless
-  server: sg2-r.link-t7.com
-  port: 10037
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: f2987fba-b653-444d-8057-6b6474e448c6
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-mode: gun
-    grpc-service-name: update
-  network: grpc
-  tls: true
-  udp: true
-  servername: s0.awsstatic.com
-- name: HK · VLESS · shaoyouvip · C6DEF665
-  type: vless
-  server: hk4-r.link-t7.com
-  port: 10129
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: f2987fba-b653-444d-8057-6b6474e448c6
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-service-name: movie
-  network: grpc
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: s0.awsstatic.com
-- name: US · HTTP · shaoyouvip · 21766868
-  type: http
-  server: 138.199.35.215
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: CA · VLESS · shaoyouvip · D83D557C
-  type: vless
-  server: 155.248.229.115
-  port: 8443
-  reality-opts:
-    public-key: SfFw8nx4WUjN5xs-4-al4coSfu31GWgWTpTJiwse420
-    short-id: ''
-  uuid: d6b91cae-8867-44e5-9e91-a19baf5e121e
-  client-fingerprint: chrome
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: tesla.com
-- name: GB · HTTP · shaoyouvip · 2235CB01
-  type: http
-  server: 185.235.0.34
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: US · HTTP · shaoyouvip · 251B7D06
-  type: http
-  server: 3a204117-tk7400-tlbcwm-1rfon.u12.oshuawei.com
-  port: 443
-  sni: 3a204117-tk7400-tlbcwm-1rfon.u12.oshuawei.com
-  tls: true
-  udp: true
-  username: aed1cc24-351d-11ef-ba52-f23c9164ca5d
-  password: aed1cc24-351d-11ef-ba52-f23c9164ca5d
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36
+    path: /assignment
+  password: humanity
