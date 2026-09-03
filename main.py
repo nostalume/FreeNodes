@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""FreeNodeSpider CLI — AI-powered proxy node crawler.
+"""FreeNodes subscription publication CLI.
 
 Usage:
     uv run python main.py
@@ -13,7 +13,7 @@ import asyncio
 import logging
 import os
 import sys
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, suppress
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Annotated, Literal, Protocol, cast
@@ -21,19 +21,21 @@ from typing import Annotated, Literal, Protocol, cast
 from dotenv import load_dotenv
 from pydantic import Field
 
-from src.config import FrozenModel, load_config
-from src.mihomo import MihomoValidator, acquire_pinned_mihomo
-from src.probe import MihomoProbeSession
-from src.profiles import PublicEntryRegistry
-from src.public_verification import PublicVerificationError, verify_remote_entries
-from src.publication import (
+from freenodes.application import Application
+from freenodes.config import FrozenModel, load_config
+from freenodes.discovery import DiscoveryOutcome
+from freenodes.llm import OPENROUTER_CREDENTIAL_ENV, OpenRouterFallback
+from freenodes.mihomo import MihomoValidator, acquire_pinned_mihomo
+from freenodes.probe import MihomoProbeSession
+from freenodes.profiles import SubscriptionURLs
+from freenodes.publication import (
     PublicationError,
     apply_publication,
     prepare_publication,
     render_publication_report,
     validate_bundle_output_parent,
 )
-from src.scheduler import Scheduler
+from freenodes.verification import PublicVerificationError, verify_remote_entries
 
 
 # Windows console (GBK) can't encode flag emojis in summary output.
@@ -42,15 +44,13 @@ class _ReconfigurableStream(Protocol):
     def reconfigure(self, *, encoding: str, errors: str) -> None: ...
 
 
-try:
+with suppress(AttributeError, OSError, ValueError):
     cast(_ReconfigurableStream, sys.stdout).reconfigure(
         encoding="utf-8",
         errors="replace",
     )
-except Exception:
-    pass
 
-# Surface LLM warnings/errors (provider failures, model not found).
+# Surface OpenRouter fallback warnings and errors.
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
 load_dotenv()
@@ -109,9 +109,76 @@ Command = Annotated[
 ]
 
 
+class ParsedArguments(FrozenModel):
+    target: str | None = None
+    verify_public: bool = False
+    audit_sources: bool = False
+    validation_output: Path | None = Field(default=None, strict=False)
+    prepare_publication: Path | None = Field(default=None, strict=False)
+    apply_publication: Path | None = Field(default=None, strict=False)
+    report_publication: bool = False
+    receipt_sha: str | None = None
+    pathspec_output: Path | None = Field(default=None, strict=False)
+
+
+def render_discovery_report(outcomes: list[DiscoveryOutcome]) -> str:
+    lines = ["SUMMARY", "SITE             ARTICLES TXT YAML BYTES"]
+    lines.extend(
+        (
+            f"{outcome.site_name:16s} {outcome.articles_processed:8d} "
+            f"{outcome.txt_count:3d} {outcome.yaml_count:4d} {outcome.total_bytes:5d}"
+        )
+        for outcome in outcomes
+    )
+    lines.append(
+        f"{'TOTAL':16s} {sum(item.articles_processed for item in outcomes):8d} "
+        f"{sum(item.txt_count for item in outcomes):3d} "
+        f"{sum(item.yaml_count for item in outcomes):4d} "
+        f"{sum(item.total_bytes for item in outcomes):5d}"
+    )
+    lines.extend(
+        f"[{outcome.site_name}] {error}"
+        for outcome in outcomes
+        for error in outcome.errors
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _transfer_command(
+    args: ParsedArguments, parser: argparse.ArgumentParser
+) -> Command | None:
+    if args.prepare_publication:
+        if args.target:
+            parser.error("--prepare-publication does not accept a target")
+        if args.receipt_sha or args.pathspec_output:
+            parser.error("apply options require --apply-publication")
+        return PreparePublicationCommand(payload=args.prepare_publication)
+    if args.apply_publication:
+        if args.target:
+            parser.error("--apply-publication does not accept a target")
+        if not args.receipt_sha:
+            parser.error("--apply-publication requires --receipt-sha")
+        return ApplyPublicationCommand(
+            payload=args.apply_publication,
+            receipt_sha256=args.receipt_sha,
+            pathspec_output=(
+                args.pathspec_output or Path(".git/freenodes-publication-paths")
+            ),
+        )
+    if args.report_publication:
+        if args.target:
+            parser.error("--report-publication does not accept a target")
+        if args.receipt_sha or args.pathspec_output:
+            parser.error("apply options require --apply-publication")
+        return ReportPublicationCommand()
+    if args.receipt_sha or args.pathspec_output:
+        parser.error("apply options require --apply-publication")
+    return None
+
+
 def parse_args(argv: list[str] | None = None) -> Command:
     parser = argparse.ArgumentParser(
-        description="FreeNodeSpider — AI-powered proxy node crawler",
+        description="FreeNodes subscription discovery and publication",
     )
     parser.add_argument(
         "target",
@@ -162,33 +229,10 @@ def parse_args(argv: list[str] | None = None) -> Command:
         "--pathspec-output",
         help="contained Git pathspec output for --apply-publication",
     )
-    args = parser.parse_args(argv)
-    if args.prepare_publication:
-        if args.target:
-            parser.error("--prepare-publication does not accept a target")
-        if args.receipt_sha or args.pathspec_output:
-            parser.error("apply options require --apply-publication")
-        return PreparePublicationCommand(payload=args.prepare_publication)
-    if args.apply_publication:
-        if args.target:
-            parser.error("--apply-publication does not accept a target")
-        if not args.receipt_sha:
-            parser.error("--apply-publication requires --receipt-sha")
-        return ApplyPublicationCommand(
-            payload=args.apply_publication,
-            receipt_sha256=args.receipt_sha,
-            pathspec_output=(
-                args.pathspec_output or ".git/freenodes-publication-paths"
-            ),
-        )
-    if args.report_publication:
-        if args.target:
-            parser.error("--report-publication does not accept a target")
-        if args.receipt_sha or args.pathspec_output:
-            parser.error("apply options require --apply-publication")
-        return ReportPublicationCommand()
-    if args.receipt_sha or args.pathspec_output:
-        parser.error("apply options require --apply-publication")
+    args = ParsedArguments.model_validate(vars(parser.parse_args(argv)))
+    transfer = _transfer_command(args, parser)
+    if transfer:
+        return transfer
     if args.audit_sources:
         if args.target:
             parser.error("--audit-sources does not accept a target")
@@ -226,20 +270,33 @@ async def run(command: Command) -> int:
         return 0
     config = load_config()
 
-    scheduler = Scheduler(config)
+    application = Application(
+        config.sources,
+        config.discovery,
+        candidate_sources=config.audit_sources,
+        openrouter=config.openrouter,
+        publication=config.publication,
+        repository=config.repository,
+        llm=OpenRouterFallback(
+            config.openrouter,
+            credential=os.getenv(OPENROUTER_CREDENTIAL_ENV),
+        ),
+    )
     if command.kind == "audit_sources":
-        with TemporaryDirectory(prefix="freenodes-audit-") as temporary:
-            with redirect_stdout(sys.stderr):
-                acquired = acquire_pinned_mihomo(Path(temporary) / "mihomo")
-                receipt = await scheduler.audit_sources(
-                    probe_session=MihomoProbeSession(acquired.executable),
-                )
+        with (
+            TemporaryDirectory(prefix="freenodes-audit-") as temporary,
+            redirect_stdout(sys.stderr),
+        ):
+            acquired = acquire_pinned_mihomo(Path(temporary) / "mihomo")
+            receipt = await application.audit_sources(
+                probe_session=MihomoProbeSession(acquired.executable),
+            )
         print(receipt.model_dump_json(indent=2, by_alias=True))
         return 0 if receipt.status == "complete" and receipt.capable_fingerprints else 2
     if command.kind == "verify_public":
         acquired = acquire_pinned_mihomo(Path(".cache") / "mihomo")
         receipt = await verify_remote_entries(
-            PublicEntryRegistry.from_identity(config.repository),
+            SubscriptionURLs.from_identity(config.repository),
             acquired.executable,
         )
         print(
@@ -250,12 +307,13 @@ async def run(command: Command) -> int:
     if command.kind == "validate":
         output_parent = validate_bundle_output_parent(
             command.output_parent,
-            config.output.dir,
+            Path("nodes"),
         )
         acquired = acquire_pinned_mihomo(output_parent / ".consumer" / "mihomo")
-        receipt = await scheduler.validate_profiles(
+        receipt = await application.validate_profiles(
             output_parent=output_parent,
             validator=MihomoValidator(acquired.executable),
+            probe_session=MihomoProbeSession(acquired.executable),
             target=command.target,
         )
         print(
@@ -265,7 +323,9 @@ async def run(command: Command) -> int:
         return 0
 
     if command.kind == "discover":
-        results = await scheduler.run(target=command.target)
+        results = await application.run(target=command.target)
+        if results:
+            print(render_discovery_report(results), end="")
         if not results or all(not result.artifacts for result in results):
             return 2
         return 0
@@ -273,7 +333,7 @@ async def run(command: Command) -> int:
     cache = Path(".cache") / "mihomo"
     acquired = acquire_pinned_mihomo(cache)
     validator = MihomoValidator(acquired.executable)
-    receipt = await scheduler.publish_profiles(
+    receipt = await application.publish(
         repository_root=Path.cwd(),
         validator=validator,
         probe_session=MihomoProbeSession(acquired.executable),

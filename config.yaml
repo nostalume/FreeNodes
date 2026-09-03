@@ -1,110 +1,109 @@
-crawl:
-  concurrency: 2
-  max_articles: 3
-  timeout: 30
-llm:
-  max_requests_per_run: 30
-  max_requests_per_site: 3
-  providers:
-  - api_key_env: OPENROUTER_API_KEY
-    base_url: https://openrouter.ai/api/v1
-    default_weight: 100
-    is_reasoning_model: false
-    models:
-    - openrouter/free
-    name: openrouter
-  task_routing:
-    extract_links:
-      openrouter: 100
-    generate_pattern:
-      openrouter: 100
-output:
-  dir: nodes
+discovery:
+  source_concurrency: 2
+  article_limit: 3
+  request_timeout_seconds: 30
+  proxy_url: null
+  artifact_limit_per_source: 12
+  byte_limit_per_source: 16777216
+  byte_limit_per_run: 67108864
+openrouter:
+  request_limit_per_run: 30
+  request_limit_per_source: 3
+  request_timeout_seconds: 20
+publication:
+  stale_after_hours: 24
+  expires_after_hours: 48
+  node_limit: 500
 repository:
   owner: nostalume
-  repository: FreeNodes
-source_candidates:
+  name: FreeNodes
+audit_sources:
+# Licensed broad reserve; activate only for independent semantic yield.
 - branch: main
-  description: licensed broad reserve; activate only for independent semantic yield
   name: matin-ghanbari
   owner: MatinGhanbari
   path: subscriptions/v2ray/all_sub.txt
   repository: v2ray-configs
-  type: github
+  kind: github_file
+# Licensed broad reserve; activate only for independent semantic yield.
 - branch: main
-  description: licensed broad reserve; activate only for independent semantic yield
   name: alirewa
   owner: Alirewa
   path: config.txt
   repository: V2ray-Configs
-  type: github
+  kind: github_file
+# Reserve currently rejected by the publication freshness window.
 - branch: main
-  description: reserve currently rejected by the publication freshness window
   name: ovmvo
   owner: ovmvo
   path: sub/permanent/mihomo.yaml
   repository: FreeSub
-  type: github
+  kind: github_file
+# Reserve opaque container not admitted by the shared typed parser.
 - branch: Jsnzkpg
-  description: reserve opaque container not admitted by the shared typed parser
   name: jsnzkpg
   owner: Jsnzkpg
   path: Jsnzkpg
   repository: Jsnzkpg
-  type: github
-sites:
-- description: blog site with dated articles and direct subscription resources
-  link_pattern: https?://clash-meta\.github\.io/uploads/\d{4}/\d{2}/[\w\-\.]+\.(?:txt|yaml|json)
+  kind: github_file
+sources:
+# Blog site with dated articles and direct subscription resources.
+- kind: web
+  resource_pattern: https?://clash-meta\.github\.io/uploads/\d{4}/\d{2}/[\w\-\.]+\.(?:txt|yaml|json)
   name: clashmeta
   start_url: https://clash-meta.github.io/free-nodes/
-  type: simple
-- description: dated blog articles with Clash and V2Ray subscription resources
-  link_pattern: https://node\.nodev2ray\.com/uploads/\d{4}/\d{2}/(?:[0-9]+-)?\d{8}\.(?:txt|yaml|json)
+  article_exclusions: [category, page-]
+# Dated blog articles with Clash and V2Ray subscription resources.
+- kind: web
+  resource_pattern: https://node\.nodev2ray\.com/uploads/\d{4}/\d{2}/(?:[0-9]+-)?\d{8}\.(?:txt|yaml|json)
   name: nodev2ray
   start_url: https://nodev2ray.com/free-node/
-  type: simple
-- description: blog with dated articles (URLs contain YYYY-M-D), each article lists
-    clash/v2ray/sing-box subscription file links
-  link_pattern: https://node\.freeclashnode\.com/uploads/\d{4}/\d{2}/[\d\w\.-]+
+  article_exclusions: [category, page-]
+# Blog with dated articles and Clash/V2Ray/sing-box resource links.
+- kind: web
+  resource_pattern: https://node\.freeclashnode\.com/uploads/\d{4}/\d{2}/[\d\w\.-]+
   name: freeclashnode
   start_url: https://www.freeclashnode.com/free-node/
-  type: simple
-- description: blog listing articles with date in title and URL, each provides clash/v2ray
-    txt/yaml subscription links
-  link_pattern: https://node\.clashnode\.cc/uploads/\d{4}/\d{2}/(?:\d+-\d{8}\.(?:txt|yaml)|\d{8}\.json)
+  article_exclusions: [category, page-]
+# Dated articles with Clash and V2Ray resources.
+- kind: web
+  resource_pattern: https://node\.clashnode\.cc/uploads/\d{4}/\d{2}/(?:\d+-\d{8}\.(?:txt|yaml)|\d{8}\.json)
   name: clashnode
   start_url: https://clashnode.cc/free-node/
-  type: simple
-- description: dated blog articles with direct Clash and V2Ray resources
-  link_pattern: https://oss\.oneclash\.cc/\d{4}/\d{2}/\d{8}\.(?:txt|yaml)
+  article_exclusions: [category, page-]
+# Dated blog articles with direct Clash and V2Ray resources.
+- kind: web
+  resource_pattern: https://oss\.oneclash\.cc/\d{4}/\d{2}/\d{8}\.(?:txt|yaml)
   name: oneclash
   start_url: https://oneclash.cc/freenode/
-  type: simple
-- description: blogger blog, article dates in title as 'YYYY年MM月DD日', each post contains
-    subscription links
-  link_pattern: https://nodebuf\.com/files/public/[a-z0-9]+/preview
+  article_exclusions: [category, page-]
+# Blogger posts with Chinese dates and subscription links.
+- kind: web
+  resource_pattern: https://nodebuf\.com/files/public/[a-z0-9]+/preview
   name: cfmem
   start_url: https://www.cfmem.com/
-  type: simple
-- description: dated articles with direct V2Ray subscription resources
-  link_pattern: https://jichangx\.com/nodes/v2ray-\d{8}-\d+
+  article_exclusions: [category, page-]
+# Dated articles with direct V2Ray resources.
+- kind: web
+  resource_pattern: https://jichangx\.com/nodes/v2ray-\d{8}-\d+
   name: jichangx
   start_url: https://jichangx.com/free-subscription/
-  type: simple
-- description: dated articles with SSR, V2Ray, and Clash subscription resources
-  link_pattern: https?://starcorenode\.cczzuu\.top/node/\d{8}(?:\.txt|\.yaml)
+  article_exclusions: [category, page-]
+# Dated articles with SSR, V2Ray, and Clash resources.
+- kind: web
+  resource_pattern: https?://starcorenode\.cczzuu\.top/node/\d{8}(?:\.txt|\.yaml)
   name: clashstair
   start_url: https://clashstair.com/category/freenode/
-  type: simple
-- description: blog with dates in both title ('YYYY年MM月DD日') and URL (/post/YYYYMMDD/),
-    each post has subscription links
-  link_pattern: https://free\.datiya\.com/uploads/\d{8}-[A-Za-z0-9_-]+\.(?:txt|yaml)
+  article_exclusions: [category, page-]
+# Blog with dates in title and URL, with subscription resources.
+- kind: web
+  resource_pattern: https://free\.datiya\.com/uploads/\d{8}-[A-Za-z0-9_-]+\.(?:txt|yaml)
   name: datiya
   start_url: https://free.datiya.com/
-  type: simple
-- description: blog with password-protected articles, password from YouTube video
-    subtitles (4-digit AABB/ABAB)
-  link_pattern: https://hh\.yudou226\.top/\d{6}/\d{8}[a-z0-9]+\.[a-z]{3,4}
+  article_exclusions: [category, page-]
+# Password-protected articles using YouTube password evidence.
+- kind: password_page
+  resource_pattern: https://hh\.yudou226\.top/\d{6}/\d{8}[a-z0-9]+\.[a-z]{3,4}
   name: yudou
   password_policy:
     max_candidates: 50
@@ -117,19 +116,46 @@ sites:
       limit: 20
     - type: abab
       limit: 20
+  paste_policy:
+    max_candidates: 51
+    sources:
+    - type: empty
+      limit: 1
+    - type: subtitles
+      limit: 5
+    - type: description
+      limit: 5
+    - type: aabb
+      limit: 20
+    - type: abab
+      limit: 20
   start_url: https://www.yudou789.top/category/jiedian/
-  type: yt_pwd
-- description: YouTube channel, each video description contains a Google Drive link,
-    zip file contains subscription files
+  article_exclusions: [category, page-]
+# YouTube descriptions linking to Google Drive archives.
+- kind: youtube_resources
   name: fxrj
+  password_policy:
+    max_candidates: 51
+    sources:
+    - type: empty
+      limit: 1
+    - type: subtitles
+      limit: 5
+    - type: description
+      limit: 5
+    - type: aabb
+      limit: 20
+    - type: abab
+      limit: 20
   start_url: https://www.youtube.com/@fxrj/videos/
-  type: cloud_drive
-- description: YouTube channel with password evidence and paste-hosted resources
+# YouTube password evidence and paste-hosted resources.
+- kind: youtube_resources
   name: zyfxs
   password_policy:
     max_candidates: 51
     sources:
     - type: empty
+      limit: 1
     - type: subtitles
       limit: 5
     - type: description
@@ -139,60 +165,59 @@ sites:
     - type: abab
       limit: 20
   start_url: https://www.youtube.com/@ZYFXS/videos/
-  type: cloud_drive
+# Licensed daily consumer-ready aggregate.
 - branch: main
-  description: licensed daily consumer-ready aggregate
   name: wzmwayne
   owner: wzmwayne
   path: output/aio/clash.yaml
   repository: proxy-node
-  type: github
+  kind: github_file
+# Licensed independent Mihomo aggregate.
 - branch: main
-  description: licensed independent Mihomo aggregate
   name: kooker
   owner: kooker
   path: mihomo.yaml
   repository: FreeSubsCheck
-  type: github
+  kind: github_file
+# Licensed direct Mihomo aggregate.
 - branch: main
-  description: licensed direct Mihomo aggregate
   name: shaoyouvip
   owner: shaoyouvip
   path: mihomo.yaml
   repository: free
-  type: github
+  kind: github_file
+# Licensed broad unmeasured URI pool.
 - branch: main
-  description: licensed broad unmeasured URI pool
   name: radikal
   owner: 0xRadikal
   path: all/configs.txt
   repository: Free-v2ray-Configs
-  type: github
+  kind: github_file
+# Licensed hourly Clash projection.
 - branch: main
-  description: licensed hourly Clash projection
   name: au1rxx-clash
   owner: Au1rxx
   path: output/clash.yaml
   repository: free-vpn-subscriptions
-  type: github
+  kind: github_file
+# Licensed hourly V2Ray projection.
 - branch: main
-  description: licensed hourly V2Ray projection
   name: au1rxx-v2ray
   owner: Au1rxx
   path: output/v2ray-base64.txt
   repository: free-vpn-subscriptions
-  type: github
+  kind: github_file
+# Licensed direct Clash projection.
 - branch: main
-  description: licensed direct Clash projection
   name: ts-sf-clash
   owner: ts-sf
   path: clash
   repository: fly
-  type: github
+  kind: github_file
+# Licensed direct V2Ray projection.
 - branch: main
-  description: licensed direct V2Ray projection
   name: ts-sf-v2ray
   owner: ts-sf
   path: v2
   repository: fly
-  type: github
+  kind: github_file

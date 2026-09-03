@@ -1,11 +1,7 @@
-[build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "freenodespider"
+name = "FreeNodes"
 version = "0.1.0"
-description = "AI-powered proxy node crawler — rule-first with LLM fallback"
+description = "Bounded proxy subscription discovery and publication"
 requires-python = ">=3.12"
 dependencies = [
     "crawl4ai>=0.5.0",
@@ -32,18 +28,37 @@ dev = [
 
 [tool.uv]
 default-groups = ["dev"]
+package = false
 
 [tool.ruff]
 target-version = "py312"
-include = ["main.py", "src/**/*.py", "tests/**/*.py"]
+include = ["main.py", "freenodes/**/*.py", "tests/**/*.py"]
 extend-exclude = [".agents", ".cache", ".venv", "nodes"]
 
 [tool.ruff.lint]
-select = ["E4", "E7", "E9", "F", "I"]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "I",
+    "UP",
+    "B",
+    "SIM",
+    "C4",
+    "PERF",
+    "C90",
+    "RUF005",
+    "RUF043",
+    "RUF059",
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 asyncio_mode = "auto"
 
 [tool.ty.src]
-include = ["src", "main.py"]
+include = ["freenodes", "main.py"]

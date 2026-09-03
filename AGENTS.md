@@ -2,7 +2,7 @@
 
 Publish bounded, actively tested V2Ray and Clash Verge subscriptions through one typed dataflow, deterministic quality policy, consumer validation, and rollback-capable publication.
 
-# Technical stack
+## Technical stack
 
 - Python 3.12 with asyncio
 - uv dependency and lock management

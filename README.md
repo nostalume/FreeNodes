@@ -49,6 +49,17 @@ One source failure does not discard productive peers. Normal publication require
 runner-relative capability evidence; `python main.py --audit-sources` performs the
 same bounded measurement without publishing.
 
+## Configuration
+
+| YAML key | Meaning and units | Authority and effect |
+| --- | --- | --- |
+| `sources` | Active web, password-page, YouTube-resource, or revision-pinned GitHub inputs. Web sources declare article exclusions and an optional resource regex; password policies declare ordered, bounded evidence sources. | Discovery, admission, capability testing, and publication. Source names and GitHub paths must be unique. |
+| `audit_sources` | Reserve GitHub inputs with the same typed identity as active GitHub sources. | Read only by `--audit-sources`; never activated by normal discovery or publication. |
+| `discovery` | Source concurrency and article/artifact counts; request timeout in seconds; byte ceilings per source/run. `proxy_url: null` means direct adapter traffic. | Bounds discovery effects. A non-null URL is the outbound proxy for web, YouTube, decryption, and Drive adapters—not a published node or capability result. |
+| `openrouter` | Per-run/per-source request counts and timeout in seconds for `openrouter/free`. | Optional fallback only. `OPENROUTER_API_KEY` is the sole secret and remains in the environment/GitHub secret, never YAML. |
+| `publication` | Stale and expiry windows in hours; maximum published node count. Expiry must exceed staleness. | Deterministic admission and output bound; incapable or inconclusive nodes cannot be published. |
+| `repository` | GitHub owner and repository name. | Constructs every direct/CDN import URL and publication identity. |
+
 ## Development
 
 ```bash

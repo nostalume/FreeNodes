@@ -1,5 +1,3 @@
-"""Bounded Google Drive HTTP and archive admission contracts."""
-
 import asyncio
 import io
 import stat
@@ -8,7 +6,7 @@ import zipfile
 import httpx
 import pytest
 
-from src.drive import DriveClient, DriveLimits
+from freenodes.drive import DriveClient, DriveLimits
 
 FILE_ID = "abcdefghijk1"
 

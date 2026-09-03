@@ -1,21 +1,14 @@
-"""Consumer-validation contracts for the pinned Mihomo adapter."""
-
 import hashlib
-import importlib
-import os
 from datetime import UTC, datetime
-from pathlib import Path
 
 import pytest
 import yaml
 
-
-def mihomo_module():
-    return importlib.import_module("src.mihomo")
+import freenodes.mihomo as mihomo
+from tests.support import capable_catalog
 
 
 def test_release_lock_resolves_supported_ci_platforms():
-    mihomo = mihomo_module()
     release = mihomo.PinnedRelease.load()
 
     windows = release.resolve("Windows", "AMD64")
@@ -32,7 +25,6 @@ def test_release_lock_resolves_supported_ci_platforms():
 
 
 def test_checksum_mismatch_is_a_hard_failure(tmp_path):
-    mihomo = mihomo_module()
     archive = tmp_path / "mihomo.zip"
     archive.write_bytes(b"tampered")
 
@@ -45,7 +37,6 @@ def test_checksum_mismatch_is_a_hard_failure(tmp_path):
 def test_validation_invokes_isolated_home_and_rejects_core_failure(
     monkeypatch, tmp_path
 ):
-    mihomo = mihomo_module()
     config = tmp_path / "broken.yaml"
     config.write_text("proxies: [", encoding="utf-8")
     executable = tmp_path / "mihomo.exe"
@@ -61,7 +52,7 @@ def test_validation_invokes_isolated_home_and_rejects_core_failure(
         calls.append((command, kwargs))
         return Failed()
 
-    monkeypatch.setattr("src.mihomo.subprocess.run", fake_run)
+    monkeypatch.setattr("freenodes.mihomo.subprocess.run", fake_run)
     validator = mihomo.MihomoValidator(executable)
 
     with pytest.raises(mihomo.MihomoValidationError, match="configuration rejected"):
@@ -74,7 +65,6 @@ def test_validation_invokes_isolated_home_and_rejects_core_failure(
 
 
 def test_provider_rewrite_targets_loopback_without_file_providers(tmp_path):
-    mihomo = mihomo_module()
     source = tmp_path / "provider.yaml"
     source.write_text(
         yaml.safe_dump(
@@ -112,7 +102,6 @@ def provider_profile(tmp_path):
 
 
 def provider_validator(monkeypatch, tmp_path, proxies, *, timeout=20):
-    mihomo = mihomo_module()
     validator = mihomo.MihomoValidator(tmp_path / "mihomo", timeout=timeout)
     monkeypatch.setattr(validator, "validate_config", lambda *args: None)
     monkeypatch.setattr(validator, "_terminate", lambda process: None)
@@ -129,20 +118,20 @@ def provider_validator(monkeypatch, tmp_path, proxies, *, timeout=20):
         return {"proxies": {"🚀 Auto": {}}}
 
     monkeypatch.setattr(validator, "_await_json", controller)
-    return mihomo, validator
+    return validator
 
 
 def test_remote_provider_rejects_name_only_inventory(monkeypatch, tmp_path):
-    mihomo, validator = provider_validator(monkeypatch, tmp_path, [], timeout=0.01)
+    validator = provider_validator(monkeypatch, tmp_path, [], timeout=0.01)
 
-    with pytest.raises(mihomo.MihomoValidationError, match="empty.*site"):
+    with pytest.raises(mihomo.MihomoValidationError, match=r"empty.*site"):
         validator.smoke_remote_provider(provider_profile(tmp_path))
 
 
 def test_remote_provider_returns_loaded_counts_and_ignores_builtins(
     monkeypatch, tmp_path
 ):
-    _, validator = provider_validator(
+    validator = provider_validator(
         monkeypatch, tmp_path, [{"name": "one"}, {"name": "two"}]
     )
 
@@ -153,28 +142,19 @@ def test_remote_provider_returns_loaded_counts_and_ignores_builtins(
     assert receipt.groups == ("🚀 Auto",)
 
 
-@pytest.mark.skipif(
-    os.getenv("FREENODES_REAL_MIHOMO") != "1"
-    or not Path(".cache/mihomo/mihomo.exe").is_file(),
-    reason="real pinned Mihomo integration is opt-in",
-)
-def test_real_mihomo_loads_every_rendered_provider_node(tmp_path):
-    from src.nodes import SourceArtifact, admit_artifacts
-    from src.profiles import render_profiles
+def test_real_mihomo_loads_every_rendered_provider_node(tmp_path, real_mihomo_path):
+    from freenodes.nodes import SourceArtifact, admit_artifacts
+    from freenodes.profiles import render_profiles
 
     now = datetime(2026, 9, 1, tzinfo=UTC)
     uri = "trojan://secret@real.example:443#US"
     artifact = SourceArtifact.inline(site="real", content=uri, observed_at=now)
-    catalog = admit_artifacts([artifact], now=now)
+    catalog = capable_catalog(admit_artifacts([artifact], now=now))
     for name, content in render_profiles(catalog).files.items():
         output = tmp_path / name
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_bytes(content)
 
-    receipt = (
-        mihomo_module()
-        .MihomoValidator(Path(".cache/mihomo/mihomo.exe"))
-        .validate_bundle(tmp_path)
-    )
+    receipt = mihomo.MihomoValidator(real_mihomo_path).validate_bundle(tmp_path)
 
     assert receipt.provider_names == ("real",)

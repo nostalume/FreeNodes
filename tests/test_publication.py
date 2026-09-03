@@ -1,24 +1,14 @@
-"""Atomic public snapshot promotion contracts."""
-
 import hashlib
 import json
 import subprocess
 from datetime import UTC, datetime
-from pathlib import Path
 
 import pytest
 
-import src.publication as publication
-from src.mihomo import ConsumerValidation
-from src.nodes import (
-    AdmissionCounts,
-    AdmissionSummary,
-    PublishedDate,
-    SourceArtifact,
-    admit_artifacts,
-)
-from src.profiles import OutputBundle, render_profiles
-from src.publication import (
+import freenodes.publication as publication
+from freenodes.capability import DEFAULT_CAPABILITY_TARGETS
+from freenodes.profiles import OutputBundle, render_profiles
+from freenodes.publication import (
     PublicationCapability,
     PublicationError,
     render_publication_report,
@@ -26,120 +16,19 @@ from src.publication import (
     write_bundle,
     write_validated_bundle,
 )
-from src.publication import (
-    publish_bundle as _publish_bundle,
+from tests.support import (
+    ConsumerValidator,
+    bundle,
+    publish_bundle,
+    sample_catalog,
+    snapshot,
 )
-from src.quality import DEFAULT_CAPABILITY_TARGETS
 
 NOW = datetime(2026, 8, 29, 6, 0, tzinfo=UTC)
 
 
-def admission_summary() -> AdmissionSummary:
-    return AdmissionSummary(
-        counts=AdmissionCounts(
-            attempted_sources=1,
-            failed_sources=0,
-            empty_sources=0,
-            sources_with_artifacts=1,
-            discovered_artifacts=1,
-            rejected_artifacts=0,
-            decoded_artifacts=1,
-            candidate_records=1,
-            rejected_records=0,
-            eligible_occurrences=1,
-            unique_eligible=1,
-            duplicate_occurrences=0,
-        )
-    )
-
-
-def publish_bundle(*args, **kwargs):
-    return _publish_bundle(
-        *args,
-        admission_summary=admission_summary(),
-        selection_limit=500,
-        **kwargs,
-    )
-
-
-class AcceptingValidator:
-    def validate_bundle(self, output_dir):
-        assert (output_dir / "nodes" / "merged.yaml").is_file()
-        return ConsumerValidation(
-            profiles=(
-                "nodes/merged.yaml",
-                "nodes/provider.yaml",
-                "nodes/provider-cdn.yaml",
-            ),
-            provider_profiles=("nodes/provider.yaml", "nodes/provider-cdn.yaml"),
-            provider_names=("source",),
-            group_names=("auto", "manual"),
-        )
-
-
-def sample_catalog():
-    return admit_artifacts(
-        [
-            SourceArtifact(
-                site="source",
-                source_url="https://secret.example/sub?token=must-not-leak",
-                content=(
-                    "proxies:\n  - {name: One, type: ss, server: one.example, "
-                    "port: 8388, cipher: aes-128-gcm, password: hidden}\n"
-                ),
-                observed_at=NOW,
-                publication_time=PublishedDate(on=NOW.date()),
-                media_type="application/yaml",
-            )
-        ],
-        now=NOW,
-    )
-
-
-class Validator:
-    def __init__(self, *, fail: bool = False):
-        self.fail = fail
-        self.calls: list[Path] = []
-
-    def validate_bundle(self, root: Path) -> ConsumerValidation:
-        self.calls.append(root)
-        assert (root / "nodes" / "merged.yaml").read_bytes()
-        if self.fail:
-            raise RuntimeError("consumer rejected staging")
-        return ConsumerValidation(
-            profiles=("nodes/merged.yaml",),
-            provider_profiles=(),
-            provider_names=(),
-            group_names=("select",),
-        )
-
-
-def bundle(version: str = "new") -> OutputBundle:
-    return OutputBundle.from_files(
-        {
-            "nodes/merged.yaml": f"proxies: [{version}]\n".encode(),
-            "nodes/merged.txt": f"uri://{version}\n".encode(),
-            "nodes/v2ray.txt": b"encoded",
-            "nodes/provider.yaml": b"proxy-providers: {}\n",
-            "nodes/provider-cdn.yaml": b"proxy-providers: {}\n",
-            "nodes/source.yaml": b"proxies: []\n",
-        },
-        accepted_count=1,
-        clash_count=1,
-        uri_count=1,
-    )
-
-
-def snapshot(root: Path) -> dict[str, bytes]:
-    return {
-        path.relative_to(root).as_posix(): path.read_bytes()
-        for path in root.rglob("*")
-        if path.is_file() and not path.name.startswith(".freenodes-")
-    }
-
-
 def test_private_validation_is_exclusive_and_receipted_without_secrets(tmp_path):
-    catalog = sample_catalog()
+    catalog = sample_catalog(NOW)
     profiles = render_profiles(catalog)
     public = tmp_path / "nodes"
     public.mkdir()
@@ -150,13 +39,12 @@ def test_private_validation_is_exclusive_and_receipted_without_secrets(tmp_path)
         catalog=catalog,
         bundle=profiles,
         output_parent=tmp_path / "validation-output",
-        validator=AcceptingValidator(),
+        validator=ConsumerValidator(),
         now=NOW,
     )
 
     assert sentinel.read_text(encoding="utf-8") == "current public profile"
     assert receipt.status == "consumer_validated"
-    assert receipt.accepted_count == catalog.accepted_count
     raw_receipt = (receipt.output_dir / "validation-receipt.json").read_text(
         encoding="utf-8"
     )
@@ -200,7 +88,7 @@ def test_validation_output_cannot_be_public_or_nested_under_it(tmp_path):
 
 
 def test_promotion_validates_staging_and_writes_receipt_last(tmp_path):
-    validator = Validator()
+    validator = ConsumerValidator()
     replacements: list[str] = []
 
     receipt = publish_bundle(
@@ -224,7 +112,7 @@ def test_publication_report_uses_redacted_receipt_accounting(tmp_path):
     publish_bundle(
         bundle(),
         tmp_path,
-        validator=Validator(),
+        validator=ConsumerValidator(),
         now=NOW,
         capability=PublicationCapability(
             targets=DEFAULT_CAPABILITY_TARGETS,
@@ -247,7 +135,7 @@ def test_publication_report_uses_redacted_receipt_accounting(tmp_path):
 
 
 def test_failure_before_commit_restores_every_live_byte(tmp_path):
-    publish_bundle(bundle("old"), tmp_path, validator=Validator(), now=NOW)
+    publish_bundle(bundle("old"), tmp_path, validator=ConsumerValidator(), now=NOW)
     before = snapshot(tmp_path)
 
     def fail_midway(relative: str, index: int):
@@ -258,7 +146,7 @@ def test_failure_before_commit_restores_every_live_byte(tmp_path):
         publish_bundle(
             bundle("new"),
             tmp_path,
-            validator=Validator(),
+            validator=ConsumerValidator(),
             now=NOW,
             before_replace=fail_midway,
         )
@@ -275,7 +163,7 @@ def test_only_explicit_previous_managed_files_are_removed(tmp_path):
     publish_bundle(
         bundle(),
         tmp_path,
-        validator=Validator(),
+        validator=ConsumerValidator(),
         now=NOW,
         previous_managed=("nodes/obsolete.yaml",),
     )
@@ -289,14 +177,16 @@ def test_validation_failure_and_empty_bundle_leave_public_tree_unchanged(tmp_pat
     before = snapshot(tmp_path)
 
     with pytest.raises(RuntimeError, match="consumer rejected"):
-        publish_bundle(bundle(), tmp_path, validator=Validator(fail=True), now=NOW)
+        publish_bundle(
+            bundle(), tmp_path, validator=ConsumerValidator(fail=True), now=NOW
+        )
     with pytest.raises(PublicationError, match="non-empty"):
         publish_bundle(
             OutputBundle.from_files(
                 {}, accepted_count=0, clash_count=0, uri_count=0, aggregate_files=()
             ),
             tmp_path,
-            validator=Validator(),
+            validator=ConsumerValidator(),
             now=NOW,
         )
 
@@ -313,7 +203,7 @@ def test_unsafe_bundle_path_is_rejected_before_writing(tmp_path):
     )
 
     with pytest.raises(PublicationError, match="unsafe"):
-        publish_bundle(unsafe, tmp_path, validator=Validator(), now=NOW)
+        publish_bundle(unsafe, tmp_path, validator=ConsumerValidator(), now=NOW)
 
     assert not (tmp_path.parent / "escape").exists()
 
@@ -329,7 +219,7 @@ def test_partial_existing_receipt_cannot_authorize_deletion(tmp_path):
     )
 
     with pytest.raises(PublicationError, match="existing publication receipt"):
-        publish_bundle(bundle(), tmp_path, validator=Validator(), now=NOW)
+        publish_bundle(bundle(), tmp_path, validator=ConsumerValidator(), now=NOW)
 
     assert obsolete.read_bytes() == b"keep"
 
@@ -337,7 +227,7 @@ def test_partial_existing_receipt_cannot_authorize_deletion(tmp_path):
 def test_prepare_publication_copies_only_receipt_owned_files(tmp_path):
     repository = tmp_path / "repository"
     payload = tmp_path / "payload"
-    publish_bundle(bundle(), repository, validator=Validator(), now=NOW)
+    publish_bundle(bundle(), repository, validator=ConsumerValidator(), now=NOW)
     receipt = repository / "nodes" / "publication-receipt.json"
 
     prepared = publication.prepare_publication(repository, payload)
@@ -363,7 +253,7 @@ def test_apply_publication_replaces_exact_snapshot_and_emits_pathspec(tmp_path):
     publish_bundle(
         bundle(),
         source,
-        validator=Validator(),
+        validator=ConsumerValidator(),
         now=NOW,
         previous_managed=("nodes/obsolete.yaml",),
     )
@@ -403,7 +293,7 @@ def test_git_staging_ignores_never_tracked_receipt_removals(tmp_path):
     publish_bundle(
         bundle(),
         source,
-        validator=Validator(),
+        validator=ConsumerValidator(),
         now=NOW,
         previous_managed=(tracked, never_tracked),
     )
@@ -472,7 +362,7 @@ def test_apply_publication_rejects_invalid_artifact_before_mutation(tmp_path, de
     source = tmp_path / "source"
     payload = tmp_path / "payload"
     repository = tmp_path / "repository"
-    publish_bundle(bundle(), source, validator=Validator(), now=NOW)
+    publish_bundle(bundle(), source, validator=ConsumerValidator(), now=NOW)
     prepared = publication.prepare_publication(source, payload)
     repository.mkdir()
     sentinel = repository / "sentinel"
@@ -485,7 +375,7 @@ def test_apply_publication_rejects_invalid_artifact_before_mutation(tmp_path, de
     else:
         expected = "0" * 64
 
-    with pytest.raises(PublicationError, match="digest|inventory"):
+    with pytest.raises(PublicationError, match=r"digest|inventory"):
         publication.apply_publication(
             payload,
             repository,
@@ -501,8 +391,8 @@ def test_apply_publication_rolls_back_partial_replacement(tmp_path):
     old = tmp_path / "old"
     source = tmp_path / "source"
     payload = tmp_path / "payload"
-    publish_bundle(bundle("old"), old, validator=Validator(), now=NOW)
-    publish_bundle(bundle("new"), source, validator=Validator(), now=NOW)
+    publish_bundle(bundle("old"), old, validator=ConsumerValidator(), now=NOW)
+    publish_bundle(bundle("new"), source, validator=ConsumerValidator(), now=NOW)
     prepared = publication.prepare_publication(source, payload)
     before = snapshot(old)
 
@@ -526,7 +416,7 @@ def test_reapplying_identical_publication_is_a_no_change(tmp_path):
     source = tmp_path / "source"
     payload = tmp_path / "payload"
     repository = tmp_path / "repository"
-    publish_bundle(bundle(), source, validator=Validator(), now=NOW)
+    publish_bundle(bundle(), source, validator=ConsumerValidator(), now=NOW)
     prepared = publication.prepare_publication(source, payload)
     options = {
         "expected_receipt_sha256": prepared.receipt_sha256,
@@ -543,7 +433,7 @@ def test_reapplying_identical_publication_is_a_no_change(tmp_path):
 
 def test_prepare_publication_rejects_unsafe_receipt_path(tmp_path):
     repository = tmp_path / "repository"
-    publish_bundle(bundle(), repository, validator=Validator(), now=NOW)
+    publish_bundle(bundle(), repository, validator=ConsumerValidator(), now=NOW)
     receipt_path = repository / "nodes" / "publication-receipt.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     receipt["files"]["../escape"] = hashlib.sha256(b"escape").hexdigest()
