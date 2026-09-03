@@ -1,12 +1,4 @@
 proxies:
-- name: NL · SS · clashmeta · 731B2890
-  type: ss
-  server: 82.38.31.35
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  skip-cert-verify: false
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: US · VMESS · cfmem · 1BB42466
   type: vmess
   server: guanwang.awsno.com
@@ -16,3 +8,52 @@ proxies:
   cipher: auto
   network: tcp
   tls: true
+- name: NL · SS · clashmeta · 731B2890
+  type: ss
+  server: 82.38.31.35
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  skip-cert-verify: false
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: DE · VLESS · clashmeta · 00B21C80
+  type: vless
+  server: rrr.windconnect.pro
+  port: 443
+  reality-opts:
+    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
+    short-id: 4da5d1853f04af6d
+  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
+  servername: rrr.windconnect.pro
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: GB · VLESS · cfmem · 28D82A19
+  type: vless
+  server: 31.76.4.128
+  port: 5001
+  reality-opts:
+    public-key: HNjZe5pYUhcuE8sASYVVrVSMW_jFfekgLnrnO4xXIyQ
+    short-id: a1b2c3d4
+  uuid: 5a92a9d2-3067-49cd-bfc5-989bbdfc5d52
+  servername: fi.aeternavpn.space
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: qq
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · clashmeta · 062B8F50
+  type: vless
+  server: 172.67.195.150
+  port: 443
+  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
+  network: ws
+  tls: true
+  servername: 9-m20.dbfb5a2a-81c7-481a-b0cc-0f51aa86cc51.kdns.fr
+  client-fingerprint: chrome
+  ws-opts:
+    path: /8qMLgNapWf6SBxo8fhQlVPYO
+    headers:
+      Host: 9-m20.dbfb5a2a-81c7-481a-b0cc-0f51aa86cc51.kdns.fr

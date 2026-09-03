@@ -1,21 +1,88 @@
 proxies:
-- name: JP · HTTP · kooker · C04F9361
-  type: http
-  server: fan.571589.xyz
-  port: 443
-  sni: fan.571589.xyz
+- name: AE · HYSTERIA2 · kooker · FD9D2A62
+  type: hysteria2
+  server: give.internet-card.sbs
+  port: 34444
+  sni: wata.internet-card.sbs
+  password: uowQGj5hGoMerPtQE2sZV-ETleLUgimbKf3q8TWfijQ
+- name: JP · SS · kooker · 2408E61A
+  type: ss
+  server: 121.46.230.137
+  port: 65443
+  cipher: aes-256-cfb
+  password: 7eadc6dbe2ae
+- name: HK · VMESS · kooker · 1B514574
+  type: vmess
+  server: planb.mojcn.com.linuxlh.xin
+  port: 16632
+  uuid: cefbe234-bcc6-4558-ab7b-1030e331e6a5
+  alterId: 0
+  cipher: auto
+  network: ws
+  skip-cert-verify: false
+  tls: false
+  ws-opts:
+    headers:
+      Host: d052c66d50dcf7c3cfab75ed7f8e8322.mobgslb.tbcache.com
+    path: /
+- name: HK · VLESS · kooker · 41944902
+  type: vless
+  server: hk4-r.link-t7.com
+  port: 10129
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: f2987fba-b653-444d-8057-6b6474e448c6
+  client-fingerprint: chrome
+  encryption: none
+  grpc-opts:
+    grpc-service-name: movie
+  network: grpc
   tls: true
-  username: "null"
-  password: "null"
-- name: US · SS · kooker · 6027A62D
-  type: ss
-  server: 121.46.230.232
-  port: 65443
-  cipher: aes-256-cfb
-  password: 7eadc6dbe2ae
-- name: KR · SS · kooker · F5CE3489
-  type: ss
-  server: 121.46.230.138
-  port: 65443
-  cipher: aes-256-cfb
-  password: 7eadc6dbe2ae
+  udp: true
+  xudp: true
+  servername: s0.awsstatic.com
+- name: HK · VLESS · kooker · B5F87505
+  type: vless
+  server: hk3-r.link-t7.com
+  port: 10128
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: f2987fba-b653-444d-8057-6b6474e448c6
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: movie
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: NL · VLESS · kooker · DE4BD072
+  type: vless
+  server: meli-netbot-join.team-pluss.com
+  port: 8080
+  reality-opts:
+    public-key: a31ZnQOsnWUJq5bSLVWIeuGJZFPE52NidulBT5CV_z4
+    short-id: f40ef36067
+  uuid: 52b7a871-1455-4a6e-9e9c-78a0a1e43f86
+  client-fingerprint: chrome
+  encryption: none
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: the.world.of.the.champions.retrovip.net
+- name: DE · VLESS · kooker · EDF09C3D
+  type: vless
+  server: 31.76.71.140
+  port: 443
+  reality-opts:
+    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
+    short-id: 4da5d1853f04af6d
+  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
+  client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  servername: rrr.windconnect.pro

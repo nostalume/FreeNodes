@@ -1,16 +1,12 @@
 proxies:
-- name: DE · HYSTERIA · cfmem · 38EEEAF3
-  type: hysteria
-  server: 5.83.129.153
-  port: 20088
-  up: '500'
-  down: '1000'
-  sni: apple.com
+- name: IE · SS · cfmem · 05847717
+  type: ss
+  server: 3.252.205.48
+  port: 443
+  cipher: aes-256-cfb
   skip-cert-verify: true
-  alpn:
-  - h3
   udp: true
-  auth-str: dongtaiwang.com
+  password: amazonskr05
 - name: CN→US · SS · cfmem · 078F4188
   type: ss
   server: 121.46.230.232
@@ -19,6 +15,31 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
+- name: US · VMESS · cfmem · 1BB42466
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: tcp
+  tls: true
+- name: MY · SS · cfmem · 14C11A77
+  type: ss
+  server: 118.107.222.231
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: CN · VMESS · cfmem · 27130FE8
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  network: tcp
 - name: CA · SS · cfmem · 157CF840
   type: ss
   server: 3.97.16.160
@@ -35,34 +56,37 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: US · VMESS · cfmem · 1BB42466
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: tcp
+- name: GB · VLESS · cfmem · 28D82A19
+  type: vless
+  server: 31.76.4.128
+  port: 5001
+  reality-opts:
+    public-key: HNjZe5pYUhcuE8sASYVVrVSMW_jFfekgLnrnO4xXIyQ
+    short-id: a1b2c3d4
+  uuid: 5a92a9d2-3067-49cd-bfc5-989bbdfc5d52
+  servername: fi.aeternavpn.space
   tls: true
-- name: US · VMESS · cfmem · 347F16D8
-  type: vmess
-  server: 38.246.226.240
-  port: 52080
-  uuid: 7d4bd961-230c-4b34-ab5d-05cf0dfb4ea5
-  alterId: 0
-  cipher: auto
-  network: http
+  flow: xtls-rprx-vision
+  client-fingerprint: qq
+  skip-cert-verify: true
+  udp: true
+- name: CA→US · SS · cfmem · 449AC5CE
+  type: ss
+  server: cdn.shopify.com
+  port: 80
+  cipher: 2022-blake3-aes-128-gcm
+  plugin: gost-plugin
+  plugin-opts:
+    mode: websocket
+    host: ous1.337777777.xyz
+    tls: false
+    path: /api/v1/stream/us1
+  skip-cert-verify: true
+  udp: true
+  password: YTE1ZWU4ZTEyZjc3YmEzZA==:ZjQ4NzExMzUtMGYzNy00NA==
 - name: TH · SS · cfmem · 6EFEC3A8
   type: ss
   server: 103.169.67.34
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
-- name: FR · SS · cfmem · B3E80520
-  type: ss
-  server: 95.170.13.47
   port: 65443
   cipher: aes-256-cfb
   skip-cert-verify: true
@@ -78,3 +102,11 @@ proxies:
   tls: true
   skip-cert-verify: true
   udp: true
+- name: FR · SS · cfmem · B3E80520
+  type: ss
+  server: 95.170.13.47
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
