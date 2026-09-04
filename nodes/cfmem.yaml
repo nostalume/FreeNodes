@@ -28,6 +28,14 @@ proxies:
   cipher: auto
   network: tcp
   tls: true
+- name: CN→US · SS · cfmem · 078F4188
+  type: ss
+  server: 121.46.230.232
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
 - name: GB · TROJAN · cfmem · CC97530A
   type: trojan
   server: 45.85.88.194
@@ -36,14 +44,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: tripitropa994825
-- name: HK · VLESS · cfmem · 0EC794CE
-  type: vless
-  server: 207.174.133.163
-  port: 10000
-  uuid: caec0d8d-ab2f-4247-b97d-7fb1a34ab195
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: MY · SS · cfmem · 14C11A77
   type: ss
   server: 118.107.222.231
@@ -52,6 +52,20 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
+- name: NL · VLESS · cfmem · 1AED7FE3
+  type: vless
+  server: 31.76.61.232
+  port: 443
+  reality-opts:
+    public-key: CMTA5uuaIVIeqHslZMT3CbFwP8F5ysMLii72ybsTlyY
+    short-id: e2a4c6b8
+  uuid: 791a171e-c0af-4bd7-b8ce-43541c7585db
+  servername: policies.google.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
 - name: CA · SS · cfmem · 157CF840
   type: ss
   server: 3.97.16.160
@@ -151,19 +165,6 @@ proxies:
   port: 10000
   uuid: caec0d8d-ab2f-4247-b97d-7fb1a34ab195
   network: tcp
-- name: US · VLESS · cfmem · AB0CA77D
-  type: vless
-  server: 172.67.156.222
-  port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
-  network: ws
-  tls: true
-  servername: 3-m16.ChIAn-mAI-6.kDnS.Fr
-  client-fingerprint: chrome
-  ws-opts:
-    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
-    headers:
-      Host: 3-m16.ChIAn-Mai-6.kdNs.Fr
 - name: NL · VLESS · cfmem · B9C5EDAF
   type: vless
   server: 51.15.57.139
@@ -171,6 +172,20 @@ proxies:
   uuid: 11af1c47-865a-47c6-92ff-118013655d78
   network: ws
   tls: false
+  skip-cert-verify: true
+  udp: true
+- name: RU→DE · VLESS · cfmem · BA1222C0
+  type: vless
+  server: 31.76.71.140
+  port: 443
+  reality-opts:
+    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
+    short-id: 4da5d1853f04af6d
+  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
+  servername: rrr.windconnect.pro
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
 - name: US · VLESS · cfmem · D5DC8DDC
@@ -201,17 +216,16 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: JP · VMESS · cfmem · D2E46912
+- name: TR · VMESS · cfmem · F360ED47
   type: vmess
-  server: 38.47.121.14
-  port: 49432
-  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
+  server: sacda.tr.snapeurop.com
+  port: 80
+  uuid: a17be1ef-d5bc-41a1-aeac-b02345823f07
   alterId: 0
   cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: http
-  udp: true
+  network: ws
+  ws-opts:
+    path: /
 - name: NL · VLESS · cfmem · E53C2969
   type: vless
   server: 51.158.241.182
@@ -220,6 +234,17 @@ proxies:
   network: ws
   ws-opts:
     path: /
+- name: TR · VMESS · cfmem · FDCD6946
+  type: vmess
+  server: sacda.tr.snapeurop.com
+  port: 80
+  uuid: a17be1ef-d5bc-41a1-aeac-b02345823f07
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  udp: true
 - name: DE · VLESS · cfmem · F55C4F08
   type: vless
   server: 188.220.67.245
