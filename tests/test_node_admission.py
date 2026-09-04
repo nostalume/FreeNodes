@@ -81,22 +81,27 @@ def test_plan_excludes_uri_only_and_bounds_probe_effects_on_catalog_overflow():
     assert planned.entries[0].node.fingerprint == reordered.entries[0].node.fingerprint
 
 
-def test_plan_caps_each_source_and_makes_duplicate_proxy_names_safe():
-    first = node(1, "a").model_copy(update={"display_name": "same"})
-    second = node(2, "a").model_copy(update={"display_name": "same"})
-    third = node(3, "a")
-
-    planned = plan_probe_candidates(
-        AdmittedCatalog(nodes=(first, second, third)),
-        CapabilityPolicy(
-            max_candidates=3,
-            max_full_probes=3,
-            max_probe_per_source=2,
-        ),
+def test_plan_is_source_fair_then_refills_from_an_abundant_source():
+    abundant = tuple(node(index, "a") for index in range(1, 41))
+    scarce = tuple(node(index, "b") for index in range(101, 103))
+    catalog = AdmittedCatalog(
+        nodes=(
+            abundant[0].model_copy(update={"display_name": "same"}),
+            abundant[1].model_copy(update={"display_name": "same"}),
+            *abundant[2:],
+            *scarce,
+        )
     )
 
-    assert len(planned.entries) == 2
-    assert len({entry.node.display_name for entry in planned.entries}) == 2
+    planned = plan_probe_candidates(
+        catalog,
+        CapabilityPolicy(max_candidates=40, max_full_probes=40),
+    )
+
+    assert len(planned.entries) == 40
+    assert tuple(entry.sources for entry in planned.entries[:2]) == (("a",), ("b",))
+    assert sum(entry.sources == ("b",) for entry in planned.entries) == 2
+    assert len({entry.node.display_name for entry in planned.entries}) == 40
 
 
 NOW = datetime(2026, 8, 29, 4, 0, tzinfo=UTC)

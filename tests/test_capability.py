@@ -65,6 +65,8 @@ class CapableProbe:
         )
         return capability.CapabilityRunReceipt(
             status="complete",
+            planned=len(decisions),
+            termination="candidates_exhausted",
             decisions=decisions,
             accepted_fingerprints=tuple(item.fingerprint for item in decisions),
         )
@@ -247,6 +249,8 @@ def test_source_renaming_cannot_change_accepted_identity():
     renamed = old.model_copy(update={"provenance": (provenance("renamed-source", 0),)})
     receipt = capability.CapabilityRunReceipt(
         status="complete",
+        planned=1,
+        termination="candidates_exhausted",
         decisions=(decision,),
         accepted_fingerprints=(FINGERPRINT,),
     )
@@ -320,6 +324,8 @@ def test_measurement_order_excludes_unaccepted_and_requires_both_projections():
 
     receipt = capability.CapabilityRunReceipt(
         status="complete",
+        planned=len(decisions),
+        termination="candidates_exhausted",
         decisions=decisions,
         accepted_fingerprints=(dual.fingerprint, clash.fingerprint),
     )
@@ -353,6 +359,8 @@ def test_capable_catalog_rejects_foreign_or_duplicate_acceptance():
         measured = decision.model_copy(update={"fingerprint": accepted[0]})
         receipt = capability.CapabilityRunReceipt(
             status="complete",
+            planned=1,
+            termination="candidates_exhausted",
             decisions=(measured,),
             accepted_fingerprints=accepted,
         )

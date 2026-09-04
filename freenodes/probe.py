@@ -19,6 +19,7 @@ from freenodes.capability import (
     CapabilityPolicy,
     CapabilityRunReceipt,
     CapabilityTarget,
+    CapabilityTermination,
     DelayObservation,
     NodeCapabilityDecision,
     ProbeCandidate,
@@ -193,7 +194,11 @@ class MihomoProbeSession:
         admitted_targets = CapabilityTarget.admit_registry(targets, quorum=2)
         nodes = plan.nodes
         if not nodes:
-            return CapabilityRunReceipt(status="complete")
+            return CapabilityRunReceipt(
+                status="complete",
+                planned=0,
+                termination="candidates_exhausted",
+            )
         if len(nodes) > self.delay_probe.max_candidates:
             raise ValueError("probe candidate budget exceeded")
         names = {node.display_name for node in nodes}
@@ -216,7 +221,10 @@ class MihomoProbeSession:
                 )
             if not validated.nodes:
                 return CapabilityRunReceipt(
-                    status="complete", decisions=tuple(rejected.values())
+                    status="complete",
+                    planned=len(nodes),
+                    termination="candidates_exhausted",
+                    decisions=tuple(rejected.values()),
                 )
             try:
                 async with self._controller(
@@ -237,6 +245,8 @@ class MihomoProbeSession:
             measured.update(rejected)
             return CapabilityRunReceipt(
                 status=result.status,
+                planned=len(nodes) if result.status == "complete" else None,
+                termination=result.termination,
                 decisions=tuple(
                     measured[node.fingerprint]
                     for node in nodes
@@ -257,6 +267,11 @@ class MihomoProbeSession:
         policy: CapabilityPolicy,
     ) -> CapabilityRunReceipt:
         deadline = asyncio.get_running_loop().time() + self.delay_probe.deadline
+        closing_reserve = min(
+            self.delay_probe.deadline / 4,
+            len(targets) * (self.delay_probe.timeout_ms / 1000 + 1),
+        )
+        candidate_deadline = deadline - closing_reserve
         decisions: list[NodeCapabilityDecision] = []
         controls: list[TargetControlWindow] = []
 
@@ -296,6 +311,13 @@ class MihomoProbeSession:
             )
 
         for offset in range(0, len(nodes), self.BLOCK_SIZE):
+            if (
+                asyncio.get_running_loop().time() + closing_reserve
+                >= candidate_deadline
+            ):
+                return self._complete(
+                    nodes, decisions, controls, policy, "time_budget", deadline=True
+                )
             block = nodes[offset : offset + self.BLOCK_SIZE]
             opening = await observe_controls()
             if sum(item.status == "success" for item in opening) < 2:
@@ -320,7 +342,7 @@ class MihomoProbeSession:
                     unresolved,
                     str(target.url),
                     request_json,
-                    deadline,
+                    candidate_deadline,
                     target.expected_status,
                 )
                 for candidate in unresolved:
@@ -347,6 +369,16 @@ class MihomoProbeSession:
                     break
             windows = await close_windows(opening)
             controls.extend(windows)
+            deadline_reached = any(
+                item.status == "cancelled"
+                for values in measured.values()
+                for item in values
+            )
+            self._require_control_window(windows)
+            if deadline_reached:
+                return self._complete(
+                    nodes, decisions, controls, policy, "time_budget", deadline=True
+                )
             decisions.extend(
                 classify_capability(
                     node.fingerprint,
@@ -356,42 +388,44 @@ class MihomoProbeSession:
                 )
                 for node in block
             )
-            deadline_reached = any(
-                item.status == "cancelled"
-                for values in measured.values()
-                for item in values
-            )
-            if (
-                sum(item.opening == item.closing == "success" for item in windows) < 2
-                or deadline_reached
-            ):
-                return CapabilityRunReceipt(
-                    status="inconclusive",
-                    decisions=tuple(decisions),
-                    controls=tuple(controls),
-                    deadline_reached=deadline_reached,
-                    diagnostic=ProbeDiagnostic(
-                        code=(
-                            "run_deadline"
-                            if deadline_reached
-                            else "control_unavailable"
-                        )
-                    ),
-                )
             if (
                 sum(item.status == "capable" for item in decisions)
                 >= policy.max_published
             ):
-                break
+                return self._complete(
+                    nodes, decisions, controls, policy, "target_reached"
+                )
+        return self._complete(
+            nodes, decisions, controls, policy, "candidates_exhausted"
+        )
+
+    @staticmethod
+    def _complete(
+        nodes: Sequence[ProbeableNode],
+        decisions: Sequence[NodeCapabilityDecision],
+        controls: Sequence[TargetControlWindow],
+        policy: CapabilityPolicy,
+        termination: CapabilityTermination,
+        *,
+        deadline: bool = False,
+    ) -> CapabilityRunReceipt:
         capable = tuple(
             item.fingerprint for item in decisions if item.status == "capable"
         )
         return CapabilityRunReceipt(
             status="complete",
+            planned=len(nodes),
+            termination=termination,
             decisions=tuple(decisions),
             accepted_fingerprints=capable[: policy.max_published],
             controls=tuple(controls),
+            deadline_reached=deadline,
         )
+
+    @staticmethod
+    def _require_control_window(windows: Sequence[TargetControlWindow]) -> None:
+        if sum(item.opening == item.closing == "success" for item in windows) < 2:
+            raise ProbeSessionError("control_unavailable")
 
     @asynccontextmanager
     async def _controller(

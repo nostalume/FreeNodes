@@ -145,24 +145,27 @@ async def test_wave_deadline_cancels_fixed_workers():
     assert {item.status for item in evidence.values()} == {"cancelled"}
 
 
-async def test_session_is_blocked_bounded_capped_and_reaps_one_process(tmp_path):
+async def test_session_adapts_to_yield_with_bounded_work_and_one_process(tmp_path):
     executable = tmp_path / "mihomo.exe"
     executable.write_bytes(b"fake")
     processes: list[FakeProcess] = []
-    active = maximum = direct_calls = 0
+    active = maximum = direct_calls = candidate_calls = 0
 
     async def request(url: str, timeout: float):
-        nonlocal active, maximum, direct_calls
+        nonlocal active, maximum, direct_calls, candidate_calls
         if url.endswith("/version"):
             return {"version": "test"}
         proxy = unquote(urlsplit(url).path.split("/")[2])
         if proxy.startswith("CONTROL / "):
             direct_calls += 1
             return {"delay": 5}
+        candidate_calls += 1
         active += 1
         maximum = max(maximum, active)
         try:
             await asyncio.sleep(0)
+            if int(proxy.removeprefix("node-")) % 3:
+                raise RuntimeError("fixture rejection")
             return {"delay": 20}
         finally:
             active -= 1
@@ -175,18 +178,26 @@ async def test_session_is_blocked_bounded_capped_and_reaps_one_process(tmp_path)
         ),
         validate_config=lambda config, home: None,
     )
-    nodes = tuple(node(index, f"node-{index}") for index in range(513))
+    nodes = tuple(node(index, f"node-{index}") for index in range(385))
 
     receipt = await session.probe_capabilities(
-        plan(*nodes), TARGETS, CapabilityPolicy()
+        plan(*nodes), TARGETS, CapabilityPolicy(max_published=100)
     )
 
     assert receipt.status == "complete"
-    assert receipt.attempted == 512
-    assert receipt.accepted_fingerprints == tuple(
-        item.fingerprint for item in nodes[:500]
+    assert receipt.planned == 385
+    assert receipt.attempted == 384
+    assert receipt.termination == "target_reached"
+    assert (
+        receipt.accepted_fingerprints
+        == tuple(
+            item.fingerprint for item in nodes if int(item.display_name[5:]) % 3 == 0
+        )[:100]
     )
-    assert direct_calls == 24
+    assert candidate_calls + direct_calls <= (
+        3 * receipt.attempted + 6 * ((receipt.attempted + 127) // 128)
+    )
+    assert direct_calls == 18
     assert maximum <= 64
     assert len(processes) == 1 and processes[0].returncode == 0
 
@@ -238,21 +249,29 @@ async def test_deadline_and_cancellation_reap_process_and_workers(tmp_path):
             proxy = unquote(urlsplit(url).path.split("/")[2])
             if proxy.startswith("CONTROL / "):
                 return {"delay": 5}
-            started.set()
-            await asyncio.Event().wait()
+            if cancel or proxy == "node-128":
+                started.set()
+                await asyncio.Event().wait()
+            return {"delay": 5}
 
         session = MihomoProbeSession(
             executable,
             delay_probe=MihomoDelayProbe(
                 request_json=request,
-                deadline=30 if cancel else 0.01,
+                deadline=30 if cancel else 0.2,
             ),
             process_factory=lambda command, **kwargs: process,
             validate_config=lambda config, home: None,
         )
         task = asyncio.create_task(
             session.probe_capabilities(
-                plan(node(1, "one")), TARGETS, CapabilityPolicy()
+                plan(
+                    *(node(index, f"node-{index}") for index in range(129))
+                    if not cancel
+                    else (node(1, "one"),)
+                ),
+                TARGETS,
+                CapabilityPolicy(),
             )
         )
         await started.wait()
@@ -262,7 +281,10 @@ async def test_deadline_and_cancellation_reap_process_and_workers(tmp_path):
                 await task
         else:
             receipt = await task
-            assert receipt.status == "inconclusive"
+            assert receipt.status == "complete"
+            assert receipt.planned == 129
+            assert receipt.attempted == 128
+            assert receipt.termination == "time_budget"
             assert receipt.deadline_reached is True
         assert process.returncode == 0
 
@@ -294,6 +316,9 @@ async def test_config_rejection_isolated_without_starting_extra_processes(tmp_pa
         plan(node(1, "good"), node(2, "bad")), TARGETS, CapabilityPolicy()
     )
 
+    assert receipt.planned == receipt.attempted == 2
+    assert receipt.termination == "candidates_exhausted"
+    assert receipt.accepted_fingerprints == ("fingerprint-1",)
     assert [item.status for item in receipt.decisions] == ["capable", "failed"]
     assert receipt.decisions[1].reason == "config_rejected"
     assert process.returncode == 0

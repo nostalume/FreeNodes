@@ -21,7 +21,11 @@ from pydantic import (
     model_validator,
 )
 
-from freenodes.capability import CapabilityRunReceipt, CapabilityTarget, CapableCatalog
+from freenodes.capability import (
+    CapabilityEvidence,
+    CapabilityEvidenceV3,
+    CapableCatalog,
+)
 from freenodes.config import FrozenModel
 from freenodes.mihomo import ConsumerValidation
 from freenodes.nodes import (
@@ -45,46 +49,7 @@ class PublicationCounts(FrozenModel):
     uri: int = Field(gt=0, strict=True)
 
 
-class PublicationCapability(FrozenModel):
-    targets: tuple[CapabilityTarget, ...] = Field(strict=False)
-    quorum: Literal[2] = 2
-    runner_vantage: str = Field(min_length=1)
-    attempted: int = Field(ge=0, strict=True)
-    capable: int = Field(ge=0, strict=True)
-    failed: int = Field(ge=0, strict=True)
-    inconclusive: int = Field(ge=0, strict=True)
-    accepted: int = Field(gt=0, strict=True)
-
-    @classmethod
-    def from_run(
-        cls,
-        run: CapabilityRunReceipt,
-        targets: Sequence[CapabilityTarget],
-        runner_vantage: str,
-    ) -> PublicationCapability:
-        if run.status != "complete":
-            raise ValueError("only complete capability runs can be published")
-        counts = {
-            status: sum(item.status == status for item in run.decisions)
-            for status in ("capable", "failed", "inconclusive")
-        }
-        return cls(
-            targets=CapabilityTarget.admit_registry(targets, quorum=2),
-            runner_vantage=runner_vantage,
-            attempted=run.attempted,
-            capable=counts["capable"],
-            failed=counts["failed"],
-            inconclusive=counts["inconclusive"],
-            accepted=len(run.accepted_fingerprints),
-        )
-
-    @model_validator(mode="after")
-    def reconcile_counts(self) -> PublicationCapability:
-        if self.attempted != self.capable + self.failed + self.inconclusive:
-            raise ValueError("capability counts do not reconcile")
-        if self.accepted > self.capable:
-            raise ValueError("accepted capability count exceeds capable nodes")
-        return self
+PublicationCapability = CapabilityEvidence
 
 
 class PublicationManifestBase(FrozenModel):
@@ -164,7 +129,7 @@ class PublicationManifestV2(PublicationManifestBase):
 
 class PublicationManifestV3(PublicationManifestV2):
     schema_version: Literal[3] = Field(alias="schema")
-    capability: PublicationCapability
+    capability: CapabilityEvidenceV3
 
     def expected_published(self) -> int:
         return self.capability.accepted
@@ -182,8 +147,29 @@ class PublicationManifestV3(PublicationManifestV2):
         return tuple(lines)
 
 
+class PublicationManifestV4(PublicationManifestV3):
+    schema_version: Literal[4] = Field(alias="schema")
+    capability: CapabilityEvidence
+
+    def report_lines(self) -> tuple[str, ...]:
+        capability = self.capability
+        lines = list(PublicationManifestV2.report_lines(self))
+        lines.insert(
+            4,
+            f"- Capability ({capability.runner_vantage}, quorum {capability.quorum}): "
+            f"attempted {capability.attempted} of {capability.planned}; stopped "
+            f"because {capability.termination}; capable {capability.capable}, "
+            f"failed {capability.failed}, inconclusive {capability.inconclusive}, "
+            f"accepted {capability.accepted}",
+        )
+        return tuple(lines)
+
+
 PublicationManifest = Annotated[
-    PublicationManifestV1 | PublicationManifestV2 | PublicationManifestV3,
+    PublicationManifestV1
+    | PublicationManifestV2
+    | PublicationManifestV3
+    | PublicationManifestV4,
     Field(discriminator="schema_version"),
 ]
 PUBLICATION_MANIFEST_ADAPTER = TypeAdapter(PublicationManifest)
@@ -840,7 +826,7 @@ def publish_bundle(
     admission_summary: AdmissionSummary,
     selection_limit: int,
     base_revision: str | None = None,
-    capability: PublicationCapability | None = None,
+    capability: CapabilityEvidence | None = None,
 ) -> PublicationReceipt:
     if min(bundle.accepted_count, bundle.clash_count, bundle.uri_count) <= 0:
         raise PublicationError(
@@ -888,8 +874,8 @@ def publish_bundle(
             removed_files=tuple(obsolete),
         )
     else:
-        receipt_manifest = PublicationManifestV3(
-            schema=3,
+        receipt_manifest = PublicationManifestV4(
+            schema=4,
             status="accepted",
             created_at=observed_at.astimezone(UTC).isoformat(),
             base_revision=base_revision,

@@ -55,6 +55,8 @@ def capability_receipt(fingerprints):
     )
     return CapabilityRunReceipt(
         status="complete",
+        planned=len(decisions),
+        termination="candidates_exhausted",
         decisions=decisions,
         accepted_fingerprints=tuple(item.fingerprint for item in decisions),
     )

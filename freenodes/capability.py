@@ -13,6 +13,7 @@ from freenodes.nodes import (
 )
 
 ProbeStatus = Literal["success", "timeout", "api_error", "process_error", "cancelled"]
+CapabilityTermination = Literal["target_reached", "candidates_exhausted", "time_budget"]
 ProbeFailureCode = Literal[
     "request_timeout",
     "controller_http",
@@ -108,7 +109,6 @@ class ProbePlanEntry(FrozenModel):
 class ProbePlan(FrozenModel):
     candidate_ceiling: int = Field(default=4000, gt=0)
     full_probe_limit: int = Field(default=4000, gt=0, le=4000)
-    source_probe_limit: int = Field(default=32, gt=0, le=32)
     entries: tuple[ProbePlanEntry, ...] = Field(default=(), strict=False)
 
     @model_validator(mode="after")
@@ -208,6 +208,8 @@ class NodeCapabilityDecision(FrozenModel):
 
 class CapabilityRunReceipt(FrozenModel):
     status: Literal["complete", "inconclusive"]
+    planned: int | None = Field(default=None, ge=0, le=4000, strict=True)
+    termination: CapabilityTermination | None = None
     decisions: tuple[NodeCapabilityDecision, ...] = Field(default=(), strict=False)
     accepted_fingerprints: tuple[str, ...] = Field(default=(), strict=False)
     controls: tuple[TargetControlWindow, ...] = Field(default=(), strict=False)
@@ -218,6 +220,20 @@ class CapabilityRunReceipt(FrozenModel):
     def validate_completion(self) -> Self:
         if (self.status == "complete") == (self.diagnostic is not None):
             raise ValueError("only inconclusive capability runs carry a diagnostic")
+        if self.status == "complete":
+            if self.planned is None or self.termination is None:
+                raise ValueError("complete capability runs require terminal evidence")
+            if self.attempted > self.planned:
+                raise ValueError("capability attempts exceed the plan")
+            if (
+                self.termination == "candidates_exhausted"
+                and self.attempted != self.planned
+            ):
+                raise ValueError("exhausted capability runs must attempt the plan")
+            if self.termination == "time_budget" and self.attempted >= self.planned:
+                raise ValueError("time-budget stops require unattempted candidates")
+        elif self.planned is not None or self.termination is not None:
+            raise ValueError("inconclusive capability runs cannot claim termination")
         capable = set(self.capable_fingerprints)
         if not set(self.accepted_fingerprints).issubset(capable):
             raise ValueError("accepted fingerprints must be capable")
@@ -236,6 +252,68 @@ class CapabilityRunReceipt(FrozenModel):
         )
 
 
+class CapabilityEvidenceV3(FrozenModel):
+    targets: tuple[CapabilityTarget, ...] = Field(strict=False)
+    quorum: Literal[2] = 2
+    runner_vantage: str = Field(min_length=1)
+    attempted: int = Field(ge=0, strict=True)
+    capable: int = Field(ge=0, strict=True)
+    failed: int = Field(ge=0, strict=True)
+    inconclusive: int = Field(ge=0, strict=True)
+    accepted: int = Field(gt=0, strict=True)
+
+    @model_validator(mode="after")
+    def reconcile_counts(self) -> Self:
+        if self.attempted != self.capable + self.failed + self.inconclusive:
+            raise ValueError("capability counts do not reconcile")
+        if self.accepted > self.capable:
+            raise ValueError("accepted capability count exceeds capable nodes")
+        return self
+
+
+class CapabilityEvidence(CapabilityEvidenceV3):
+    planned: int = Field(ge=0, le=4000, strict=True)
+    termination: CapabilityTermination
+
+    @classmethod
+    def from_run(
+        cls,
+        run: CapabilityRunReceipt,
+        targets: Sequence[CapabilityTarget],
+        runner_vantage: str,
+    ) -> Self:
+        if run.status != "complete" or run.planned is None or run.termination is None:
+            raise ValueError("only complete capability runs can be published")
+        counts = {
+            status: sum(item.status == status for item in run.decisions)
+            for status in ("capable", "failed", "inconclusive")
+        }
+        return cls(
+            targets=CapabilityTarget.admit_registry(targets, quorum=2),
+            runner_vantage=runner_vantage,
+            planned=run.planned,
+            attempted=run.attempted,
+            capable=counts["capable"],
+            failed=counts["failed"],
+            inconclusive=counts["inconclusive"],
+            accepted=len(run.accepted_fingerprints),
+            termination=run.termination,
+        )
+
+    @model_validator(mode="after")
+    def reconcile_terminal_counts(self) -> Self:
+        if self.attempted > self.planned:
+            raise ValueError("capability attempts exceed planned candidates")
+        if (
+            self.termination == "candidates_exhausted"
+            and self.attempted != self.planned
+        ):
+            raise ValueError("exhausted capability evidence must attempt the plan")
+        if self.termination == "time_budget" and self.attempted >= self.planned:
+            raise ValueError("time-budget evidence requires unattempted candidates")
+        return self
+
+
 class ValidatedProbeBatch(FrozenModel):
     nodes: tuple[ProbeableNode, ...] = Field(strict=False)
     failures: tuple[NodeCapabilityDecision, ...] = Field(strict=False)
@@ -249,7 +327,6 @@ class CapabilityError(ValueError):
 class CapabilityPolicy(FrozenModel):
     max_candidates: int = Field(default=4000, gt=0)
     max_full_probes: int = Field(default=4000, gt=0, le=4000)
-    max_probe_per_source: int = Field(default=32, gt=0, le=32)
     max_published: int = Field(default=500, gt=0)
 
     @model_validator(mode="after")
@@ -381,11 +458,10 @@ class ProbePlanner:
 
     def plan(self) -> ProbePlan:
         grouped, memberships = self._group()
-        selected = self._select(self._queues(grouped), memberships)
+        selected = self._select(self._queues(grouped))
         return ProbePlan(
             candidate_ceiling=self.policy.max_candidates,
             full_probe_limit=self.policy.max_full_probes,
-            source_probe_limit=self.policy.max_probe_per_source,
             entries=tuple(
                 ProbePlanEntry(
                     ordinal=index,
@@ -420,11 +496,7 @@ class ProbePlanner:
         queues: dict[str, deque[ProbeableNode]] = {}
         for source, protocols in grouped.items():
             buckets = {
-                protocol: deque(
-                    sorted(nodes, key=lambda node: node.fingerprint)[
-                        : self.policy.max_probe_per_source
-                    ]
-                )
+                protocol: deque(sorted(nodes, key=lambda node: node.fingerprint))
                 for protocol, nodes in protocols.items()
             }
             ordered = deque[ProbeableNode]()
@@ -439,44 +511,17 @@ class ProbePlanner:
     def _select(
         self,
         queues: dict[str, deque[ProbeableNode]],
-        memberships: dict[str, tuple[str, ...]],
     ) -> list[ProbeableNode]:
         selected: list[ProbeableNode] = []
-        source_counts: dict[str, int] = defaultdict(int)
         sources = sorted(queues)
         limit = min(self.policy.max_candidates, self.policy.max_full_probes)
         while sources and len(selected) < limit:
-            remaining: list[str] = []
             for source in sources:
-                self._take(queues[source], memberships, source_counts, selected, limit)
-                if (
-                    queues[source]
-                    and source_counts[source] < self.policy.max_probe_per_source
-                ):
-                    remaining.append(source)
-            sources = remaining
+                if len(selected) == limit:
+                    break
+                selected.append(queues[source].popleft())
+            sources = [source for source in sources if queues[source]]
         return selected
-
-    def _take(
-        self,
-        queue: deque[ProbeableNode],
-        memberships: dict[str, tuple[str, ...]],
-        source_counts: dict[str, int],
-        selected: list[ProbeableNode],
-        limit: int,
-    ) -> None:
-        while queue and len(selected) < limit:
-            node = queue.popleft()
-            sources = memberships[node.fingerprint]
-            if any(
-                source_counts[source] >= self.policy.max_probe_per_source
-                for source in sources
-            ):
-                continue
-            selected.append(node)
-            for source in sources:
-                source_counts[source] += 1
-            return
 
     @staticmethod
     def _unique_names(selected: list[ProbeableNode]) -> list[ProbeableNode]:

@@ -117,21 +117,40 @@ def test_publication_report_uses_redacted_receipt_accounting(tmp_path):
         capability=PublicationCapability(
             targets=DEFAULT_CAPABILITY_TARGETS,
             runner_vantage="fixture-runner",
+            planned=3,
             attempted=1,
             capable=1,
             failed=0,
             inconclusive=0,
             accepted=1,
+            termination="time_budget",
         ),
     )
 
     report = render_publication_report(tmp_path)
+    persisted = json.loads(
+        (tmp_path / "nodes" / "publication-receipt.json").read_text()
+    )
 
+    assert persisted["schema"] == 4
     assert "Published 1 of 1 unique eligible nodes" in report
     assert "Sources: attempted 1" in report
     assert "Capability (fixture-runner, quorum 2)" in report
+    assert "attempted 1 of 3; stopped because time_budget" in report
     assert "capable 1, failed 0, inconclusive 0, accepted 1" in report
     assert "quality" not in report.casefold()
+
+    legacy = json.loads(json.dumps(persisted))
+    legacy["schema"] = 3
+    legacy["capability"].pop("planned")
+    legacy["capability"].pop("termination")
+    admitted = publication.admit_publication_manifest_json(json.dumps(legacy).encode())
+    assert "attempted 1, capable 1" in "\n".join(admitted.report_lines())
+
+    inconsistent = json.loads(json.dumps(persisted))
+    inconsistent["capability"]["planned"] = 0
+    with pytest.raises(ValueError, match="attempts exceed planned"):
+        publication.admit_publication_manifest_json(json.dumps(inconsistent).encode())
 
 
 def test_failure_before_commit_restores_every_live_byte(tmp_path):

@@ -300,6 +300,8 @@ class FirstOnlyProbe:
         )
         return CapabilityRunReceipt(
             status="complete",
+            planned=len(decisions),
+            termination="candidates_exhausted",
             decisions=decisions,
             accepted_fingerprints=(decisions[0].fingerprint,),
         )
@@ -333,7 +335,9 @@ async def test_publication_requires_capability_after_deterministic_admission(
     manifest = json.loads(
         (tmp_path / "nodes" / "publication-receipt.json").read_bytes()
     )
-    assert manifest["schema"] == 3
+    assert manifest["schema"] == 4
+    assert manifest["capability"]["planned"] == 1
+    assert manifest["capability"]["termination"] == "candidates_exhausted"
     assert manifest["capability"]["accepted"] == 1
     assert manifest["admission"]["attempted_sources"] == 2
     assert manifest["admission"]["failed_sources"] == 1
