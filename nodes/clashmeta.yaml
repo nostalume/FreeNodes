@@ -1,4 +1,22 @@
 proxies:
+- name: TW · ANYTLS · clashmeta · 955251D6
+  type: anytls
+  server: yazhouany02.downapptwo.cc
+  port: 33368
+  sni: tw01.swiftrelay.cc
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: bd54ceae-9b5c-477d-b364-ffd8e5c734a7
+- name: US · HTTP · clashmeta · 00028095
+  type: http
+  server: 138.199.35.218
+  port: 9002
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  udp: true
+  password: None
 - name: US · VMESS · cfmem · 1BB42466
   type: vmess
   server: guanwang.awsno.com
@@ -8,14 +26,94 @@ proxies:
   cipher: auto
   network: tcp
   tls: true
-- name: NL · SS · clashmeta · 731B2890
+- name: NL · SS · clashmeta · 00508FE5
   type: ss
-  server: 82.38.31.35
+  server: 82.38.31.17
   port: 443
   cipher: chacha20-ietf-poly1305
-  skip-cert-verify: false
+  sub_tag: A004-260618
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: NL · SSR · clashmeta · 8B79F727
+  type: ssr
+  server: 109.104.153.43
+  port: 33336
+  cipher: chacha20-ietf
+  obfs: tls1.2_ticket_auth
+  protocol: auth_chain_a
+  sub_tag: R002-260618
+  udp: true
+  password: dongtaiwang.com
+- name: US · HTTP · clashmeta · 012DA4B2
+  type: http
+  server: crosscards.site
+  port: 443
+  skip-cert-verify: false
+  sub_tag: P002-260618
+  tls: true
+  udp: true
+  sni: crosscards.site
+  password: None
+- name: ZZ · HYSTERIA2 · clashmeta · 51768D19
+  type: hysteria2
+  server: 138.124.0.168
+  port: 8080
+  sni: hopp-legend-se.roxa.org
+  skip-cert-verify: true
+  udp: true
+  password: h_B9x3942fJ9x_Kpx3914KQ_nZ934HFg_rT
+- name: IN · SOCKS5 · clashmeta · 1DAF1E9A
+  type: socks5
+  server: 144.24.111.128
+  port: 1088
+  skip-cert-verify: true
+  sub_tag: K001-260618
+  udp: true
+  username: ''
+  password: ''
+- name: NL · SS · clashmeta · 02AA5099
+  type: ss
+  server: 82.38.31.48
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  sub_tag: A004-260618
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: SG · VMESS · clashmeta · 0078DD79
+  type: vmess
+  server: 149.88.23.202
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: tcp
+  skip-cert-verify: false
+  sub_tag: A004-260618
+  tls: false
+  udp: true
+  xudp: true
+  packet-encoding: xudp
+  servername: 149.88.23.202
+- name: RU · HTTP · clashmeta · 02290AB1
+  type: http
+  server: 193.19.190.59
+  port: 8095
+  sub_tag: R002-260618
+  udp: true
+- name: NL · HYSTERIA2 · clashmeta · 6D429E6B
+  type: hysteria2
+  server: 46.229.243.149
+  port: 8443
+  sni: grape-turbo-fr.roxa.org
+  skip-cert-verify: true
+  udp: true
+  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
+- name: DE · SOCKS5 · clashmeta · 20F6D9C9
+  type: socks5
+  server: 128.140.82.50
+  port: 8443
+  sub_tag: R002-260618
+  udp: true
 - name: GB · VLESS · cfmem · 28D82A19
   type: vless
   server: 31.76.4.128
@@ -30,3 +128,66 @@ proxies:
   client-fingerprint: qq
   skip-cert-verify: true
   udp: true
+- name: NL · SS · clashmeta · 0500A579
+  type: ss
+  server: 82.38.31.11
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  sub_tag: B007-260618
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: FR · VLESS · clashmeta · 00331C3C
+  type: vless
+  server: 172.64.42.85
+  port: 2086
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  network: ws
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+- name: GB · HTTP · clashmeta · 023A9572
+  type: http
+  server: 185.235.0.66
+  port: 443
+  skip-cert-verify: true
+  sub_tag: P002-260618
+  tls: true
+  udp: true
+  password: None
+- name: NL · SOCKS5 · clashmeta · 424AFEC7
+  type: socks5
+  server: 5.255.117.250
+  port: 1080
+  sub_tag: R002-260618
+  udp: true
+- name: US · VMESS · clashmeta · 0115F77E
+  type: vmess
+  server: 82.198.246.97
+  port: 180
+  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
+  alterId: 0
+  cipher: auto
+  network: tcp
+  skip-cert-verify: false
+  sub_tag: M002-260618
+  tls: false
+  udp: true
+  xudp: true
+  packet-encoding: xudp
+  servername: tianjiu.pages.dev
+- name: US · HTTP · clashmeta · 024EF203
+  type: http
+  server: 138.199.35.200
+  port: 9002
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  udp: true
+- name: KR · SOCKS5 · clashmeta · 453F7315
+  type: socks5
+  server: 121.169.46.116
+  port: 1090
+  tls: false
+  username: T2clM0QlM0Q6
