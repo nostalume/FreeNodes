@@ -35,14 +35,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: HK · VLESS · cfmem · 0EC794CE
-  type: vless
-  server: 207.174.133.163
-  port: 10000
-  uuid: caec0d8d-ab2f-4247-b97d-7fb1a34ab195
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: MY · SS · cfmem · 14C11A77
   type: ss
   server: 118.107.222.231
@@ -67,6 +59,14 @@ proxies:
   network: ws
   ws-opts:
     path: /
+- name: JP · VMESS · cfmem · 46287DA6
+  type: vmess
+  server: 38.47.121.14
+  port: 49432
+  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
+  alterId: 0
+  cipher: auto
+  network: http
 - name: CN→JP · SS · cfmem · 3B4A79F1
   type: ss
   server: 121.46.230.137
@@ -140,6 +140,25 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: CN→KR · SS · cfmem · F492CF49
+  type: ss
+  server: 121.46.230.138
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: JP · VMESS · cfmem · D2E46912
+  type: vmess
+  server: 38.47.121.14
+  port: 49432
+  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: http
+  udp: true
 - name: DE · VLESS · cfmem · 6DB5E4B5
   type: vless
   server: 188.220.67.245
@@ -149,12 +168,6 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /8f2690e2d016
-- name: HK · VLESS · cfmem · A778300E
-  type: vless
-  server: 207.174.133.163
-  port: 10000
-  uuid: caec0d8d-ab2f-4247-b97d-7fb1a34ab195
-  network: tcp
 - name: US · VLESS · cfmem · AB0CA77D
   type: vless
   server: 172.67.156.222
@@ -175,6 +188,20 @@ proxies:
   uuid: 11af1c47-865a-47c6-92ff-118013655d78
   network: ws
   tls: false
+  skip-cert-verify: true
+  udp: true
+- name: RU→DE · VLESS · cfmem · BA1222C0
+  type: vless
+  server: 31.76.71.140
+  port: 443
+  reality-opts:
+    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
+    short-id: 4da5d1853f04af6d
+  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
+  servername: rrr.windconnect.pro
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
 - name: US · VLESS · cfmem · D5DC8DDC

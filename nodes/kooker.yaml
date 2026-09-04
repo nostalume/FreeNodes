@@ -1,74 +1,39 @@
 proxies:
-- name: DE · HYSTERIA · cfmem · 38EEEAF3
-  type: hysteria
-  server: 5.83.129.153
-  port: 20088
-  up: '500'
-  down: '1000'
-  sni: apple.com
-  skip-cert-verify: true
-  alpn:
-  - h3
-  udp: true
-  auth-str: dongtaiwang.com
-- name: RO · HTTP · kooker · 665DEF2C
+- name: JP · HTTP · kooker · 2BD79956
   type: http
-  server: 193.176.84.24
-  port: 9002
-  skip-cert-verify: true
+  server: fan.571589.xyz
+  port: 443
+  skip-cert-verify: false
   tls: true
-  udp: true
-- name: DK · HYSTERIA2 · kooker · A82D5575
+  sni: fan.571589.xyz
+- name: SG · HYSTERIA2 · kooker · 2F3A7877
   type: hysteria2
-  server: give.internet-card.sbs
-  port: 24444
-  alpn:
-  - h3
-  sni: bel7bel.internet-card.sbs
-  password: niEGIEcu9rRmRBoA3yYiKtFRv87BMRnFEpozCmNTHyY
-- name: JP · SS · kooker · 2408E61A
-  type: ss
-  server: 121.46.230.137
-  port: 65443
-  cipher: aes-256-cfb
-  password: 7eadc6dbe2ae
-- name: NL · VLESS · kooker · 758BD21A
-  type: vless
-  server: 84.32.177.6
-  port: 443
-  reality-opts:
-    public-key: Q6vABOUn6Uxtp0uDsfDG-SRJFLBh_oOofD9reec4iSg
-    short-id: cf41f778
-  uuid: c6037cf7-d931-4027-af06-6bfb0f10684c
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  servername: apiv5.jarvesitw.ru
-- name: RO · HTTP · kooker · CE73A47C
-  type: http
-  server: 193.176.84.23
-  port: 9002
+  server: msjp.mangshe.xyz
+  port: 20562
+  down: ''
+  fingerprint: ''
+  obfs: ''
+  obfs-password: ''
   skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: US · SS · kooker · AC1F8BFF
+  sni: www.microsoft.com
+  up: ''
+  password: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
+- name: FR · SS · kooker · 4268F02B
   type: ss
-  server: 121.46.230.233
+  server: 95.170.13.47
   port: 65443
   cipher: aes-256-cfb
   password: 7eadc6dbe2ae
-- name: DE · VLESS · kooker · EB37A717
+- name: DE · VLESS · kooker · 5A6CABDD
   type: vless
-  server: 144.31.50.236
+  server: 88.216.190.205
   port: 443
   reality-opts:
-    public-key: uitO4Z8t9TplwwYaqwLqh5rfxDh_X8bOBiNuPbzvaEM
-    short-id: bbe46bd8f6b96839
-  uuid: 1c332eae-7e02-4acd-996d-4eb3e652401c
+    public-key: QMkh_UZF6wTVrYukjoZTbrRUziZxT-s0Oj8zVP_RuH0
+    short-id: b0ffeec3
+  uuid: c6037cf7-d931-4027-af06-6bfb0f10684c
+  alpn:
+  - networld_vpn-channel@.networld_vpn-channel@.networld_vpn-channel@.networld_vpn-channel@.networld_vpn-channel@.networld_vpn-channel@.networld_vpn-
   client-fingerprint: chrome
   encryption: none
   flow: xtls-rprx-vision
@@ -76,10 +41,120 @@ proxies:
   tls: true
   udp: true
   xudp: true
-  servername: yandex.ru
+  servername: apiv91.jarvesitw.ru
+- name: IN · VMESS · kooker · 3E63F2C5
+  type: vmess
+  server: planb.mojcn.com.linuxlh.xin
+  port: 16626
+  uuid: 2498a366-dd3c-4f0b-832c-f2df12f7ee27
+  alterId: 0
+  cipher: auto
+  network: ws
+  skip-cert-verify: false
+  tls: false
+  udp: true
+  ws-opts:
+    headers:
+      Host: 791f9b5b1318471268a2dc21098376cc.mobgslb.tbcache.com
+    path: /
+  xudp: true
+- name: RO · HTTP · kooker · 60C11C25
+  type: http
+  server: 193.176.84.17
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · SS · kooker · AC1F8BFF
+  type: ss
+  server: 121.46.230.233
+  port: 65443
+  cipher: aes-256-cfb
+  password: 7eadc6dbe2ae
+- name: DE · VLESS · kooker · C1D88432
+  type: vless
+  server: sv9.jarvesitw.ru
+  port: 443
+  reality-opts:
+    public-key: QMkh_UZF6wTVrYukjoZTbrRUziZxT-s0Oj8zVP_RuH0
+    short-id: b0ffeec3
+  uuid: c6037cf7-d931-4027-af06-6bfb0f10684c
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: apiv91.jarvesitw.ru
+- name: US · VMESS · kooker · A96DB94A
+  type: vmess
+  server: planb.mojcn.com.linuxlh.xin
+  port: 16648
+  uuid: b5f7ad86-9e40-4684-98f9-83f8136a1054
+  alterId: 0
+  cipher: auto
+  network: ws
+  skip-cert-verify: false
+  tls: false
+  udp: true
+  ws-opts:
+    headers:
+      Host: eeee7339c9f412913069ff64b12fb71f.mobgslb.tbcache.com
+    path: /
+  xudp: true
+- name: NL · HTTP · kooker · 6415793A
+  type: http
+  server: 84.17.47.148
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: KR · SS · kooker · F5CE3489
+  type: ss
+  server: 121.46.230.138
+  port: 65443
+  cipher: aes-256-cfb
+  password: 7eadc6dbe2ae
+- name: RO · HTTP · kooker · 665DEF2C
+  type: http
+  server: 193.176.84.24
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: RO · HTTP · kooker · 957DDF5E
+  type: http
+  server: 193.176.84.20
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · kooker · 97F8B333
+  type: http
+  server: 84.17.47.146
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
 - name: NL · HTTP · kooker · DFA82CB5
   type: http
   server: 84.17.47.148
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · kooker · E3E25B81
+  type: http
+  server: 84.17.47.149
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · kooker · E5953371
+  type: http
+  server: 84.17.47.125
   port: 9002
   skip-cert-verify: true
   tls: true
@@ -91,3 +166,11 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
+- name: NL · HTTP · kooker · FEA813FE
+  type: http
+  server: 84.17.47.125
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None

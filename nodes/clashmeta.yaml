@@ -21,6 +21,19 @@ proxies:
   client-fingerprint: qq
   skip-cert-verify: true
   udp: true
+- name: RU · VLESS · clashmeta · 01BEC7AE
+  type: vless
+  server: ru05.abvpn.ru
+  port: 443
+  uuid: a289a3d3-5833-4b28-8809-ae72898a98d0
+  network: ws
+  tls: true
+  servername: ru05.abvpn.ru
+  client-fingerprint: edge
+  ws-opts:
+    path: /websocket
+    headers:
+      Host: ru05.abvpn.ru
 - name: ZZ · VMESS · clashmeta · 0840F971
   type: vmess
   server: deapp.jisuyun.top
@@ -32,18 +45,6 @@ proxies:
   tls: true
   ws-opts:
     path: /devm
-- name: RU · VLESS · clashmeta · 06837471
-  type: vless
-  server: hys41.wba-pn.ru
-  port: 443
-  uuid: 8e8e4592-6088-4d00-b061-ef5456d0eb9c
-  network: ws
-  tls: true
-  client-fingerprint: qq
-  ws-opts:
-    path: /
-    headers:
-      Host: hys41.wba-pn.ru
 - name: ZZ · VMESS · clashmeta · 0DB350A3
   type: vmess
   server: deapp.jisuyun.top
@@ -58,17 +59,6 @@ proxies:
     path: /devm
     headers:
       Host: deapp.jisuyun.top
-- name: ZZ · VMESS · clashmeta · 0F60638F
-  type: vmess
-  server: renderer-stream-2-62.mirra.now
-  port: 443
-  uuid: db50a20e-7ff5-4e70-948f-17cc9ca7c154
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /api/v1/gpu-stream/socket
 - name: ZZ · VMESS · clashmeta · 1096DBFD
   type: vmess
   server: newrelax.relaxedboy.online
