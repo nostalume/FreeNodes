@@ -28,14 +28,6 @@ proxies:
   cipher: auto
   network: tcp
   tls: true
-- name: CN→US · SS · cfmem · 078F4188
-  type: ss
-  server: 121.46.230.232
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
 - name: GB · TROJAN · cfmem · CC97530A
   type: trojan
   server: 45.85.88.194
@@ -60,20 +52,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: NL · VLESS · cfmem · 1AED7FE3
-  type: vless
-  server: 31.76.61.232
-  port: 443
-  reality-opts:
-    public-key: CMTA5uuaIVIeqHslZMT3CbFwP8F5ysMLii72ybsTlyY
-    short-id: e2a4c6b8
-  uuid: 791a171e-c0af-4bd7-b8ce-43541c7585db
-  servername: policies.google.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
-  skip-cert-verify: true
-  udp: true
 - name: CA · SS · cfmem · 157CF840
   type: ss
   server: 3.97.16.160
@@ -128,43 +106,129 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: US · VLESS · cfmem · 309D1D1F
+- name: NL · VLESS · cfmem · 5FC2C486
   type: vless
-  server: 182.16.61.6
-  port: 45647
-  uuid: 6f361c37-bc54-43dd-8c8b-0f59354745a5
+  server: 51.158.241.182
+  port: 8080
+  uuid: 11af1c47-865a-47c6-92ff-118013655d78
+  network: ws
   tls: false
   skip-cert-verify: true
   udp: true
-- name: CN→US · SS · cfmem · D29CBBED
-  type: ss
-  server: 121.46.230.233
-  port: 65443
-  cipher: aes-256-cfb
+- name: US · VMESS · cfmem · 5FEF035B
+  type: vmess
+  server: 192.227.247.27
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: 192.227.247.27
+  udp: true
+- name: US · VMESS · cfmem · 64D24CFF
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
   skip-cert-verify: true
   udp: true
-  password: 7eadc6dbe2ae
-- name: JP · VMESS · cfmem · 46287DA6
+- name: DE · VLESS · cfmem · 6DB5E4B5
+  type: vless
+  server: 188.220.67.245
+  port: 2087
+  uuid: 90da514d-8888-4a53-912e-ac2981c8c6ee
+  network: ws
+  client-fingerprint: chrome
+  ws-opts:
+    path: /8f2690e2d016
+- name: HK · VLESS · cfmem · A778300E
+  type: vless
+  server: 207.174.133.163
+  port: 10000
+  uuid: caec0d8d-ab2f-4247-b97d-7fb1a34ab195
+  network: tcp
+- name: US · VLESS · cfmem · AB0CA77D
+  type: vless
+  server: 172.67.156.222
+  port: 443
+  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
+  network: ws
+  tls: true
+  servername: 3-m16.ChIAn-mAI-6.kDnS.Fr
+  client-fingerprint: chrome
+  ws-opts:
+    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
+    headers:
+      Host: 3-m16.ChIAn-Mai-6.kdNs.Fr
+- name: NL · VLESS · cfmem · B9C5EDAF
+  type: vless
+  server: 51.15.57.139
+  port: 8080
+  uuid: 11af1c47-865a-47c6-92ff-118013655d78
+  network: ws
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · D5DC8DDC
+  type: vless
+  server: 172.67.156.222
+  port: 443
+  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
+  network: ws
+  servername: 3-m16.ChIAn-mAI-6.kDnS.Fr
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
+    headers:
+      Host: 3-m16.ChIAn-Mai-6.kdNs.Fr
+  skip-cert-verify: true
+  udp: true
+- name: NL · VLESS · cfmem · D6CD815B
+  type: vless
+  server: meli-netbot-join.team-pluss.com
+  port: 8080
+  reality-opts:
+    public-key: a31ZnQOsnWUJq5bSLVWIeuGJZFPE52NidulBT5CV_z4
+    short-id: f40ef36067
+  uuid: 52b7a871-1455-4a6e-9e9c-78a0a1e43f86
+  servername: the.world.of.the.champions.retrovip.net
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: JP · VMESS · cfmem · D2E46912
   type: vmess
   server: 38.47.121.14
   port: 49432
   uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
   alterId: 0
   cipher: auto
+  tls: false
+  skip-cert-verify: true
   network: http
-- name: GB · SS · cfmem · F3BF8B08
-  type: ss
-  server: 13.40.94.70
-  port: 443
-  cipher: aes-256-cfb
+  udp: true
+- name: NL · VLESS · cfmem · E53C2969
+  type: vless
+  server: 51.158.241.182
+  port: 8080
+  uuid: 11af1c47-865a-47c6-92ff-118013655d78
+  network: ws
+  ws-opts:
+    path: /
+- name: DE · VLESS · cfmem · F55C4F08
+  type: vless
+  server: 188.220.67.245
+  port: 2087
+  uuid: 90da514d-8888-4a53-912e-ac2981c8c6ee
+  network: ws
+  tls: false
+  client-fingerprint: chrome
+  ws-opts:
+    path: /8f2690e2d016
   skip-cert-verify: true
   udp: true
-  password: amazonskr05
-- name: CN→KR · SS · cfmem · F492CF49
-  type: ss
-  server: 121.46.230.138
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae

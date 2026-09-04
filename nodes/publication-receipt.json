@@ -1,25 +1,26 @@
 {
   "admission": {
     "attempted_sources": 20,
-    "candidate_records": 35799,
-    "decoded_artifacts": 47,
-    "discovered_artifacts": 49,
-    "duplicate_occurrences": 6900,
-    "eligible_occurrences": 21494,
+    "candidate_records": 32120,
+    "decoded_artifacts": 55,
+    "discovered_artifacts": 57,
+    "duplicate_occurrences": 14814,
+    "eligible_occurrences": 28394,
     "empty_sources": 0,
     "failed_sources": 5,
     "rejected_artifacts": 2,
-    "rejected_records": 14305,
+    "rejected_records": 3726,
     "sources_with_artifacts": 15,
-    "unique_eligible": 14594
+    "unique_eligible": 13580
   },
-  "base_revision": "284db941d9b0a57c75a22eae245d2e06afcbb17f",
+  "base_revision": "9fdd4813f4325df7af9bc9f2e3682ba56e77aa19",
   "capability": {
-    "accepted": 159,
-    "attempted": 356,
-    "capable": 159,
-    "failed": 197,
-    "inconclusive": 0,
+    "accepted": 500,
+    "attempted": 1152,
+    "capable": 527,
+    "failed": 624,
+    "inconclusive": 1,
+    "planned": 4000,
     "quorum": 2,
     "runner_vantage": "github-actions",
     "targets": [
@@ -38,39 +39,41 @@
         "id": "cloudflare",
         "url": "https://cp.cloudflare.com/generate_204"
       }
-    ]
+    ],
+    "termination": "target_reached"
   },
   "counts": {
-    "clash": 159,
-    "published": 159,
-    "uri": 29
+    "clash": 500,
+    "published": 500,
+    "uri": 117
   },
-  "created_at": "2026-09-04T04:32:25.637534+00:00",
+  "created_at": "2026-09-04T07:14:13.698281+00:00",
   "files": {
-    "nodes/au1rxx-clash.yaml": "c83a265760e69acb36dac516bd8388c2c1db55eee1de95bffe28badc4871d065",
-    "nodes/au1rxx-v2ray.yaml": "fba76e9ba6ace7fec722fd1267579a6b04452324f124fb0b7ce016e36f1ce427",
-    "nodes/cfmem.yaml": "73be4f0b60b665e3c521d66b0ff29e221ed280e3e8066a73b8b95a99eb03e96d",
-    "nodes/clashmeta.yaml": "9b851b8fc8cccefff31ea73091ddf782cb307817c4ea372f7ea19f192a71cf40",
-    "nodes/freeclashnode.yaml": "1fdb10148e69040cd94e66168c96a05fcf27d3a0379bb69a0c0ac9ba5b202dbb",
-    "nodes/jichangx.yaml": "527efd09b96039a59dc887e116148ce58bdfce2488e3cdff487d367bd610598b",
-    "nodes/kooker.yaml": "a7d0cce04084485f1ce465c9619694c25faf310a3dc7263c43d593c10e40d033",
-    "nodes/merged.txt": "570801513abb24ab02a86012667bc781ef1a1ea6a16aa6ec31afaa4fb3dde63a",
-    "nodes/merged.yaml": "4f60a7703520ac19836866cfffb6004016d0bca45d5719eeaabef7e210bdd0b6",
-    "nodes/provider-cdn.yaml": "c5a333838cceaf84efddbcf5d7e18d6bfade9236ea4693b53574b3113895a6c6",
-    "nodes/provider.yaml": "3c006958a688275fb93701fd6a12744074d443126c1f64b4a471317103c665c3",
-    "nodes/radikal.yaml": "6bb08f8bad1aeaa33e0c920554f5eda3f923690c4ead93c3180afead5cd589d5",
-    "nodes/shaoyouvip.yaml": "c35bcbd642f60007de9db9dd32c7b7be3e174d8c89732761ce1e265995e83c95",
-    "nodes/ts-sf-clash.yaml": "834b3bdd95647889d109b33ff57500e54dee7ec53bba1b1d2462c3c41e581739",
-    "nodes/ts-sf-v2ray.yaml": "6ea070a5ce0aa0ba15d81e4c708923adf72b5a4da3de4c82834e5992d8d121ea",
-    "nodes/v2ray.txt": "3579d23942dd8a9bc7bed9e0884a3c9f1cc12eefaee7f0d4f6d44d77e95c0f85",
-    "nodes/wzmwayne.yaml": "f8671b9c48f9704a81f1ad4bc233484da4816289b6e9d52110685370fdc93b9f",
-    "nodes/yudou.yaml": "5401ed5e16cd75e983da8117367e49a17eacc4bcfbc32ae577cc554fa1004bc1"
+    "nodes/au1rxx-clash.yaml": "f1cae4d587e149dd2511e9500e3d285d3fe925792d92e5be469f56156a77b83c",
+    "nodes/au1rxx-v2ray.yaml": "0006b3fe061cc2726a3e8003372a3cb48ba307fa5275fc5ac52ab98a6fe8bed3",
+    "nodes/cfmem.yaml": "8fe6048fb3b0b3b6b102c60672070b044eb6dd30e8a34ca6b9dfef22a8c56598",
+    "nodes/clashmeta.yaml": "a59289ab66197535131cd6847c99a171632373c4d704e2c8ffb0ea9febecdb4c",
+    "nodes/clashnode.yaml": "491fb8724d9bf13c098b675552299415ab9928b549fc07527ef771cc84c1da1a",
+    "nodes/freeclashnode.yaml": "923031b33963c17f62589296db9a5b4baf5c1ae3699b89307486dc25ed16e73a",
+    "nodes/jichangx.yaml": "5a224dfc025f36d4c51da9f1f3db83ec83425e9340b85be970d42b76cbac7f38",
+    "nodes/kooker.yaml": "4fda47cc9b99f5d18f29caecd7521105d8e66924741dfb7d5d755806ac59e3b1",
+    "nodes/merged.txt": "3b59467d796e03cf673aba06b058ff2807538919a95361d9f81d0453f6564ffe",
+    "nodes/merged.yaml": "549748924b0b963dea7e04cc3fa0982807607bc4e49a5e7044c0c2588c9f73be",
+    "nodes/provider-cdn.yaml": "943344acdc0156e1dcf0ccc34fa99f9170b9f1e23fc3877a0d8b9746bfd2fb09",
+    "nodes/provider.yaml": "5db8a9e5443708272d8bd43c8391db101dee82c9d021fc149c71b2ec41af2034",
+    "nodes/shaoyouvip.yaml": "3e82b2b75ea1100b39a613c2604330faf668c9ad25de1f2bbed6f0dc8a9fa03e",
+    "nodes/ts-sf-clash.yaml": "c59bdd0ce65b7bbfdb69b4d54b79d7431dc46c42caa5c49975fd06b57b196498",
+    "nodes/ts-sf-v2ray.yaml": "f33c9cb3d5845c1c70a9002fd3900fe44794413d0a11b8c4ee4ca47a2943ebf3",
+    "nodes/v2ray.txt": "680d4f8a61f808f38649b68d5c15c76644f00765ef0684afba37904eed4e0b41",
+    "nodes/wzmwayne.yaml": "7411083ebbb4e14d46a4252a73820eaeee63153c7ba031848d3a1072c620cfd7",
+    "nodes/yudou.yaml": "b86aa276cf098d780dbd4dabaceba931c4c099d988ef660ca32b07bf43f1541a"
   },
   "managed_files": [
     "nodes/au1rxx-clash.yaml",
     "nodes/au1rxx-v2ray.yaml",
     "nodes/cfmem.yaml",
     "nodes/clashmeta.yaml",
+    "nodes/clashnode.yaml",
     "nodes/freeclashnode.yaml",
     "nodes/jichangx.yaml",
     "nodes/kooker.yaml",
@@ -78,7 +81,6 @@
     "nodes/merged.yaml",
     "nodes/provider-cdn.yaml",
     "nodes/provider.yaml",
-    "nodes/radikal.yaml",
     "nodes/shaoyouvip.yaml",
     "nodes/ts-sf-clash.yaml",
     "nodes/ts-sf-v2ray.yaml",
@@ -90,11 +92,11 @@
   "rejection_codes": [
     {
       "code": "duplicate",
-      "count": 6900
+      "count": 14814
     },
     {
       "code": "endpoint_scope",
-      "count": 22
+      "count": 24
     },
     {
       "code": "invalid_server",
@@ -102,11 +104,11 @@
     },
     {
       "code": "invalid_uuid",
-      "count": 9
+      "count": 8
     },
     {
       "code": "malformed_node",
-      "count": 14250
+      "count": 3655
     },
     {
       "code": "source_expired",
@@ -114,7 +116,7 @@
     },
     {
       "code": "unsupported_protocol",
-      "count": 22
+      "count": 37
     },
     {
       "code": "unsupported_proxy_type",
@@ -127,7 +129,6 @@
     "nodes/cfmem.txt",
     "nodes/clashmeta.txt",
     "nodes/clashnode.txt",
-    "nodes/clashnode.yaml",
     "nodes/clashstair.txt",
     "nodes/clashstair.yaml",
     "nodes/datiya.txt",
@@ -142,6 +143,7 @@
     "nodes/oneclash.txt",
     "nodes/oneclash.yaml",
     "nodes/radikal.txt",
+    "nodes/radikal.yaml",
     "nodes/shaoyouvip.txt",
     "nodes/ts-sf-clash.txt",
     "nodes/ts-sf-v2ray.txt",
@@ -150,17 +152,17 @@
     "nodes/zyfxs.txt",
     "nodes/zyfxs.yaml"
   ],
-  "schema": 3,
+  "schema": 4,
   "selection_limit": 500,
   "sources": [
     {
       "artifacts": 12,
       "authority": "clashmeta",
-      "candidate_records": 10148,
+      "candidate_records": 10137,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 895
+          "count": 820
         },
         {
           "code": "endpoint_scope",
@@ -168,11 +170,11 @@
         },
         {
           "code": "invalid_uuid",
-          "count": 4
+          "count": 3
         },
         {
           "code": "malformed_node",
-          "count": 115
+          "count": 122
         },
         {
           "code": "unsupported_protocol",
@@ -181,7 +183,7 @@
       ],
       "source": "clashmeta",
       "status": "available",
-      "unique_eligible": 9112
+      "unique_eligible": 9170
     },
     {
       "artifacts": 0,
@@ -193,35 +195,60 @@
       "unique_eligible": 0
     },
     {
-      "artifacts": 6,
+      "artifacts": 12,
       "authority": "freeclashnode",
-      "candidate_records": 3877,
+      "candidate_records": 6443,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 3867
+          "count": 6222
+        },
+        {
+          "code": "endpoint_scope",
+          "count": 6
         },
         {
           "code": "invalid_uuid",
-          "count": 3
+          "count": 4
         },
         {
           "code": "malformed_node",
-          "count": 7
+          "count": 10
         }
       ],
       "source": "freeclashnode",
       "status": "available",
-      "unique_eligible": 3677
+      "unique_eligible": 5462
     },
     {
-      "artifacts": 0,
+      "artifacts": 3,
       "authority": "clashnode",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 5744,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 5615
+        },
+        {
+          "code": "endpoint_scope",
+          "count": 6
+        },
+        {
+          "code": "invalid_uuid",
+          "count": 1
+        },
+        {
+          "code": "malformed_node",
+          "count": 107
+        },
+        {
+          "code": "unsupported_protocol",
+          "count": 15
+        }
+      ],
       "source": "clashnode",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 5353
     },
     {
       "artifacts": 2,
@@ -262,7 +289,7 @@
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 35
+          "count": 49
         }
       ],
       "source": "jichangx",
@@ -299,7 +326,7 @@
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 708
+          "count": 796
         },
         {
           "code": "unsupported_protocol",
@@ -367,70 +394,48 @@
     {
       "artifacts": 1,
       "authority": "github:shaoyouvip/free",
-      "candidate_records": 100,
-      "rejection_codes": [
-        {
-          "code": "duplicate",
-          "count": 9
-        },
-        {
-          "code": "invalid_uuid",
-          "count": 1
-        }
-      ],
+      "candidate_records": 28,
+      "rejection_codes": [],
       "source": "shaoyouvip",
       "status": "available",
-      "unique_eligible": 98
+      "unique_eligible": 28
     },
     {
-      "artifacts": 1,
+      "artifacts": 0,
       "authority": "github:0xradikal/free-v2ray-configs",
-      "candidate_records": 11904,
-      "rejection_codes": [
-        {
-          "code": "duplicate",
-          "count": 37
-        },
-        {
-          "code": "endpoint_scope",
-          "count": 10
-        },
-        {
-          "code": "malformed_node",
-          "count": 10715
-        }
-      ],
+      "candidate_records": 0,
+      "rejection_codes": [],
       "source": "radikal",
-      "status": "available",
-      "unique_eligible": 1179
+      "status": "failed",
+      "unique_eligible": 0
     },
     {
       "artifacts": 1,
       "authority": "github:au1rxx/free-vpn-subscriptions",
-      "candidate_records": 1753,
+      "candidate_records": 1752,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 984
+          "count": 955
         }
       ],
       "source": "au1rxx-clash",
       "status": "available",
-      "unique_eligible": 1261
+      "unique_eligible": 1264
     },
     {
       "artifacts": 1,
       "authority": "github:au1rxx/free-vpn-subscriptions",
-      "candidate_records": 1753,
+      "candidate_records": 1752,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 223
+          "count": 215
         }
       ],
       "source": "au1rxx-v2ray",
       "status": "available",
-      "unique_eligible": 1583
+      "unique_eligible": 1580
     },
     {
       "artifacts": 1,
@@ -440,15 +445,11 @@
         {
           "code": "invalid_server",
           "count": 1
-        },
-        {
-          "code": "invalid_uuid",
-          "count": 1
         }
       ],
       "source": "ts-sf-clash",
       "status": "available",
-      "unique_eligible": 198
+      "unique_eligible": 199
     },
     {
       "artifacts": 1,
@@ -465,12 +466,12 @@
         },
         {
           "code": "malformed_node",
-          "count": 5
+          "count": 8
         }
       ],
       "source": "ts-sf-v2ray",
       "status": "available",
-      "unique_eligible": 195
+      "unique_eligible": 192
     }
   ],
   "status": "accepted"
