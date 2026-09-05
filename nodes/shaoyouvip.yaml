@@ -1,116 +1,93 @@
 proxies:
-- name: DE · HYSTERIA · cfmem · 38EEEAF3
-  type: hysteria
-  server: 5.83.129.153
-  port: 20088
-  up: '500'
-  down: '1000'
-  sni: apple.com
-  skip-cert-verify: true
-  alpn:
-  - h3
-  udp: true
-  auth-str: dongtaiwang.com
-- name: IT · HTTP · shaoyouvip · 17D17C97
+- name: NL · HTTP · shaoyouvip · 1B4C71C4
   type: http
-  server: 185.183.105.146
+  server: 149.36.51.129
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  username: ''
+  password: ''
+- name: DE · SS · shaoyouvip · 51B26076
+  type: ss
+  server: 130.61.116.233
+  port: 59924
+  cipher: 2022-blake3-chacha20-poly1305
+  udp: true
+  password: 3L6fqw4XcAAEC8BwCK5fkuOj8W7YVd2pA6qHEhVt57M=
+- name: DE · VLESS · shaoyouvip · 0FA5052E
+  type: vless
+  server: vpnon4u.niceworktodo.dpdns.org
+  port: 443
+  uuid: d7b57385-9211-4fb1-9bec-8556c13d8031
+  client-fingerprint: chrome
+  encryption: none
+  network: xhttp
+  tls: true
+  udp: true
+  xhttp-opts:
+    host: webproduction.niceworktodo.dpdns.org
+    mode: auto
+    path: /vpnon4u
+    x-padding-bytes: 100-1000
+  xudp: true
+  packet-encoding: xudp
+  servername: webproduction.niceworktodo.dpdns.org
+- name: AT · HTTP · shaoyouvip · 5E8EA37F
+  type: http
+  server: 146.70.244.2
   port: 443
   skip-cert-verify: true
   tls: true
   udp: true
   password: None
-- name: BR · HYSTERIA2 · shaoyouvip · 1908A447
-  type: hysteria2
-  server: go2.wwwinternetvideo.click
-  port: 443
-  skip-cert-verify: true
-  sni: admin.wwwinternetvideo.click
-  udp: true
-  password: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
-  auth: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
-- name: CN · SS · shaoyouvip · E899E879
-  type: ss
-  server: 121.46.230.138
-  port: 65443
-  cipher: aes-256-cfb
-  udp: true
-  password: 7eadc6dbe2ae
-- name: SG · VLESS · shaoyouvip · 015F3B58
+- name: SG · VLESS · shaoyouvip · 214E42E4
   type: vless
-  server: 47.129.185.35
-  port: 49805
+  server: 13.212.211.73
+  port: 20221
   reality-opts:
-    public-key: KhyeJbZtFAik5Mx1K_AQMIEK_MPwQnwUwSe-jTjq8yU
-    short-id: 4a753538b6a9eee9
-  uuid: 0803fc94-25f9-42db-9e6b-dd1418ae50ec
+    public-key: Fd3DtGiQyvw9IBKoMqKtgaKVkdvjnaErL_1ib-zXqxY
+    short-id: 85ae3d83d037b7
+  uuid: 9f752e03-411f-4df4-841f-a23c4c43d183
   client-fingerprint: chrome
-  encryption: none
   flow: xtls-rprx-vision
-  network: tcp#5👝@oneclickvpnkeys
+  network: tcp
   tls: true
   udp: true
   xudp: true
   packet-encoding: xudp
   servername: www.intel.com
-- name: ES · HTTP · shaoyouvip · 342FBA48
-  type: http
-  server: 130.195.250.34
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: BR · HYSTERIA2 · shaoyouvip · 46A83A54
-  type: hysteria2
-  server: 144.31.93.126
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: admin.wwwinternetvideo.click
-  up: ''
-  udp: true
-  password: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
-- name: ES · HTTP · shaoyouvip · CDFB23BF
-  type: http
-  server: 130.195.250.18
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HYSTERIA2 · shaoyouvip · A884B39F
-  type: hysteria2
-  server: 66.94.121.46
-  port: 443
-  skip-cert-verify: true
-  sni: www.broadcom.com
-  udp: true
-  password: gf1:gfhysteria2024
-  auth: gf1:gfhysteria2024
-- name: US · HTTP · shaoyouvip · DAB5817A
-  type: http
-  server: voteshirleysew.club
-  port: 443
-  tls: true
-  udp: true
-  sni: voteshirleysew.club
-- name: NL · HYSTERIA2 · shaoyouvip · B6ED4B83
-  type: hysteria2
-  server: 5.129.235.85
-  port: 443
-  skip-cert-verify: true
-  sni: www.linux.com
-  udp: true
-  password: gf1:gfhysteria2024
-- name: KR · VLESS · shaoyouvip · 4252E7B0
+- name: KR · VLESS · shaoyouvip · 2234A9A4
   type: vless
-  server: 3.38.1.152
-  port: 19179
+  server: kr3-r.link-t7.com
+  port: 10048
   reality-opts:
-    public-key: BabvzCKB_cqCz56qFQhOWIypFKFhEWo9Eyn_JPZIAxA
-    short-id: fa1e592603c283
-  uuid: 10dd7b2d-eda2-4a47-9f6e-5093a3cd7ded
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: dfdba849-e8f0-4c1b-9bd6-c4c87679b0a3
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: CH · HTTP · shaoyouvip · E337D342
+  type: http
+  server: 37.120.213.210
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: SG · VLESS · shaoyouvip · 3C0834D5
+  type: vless
+  server: 13.212.211.73
+  port: 20221
+  reality-opts:
+    public-key: Fd3DtGiQyvw9IBKoMqKtgaKVkdvjnaErL_1ib-zXqxY
+    short-id: 85ae3d83d037b7
+  uuid: 9f752e03-411f-4df4-841f-a23c4c43d183
   client-fingerprint: firefox
   encryption: none
   flow: xtls-rprx-vision
@@ -120,98 +97,41 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: www.intel.com
-- name: NL · VLESS · shaoyouvip · 5520B8BB
-  type: vless
-  server: sv5.jarvesitw.ru
+- name: CZ · HTTP · shaoyouvip · FAE461C5
+  type: http
+  server: 185.216.35.66
   port: 443
-  reality-opts:
-    public-key: Q6vABOUn6Uxtp0uDsfDG-SRJFLBh_oOofD9reec4iSg
-    short-id: cf41f778
-  uuid: c6037cf7-d931-4027-af06-6bfb0f10684c
-  client-fingerprint: firefox
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
+  skip-cert-verify: true
   tls: true
   udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: apiv5.jarvesitw.ru
-- name: SG · VLESS · shaoyouvip · 5915604C
+- name: US · VLESS · shaoyouvip · 9BB15613
   type: vless
-  server: 47.129.185.35
-  port: 49805
+  server: 38.150.33.232
+  port: 12329
   reality-opts:
-    public-key: KhyeJbZtFAik5Mx1K_AQMIEK_MPwQnwUwSe-jTjq8yU
-    short-id: 4a753538b6a9eee9
-  uuid: 0803fc94-25f9-42db-9e6b-dd1418ae50ec
-  client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: www.intel.com
-- name: SE · VLESS · shaoyouvip · A5E0691E
-  type: vless
-  server: sv14.betust.net
-  port: 443
-  reality-opts:
-    public-key: 4IoUUt2YZPsn8Y1JqOqV9LnQK0vNlY9AeV4m-83e2SE
-    short-id: ab9d5f3c
-  uuid: c6037cf7-d931-4027-af06-6bfb0f10684c
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  servername: apiv14.betust.net
-- name: US · VLESS · shaoyouvip · C106CF6C
-  type: vless
-  server: 84.32.61.87
-  port: 443
-  reality-opts:
-    public-key: vFnG0SzHIv43o3L8bw4reKp3EIFuSS-BCyBqbWUsYCo
-    short-id: 6591f200
-  uuid: c6037cf7-d931-4027-af06-6bfb0f10684c
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: apiv10.jarvesitw.ru
-- name: FR · VLESS · shaoyouvip · E961D902
-  type: vless
-  server: 57.130.20.7
-  port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+    public-key: dpG1tE9V93FM9IJeYC5-n_7RJxX7jOwrWLbQJgZpFFo
     short-id: ''
-  uuid: 0bc31c7f-1ee2-4dd3-929b-b61ae780eb3c
-  client-fingerprint: firefox
+  uuid: 6faa980b-4a0f-4b4d-99f2-03b468da8541
+  client-fingerprint: chrome
   flow: xtls-rprx-vision
   network: tcp
   tls: true
   udp: true
   xudp: true
   packet-encoding: xudp
-  servername: fr.sellflow.org
-- name: SG · VLESS · shaoyouvip · FA4DBC8E
+  servername: www.amazon.com
+- name: JP · VLESS · shaoyouvip · F9B1CE75
   type: vless
-  server: 47.129.185.35
-  port: 49805
+  server: 52.194.245.53
+  port: 33486
   reality-opts:
-    public-key: KhyeJbZtFAik5Mx1K_AQMIEK_MPwQnwUwSe-jTjq8yU
-    short-id: 4a753538b6a9eee9
-  uuid: 0803fc94-25f9-42db-9e6b-dd1418ae50ec
+    public-key: 0XefSfdaAV77RBJrVSVBIdRNUHUlaMGmFT5mX_Aw6G8
+    short-id: 1671781f157ac27e
+  uuid: eddee2c9-fdf9-4b55-b8ac-3481a680b060
   client-fingerprint: chrome
   encryption: none
   flow: xtls-rprx-vision
-  network: raw
+  network: tcp
   tls: true
   udp: true
   xudp: true

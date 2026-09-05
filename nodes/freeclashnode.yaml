@@ -1,12 +1,4 @@
 proxies:
-- name: ZZ · HYSTERIA2 · clashnode · 51768D19
-  type: hysteria2
-  server: 138.124.0.168
-  port: 8080
-  sni: hopp-legend-se.roxa.org
-  skip-cert-verify: true
-  udp: true
-  password: h_B9x3942fJ9x_Kpx3914KQ_nZ934HFg_rT
 - name: US · HTTP · clashmeta · 00028095
   type: http
   server: 138.199.35.218
@@ -42,14 +34,6 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: NL · HYSTERIA2 · clashnode · 6D429E6B
-  type: hysteria2
-  server: 46.229.243.149
-  port: 8443
-  sni: grape-turbo-fr.roxa.org
-  skip-cert-verify: true
-  udp: true
-  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
 - name: NL · SSR · clashmeta · 8B79F727
   type: ssr
   server: 109.104.153.43
@@ -75,6 +59,16 @@ proxies:
       Host: 7-m19.sUDAN-pArk.CCwu.CC
   skip-cert-verify: true
   udp: true
+- name: US · HTTP · clashmeta · 012DA4B2
+  type: http
+  server: crosscards.site
+  port: 443
+  skip-cert-verify: false
+  sub_tag: P002-260618
+  tls: true
+  udp: true
+  sni: crosscards.site
+  password: None
 - name: DE · SOCKS5 · clashmeta · 20F6D9C9
   type: socks5
   server: 128.140.82.50
@@ -89,31 +83,6 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: FR · VLESS · clashmeta · 00331C3C
-  type: vless
-  server: 172.64.42.85
-  port: 2086
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  network: ws
-  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-- name: US · VLESS · clashnode · 2A0C0DA3
-  type: vless
-  server: 172.67.220.58
-  port: 443
-  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
-  network: ws
-  servername: 7-m17.kUWaIT.kDnS.Fr
-  tls: true
-  ws-opts:
-    path: /fVs1qv0xm8dxmnwuaPwokxgY4XlP
-    headers:
-      Host: 7-M17.KuWAit.kdNS.fR
-  skip-cert-verify: true
-  udp: true
 - name: SG · VMESS · clashmeta · 0078DD79
   type: vmess
   server: 149.88.23.202
@@ -129,20 +98,13 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: 149.88.23.202
-- name: CA · VLESS · clashnode · 2DF7B8C8
-  type: vless
-  server: 172.67.173.191
+- name: US · SS · clashmeta · 0940C120
+  type: ss
+  server: 37.19.198.160
   port: 443
-  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
-  network: ws
-  servername: 4-m20.e00e.ccwu.cc
-  tls: true
-  ws-opts:
-    path: /8qMLgNapWf6SBxo8fhQlVPYO
-    headers:
-      Host: 4-m20.e00e.ccwu.cc
-  skip-cert-verify: true
+  cipher: aes-128-gcm
   udp: true
+  password: shadowsocks
 - name: RU · HTTP · clashmeta · 02290AB1
   type: http
   server: 193.19.190.59
@@ -163,20 +125,6 @@ proxies:
   sub_tag: A003-260618
   udp: true
   password: k1dBOmOB4oqi7Ump37a1bQ
-- name: GB · VLESS · cfmem · 28D82A19
-  type: vless
-  server: 31.76.4.128
-  port: 5001
-  reality-opts:
-    public-key: HNjZe5pYUhcuE8sASYVVrVSMW_jFfekgLnrnO4xXIyQ
-    short-id: a1b2c3d4
-  uuid: 5a92a9d2-3067-49cd-bfc5-989bbdfc5d52
-  servername: fi.aeternavpn.space
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: qq
-  skip-cert-verify: true
-  udp: true
 - name: US · HTTP · clashmeta · 024EF203
   type: http
   server: 138.199.35.200
@@ -185,20 +133,15 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: US · VLESS · clashnode · 42F1AE97
-  type: vless
-  server: 172.67.195.150
-  port: 443
-  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
-  network: ws
-  servername: 5-m20.dbfb5a2a-81c7-481a-b0cc-0f51aa86cc51.kdns.fr
-  tls: true
-  ws-opts:
-    path: /8qMLgNapWf6SBxo8fhQlVPYO
-    headers:
-      Host: 5-m20.dbfb5a2a-81c7-481a-b0cc-0f51aa86cc51.kdns.fr
+- name: HK · SOCKS5 · clashmeta · 27C5ABDF
+  type: socks5
+  server: 47.242.19.215
+  port: 8899
   skip-cert-verify: true
+  sub_tag: R002-260618
   udp: true
+  username: admin
+  password: admin
 - name: NL · SS · clashmeta · 0500A579
   type: ss
   server: 82.38.31.11
@@ -207,16 +150,6 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: FR · VLESS · clashmeta · 00672F0D
-  type: vless
-  server: www.ipget.net
-  port: 8880
-  uuid: 41ce10f9-748b-46a0-be7c-e29d863aa028
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.JP.CMLiussss.net
-    headers:
-      Host: gentle-violet-ceef.497-2fe.workers.dev
 - name: US · VMESS · clashmeta · 0115F77E
   type: vmess
   server: 82.198.246.97
@@ -247,48 +180,16 @@ proxies:
   cipher: chacha20-ietf-poly1305
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: US · VLESS · clashnode · 79F65214
-  type: vless
-  server: 162.159.81.177
-  port: 80
-  uuid: 4b00d726-e072-429b-997e-f07affea3b7f
-  network: ws
-  tls: false
-  ws-opts:
-    path: /eyJqdW5rIjoibHFUM0pwRHZXIiwicHJvdG9jb2wiOiJ2bCIsIm1vZGUiOiJwcmVmaXgiLCJwYW5lbElQcyI6WyJbMjYwMjpmYzU5OmIwOjY0OjpdIl19
-    headers:
-      Host: icy-darkness-8ff1.farzambia12mo.workers.dev
+- name: MY · TROJAN · clashmeta · 0128376B
+  type: trojan
+  server: 47.250.84.25
+  port: 443
+  client-fingerprint: chrome
+  network: tcp
   skip-cert-verify: true
-  udp: true
-- name: FR · VLESS · clashmeta · 00690FF9
-  type: vless
-  server: 172.64.153.11
-  port: 8880
-  uuid: 78b73cc4-8c3c-40ce-bb74-d5dcd3277c67
-  network: ws
   sub_tag: A004-260618
   udp: true
-  ws-opts:
-    headers:
-      Host: white-hill-f907.23-b68.workers.dev
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36
-    path: /pyip=ProxyIP.JP.CMLiussss.net
-  xudp: true
-  packet-encoding: xudp
-- name: US · VLESS · clashnode · 9E6B7CA3
-  type: vless
-  server: 172.67.223.26
-  port: 443
-  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
-  network: ws
-  servername: 5-m17.KuWaIT-LIne.Kdns.FR
-  tls: true
-  ws-opts:
-    path: /fVs1qv0xm8dxmnwuaPwokxgY4XlP
-    headers:
-      Host: 5-M17.KUWAIt-LInE.kdNs.FR
-  skip-cert-verify: true
-  udp: true
+  password: 5931134d1cde66bf83a54acdfebe7ab2
 - name: NL · HTTP · clashmeta · 0314FF07
   type: http
   server: 51.159.225.196
@@ -307,30 +208,6 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: XKFKl2rULjIp74
-- name: MY · TROJAN · clashmeta · 0128376B
-  type: trojan
-  server: 47.250.84.25
-  port: 443
-  client-fingerprint: chrome
-  network: tcp
-  skip-cert-verify: true
-  sub_tag: A004-260618
-  udp: true
-  password: 5931134d1cde66bf83a54acdfebe7ab2
-- name: US · VLESS · clashnode · CB73452A
-  type: vless
-  server: 104.21.27.240
-  port: 443
-  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
-  network: ws
-  servername: 4-m20.20260721-9dc5-4f76-ad18-12cd86bca954.ccwu.cc
-  tls: true
-  ws-opts:
-    path: /8qMLgNapWf6SBxo8fhQlVPYO
-    headers:
-      Host: 4-m20.20260721-9dc5-4f76-ad18-12cd86bca954.ccwu.cc
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · clashmeta · 02143C46
   type: vmess
   server: 82.198.246.97
@@ -346,20 +223,6 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: broadcastlv.chat.bilibili.com
-- name: US · VLESS · clashnode · CC9F7704
-  type: vless
-  server: 104.21.32.105
-  port: 443
-  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
-  network: ws
-  servername: 1-m20.c3d5336a-3310-48b7-8505-ec90b7a7df24.kdns.fr
-  tls: true
-  ws-opts:
-    path: /8qMLgNapWf6SBxo8fhQlVPYO
-    headers:
-      Host: 1-m20.c3d5336a-3310-48b7-8505-ec90b7a7df24.kdns.fr
-  skip-cert-verify: true
-  udp: true
 - name: IT · HTTP · clashmeta · 0335C006
   type: http
   server: 89.46.78.17
@@ -376,21 +239,6 @@ proxies:
   udp: true
   username: ''
   password: ''
-- name: US · VLESS · clashnode · DDAC7039
-  type: vless
-  server: fu.baiproxy.us.ci
-  port: 2087
-  uuid: 55d9ec38-1b8a-454b-981a-6acfe8f56d8c
-  network: ws
-  servername: fu.baiproxy.us.ci
-  tls: true
-  client-fingerprint: qq
-  ws-opts:
-    path: /?ed=2560
-    headers:
-      Host: fu.baiproxy.us.ci
-  skip-cert-verify: true
-  udp: true
 - name: IT · SS · clashmeta · 07A1FED6
   type: ss
   server: 91.201.65.122
@@ -399,46 +247,21 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: b8KkNDjEd5QqFyRm
-- name: US · SS · clashmeta · 2B322B68
-  type: ss
-  server: 156.146.38.169
+- name: FR · TROJAN · clashmeta · 041225F4
+  type: trojan
+  server: 104.18.152.103
   port: 443
-  cipher: aes-128-gcm
-  udp: true
-  password: shadowsocks
-- name: US · VLESS · clashnode · E8E96402
-  type: vless
-  server: 162.159.81.104
-  port: 80
-  uuid: 4b00d726-e072-429b-997e-f07affea3b7f
-  network: ws
-  tls: false
-  ws-opts:
-    path: /eyJqdW5rIjoiUEVTdDRlR2hhc0JuYyIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJlZml4IiwicGFuZWxJUHMiOlsiWzI2MDI6ZmM1OTpiMDo2NDo6XSJdfQ==
-    headers:
-      Host: icy-darkness-8ff1.farzambia12mo.workers.dev
-  skip-cert-verify: true
-  udp: true
-- name: FR · VLESS · clashmeta · 00746C26
-  type: vless
-  server: 172.64.145.202
-  port: 2083
-  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
   client-fingerprint: chrome
-  encryption: none
   network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
   sub_tag: C002-260622
-  tls: true
   udp: true
   ws-opts:
     headers:
-      Host: newwk1.f1w.de5.net
-      User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; SM-G532M Build/MMB29T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0
-        Chrome/55.0.2883.91 Mobile Safari/537.36
-    path: /
-  xudp: true
-  packet-encoding: xudp
-  servername: newwk1.f1w.de5.net
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36
+    path: /assignment
+  password: humanity
 - name: SG · VMESS · clashmeta · 0298EA3F
   type: vmess
   server: 149.88.23.207
@@ -468,16 +291,6 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: FR · VLESS · clashmeta · 007EDCBB
-  type: vless
-  server: 162.159.0.169
-  port: 2086
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  network: ws
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
 - name: US · HTTP · clashmeta · 0448992A
   type: http
   server: 138.199.35.206
@@ -560,40 +373,14 @@ proxies:
   udp: true
   username: "null"
   password: "null"
-- name: US · SS · clashmeta · 0940C120
+- name: NL · SS · clashmeta · 09BCE8FA
   type: ss
-  server: 37.19.198.160
+  server: 82.38.31.35
   port: 443
-  cipher: aes-128-gcm
+  cipher: chacha20-ietf-poly1305
+  sub_tag: A004-260618
   udp: true
-  password: shadowsocks
-- name: FR · TROJAN · clashmeta · 036E0D5C
-  type: trojan
-  server: 172.67.218.38
-  port: 443
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: false
-  sni: 1v95V6tjywCyTBAhl7f7lX8B27G.l4495eycQmSE9he0YVoemJfc4IBYf-4.wORkerS.dEV
-  sub_tag: B007-260618
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
-    path: /tr/dxyX388XOtyAjF3A
-    early-data-header-name: Sec-WebSocket-Protocol
-    max-early-data: 2560
-  password: Telegram_healer_config
-- name: US · VLESS · clashmeta · 0096460E
-  type: vless
-  server: 178.95.170.83
-  port: 2087
-  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
-  network: ws
-  ws-opts:
-    path: /4bc027a44532
+  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: US · VMESS · clashmeta · 03675FDC
   type: vmess
   server: 82.198.246.250
@@ -618,24 +405,30 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: NL · SS · clashmeta · 09BCE8FA
+- name: NL · SS · clashmeta · 0AD5827A
   type: ss
-  server: 82.38.31.35
+  server: 82.38.31.42
   port: 443
   cipher: chacha20-ietf-poly1305
-  sub_tag: A004-260618
+  sub_tag: B007-260618
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: FR · VLESS · clashmeta · 009E10CA
+- name: FR · VLESS · clashmeta · 0117E4BB
   type: vless
-  server: 172.66.170.53
-  port: 8880
-  uuid: 68662961-6c5f-48c1-b807-6398f3287dbc
+  server: 172.64.32.103
+  port: 2052
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
   network: ws
+  sub_tag: A004-260618
+  udp: true
   ws-opts:
-    path: /pyip=ProxyIP.SG.CMLiussss.net
     headers:
-      Host: polished-meadow-2ac5.228-76d.workers.dev
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+    path: /?ed=2560security=tls
+  xudp: true
+  packet-encoding: xudp
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
 - name: GB · HTTP · clashmeta · 05AE76FF
   type: http
   server: 73721193-tcxds0-tvgkxc-hrtf.uk.oshuawei.com
@@ -647,37 +440,6 @@ proxies:
   sni: 73721193-tcxds0-tvgkxc-hrtf.uk.oshuawei.com
   username: 0da8651e-e1f6-11ec-bd7c-f23c913c8d2b
   password: 0da8651e-e1f6-11ec-bd7c-f23c913c8d2b
-- name: NL · SS · clashmeta · 0AD5827A
-  type: ss
-  server: 82.38.31.42
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  sub_tag: B007-260618
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: FR · TROJAN · clashmeta · 041225F4
-  type: trojan
-  server: 104.18.152.103
-  port: 443
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: false
-  sni: www.ignitelimit.com
-  sub_tag: C002-260622
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36
-    path: /assignment
-  password: humanity
-- name: DE · HTTP · clashmeta · 05D8AD96
-  type: http
-  server: 141.17.83.78
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
 - name: GB · SS · clashmeta · 0BB63212
   type: ss
   server: 35.178.132.176
@@ -686,33 +448,10 @@ proxies:
   sub_tag: A001-260618
   udp: true
   password: amazonskr05
-- name: FR · VLESS · clashmeta · 00A1915B
-  type: vless
-  server: 104.17.147.22
-  port: 443
-  uuid: 0432902e-6604-40cd-bbd0-57ab4e5d909f
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-  encryption: none
-  network: ws
-  sub_tag: M003-260806
-  tls: true
-  udp: true
-  ws-opts:
-    early-data-header-name: Sec-WebSocket-Protocol
-    headers:
-      Host: bpb-4dc4958b.hxjkcghchv.workers.dev
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36
-    max-early-data: 2560
-    path: /eyJqdW5rIjoiOENNZnB6WTgiLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByb3h5aXAiLCJwYW5lbElQcyI6W119
-  xudp: true
-  packet-encoding: xudp
-  servername: bPB-4dc4958B.hXjkcgHcHv.woRkeRs.deV
-- name: US · HTTP · clashmeta · 073CBC54
+- name: DE · HTTP · clashmeta · 05D8AD96
   type: http
-  server: 138.199.35.213
-  port: 9002
+  server: 141.17.83.78
+  port: 443
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
@@ -725,10 +464,10 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: k1dBOmOB4oqi7Ump37a1bQ
-- name: LV · HTTP · clashmeta · 083F6C1B
+- name: US · HTTP · clashmeta · 073CBC54
   type: http
-  server: 109.248.147.66
-  port: 443
+  server: 138.199.35.213
+  port: 9002
   skip-cert-verify: true
   sub_tag: R002-260618
   tls: true
@@ -741,28 +480,32 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: amazonskr05
-- name: FR · TROJAN · clashmeta · 0435FD93
-  type: trojan
-  server: 104.16.72.70
+- name: US · VLESS · clashmeta · 013271E9
+  type: vless
+  server: 172.67.133.136
   port: 443
+  uuid: 1aa96574-c28b-4ee9-855d-ebdbbf1f7e90
   client-fingerprint: chrome
   network: ws
-  skip-cert-verify: false
-  sni: unnes.ac.id.r3xxe.eu.cc
-  sub_tag: C002-260622
+  sub_tag: F003-260618
+  tls: true
   udp: true
   ws-opts:
     headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
-    path: /au-mt
-  password: 74480619-b6a8-4ab8-94e1-1132fc18b2fa
-- name: GB · HTTP · clashmeta · 08FBE2E7
+      Host: 4-m13.1332AfDC-0737-4bB1-8cA8-EE4f0cd20Bc6.kDNS.Fr
+      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36
+    path: /ED3ZQPu7lqyeDGD58KabZ
+  xudp: true
+  packet-encoding: xudp
+  servername: 4-m13.1332aFdC-0737-4BB1-8cA8-EE4f0cd20BC6.KDnS.FR
+- name: LV · HTTP · clashmeta · 083F6C1B
   type: http
-  server: 154.61.56.215
-  port: 3118
-  sub_tag: P002-260618
+  server: 109.248.147.66
+  port: 443
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
   udp: true
-  password: None
 - name: CA · SS · clashmeta · 0CE6B388
   type: ss
   server: 15.223.182.66
@@ -771,22 +514,27 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: amazonskr05
-- name: GB · VLESS · clashmeta · 00BB5270
-  type: vless
-  server: 172.65.90.53
-  port: 8880
-  uuid: c04e959d-3b7a-4d4f-881a-935762102704
-  encryption: none
-  network: ws
-  sub_tag: M003-260806
+- name: GB · HTTP · clashmeta · 08FBE2E7
+  type: http
+  server: 154.61.56.215
+  port: 3118
+  sub_tag: P002-260618
   udp: true
-  ws-opts:
-    headers:
-      Host: super-darkness-5bfb.298-142.workers.dev
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36
-    path: /pyip=ProxyIP.US.CMLiussss.net
-  xudp: true
-  packet-encoding: xudp
+  password: None
+- name: NL · SS · clashmeta · 0D550C3F
+  type: ss
+  server: 82.38.31.2
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: US · SS · clashmeta · 44410BBB
+  type: ss
+  server: 156.146.38.170
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
 - name: PL · HTTP · clashmeta · 096FE5AC
   type: http
   server: 37.120.156.18
@@ -795,23 +543,14 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: NL · SS · clashmeta · 0D550C3F
+- name: US · SS · clashmeta · 0E40B526
   type: ss
-  server: 82.38.31.2
+  server: 107.151.182.197
   port: 8080
-  cipher: chacha20-ietf-poly1305
+  cipher: rc4-md5
+  sub_tag: A004-260618
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: FR · VLESS · clashmeta · 00BBEC04
-  type: vless
-  server: 104.17.58.113
-  port: 8880
-  uuid: 14e0ab2e-fb3e-4fd1-a6d9-62eeae62976b
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.JP.CMLiussss.net
-    headers:
-      Host: jolly-shape-3ce6.392.workers.dev
+  password: 14fFPrbezE3HDZzsMOr6
 - name: RO · HTTP · clashmeta · 0A23683C
   type: http
   server: 193.176.84.22
@@ -821,39 +560,23 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: US · SS · clashmeta · 0E40B526
-  type: ss
-  server: 107.151.182.197
-  port: 8080
-  cipher: rc4-md5
-  sub_tag: A004-260618
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: FR · VLESS · clashmeta · 00BD8D61
-  type: vless
-  server: 172.67.174.249
+- name: FR · TROJAN · clashmeta · 07C20E90
+  type: trojan
+  server: 104.18.15.230
   port: 443
-  uuid: 26b35808-f1e1-4b97-8c69-46796f058d8b
-  network: ws
-  tls: true
-  servername: eZaccESs-PROjeCT-9138d4.5f6ON.WORkerS.DeV
+  alpn:
+  - h2
+  - http/1.1
   client-fingerprint: chrome
+  network: ws
+  sni: www.ignitelimit.com
+  sub_tag: R002-260618
   ws-opts:
-    path: /eyJqdW5rIjoicG9pMkt4TDY2TVNtRSIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJveHlpcCIsInBhbmVsSVBzIjpbXX0=?ed=2560
     headers:
-      Host: ezaccess-project-9138d4.5f6on.workers.dev
-- name: SG · HTTP · clashmeta · 0B679BE1
-  type: http
-  server: 167.99.74.174
-  port: 9090
-  sub_tag: R002-260618
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36
+    path: /assignment
   udp: true
-- name: BR · HTTP · clashmeta · 0BC78B49
-  type: http
-  server: 200.225.129.110
-  port: 5566
-  sub_tag: R002-260618
-  udp: true
+  password: humanity
 - name: US · SS · clashmeta · 0ECD490F
   type: ss
   server: 15.204.247.244
@@ -862,6 +585,60 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: pKEW8JPByTVTLtM
+- name: FR · VLESS · clashmeta · 01BDB362
+  type: vless
+  server: 162.159.0.53
+  port: 80
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  network: ws
+  sub_tag: A004-260618
+  udp: true
+  ws-opts:
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36
+    path: /?ed=2560security=tls
+  xudp: true
+  packet-encoding: xudp
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+- name: BR · HTTP · clashmeta · 0BC78B49
+  type: http
+  server: 200.225.129.110
+  port: 5566
+  sub_tag: R002-260618
+  udp: true
+- name: CA · SS · clashmeta · 10726E1A
+  type: ss
+  server: 51.222.12.127
+  port: 445
+  cipher: aes-256-gcm
+  sub_tag: A004-260618
+  udp: true
+  password: zDNVedRFPQexG9v
+- name: US · TROJAN · clashmeta · 08696642
+  type: trojan
+  server: 64.74.163.118
+  port: 58536
+  client-fingerprint: chrome
+  network: tcp
+  skip-cert-verify: true
+  sni: 64.74.163.118
+  sub_tag: C002-260622
+  udp: true
+  password: lEjtI3pFYfU7O1UYozJcfZV5K6Fwfths
+- name: RU · VLESS · clashmeta · 01BEC7AE
+  type: vless
+  server: ru05.abvpn.ru
+  port: 443
+  uuid: a289a3d3-5833-4b28-8809-ae72898a98d0
+  network: ws
+  tls: true
+  servername: ru05.abvpn.ru
+  client-fingerprint: edge
+  ws-opts:
+    path: /websocket
+    headers:
+      Host: ru05.abvpn.ru
 - name: KR · HTTP · clashmeta · 0C899B31
   type: http
   server: 891f3762-ta1og0-tiqsce-t6fv.kr.oshuawei.com
@@ -873,31 +650,14 @@ proxies:
   sni: 891f3762-ta1og0-tiqsce-t6fv.kr.oshuawei.com
   username: af7ddbb2-3567-11ec-bd7c-f23c913c8d2b
   password: af7ddbb2-3567-11ec-bd7c-f23c913c8d2b
-- name: CA · SS · clashmeta · 10726E1A
+- name: PL · SS · clashmeta · 11337F93
   type: ss
-  server: 51.222.12.127
-  port: 445
-  cipher: aes-256-gcm
+  server: 217.30.10.44
+  port: 9063
+  cipher: aes-256-cfb
   sub_tag: A004-260618
   udp: true
-  password: zDNVedRFPQexG9v
-- name: US · SS · clashmeta · 44410BBB
-  type: ss
-  server: 156.146.38.170
-  port: 443
-  cipher: aes-128-gcm
-  udp: true
-  password: shadowsocks
-- name: FR · VLESS · clashmeta · 00C56114
-  type: vless
-  server: 104.16.98.215
-  port: 8880
-  uuid: 35e8826f-0873-492d-8b8a-d495c9947480
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.KR.CMLiussss.net
-    headers:
-      Host: super-sunset-010c.24-43d.workers.dev
+  password: aQqJbtwFGcCCaeL3
 - name: US · HTTP · clashmeta · 0E9A0B8F
   type: http
   server: zebpay.site
@@ -908,33 +668,14 @@ proxies:
   udp: true
   sni: zebpay.site
   password: None
-- name: PL · SS · clashmeta · 11337F93
+- name: NL · SS · clashmeta · 1181CF60
   type: ss
-  server: 217.30.10.44
-  port: 9063
-  cipher: aes-256-cfb
+  server: 82.38.31.149
+  port: 443
+  cipher: chacha20-ietf-poly1305
   sub_tag: A004-260618
   udp: true
-  password: aQqJbtwFGcCCaeL3
-- name: FR · TROJAN · clashmeta · 05DD9638
-  type: trojan
-  server: 104.21.24.95
-  port: 443
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: false
-  sni: 1V95V6TjywCyTbAHl7f7Lx8b27G.L4495eYcqmsE9he0yVoEMJFc4IBYf-4.wORkERS.DeV
-  sub_tag: B007-260618
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
-    path: /tr/zJi4ccv7FeEo780U
-    early-data-header-name: Sec-WebSocket-Protocol
-    max-early-data: 2560
-  password: Telegram_healer_config
+  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: CA · VMESS · clashmeta · 07A77EE8
   type: vmess
   server: 23.162.200.198
@@ -949,14 +690,30 @@ proxies:
   xudp: true
   network: tcp
   packet-encoding: xudp
-- name: NL · SS · clashmeta · 1181CF60
+- name: MY · SS · clashmeta · 1185C589
   type: ss
-  server: 82.38.31.149
-  port: 443
-  cipher: chacha20-ietf-poly1305
+  server: 118.107.222.231
+  port: 65443
+  cipher: aes-256-cfb
   sub_tag: A004-260618
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
+  password: 7eadc6dbe2ae
+- name: FR · VLESS · clashmeta · 02103563
+  type: vless
+  server: 104.18.34.14
+  port: 2082
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  network: ws
+  sub_tag: A004-260618
+  udp: true
+  ws-opts:
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+      User-Agent: Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36
+    path: /?ed=2560security=tls
+  xudp: true
+  packet-encoding: xudp
+  servername: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
 - name: US · VMESS · clashmeta · 07DF173B
   type: vmess
   server: 67.220.95.3
@@ -979,49 +736,6 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: MY · SS · clashmeta · 1185C589
-  type: ss
-  server: 118.107.222.231
-  port: 65443
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
-  udp: true
-  password: 7eadc6dbe2ae
-- name: FR · VLESS · clashmeta · 00D031C4
-  type: vless
-  server: 104.21.51.189
-  port: 8880
-  uuid: 4f54572a-b852-4da3-8823-0ddccc60b5d8
-  network: ws
-  sub_tag: M003-260806
-  udp: true
-  ws-opts:
-    headers:
-      Host: icy-snowflake-1f56.147-1ea.workers.dev
-      User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; SM-J500M Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100
-        Mobile Safari/537.36
-    path: /
-  xudp: true
-  packet-encoding: xudp
-- name: ZZ · VMESS · clashmeta · 0840F971
-  type: vmess
-  server: deapp.jisuyun.top
-  port: 2053
-  uuid: 9a1a05d9-69be-45d3-e326-c6621edf7b31
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /devm
-- name: RO · HTTP · clashmeta · 1174D8EF
-  type: http
-  server: 193.176.84.22
-  port: 9002
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  udp: true
 - name: NL · SS · clashmeta · 123CD8D0
   type: ss
   server: 193.29.139.168
@@ -1030,43 +744,38 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: QCXDxuDlTTMD7jtgHUjIoj
-- name: FR · VLESS · clashmeta · 00DE2DE0
-  type: vless
-  server: 104.18.46.234
-  port: 2052
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  network: ws
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-- name: CA · SS · clashmeta · 1401CF37
+- name: US · SS · clashmeta · 54E01726
   type: ss
-  server: 3.96.202.83
+  server: 173.244.56.6
   port: 443
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
+  cipher: aes-128-gcm
   udp: true
-  password: amazonskr05
-- name: FR · VLESS · clashmeta · 00E3874F
-  type: vless
-  server: 104.16.107.139
-  port: 8880
-  uuid: 486ebf01-0b45-4c38-9ef6-198aa0f9d2c3
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.SG.CMLiussss.net
-    headers:
-      Host: quiet-feather-19f3.410-a69.workers.dev
-- name: HK · HTTP · clashmeta · 132AF03E
+  password: shadowsocks
+- name: RO · HTTP · clashmeta · 1174D8EF
   type: http
-  server: fan.240104.xyz
-  port: 443
+  server: 193.176.84.22
+  port: 9002
   skip-cert-verify: true
-  sub_tag: R002-260618
+  sni: www.bing.com
   tls: true
   udp: true
-  sni: fan.240104.xyz
+- name: US · TROJAN · clashmeta · 08EF1515
+  type: trojan
+  server: us01.duotg.top
+  port: 20065
+  client-fingerprint: chrome
+  network: tcp
+  skip-cert-verify: true
+  sni: www.microsoft.com
+  sub_tag: A004-260618
+  udp: true
+  password: 02cd3bac-2a78-4dbb-82b9-6b64084ddd8e
+- name: DO · HTTP · clashmeta · 1184C304
+  type: http
+  server: 181.232.190.121
+  port: 999
+  sub_tag: R002-260618
+  udp: true
 - name: PL · SS · clashmeta · 147F2504
   type: ss
   server: 217.30.10.44
@@ -1075,24 +784,3 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: N7j3pdTYkKmsy8CR
-- name: FR · VLESS · clashmeta · 00EF7B6F
-  type: vless
-  server: 172.67.133.44
-  port: 443
-  uuid: af19ce98-b58b-43ef-9f0d-2ae6343e28fe
-  network: ws
-  tls: true
-  servername: blue-disk-1124.sawmansafi.workers.dev
-  client-fingerprint: chrome
-  ws-opts:
-    path: /eyJqdW5rIjoiWlhHY0ZPTWhBcGoxTXMwIiwicHJvdG9jb2wiOiJ2bCIsIm1vZGUiOiJwcmVmaXgiLCJwYW5lbElQcyI6WyJbMjYwMjpmYzU5OjExOjY0OjpdIl19?ed=2560
-    headers:
-      Host: blue-disk-1124.sawmansafi.workers.dev
-- name: NL · SS · clashmeta · 14D994C4
-  type: ss
-  server: 82.38.31.47
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: A003-260618
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
