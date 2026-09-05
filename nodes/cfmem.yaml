@@ -19,22 +19,20 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: gf1:gfhysteria2024
-- name: IE · SS · cfmem · 05847717
-  type: ss
-  server: 3.252.205.48
+- name: RU→DE · VLESS · cfmem · 00B21C80
+  type: vless
+  server: rrr.windconnect.pro
   port: 443
-  cipher: aes-256-cfb
+  reality-opts:
+    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
+    short-id: 4da5d1853f04af6d
+  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
+  servername: rrr.windconnect.pro
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
-  password: amazonskr05
-- name: CN→US · SS · cfmem · 078F4188
-  type: ss
-  server: 121.46.230.232
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
 - name: CA · SS · cfmem · 0C9EA2A1
   type: ss
   server: 35.182.118.89
@@ -43,40 +41,9 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: US · VLESS · cfmem · 1178914A
-  type: vless
-  server: 172.67.140.11
-  port: 443
-  uuid: a90c264d-3853-4eef-9a3d-628b2d02d15e
-  network: ws
-  servername: 7-m19.suDan-pARK.CcwU.cc
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /CjBjB9sn5pCvaSwScc
-    headers:
-      Host: 7-m19.sUDAN-pArk.CCwu.CC
-  skip-cert-verify: true
-  udp: true
-- name: JP · VMESS · cfmem · 46287DA6
-  type: vmess
-  server: 38.47.121.14
-  port: 49432
-  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
-  alterId: 0
-  cipher: auto
-  network: http
 - name: MY · SS · cfmem · 14C11A77
   type: ss
   server: 118.107.222.231
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
-- name: CN→JP · SS · cfmem · 3B4A79F1
-  type: ss
-  server: 121.46.230.137
   port: 65443
   cipher: aes-256-cfb
   skip-cert-verify: true
@@ -94,6 +61,14 @@ proxies:
     path: /29c8fed7ca22
   skip-cert-verify: true
   udp: true
+- name: CA · SS · cfmem · 66130A00
+  type: ss
+  server: 51.79.85.185
+  port: 8118
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: cdBIDV42DCwnfIN
 - name: TH · SS · cfmem · 6EFEC3A8
   type: ss
   server: 103.169.67.34
@@ -110,6 +85,20 @@ proxies:
   network: ws
   ws-opts:
     path: /
+- name: FR · SS · cfmem · B3E80520
+  type: ss
+  server: 95.170.13.47
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: NL · VLESS · cfmem · 32172356
+  type: vless
+  server: 78.17.190.94
+  port: 53289
+  uuid: 9a913f1c-28b3-4d0b-aa77-698302252ab7
+  network: tcp
 - name: CA · SS · cfmem · DE1C47D2
   type: ss
   server: 15.156.204.87
@@ -118,23 +107,22 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: NL · VLESS · cfmem · 32172356
-  type: vless
-  server: 78.17.190.94
-  port: 53289
-  uuid: 9a913f1c-28b3-4d0b-aa77-698302252ab7
-  network: tcp
-- name: JP · VMESS · cfmem · D2E46912
+- name: HK · VMESS · cfmem · 756C5093
   type: vmess
-  server: 38.47.121.14
-  port: 49432
-  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
-  alterId: 0
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: http
-  udp: true
+  network: tcp
+- name: NL · VLESS · cfmem · 4FAB0688
+  type: vless
+  server: 51.158.236.122
+  port: 8080
+  uuid: 11af1c47-865a-47c6-92ff-118013655d78
+  network: ws
+  ws-opts:
+    path: /
 - name: NL · VLESS · cfmem · 5FC2C486
   type: vless
   server: 51.158.241.182
@@ -162,6 +150,14 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /8f2690e2d016
+- name: NL · VLESS · cfmem · 6E84EF7D
+  type: vless
+  server: 78.17.190.94
+  port: 53289
+  uuid: 9a913f1c-28b3-4d0b-aa77-698302252ab7
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: PL→NL · VLESS · cfmem · 78DB32B2
   type: vless
   server: 178.95.170.83
@@ -172,6 +168,15 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /4bc027a44532
+  skip-cert-verify: true
+  udp: true
+- name: NL · VLESS · cfmem · 955280BC
+  type: vless
+  server: 51.158.236.122
+  port: 8080
+  uuid: 11af1c47-865a-47c6-92ff-118013655d78
+  network: ws
+  tls: false
   skip-cert-verify: true
   udp: true
 - name: DE · VLESS · cfmem · AAA24DDD
@@ -192,19 +197,18 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · D5DC8DDC
+- name: RU→DE · VLESS · cfmem · BA1222C0
   type: vless
-  server: 172.67.156.222
+  server: 31.76.71.140
   port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
-  network: ws
-  servername: 3-m16.ChIAn-mAI-6.kDnS.Fr
+  reality-opts:
+    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
+    short-id: 4da5d1853f04af6d
+  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
+  servername: rrr.windconnect.pro
   tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
-    headers:
-      Host: 3-m16.ChIAn-Mai-6.kdNs.Fr
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
 - name: NL · VLESS · cfmem · E53C2969
