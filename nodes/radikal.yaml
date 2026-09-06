@@ -1,4 +1,12 @@
 proxies:
+- name: HK · VMESS · radikal · 00882E19
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: US · VMESS · radikal · 013FDB05
   type: vmess
   server: 82.198.246.233
@@ -7,6 +15,19 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
+- name: CA · VMESS · radikal · 01ED49AC
+  type: vmess
+  server: 104.17.77.77
+  port: 8443
+  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /lMnsZUN4/
+    headers:
+      Host: v2ray1.dozapp.xyz
 - name: DE · VMESS · radikal · 04B0DC7F
   type: vmess
   server: 82.139.242.5
@@ -29,6 +50,20 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
+- name: CA · VMESS · radikal · 059E28EF
+  type: vmess
+  server: 104.21.57.84
+  port: 8443
+  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: v2ray1.dozapp.xyz
+  ws-opts:
+    path: /lMnsZUN4/
+    headers:
+      Host: v2ray1.dozapp.xyz
 - name: US · VMESS · radikal · 07673546
   type: vmess
   server: 129.146.77.248
@@ -81,13 +116,5 @@ proxies:
   port: 22324
   uuid: 04621bae-ab36-11ec-b909-0242ac120002
   alterId: 1
-  cipher: auto
-  network: tcp
-- name: SG · VMESS · radikal · 17334142
-  type: vmess
-  server: 149.88.23.202
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
   cipher: auto
   network: tcp
