@@ -1,31 +1,24 @@
 proxies:
-- name: US · HTTP · kooker · 535DDB12
+- name: ZZ · HTTP · kooker · 07241EB8
   type: http
-  server: 154.26.192.123
-  port: 10988
-  tls: false
-  username: fQ67Dpe5dU
-  password: gs4BXwT6SW
-- name: AE · HYSTERIA2 · kooker · 0EA309C9
+  server: 193.176.84.23
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com
+- name: AU · HYSTERIA2 · kooker · 1DCB2837
   type: hysteria2
-  server: news.gazette.help
+  server: vpn-au-002.fastervpn.world
   port: 443
   down: ''
   fingerprint: ''
   obfs: ''
   obfs-password: ''
-  skip-cert-verify: false
-  sni: news.gazette.help
+  skip-cert-verify: true
+  sni: vpn-au-002.fastervpn.world
   up: ''
-  password: sOiWCQ2AdIV0OWNuqQVyWp4JZnRxdyLROSjX
-- name: CA · SS · kooker · 7EAAB56A
-  type: ss
-  server: 3.96.202.83
-  port: 443
-  cipher: aes-256-cfb
-  udp: true
-  password: amazonskr05
-- name: FR · TROJAN · kooker · 4F891B54
+  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
+- name: FR · TROJAN · kooker · 121F270D
   type: trojan
   server: 162.159.136.234
   port: 443
@@ -39,84 +32,31 @@ proxies:
   udp: true
   ws-opts:
     headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+      User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44
+        Safari/534.7
     path: /assignment
   password: humanity
-- name: GB · VLESS · kooker · 1A53AAD7
+- name: PL · VLESS · kooker · 406F2174
   type: vless
-  server: 82.40.62.39
-  port: 35745
-  reality-opts:
-    public-key: wCxG46NhMGffE2VezAgfPj9PJckGUo07yEBvItYUAGI
-    short-id: ''
-  uuid: 9d36046b-b249-4efc-954b-59d078cad769
-  client-fingerprint: chrome
-  encryption: none
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  servername: amp-api-edge.apps.apple.com
-- name: NL · HTTP · kooker · 6415793A
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: AU · HYSTERIA2 · kooker · 1DCB2837
-  type: hysteria2
-  server: vpn-au-002.fastervpn.world
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: vpn-au-002.fastervpn.world
-  up: ''
-  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: GB · SS · kooker · 93E569B8
-  type: ss
-  server: 35.178.200.252
-  port: 443
-  cipher: aes-256-cfb
-  udp: true
-  password: amazonskr05
-- name: FR · TROJAN · kooker · 5089F312
-  type: trojan
-  server: 216.24.57.1
-  port: 443
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: false
-  sni: www.ignitelimit.com
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36
-    path: /assignment
-  password: humanity
-- name: PL · VLESS · kooker · 687693D9
-  type: vless
-  server: 31.77.61.214
+  server: bridge2.kolhoz.fuck-rkn.xyz
   port: 443
   reality-opts:
     public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-    short-id: ''
   uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
   client-fingerprint: firefox
   flow: xtls-rprx-vision
   network: tcp
-  tls: true
-  udp: true
-  xudp: true
   servername: jobinvest.ru
-- name: RU · HTTP · kooker · 90F76908
+  skip-cert-verify: true
+  tfo: false
+  tls: true
+- name: ZZ · HTTP · kooker · 400C3AAB
   type: http
-  server: 94.19.93.170
-  port: 3139
+  server: 193.176.84.40
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com
 - name: AU · HYSTERIA2 · kooker · 5C5C0862
   type: hysteria2
   server: vpn-au-002.fastervpn.world
@@ -129,46 +69,54 @@ proxies:
   sni: t.me
   up: ''
   password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: FR · TROJAN · kooker · 7D24EB66
-  type: trojan
-  server: 45.130.125.158
-  port: 443
-  alpn:
-  - h3
-  - h2
-  - http/1.1
-  client-fingerprint: ios
-  network: ws
-  skip-cert-verify: false
-  sni: www.ignitelimit.com
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36
-    path: /assignment
-  password: humanity
-- name: PL · VLESS · kooker · 8781C251
+- name: PL · VLESS · kooker · 629F8DD2
   type: vless
-  server: 31.77.61.89
+  server: 31.77.61.214
   port: 443
   reality-opts:
     public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-    short-id: ''
   uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
   client-fingerprint: firefox
   flow: xtls-rprx-vision
   network: tcp
   tls: true
   udp: true
-  xudp: true
   servername: jobinvest.ru
-- name: NL · HTTP · kooker · 97F8B333
+- name: NL · HTTP · kooker · 6415793A
   type: http
-  server: 84.17.47.146
+  server: 84.17.47.148
   port: 9002
   skip-cert-verify: true
   tls: true
   udp: true
+  password: None
+- name: FR · HYSTERIA2 · kooker · 6A3B9E4F
+  type: hysteria2
+  server: 62.210.7.139
+  port: 60111
+  skip-cert-verify: true
+  sni: bing.com
+  password: github.com/Alvin9999-newpac/fanqiang
+  auth: github.com/Alvin9999-newpac/fanqiang
+- name: PL · VLESS · kooker · 91D9363F
+  type: vless
+  server: 31.77.61.213
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
+  client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  servername: jobinvest.ru
+- name: RO · HTTP · kooker · 71621297
+  type: http
+  server: 193.176.84.36
+  port: 9002
+  skip-cert-verify: true
+  sni: www.bing.com
+  tls: true
 - name: AU · HYSTERIA2 · kooker · 95709A6B
   type: hysteria2
   server: vpn-au-002.fastervpn.world
@@ -181,46 +129,10 @@ proxies:
   sni: whatsapp.com
   up: ''
   password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: FR · TROJAN · kooker · DFF6E956
-  type: trojan
-  server: www.ignitelimit.com
-  port: 443
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: false
-  sni: www.ignitelimit.com
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
-    path: /assignment
-  password: humanity
-- name: US · VLESS · kooker · E85EF2C9
-  type: vless
-  server: 172.67.221.200
-  port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
-  client-fingerprint: chrome
-  network: ws
-  tls: true
-  udp: true
-  ws-opts:
-    headers:
-      Host: 5-M16.chiaN-Mai-9.KdnS.Fr
-      User-Agent: Mozilla/5.0 (Linux; Android 8.0.0; FIG-LX3 Build/HUAWEIFIG-LX3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100
-        Mobile Safari/537.36
-    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
-  xudp: true
-  servername: 5-M16.cHIAn-mAI-9.kDNS.fR
-- name: RO · HTTP · kooker · 99C3404E
+- name: RU · HTTP · kooker · 90F76908
   type: http
-  server: 193.176.84.33
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
+  server: 94.19.93.170
+  port: 3139
 - name: AU · HYSTERIA2 · kooker · B3693AAE
   type: hysteria2
   server: vpn-au-002.fastervpn.world
@@ -233,9 +145,9 @@ proxies:
   sni: google.com
   up: ''
   password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: NL · HTTP · kooker · DFA82CB5
+- name: NL · HTTP · kooker · 97F8B333
   type: http
-  server: 84.17.47.148
+  server: 84.17.47.146
   port: 9002
   skip-cert-verify: true
   tls: true
@@ -252,6 +164,27 @@ proxies:
   sni: vk.com
   up: ''
   password: H7mP2xY9kJ4nQ8wR5tF6vB3z
+- name: RO · HTTP · kooker · 99C3404E
+  type: http
+  server: 193.176.84.33
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: ZZ · HTTP · kooker · DF4D881C
+  type: http
+  server: 193.176.84.19
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com
+- name: NL · HTTP · kooker · DFA82CB5
+  type: http
+  server: 84.17.47.148
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
 - name: NL · HTTP · kooker · E3E25B81
   type: http
   server: 84.17.47.149
