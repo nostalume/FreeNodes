@@ -1,41 +1,153 @@
 proxies:
-- name: FR · SS · kooker · D7B7B295
-  type: ss
-  server: 95.170.13.47
-  port: 65443
-  cipher: aes-256-cfb
+- name: JP · ANYTLS · kooker · 32D3E27F
+  type: anytls
+  server: jp5.catzl.top
+  port: 40055
   udp: true
-  password: 7eadc6dbe2ae
-- name: FR · TROJAN · kooker · 5E49EE65
-  type: trojan
-  server: 216.24.57.7
+  sni: jp5.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: RU · HTTP · kooker · 90F76908
+  type: http
+  server: 94.19.93.170
+  port: 3139
+- name: AE · HYSTERIA2 · kooker · 0EA309C9
+  type: hysteria2
+  server: news.gazette.help
   port: 443
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-  network: ws
+  down: ''
+  fingerprint: ''
+  obfs: ''
+  obfs-password: ''
   skip-cert-verify: false
-  sni: www.ignitelimit.com
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36
-    path: /assignment
-  password: humanity
-- name: HK · VLESS · kooker · 5176B3AB
+  sni: news.gazette.help
+  up: ''
+  password: sOiWCQ2AdIV0OWNuqQVyWp4JZnRxdyLROSjX
+- name: LT · VLESS · kooker · 09C61E8D
   type: vless
-  server: hk6-r.link-t7.com
-  port: 10136
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: dfdba849-e8f0-4c1b-9bd6-c4c87679b0a3
-  client-fingerprint: chrome
-  encryption: none
-  grpc-opts:
-    grpc-service-name: movie
-  network: grpc
+  server: 188.72.103.3
+  port: 443
+  uuid: 5d8cf280-e0f4-4539-b35c-7ff90659c0d0
+  client-fingerprint: qq
+  network: xhttp
   tls: true
   udp: true
-  xudp: true
-  servername: s0.awsstatic.com
+  xhttp-opts:
+    mode: packet-up
+    path: /api/v74/uptodown/
+    seq-key: part_index
+    seq-placement: cookie
+    session-key: stream_auth
+    session-placement: cookie
+    uplink-data-placement: body
+    uplink-http-method: GET
+    x-padding-bytes: 96-1040
+    x-padding-header: X-Media-Token
+    x-padding-key: _t
+    x-padding-method: tokenish
+    x-padding-obfs-mode: true
+    x-padding-placement: queryInHeader
+  servername: cdnapi.streamru10.net
+- name: ZZ · ANYTLS · kooker · 6184AB3B
+  type: anytls
+  server: us2.catzl.top
+  port: 40022
+  udp: true
+  sni: us2.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: RO · HTTP · kooker · 99C3404E
+  type: http
+  server: 193.176.84.33
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: SC · ANYTLS · kooker · 86A02D86
+  type: anytls
+  server: de3.catzl.top
+  port: 40063
+  udp: true
+  sni: de3.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: NL · HTTP · kooker · DFA82CB5
+  type: http
+  server: 84.17.47.148
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: SC · ANYTLS · kooker · 96BC3DB7
+  type: anytls
+  server: de1.catzl.top
+  port: 40061
+  udp: true
+  sni: de1.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: NL · HTTP · kooker · E3E25B81
+  type: http
+  server: 84.17.47.149
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: KR · ANYTLS · kooker · 9E23FC6F
+  type: anytls
+  server: kr2.catzl.top
+  port: 40042
+  udp: true
+  sni: kr2.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: NL · HTTP · kooker · E5953371
+  type: http
+  server: 84.17.47.125
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: HK · ANYTLS · kooker · C62B489E
+  type: anytls
+  server: hk1.catzl.top
+  port: 40011
+  udp: true
+  sni: hk1.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: RO · HTTP · kooker · E8241C3A
+  type: http
+  server: 193.176.84.30
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: SC · ANYTLS · kooker · F03A510C
+  type: anytls
+  server: de2.catzl.top
+  port: 40062
+  udp: true
+  sni: de2.catzl.top
+  password: 1018b25c-6722-4692-849a-ed2d54c88605
+- name: NL · HTTP · kooker · FA6562D1
+  type: http
+  server: 84.17.47.150
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · VLESS · kooker · 8D14E3DA
+  type: vless
+  server: 5.253.38.67
+  port: 40444
+  reality-opts:
+    public-key: ZZK_Oo5-iDDgoWzxIURTLWoKPbC8NFto3Mk7OvAZgRU
+    short-id: b3f2a1c9
+  uuid: 996ae979-ec8b-4f0f-900c-3cbbe8010138
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  servername: www.lovelive-anime.jp
+- name: JP · HTTP · kooker · FEDBB969
+  type: http
+  server: fan.571589.xyz
+  port: 443
+  sni: fan.571589.xyz
+  tls: true

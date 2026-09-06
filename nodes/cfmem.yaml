@@ -11,7 +11,15 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
-- name: US · VLESS · cfmem · 00B21C80
+- name: CN→US · SS · cfmem · 078F4188
+  type: ss
+  server: 121.46.230.232
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: RU→DE · VLESS · cfmem · 00B21C80
   type: vless
   server: rrr.windconnect.pro
   port: 443
@@ -68,26 +76,24 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: JP→QA · TROJAN · cfmem · 15B6DAD9
-  type: trojan
-  server: z-jp2.251313.xyz
-  port: 10008
-  tls: true
-  servername: www.cloudflare.com
-  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
-- name: FR→PL · VLESS · cfmem · 0F038CBF
-  type: vless
-  server: bridge2.kolhoz.fuck-rkn.xyz
-  port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-  uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
-  servername: jobinvest.ru
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
+- name: HK · VMESS · cfmem · 31FE287E
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: none
+  tls: false
   skip-cert-verify: true
   udp: true
+- name: CN→JP · SS · cfmem · 3B4A79F1
+  type: ss
+  server: 121.46.230.137
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
 - name: GB · VLESS · cfmem · 150A50A4
   type: vless
   server: viper-21.moriarty-web.com
@@ -135,27 +141,9 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: CN · VMESS · cfmem · 6E57C2EB
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: FR · SS · cfmem · B3E80520
   type: ss
   server: 95.170.13.47
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
-- name: CN→US · SS · cfmem · D29CBBED
-  type: ss
-  server: 121.46.230.233
   port: 65443
   cipher: aes-256-cfb
   skip-cert-verify: true
@@ -195,6 +183,16 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /8f2690e2d016
+- name: HK→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: PL→NL · VLESS · cfmem · 78DB32B2
   type: vless
   server: 178.95.170.83
@@ -235,19 +233,13 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: FR→PL · VLESS · cfmem · A6C21573
-  type: vless
-  server: 31.77.61.214
-  port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-  uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
-  servername: jobinvest.ru
+- name: JP→AF · TROJAN · cfmem · 826DDC96
+  type: trojan
+  server: z-jp1.251313.xyz
+  port: 10009
   tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
-  skip-cert-verify: true
-  udp: true
+  servername: www.cloudflare.com
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
 - name: DE · VLESS · cfmem · AAA24DDD
   type: vless
   server: 163.8.195.241
@@ -287,7 +279,7 @@ proxies:
   tls: true
   servername: www.cloudflare.com
   password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
-- name: GB · VLESS · cfmem · F55C4F08
+- name: DE · VLESS · cfmem · F55C4F08
   type: vless
   server: 188.220.67.245
   port: 2087
@@ -299,3 +291,34 @@ proxies:
     path: /8f2690e2d016
   skip-cert-verify: true
   udp: true
+- name: SG→NP · TROJAN · cfmem · AE50265D
+  type: trojan
+  server: z-sg1.251313.xyz
+  port: 10044
+  tls: true
+  servername: www.cloudflare.com
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: JP→AF · TROJAN · cfmem · B0FA3D83
+  type: trojan
+  server: z-jp1.251313.xyz
+  port: 10009
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: SG→NP · TROJAN · cfmem · DCA49F50
+  type: trojan
+  server: z-sg1.251313.xyz
+  port: 10044
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: JP→QA · TROJAN · cfmem · 838418AA
+  type: trojan
+  server: z-jp2.251313.xyz
+  port: 10008
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
