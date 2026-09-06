@@ -1,33 +1,26 @@
 proxies:
-- name: NL · HTTP · shaoyouvip · 1B4C71C4
+- name: CH · HTTP · shaoyouvip · E337D342
   type: http
-  server: 149.36.51.129
-  port: 443
+  server: 37.120.213.210
+  port: 9443
   skip-cert-verify: true
   tls: true
   udp: true
-  username: ''
-  password: ''
-- name: US · HYSTERIA2 · shaoyouvip · 18B8C802
-  type: hysteria2
-  server: 166.0.16.142
+- name: FR · TROJAN · shaoyouvip · 1875F5AA
+  type: trojan
+  server: 165.215.250.14
   port: 443
-  down: ''
-  fingerprint: ''
-  obfs: salamander
-  obfs-password: ba30dfb1828334e12c5f5068df5680a4
+  client-fingerprint: chrome
+  network: ws
   skip-cert-verify: true
-  sni: www.bing.com
-  up: ''
+  sni: www.ignitelimit.com
   udp: true
-  password: 6483ecc41890f37033911d0facc8abf5
-- name: GB · SS · shaoyouvip · 0F6F8FAD
-  type: ss
-  server: 13.40.17.62
-  port: 443
-  cipher: aes-256-cfb
-  udp: true
-  password: amazonskr05
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Linux; Android 7.0; SM-G610M Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100
+        Mobile Safari/537.36
+    path: /assignment
+  password: humanity
 - name: HK · VLESS · shaoyouvip · 00B2A41A
   type: vless
   server: hk6-r.link-t7.com
@@ -46,55 +39,28 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: s0.awsstatic.com
-- name: ES · HTTP · shaoyouvip · 342FBA48
-  type: http
-  server: 130.195.250.34
+- name: SG · VLESS · shaoyouvip · 370A4888
+  type: vless
+  server: 172.64.229.217
   port: 443
-  skip-cert-verify: true
+  uuid: db04ac87-08bb-49a9-9deb-556fe915892e
+  client-fingerprint: random
+  encryption: none
+  network: ws
   tls: true
   udp: true
-- name: AU · HYSTERIA2 · shaoyouvip · 323EDA58
-  type: hysteria2
-  server: vpn-au-002.fastervpn.world
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: google.com
-  up: ''
-  udp: true
-  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: CH · HTTP · shaoyouvip · 4D25A9A0
-  type: http
-  server: 37.120.213.210
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: ZZ · HYSTERIA2 · shaoyouvip · 44F8EB56
-  type: hysteria2
-  server: msjp.mangshe.xyz
-  port: 20562
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: www.microsoft.com
-  up: ''
-  udp: true
-  password: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
-- name: GB · SS · shaoyouvip · 93E569B8
-  type: ss
-  server: 35.178.200.252
-  port: 443
-  cipher: aes-256-cfb
-  udp: true
-  password: amazonskr05
-- name: KR · VLESS · shaoyouvip · 2234A9A4
+  ws-opts:
+    headers:
+      Host: ap-south.xhs152.shop
+      User-Agent: Mozilla/5.0 (Linux; Android 8.0.0; WAS-LX3 Build/HUAWEIWAS-LX3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100
+        Mobile Safari/537.36
+    path: /announcement
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2048
+  xudp: true
+  packet-encoding: xudp
+  servername: ap-south.xhs152.shop
+- name: KR · VLESS · shaoyouvip · 797075FC
   type: vless
   server: kr3-r.link-t7.com
   port: 10048
@@ -104,176 +70,48 @@ proxies:
   uuid: dfdba849-e8f0-4c1b-9bd6-c4c87679b0a3
   client-fingerprint: chrome
   grpc-opts:
-    grpc-mode: gun
     grpc-service-name: update
   network: grpc
   tls: true
   udp: true
   servername: s0.awsstatic.com
-- name: JP · HTTP · shaoyouvip · 62CB66A9
-  type: http
-  server: fan.571589.xyz
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  sni: fan.571589.xyz
-  username: bnVsbDpudWxs
-  password: ''
-- name: FI · HYSTERIA2 · shaoyouvip · 497BCA59
-  type: hysteria2
-  server: musicclips.videolinks.ru
-  port: 8443
-  down: ''
-  fingerprint: ''
-  obfs: salamander
-  obfs-password: 8zzng75tz4tf82pj
-  skip-cert-verify: false
-  sni: musicclips.videolinks.ru
-  up: ''
-  udp: true
-  password: sxc15led4b0vp5fy
-- name: NL · SS · shaoyouvip · E3DCAB35
-  type: ss
-  server: 82.38.31.66
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: PL · VLESS · shaoyouvip · 4231621B
-  type: vless
-  server: 31.77.61.89
-  port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-  uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  servername: jobinvest.ru
-- name: US · HTTP · shaoyouvip · 635F425F
-  type: http
-  server: goedkoopgeluid.icu
-  port: 443
-  skip-cert-verify: true
-  sni: goedkoopgeluid.icu
-  tls: true
-  udp: true
-- name: NL · VLESS · shaoyouvip · 6041026F
-  type: vless
-  server: 94.237.4.82
-  port: 443
-  reality-opts:
-    public-key: S2V0SCkn720uXFS2bC5iH-vyt3GBA22nXoypHyDWQzE
-    short-id: ed
-  uuid: a11d5668-63f7-4fe2-9b77-7f8336ae883d
-  client-fingerprint: chrome
-  encryption: none
-  network: xhttp
-  tls: true
-  udp: true
-  xhttp-opts:
-    mode: auto
-    path: /
-  xudp: true
-  packet-encoding: xudp
-  servername: gitlab.io
-- name: ID · HTTP · shaoyouvip · 95CCF4B8
-  type: http
-  server: tzoa.fun
-  port: 443
-  sni: tzoa.fun
-  tls: true
-  udp: true
-- name: JP · VLESS · shaoyouvip · 6F3078D7
+- name: SG · VLESS · shaoyouvip · 91D46127
   type: vless
   server: ct.877774.xyz
   port: 443
   uuid: db04ac87-08bb-49a9-9deb-556fe915892e
   client-fingerprint: random
+  encryption: none
   network: ws
   tls: true
   udp: true
   ws-opts:
     headers:
-      Host: jp-osa.xhs152.shop
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36
+      Host: ap-south.xhs152.shop
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36
     path: /announcement
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2048
   xudp: true
   packet-encoding: xudp
-  servername: jp-osa.xhs152.shop
-- name: US · HTTP · shaoyouvip · B2A65C4E
-  type: http
-  server: berniesbodybla.fun
-  port: 443
-  skip-cert-verify: false
-  tls: true
-  udp: true
-  sni: berniesbodybla.fun
-- name: PL · VLESS · shaoyouvip · BC413EB6
+  servername: ap-south.xhs152.shop
+- name: SG · VLESS · shaoyouvip · D328A7A7
   type: vless
-  server: bridge2.kolhoz.fuck-rkn.xyz
+  server: 172.64.229.173
   port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-  uuid: ef5f6054-61c7-4ce8-a35b-dbcec449f242
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  network: tcp
-  servername: jobinvest.ru
-- name: BE · HTTP · shaoyouvip · C57B161B
-  type: http
-  server: 146.70.176.242
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: NL · VLESS · shaoyouvip · FE38C54E
-  type: vless
-  server: nld-0001.api.packet-drop-society.net
-  port: 443
-  reality-opts:
-    public-key: mLmBhbVFfNuo2eUgBh6r9-5Koz9mUCn3aSzlR6IejUg
-    short-id: f79448a30d
-  uuid: eb0e3aec-f67f-4fa2-8577-b0bff0484e77
-  client-fingerprint: edge
+  uuid: db04ac87-08bb-49a9-9deb-556fe915892e
+  client-fingerprint: random
   encryption: none
-  network: xhttp
+  network: ws
   tls: true
   udp: true
-  xhttp-opts:
-    mode: auto
-    path: /assets/v2/pkg
+  ws-opts:
+    headers:
+      Host: ap-south.xhs152.shop
+      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36
+    path: /announcement
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2048
   xudp: true
   packet-encoding: xudp
-  servername: sstats.vk-portal.net
-- name: US · HTTP · shaoyouvip · DAB5817A
-  type: http
-  server: voteshirleysew.club
-  port: 443
-  sni: voteshirleysew.club
-  tls: true
-  udp: true
-- name: PL · HTTP · shaoyouvip · DEF7AA77
-  type: http
-  server: 37.120.156.18
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · F940369E
-  type: http
-  server: mmgr.club
-  port: 443
-  skip-cert-verify: true
-  sni: mmgr.club
-  tls: true
-  udp: true
-  username: ''
-  password: ''
+  servername: ap-south.xhs152.shop
