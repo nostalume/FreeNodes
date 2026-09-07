@@ -11,16 +11,6 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
-- name: JP→AZ · HYSTERIA2 · cfmem · 4599D1A9
-  type: hysteria2
-  server: bt5iibdl.zf-mix-2.9999231.xyz
-  port: 2035
-  sni: az-wy.9999231.xyz
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
-  udp: true
-  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
 - name: CN→US · SS · cfmem · 078F4188
   type: ss
   server: 121.46.230.232
@@ -29,20 +19,21 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: RU→DE · VLESS · cfmem · 00B21C80
-  type: vless
-  server: rrr.windconnect.pro
-  port: 443
-  reality-opts:
-    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
-    short-id: 4da5d1853f04af6d
-  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
-  servername: rrr.windconnect.pro
+- name: JP→QA · TROJAN · cfmem · 15B6DAD9
+  type: trojan
+  server: z-jp2.251313.xyz
+  port: 10008
   tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
-  skip-cert-verify: true
-  udp: true
+  servername: www.cloudflare.com
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: HK→US · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: FR · HYSTERIA2 · cfmem · 880B549F
   type: hysteria2
   server: n.acp.us.ci
@@ -68,16 +59,6 @@ proxies:
   tls: true
   servername: www.cloudflare.com
   password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
-- name: JP→AZ · HYSTERIA2 · cfmem · 9F220F49
-  type: hysteria2
-  server: 6v2tii2i.zf-mix-1.9999231.xyz
-  port: 2035
-  sni: az-wy.9999231.xyz
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: ZDQxZDhjZDk4ZjAwYjIwNA==
-  udp: true
-  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
 - name: NL · SS · cfmem · 2DB7FE60
   type: ss
   server: 82.38.31.62
@@ -86,6 +67,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: JP→AF · TROJAN · cfmem · 7C32A97E
+  type: trojan
+  server: z-jp2.251313.xyz
+  port: 10009
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
 - name: PL · VLESS · cfmem · 0B197DD4
   type: vless
   server: pl4.moritech.net
@@ -95,6 +84,22 @@ proxies:
   flow: xtls-rprx-vision
   skip-cert-verify: true
   udp: true
+- name: CN · VMESS · cfmem · 27130FE8
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  network: tcp
+- name: CN→JP · SS · cfmem · 3B4A79F1
+  type: ss
+  server: 121.46.230.137
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
 - name: JP→SD · TROJAN · cfmem · 80DA9A03
   type: trojan
   server: z-jp2.251313.xyz
@@ -111,14 +116,16 @@ proxies:
   network: tcp
   tls: true
   flow: xtls-rprx-vision
-- name: IN · HYSTERIA2 · cfmem · BAA6D503
-  type: hysteria2
-  server: 141.148.222.181
-  port: 51000
-  sni: cn.cremedelamer.com
+- name: HK→US · VMESS · cfmem · 4B8A6FCA
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
-  password: 6390e4f6-fdc8-46eb-b474-805cf3d80439
 - name: JP→AF · TROJAN · cfmem · 826DDC96
   type: trojan
   server: z-jp1.251313.xyz
@@ -137,6 +144,24 @@ proxies:
   client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
+- name: JP→QA · TROJAN · cfmem · 838418AA
+  type: trojan
+  server: z-jp2.251313.xyz
+  port: 10008
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: CN · VMESS · cfmem · 6E57C2EB
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: FR · SS · cfmem · B3E80520
   type: ss
   server: 95.170.13.47
@@ -145,6 +170,13 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
+- name: JP→SD · TROJAN · cfmem · 9F9DEA29
+  type: trojan
+  server: z-jp2.251313.xyz
+  port: 10012
+  tls: true
+  servername: www.cloudflare.com
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
 - name: GB · VLESS · cfmem · 150A50A4
   type: vless
   server: viper-21.moriarty-web.com
@@ -181,6 +213,14 @@ proxies:
     path: /29c8fed7ca22
   skip-cert-verify: true
   udp: true
+- name: HK→US · VMESS · cfmem · 76966289
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: CN→KR · SS · cfmem · F492CF49
   type: ss
   server: 121.46.230.138
@@ -205,6 +245,44 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK→GB · VMESS · cfmem · BA924DCE
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: JP→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK→US · VMESS · cfmem · CEDC84C1
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: PL→NL · VLESS · cfmem · 65298FC6
   type: vless
   server: 178.95.170.83
@@ -227,6 +305,14 @@ proxies:
     path: /
     headers:
       Host: cfvvv-ev1.pages.dev
+- name: JP→DE · VMESS · cfmem · FE3B9D81
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: DE · VLESS · cfmem · 6DB5E4B5
   type: vless
   server: 188.220.67.245
@@ -236,6 +322,18 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /8f2690e2d016
+- name: PL→NL · VLESS · cfmem · 78DB32B2
+  type: vless
+  server: 178.95.170.83
+  port: 2087
+  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
+  network: ws
+  tls: false
+  client-fingerprint: chrome
+  ws-opts:
+    path: /4bc027a44532
+  skip-cert-verify: true
+  udp: true
 - name: GB · VLESS · cfmem · 812A5A5A
   type: vless
   server: viper-21.moriarty-web.com
@@ -269,20 +367,6 @@ proxies:
     path: /
     headers:
       Host: cfvvv-ev1.pages.dev
-  skip-cert-verify: true
-  udp: true
-- name: RU→DE · VLESS · cfmem · BA1222C0
-  type: vless
-  server: 31.76.71.140
-  port: 443
-  reality-opts:
-    public-key: BsFRd4pZgH2hK2AmVf6Mv7z2QGmV2LPYbqkT1UqZX30
-    short-id: 4da5d1853f04af6d
-  uuid: af00e0c4-decf-48f2-9013-56abe9c9efcd
-  servername: rrr.windconnect.pro
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
 - name: PL · VLESS · cfmem · CD69B6D8
