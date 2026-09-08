@@ -1,4 +1,42 @@
 proxies:
+- name: US · HYSTERIA2 · clashmeta · 1159591C
+  type: hysteria2
+  server: news.gazette.help
+  port: 443
+  sni: news.gazette.help
+  skip-cert-verify: true
+  udp: true
+  password: sOiWCQ2AdIV0OWNuqQVyWp4JZnRxdyLROSjX
+- name: ZZ · VMESS · freeclashnode · C07375E1
+  type: vmess
+  server: za-a-zzy.glnyhlgc.com
+  port: 443
+  uuid: 5583af50-f464-4df6-e2ef-34592311e5c6
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: za-a-zzy.glnyhlgc.com
+  ws-opts:
+    path: /about/7678
+- name: ZZ · VMESS · freeclashnode · D819F35F
+  type: vmess
+  server: newrelax.relaxedboy.online
+  port: 110
+  uuid: 8e9687fc-a3a7-414a-8676-8e2136797cfe
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: AU · HYSTERIA2 · clashmeta · 2B8CCB5B
+  type: hysteria2
+  server: 149.118.78.109
+  port: 20000
+  sni: rmgyvpn.rest
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: a34f3990b69f44bfa0d32385
+  udp: true
+  password: a34f3990b69f44bfa0d32385
 - name: FR · VLESS · clashmeta · 00331C3C
   type: vless
   server: 172.64.42.85
@@ -10,6 +48,25 @@ proxies:
     path: /?ed=2560security=tls
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+- name: FR · VLESS · clashmeta · 00672F0D
+  type: vless
+  server: www.ipget.net
+  port: 8880
+  uuid: 41ce10f9-748b-46a0-be7c-e29d863aa028
+  network: ws
+  ws-opts:
+    path: /pyip=ProxyIP.JP.CMLiussss.net
+    headers:
+      Host: gentle-violet-ceef.497-2fe.workers.dev
+- name: PL→NL · VLESS · cfmem · 65298FC6
+  type: vless
+  server: 178.95.170.83
+  port: 2087
+  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
+  network: ws
+  client-fingerprint: chrome
+  ws-opts:
+    path: /4bc027a44532
 - name: FR · VLESS · clashmeta · 007EDCBB
   type: vless
   server: 162.159.0.169
@@ -20,37 +77,16 @@ proxies:
     path: /?ed=2560security=tls
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-- name: US · VLESS · clashmeta · 0096460E
+- name: RU · VLESS · freeclashnode · A9E4EB26
   type: vless
-  server: 178.95.170.83
-  port: 2087
-  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
+  server: pl3.lckdwn.ru
+  port: 443
+  uuid: 84c898c4-6990-4121-ae51-27d989f5ce39
   network: ws
   ws-opts:
-    path: /4bc027a44532
-- name: CA · VLESS · clashmeta · 00DA2E99
-  type: vless
-  server: 54.39.96.233
-  port: 8443
-  uuid: db3f09ae-23f2-42b8-abee-7b89fb392c5e
-  network: ws
-  tls: true
-  servername: maple.adaspoloandco.com
-  client-fingerprint: chrome
-  ws-opts:
-    path: /uploader.php
+    path: /
     headers:
-      Host: maple.adaspoloandco.com
-- name: FR · VLESS · clashmeta · 00DE2DE0
-  type: vless
-  server: 104.18.46.234
-  port: 2052
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  network: ws
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+      Host: pl3.lckdwn.ru
 - name: HK→GB · VMESS · cfmem · BA924DCE
   type: vmess
   server: v36.hdacd.com
@@ -59,15 +95,18 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: PL→NL · VLESS · cfmem · 65298FC6
+- name: NL · VLESS · cfmem · 78DB32B2
   type: vless
   server: 178.95.170.83
   port: 2087
   uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
   network: ws
+  tls: false
   client-fingerprint: chrome
   ws-opts:
     path: /4bc027a44532
+  skip-cert-verify: true
+  udp: true
 - name: DE · VLESS · cfmem · AAA24DDD
   type: vless
   server: 163.8.195.241
@@ -77,48 +116,109 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /29c8fed7ca22
-- name: FR · VLESS · clashmeta · 01966D26
+- name: ZZ · VLESS · freeclashnode · CCBB3714
   type: vless
-  server: 162.159.24.131
-  port: 2082
-  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
-  network: ws
-  ws-opts:
-    path: /?ed=2560security=tls
-    headers:
-      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-- name: RU · VLESS · clashmeta · 01BEC7AE
-  type: vless
-  server: ru05.abvpn.ru
+  server: 94.183.209.58
   port: 443
-  uuid: a289a3d3-5833-4b28-8809-ae72898a98d0
+  uuid: 78791f9e-fe09-4d4f-88ec-895764bae0d6
   network: ws
-  tls: true
-  servername: ru05.abvpn.ru
-  client-fingerprint: edge
   ws-opts:
-    path: /websocket
+    path: /
     headers:
-      Host: ru05.abvpn.ru
-- name: ZZ · VMESS · clashmeta · 1096DBFD
-  type: vmess
-  server: newrelax.relaxedboy.online
-  port: 110
-  uuid: 8e9687fc-a3a7-414a-8676-8e2136797cfe
-  alterId: 0
-  cipher: auto
+      Host: pl2.lckdwn.ru
+- name: ZZ · VLESS · freeclashnode · D4AB6D37
+  type: vless
+  server: 82.24.203.20
+  port: 2087
+  uuid: 5fcdc9b7-e70f-4a5c-85c3-e018ad818326
+  network: ws
+  ws-opts:
+    path: /fd5ba98a3970
+- name: ZZ · VLESS · freeclashnode · DC18A4A3
+  type: vless
+  server: 130.94.115.231
+  port: 2087
+  uuid: 8a51f3d9-30cc-44e6-8d31-700211a29066
+  network: ws
+  ws-opts:
+    path: /721740e567c7
+- name: RU · VLESS · freeclashnode · E21E7741
+  type: vless
+  server: neth9.lunariai.ru
+  port: 8443
+  uuid: 9f73cf9a-c68f-4e6d-90f0-e66b64f52f8a
   network: tcp
-- name: ZZ · VMESS · clashmeta · 14CE1D77
-  type: vmess
-  server: drbkg16egf3fzlm3.v.3dns.vip
-  port: 443
-  uuid: f23bb427-c1f9-4373-876c-2f43e9f790f3
-  alterId: 0
-  cipher: auto
-  network: ws
   tls: true
-  servername: DrBKg16eGf3FZlM3.v.3dns.vip
+  client-fingerprint: chrome
+- name: ZZ · VLESS · freeclashnode · E2EDAA22
+  type: vless
+  server: 163.8.195.241
+  port: 2087
+  uuid: 56ba5d34-ef22-4ba6-8090-4188b807df54
+  network: ws
   ws-opts:
-    path: /ws-vmess
+    path: /29c8fed7ca22
+- name: US · VLESS · clashmeta · 0096460E
+  type: vless
+  server: 178.95.170.83
+  port: 2087
+  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
+  network: ws
+  ws-opts:
+    path: /4bc027a44532
+- name: NL · VLESS · cfmem · EF8445F8
+  type: vless
+  server: 31.59.150.174
+  port: 9443
+  reality-opts:
+    public-key: RWu6ktBE4DFbUz_prmz-5KuolLhO53ehh19mNxhP-wI
+    short-id: a1b2c3d4
+  uuid: 92089155-6602-4122-86d4-fe6de20e8c4d
+  servername: hotcoals.aeternavpn.space
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: GB · VLESS · cfmem · F55C4F08
+  type: vless
+  server: 188.220.67.245
+  port: 2087
+  uuid: 90da514d-8888-4a53-912e-ac2981c8c6ee
+  network: ws
+  tls: false
+  client-fingerprint: chrome
+  ws-opts:
+    path: /8f2690e2d016
+  skip-cert-verify: true
+  udp: true
+- name: FR · VLESS · clashmeta · 009E10CA
+  type: vless
+  server: 172.66.170.53
+  port: 8880
+  uuid: 68662961-6c5f-48c1-b807-6398f3287dbc
+  network: ws
+  ws-opts:
+    path: /pyip=ProxyIP.SG.CMLiussss.net
     headers:
-      Host: DrBKg16eGf3FZlM3.v.3dns.vip
+      Host: polished-meadow-2ac5.228-76d.workers.dev
+- name: FR · VLESS · clashmeta · 00BBEC04
+  type: vless
+  server: 104.17.58.113
+  port: 8880
+  uuid: 14e0ab2e-fb3e-4fd1-a6d9-62eeae62976b
+  network: ws
+  ws-opts:
+    path: /pyip=ProxyIP.JP.CMLiussss.net
+    headers:
+      Host: jolly-shape-3ce6.392.workers.dev
+- name: FR · VLESS · clashmeta · 00C56114
+  type: vless
+  server: 104.16.98.215
+  port: 8880
+  uuid: 35e8826f-0873-492d-8b8a-d495c9947480
+  network: ws
+  ws-opts:
+    path: /pyip=ProxyIP.KR.CMLiussss.net
+    headers:
+      Host: super-sunset-010c.24-43d.workers.dev
