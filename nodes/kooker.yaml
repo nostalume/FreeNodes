@@ -1,18 +1,41 @@
 proxies:
-- name: HK · ANYTLS · kooker · 2B2BADDF
-  type: anytls
-  server: api.meituan88.com
-  port: 7008
-  skip-cert-verify: true
-  sni: globalnetworktraffic.com
-  udp: true
-  password: dCwrni
-- name: GB · HTTP · kooker · 525D646C
+- name: TW · HTTP · kooker · 5566999F
   type: http
-  server: 212.102.63.1
+  server: twmoon1-cdn-route.couldflare-cdn.com
+  port: 1443
+  skip-cert-verify: false
+  sni: twmoon1-cdn-route.couldflare-cdn.com
+  tls: true
+  username: mrwdfNTD8M79LCukCieldrqZWqs=
+  password: exaxgqkKkd0TAMrCxeonWg==
+- name: GB · VLESS · kooker · 10A1CA72
+  type: vless
+  server: freshjuniper.download
   port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
   skip-cert-verify: true
   tls: true
+  udp: true
+  network: tcp
+  servername: localhost
+- name: GB · VLESS · kooker · 47724BDF
+  type: vless
+  server: 130.12.102.125
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+    short-id: ''
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
+  encryption: none
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: localhost
 - name: GB · VLESS · kooker · 904D0B9C
   type: vless
   server: freshjuniper.download
@@ -28,18 +51,18 @@ proxies:
   udp: true
   xudp: true
   servername: localhost
-- name: PL · VLESS · kooker · D69AB5F5
+- name: GB · VLESS · kooker · D89B5240
   type: vless
-  server: plll.banibus.ir
-  port: 8118
+  server: 130.12.102.26
+  port: 443
   reality-opts:
-    public-key: LjAkLizwkZf35ObrUMFZ22UHXTEJzpgcTvHk9AuzcUM
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
     short-id: ''
-  uuid: 8b54a46a-e66b-48cc-bf5a-88f0855a3598
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
   client-fingerprint: chrome
   encryption: none
   network: tcp
   tls: true
   udp: true
   xudp: true
-  servername: play.googleapis.com
+  servername: localhost
