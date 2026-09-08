@@ -11,6 +11,14 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
+- name: RU→DE · HYSTERIA2 · cfmem · 00FA789E
+  type: hysteria2
+  server: gta.internet-card.sbs
+  port: 443
+  sni: gta.internet-card.sbs
+  skip-cert-verify: true
+  udp: true
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
 - name: CN→US · SS · cfmem · 078F4188
   type: ss
   server: 121.46.230.232
@@ -19,14 +27,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: HK→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: MY · SS · cfmem · 14C11A77
   type: ss
   server: 118.107.222.231
@@ -35,40 +35,18 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: HK→US · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: PL · VLESS · cfmem · 0BB59ACF
+- name: US→JP · VLESS · cfmem · 0D3710EC
   type: vless
-  server: pl4.moritech.net
+  server: 130.12.102.26
   port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  network: tcp
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  servername: localhost
   tls: true
-  flow: xtls-rprx-vision
-- name: HK→US · VMESS · cfmem · 16C8574A
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: FR · HYSTERIA2 · cfmem · 880B549F
-  type: hysteria2
-  server: n.acp.us.ci
-  port: 443
-  sni: n.acp.us.ci
+  client-fingerprint: chrome
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: '@arshiacomplus'
   udp: true
-  password: vlxjqoiauby22dvb
 - name: US→JP · VLESS · cfmem · 12C66936
   type: vless
   server: freshjuniper.download
@@ -89,28 +67,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: DE · VLESS · cfmem · 1B92C821
-  type: vless
-  server: 163.8.195.241
-  port: 2087
-  uuid: 56ba5d34-ef22-4ba6-8090-4188b807df54
-  network: ws
-  tls: false
-  client-fingerprint: chrome
-  ws-opts:
-    path: /29c8fed7ca22
-  skip-cert-verify: true
-  udp: true
-- name: HK→US · VMESS · cfmem · 18F6DFDE
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: CN→US · SS · cfmem · D29CBBED
   type: ss
   server: 121.46.230.233
@@ -127,45 +83,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US→FR · VLESS · cfmem · 47129B15
-  type: vless
-  server: ziro.skin
-  port: 443
-  uuid: f028a8c0-6763-4558-aee3-2563db9d7825
-  network: ws
-  tls: true
-  servername: ziro.skin
-  client-fingerprint: qq
-  ws-opts:
-    path: /xxvclws
-- name: HK→US · VMESS · cfmem · 4B8A6FCA
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: JP · VMESS · cfmem · 4D5F05D8
-  type: vmess
-  server: 38.47.121.14
-  port: 49432
-  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
-  alterId: 0
-  cipher: auto
-  network: http
 - name: PL→NL · VLESS · cfmem · 65298FC6
   type: vless
   server: 178.95.170.83
@@ -175,37 +92,6 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /4bc027a44532
-- name: HK→US · VMESS · cfmem · 76966289
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · 6CDA9AF6
-  type: vless
-  server: 172.66.0.236
-  port: 2083
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  tls: true
-  servername: cfvvv-ev1.pages.dev
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: JP · VMESS · cfmem · 91C80C9C
   type: vmess
   server: 38.47.121.14
@@ -220,14 +106,39 @@ proxies:
     path:
     - /
   udp: true
-- name: HK→GB · VMESS · cfmem · BA924DCE
+- name: US · VLESS · cfmem · 6CDA9AF6
+  type: vless
+  server: 172.66.0.236
+  port: 2083
+  uuid: 44eae030-290b-4083-8102-6f8bab05701b
+  network: ws
+  tls: true
+  servername: cfvvv-ev1.pages.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: cfvvv-ev1.pages.dev
+- name: JP · VMESS · cfmem · D2E46912
   type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
+  server: 38.47.121.14
+  port: 49432
+  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
+  alterId: 0
   cipher: auto
-  network: tcp
+  tls: false
+  skip-cert-verify: true
+  network: http
+  udp: true
+- name: DE · VLESS · cfmem · 70ED1E09
+  type: vless
+  server: s251.gogocs.xyz
+  port: 24424
+  uuid: 41f4cb15-5a3f-3934-89fe-b4177146adf4
+  tls: true
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  udp: true
 - name: NL · VLESS · cfmem · 78DB32B2
   type: vless
   server: 178.95.170.83
@@ -240,56 +151,6 @@ proxies:
     path: /4bc027a44532
   skip-cert-verify: true
   udp: true
-- name: JP→DE · VMESS · cfmem · BF708C20
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→US · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US→FR · VLESS · cfmem · 9C8EE903
-  type: vless
-  server: ziro.skin
-  port: 443
-  uuid: f028a8c0-6763-4558-aee3-2563db9d7825
-  network: ws
-  servername: ziro.skin
-  tls: true
-  client-fingerprint: qq
-  ws-opts:
-    path: /xxvclws
-  skip-cert-verify: true
-  udp: true
-- name: DE · VLESS · cfmem · AAA24DDD
-  type: vless
-  server: 163.8.195.241
-  port: 2087
-  uuid: 56ba5d34-ef22-4ba6-8090-4188b807df54
-  network: ws
-  client-fingerprint: chrome
-  ws-opts:
-    path: /29c8fed7ca22
-- name: JP→DE · VMESS · cfmem · FE3B9D81
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: US · VLESS · cfmem · AC63995B
   type: vless
   server: 172.66.0.236
@@ -332,3 +193,11 @@ proxies:
   client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
+- name: DE · VLESS · cfmem · F98AA0A8
+  type: vless
+  server: s251.gogocs.xyz
+  port: 24424
+  uuid: 41f4cb15-5a3f-3934-89fe-b4177146adf4
+  network: tcp
+  tls: true
+  flow: xtls-rprx-vision
