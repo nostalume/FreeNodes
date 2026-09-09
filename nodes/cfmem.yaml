@@ -1,28 +1,14 @@
 proxies:
-- name: RU→DE · HYSTERIA2 · cfmem · 00FA789E
+- name: SG · HYSTERIA2 · cfmem · D6DCEE26
   type: hysteria2
-  server: gta.internet-card.sbs
+  server: 138.2.89.249
   port: 443
-  sni: gta.internet-card.sbs
+  sni: www.bing.com
   skip-cert-verify: true
+  obfs: salamander
+  obfs-password: 309502c4a8df10b46fb976d4a8c43f42
   udp: true
-  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
-- name: HK→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: RU→EE · HYSTERIA2 · cfmem · 1159591C
-  type: hysteria2
-  server: news.gazette.help
-  port: 443
-  sni: news.gazette.help
-  skip-cert-verify: true
-  udp: true
-  password: sOiWCQ2AdIV0OWNuqQVyWp4JZnRxdyLROSjX
+  password: d042d150716709bb778cc73889cddb02
 - name: MY · SS · cfmem · 14C11A77
   type: ss
   server: 118.107.222.231
@@ -43,6 +29,14 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
+- name: HK→FR · VMESS · cfmem · 05D691A6
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: CN→JP · SS · cfmem · 3B4A79F1
   type: ss
   server: 121.46.230.137
@@ -51,7 +45,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: US→JP · VLESS · cfmem · 12C66936
+- name: JP · VLESS · cfmem · 12C66936
   type: vless
   server: freshjuniper.download
   port: 443
@@ -63,6 +57,14 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
+- name: CN · VMESS · cfmem · 27130FE8
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  network: tcp
 - name: FR · SS · cfmem · B3E80520
   type: ss
   server: 95.170.13.47
@@ -79,16 +81,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: CN→KR · SS · cfmem · F492CF49
   type: ss
   server: 121.46.230.138
@@ -97,62 +89,29 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 7eadc6dbe2ae
-- name: PL→NL · VLESS · cfmem · 65298FC6
-  type: vless
-  server: 178.95.170.83
-  port: 2087
-  uuid: bf443e4a-aa9e-4509-abf0-d0f6828d57be
-  network: ws
-  client-fingerprint: chrome
-  ws-opts:
-    path: /4bc027a44532
-- name: US · VLESS · cfmem · 6CDA9AF6
-  type: vless
-  server: 172.66.0.236
-  port: 2083
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  tls: true
-  servername: cfvvv-ev1.pages.dev
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
-- name: JP→DE · VMESS · cfmem · BF708C20
+- name: CN · VMESS · cfmem · 6E57C2EB
   type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
   cipher: auto
   tls: false
   skip-cert-verify: true
   udp: true
-- name: JP→DE · VMESS · cfmem · FE3B9D81
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · AC63995B
+- name: JP · VLESS · cfmem · 6267DA71
   type: vless
-  server: 172.66.0.236
-  port: 2083
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  servername: cfvvv-ev1.pages.dev
+  server: 130.12.102.125
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  servername: localhost
   tls: true
   client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
   skip-cert-verify: true
   udp: true
-- name: TW→FI · VLESS · cfmem · CB263BC8
+- name: CA · VLESS · cfmem · CB263BC8
   type: vless
   server: brightharbor.download
   port: 443
@@ -165,7 +124,19 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: NL→MD · VLESS · cfmem · EF8445F8
+- name: PL · VLESS · cfmem · ED39B5E4
+  type: vless
+  server: plll.banibus.ir
+  port: 8118
+  reality-opts:
+    public-key: LjAkLizwkZf35ObrUMFZ22UHXTEJzpgcTvHk9AuzcUM
+  uuid: 8b54a46a-e66b-48cc-bf5a-88f0855a3598
+  servername: play.googleapis.com
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · cfmem · EF8445F8
   type: vless
   server: 31.59.150.174
   port: 9443
