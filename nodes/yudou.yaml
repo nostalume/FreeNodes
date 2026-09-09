@@ -1,32 +1,4 @@
 proxies:
-- name: ZZ · VMESS · yudou · 2D7C0CE8
-  type: vmess
-  server: 95.85.233.138
-  port: 443
-  uuid: db50a20e-7ff5-4e70-948f-17cc9ca7c154
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /api/v1/gpu-stream/socket
-    headers:
-      Host: renderer-stream-2-62.mirra.now
-- name: US · VMESS · yudou · 867A9E1A
-  type: vmess
-  server: 95.85.233.138
-  port: 443
-  uuid: db50a20e-7ff5-4e70-948f-17cc9ca7c154
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /api/v1/gpu-stream/socket
-    headers:
-      Host: renderer-stream-2-62.mirra.now
-  udp: true
 - name: ZZ · VLESS · yudou · B28814D0
   type: vless
   server: 172.67.204.218
@@ -39,16 +11,3 @@ proxies:
     path: /JRr6VGcSLFc034DC6sDbwyWJLbB
     headers:
       Host: 8-M16.AyuTThayA2029.kdNS.fr
-- name: US · TROJAN · yudou · 71E67946
-  type: trojan
-  server: 165.215.250.14
-  port: 443
-  sni: www.calmlunch.com
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  udp: true
-  password: humanity
