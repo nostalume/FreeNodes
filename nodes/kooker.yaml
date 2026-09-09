@@ -1,420 +1,225 @@
 proxies:
-- name: RO · HTTP · kooker · 02DF63DB
-  type: http
-  server: 193.176.84.21
-  port: 9002
+- name: ZZ · HYSTERIA2 · kooker · A4C2484A
+  type: hysteria2
+  server: gta.internet-card.sbs
+  port: 443
+  skip-cert-verify: true
+  sni: gta.internet-card.sbs
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
+- name: NL · SOCKS5 · kooker · 05C17A7D
+  type: socks5
+  server: 5.255.103.55
+  port: 1080
+  skip-cert-verify: true
+  username: ''
+  password: ''
+- name: GB · VLESS · kooker · 10A1CA72
+  type: vless
+  server: freshjuniper.download
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
   skip-cert-verify: true
   tls: true
-  password: None
-- name: KZ · HYSTERIA2 · kooker · 1B0E56BD
+  udp: true
+  network: tcp
+  servername: localhost
+- name: CH · HYSTERIA2 · kooker · AB3410FC
   type: hysteria2
-  server: kz03hy01.tcp-reset-club.net
+  server: 152.67.75.161
   port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: false
-  sni: kz03hy01.tcp-reset-club.net
-  up: ''
-  password: aa6f8aaf-d7ff-46f8-a9a0-d143d7e71f71
-- name: US · SS · kooker · 4F9EAE8A
+  obfs: salamander
+  obfs-password: c13f29db6a638ad2b211b9ce2669ef27
+  skip-cert-verify: true
+  sni: www.bing.com
+  udp: true
+  password: 3a702d4d1de4949005d8431220e040fb
+  auth: 3a702d4d1de4949005d8431220e040fb
+- name: KR · SS · kooker · F5CE3489
   type: ss
-  server: 121.46.230.233
+  server: 121.46.230.138
   port: 65443
   cipher: aes-256-cfb
-  udp: true
   password: 7eadc6dbe2ae
-- name: ZZ · HTTP · kooker · 0A3CFA3F
-  type: http
-  server: 193.176.84.21
-  port: 9002
+- name: KR · VLESS · kooker · 11EFC7E7
+  type: vless
+  server: kr1-r.link-t7.com
+  port: 10046
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: d2436339-0f26-479a-8064-4d91c2b93652
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: GB · VLESS · kooker · 3DD2DB3C
+  type: vless
+  server: 130.12.102.125
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
   skip-cert-verify: true
   tls: true
-  sni: www.bing.com
-- name: KZ · HYSTERIA2 · kooker · 43C62C75
-  type: hysteria2
-  server: kz03hy01.tcp-reset-club.net
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: false
-  sni: kz03hy01.tcp-reset-club.net
-  up: ''
-  password: 8fb328f0-d8e0-4b11-a6db-3dadfc4f02a3
-- name: US · VLESS · kooker · B1AFF2A7
+  udp: true
+  network: tcp
+  servername: localhost
+- name: GB · VLESS · kooker · 701BE265
   type: vless
-  server: 104.19.214.97
-  port: 2087
-  uuid: 77777777-8a3e-6666-b6d1-a9c5f0e8b3a2
+  server: freshjuniper.download
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+    short-id: ''
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
   client-fingerprint: chrome
-  encryption: none
-  network: ws
+  network: tcp
   tls: true
+  udp: true
+  xudp: true
+  servername: freshjuniper.download
+- name: GB · VLESS · kooker · 769992DA
+  type: vless
+  server: 130.12.102.26
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  network: tcp
+  servername: localhost
+- name: FR · VLESS · kooker · 7993E698
+  type: vless
+  server: kshskjsjskeoekheueieie.nenenet1.ir
+  port: 55777
+  uuid: 1ab5ef70-14af-428b-bf4b-03889e0a3131
+  encryption: mlkem768x25519plus.native.0rtt.O0QGHQMpSF3WNptiABMMcbXEtaaCf6Ql47WE6TX4CW0
+  network: ws
   udp: true
   ws-opts:
-    early-data-header-name: Sec-WebSocket-Protocol
     headers:
-      Host: faxf32gkfzoxqv.fx6hsv0.ccwu.cc
-      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
-    max-early-data: 2560
+      Host: kshskjsjskeoekheueieie.nenenet1.ir
+      User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/8.0.552.237
+        Safari/534.10
     path: /
   xudp: true
-  servername: faxf32gkfzoxqv.fx6hsv0.ccwu.cc
-- name: RO · HTTP · kooker · 0E3B2004
-  type: http
-  server: 193.176.84.31
-  port: 9002
+- name: KR · VLESS · kooker · 879B35D7
+  type: vless
+  server: kr2-r.link-t7.com
+  port: 10047
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: d2436339-0f26-479a-8064-4d91c2b93652
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: KR · VLESS · kooker · 9D80CDED
+  type: vless
+  server: kr4-r.link-t7.com
+  port: 10049
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: d2436339-0f26-479a-8064-4d91c2b93652
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: LV · VLESS · kooker · 9EB67F0B
+  type: vless
+  server: 195.123.213.28
+  port: 443
+  reality-opts:
+    public-key: NMgy1XgCSXExOg6Tg8xG9lCWttMF6sjdpB41lZy6FWo
+    short-id: 5c256336e3b673fa
+  uuid: 02fcc1a4-ee90-4970-8bbb-4ffaa8109d24
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: www.cloudflare.com
+- name: GB · VLESS · kooker · AC714D73
+  type: vless
+  server: brightharbor.download
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+    short-id: ''
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: raw
+  tls: true
+  udp: true
+  xudp: true
+  servername: localhost
+- name: KR · VLESS · kooker · B48AFDE3
+  type: vless
+  server: kr3-r.link-t7.com
+  port: 10048
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: d2436339-0f26-479a-8064-4d91c2b93652
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: SG · VLESS · kooker · D5CBFB36
+  type: vless
+  server: sg2-r.link-t7.com
+  port: 10037
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: d2436339-0f26-479a-8064-4d91c2b93652
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: GB · VLESS · kooker · E21C0986
+  type: vless
+  server: freshjuniper.download
+  port: 443
+  reality-opts:
+    public-key: F2VfBr2UmjDTErB_oruvW5aIvzH_xGfM2AW5_w-DF0I
+  uuid: 6429d27e-a7d4-4e04-ae57-e88243fbbfe3
+  client-fingerprint: chrome
   skip-cert-verify: true
   tls: true
   udp: true
-  password: None
-- name: US · HYSTERIA2 · kooker · 88E77CF2
-  type: hysteria2
-  server: 91.196.32.163
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: 91.196.32.163
-  up: ''
-  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
-- name: RS · HTTP · kooker · 12B31568
-  type: http
-  server: 146.70.221.34
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HTTP · kooker · 1738CB09
-  type: http
-  server: 193.176.84.22
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: NL · HTTP · kooker · 1B4C71C4
-  type: http
-  server: 149.36.51.129
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: ''
-  password: ''
-- name: US · HTTP · kooker · 22235EB7
-  type: http
-  server: 138.199.35.206
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: FR · HTTP · kooker · 23294175
-  type: http
-  server: d6bf69ca-tcxds0-td1l1t-1s824.fr.oshuawei.com
-  port: 443
-  sni: d6bf69ca-tcxds0-td1l1t-1s824.fr.oshuawei.com
-  tls: true
-  username: 6d4abac0-86e6-11ef-83cc-f23c913c8d2b
-  password: 6d4abac0-86e6-11ef-83cc-f23c913c8d2b
-- name: RO · HTTP · kooker · 28800221
-  type: http
-  server: 193.176.84.30
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: RO · HTTP · kooker · 3AF70AC7
-  type: http
-  server: 193.176.84.27
-  port: 9002
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · 51BEC8C8
-  type: http
-  server: 51.159.225.196
-  port: 23856
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: GB · HTTP · kooker · 525D646C
-  type: http
-  server: 212.102.63.1
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ES · HTTP · kooker · 5B58C6C4
-  type: http
-  server: 130.195.250.18
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: SE · HTTP · kooker · 5DF6EEC3
-  type: http
-  server: 146.70.242.130
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: NL · HTTP · kooker · 6415793A
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: IT · HTTP · kooker · 72C590BE
-  type: http
-  server: 93.42.177.250
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: LV · HTTP · kooker · 72F496CA
-  type: http
-  server: 109.248.147.66
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: GB · HTTP · kooker · 85CE1EE9
-  type: http
-  server: 37.120.233.34
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: GB · HTTP · kooker · 85D61715
-  type: http
-  server: 185.235.0.2
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: BE · HTTP · kooker · 89D7B3D7
-  type: http
-  server: 146.70.176.242
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: RO · HTTP · kooker · 927693C2
-  type: http
-  server: 193.176.84.38
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: RO · HTTP · kooker · 93748020
-  type: http
-  server: 193.176.84.35
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · 97F8B333
-  type: http
-  server: 84.17.47.146
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: IE · HTTP · kooker · 986C3F52
-  type: http
-  server: 149.88.96.1
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: RO · HTTP · kooker · 99C3404E
-  type: http
-  server: 193.176.84.33
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: GB · HTTP · kooker · A192D4CF
-  type: http
-  server: 185.235.0.66
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: EC · HTTP · kooker · A1E13480
-  type: http
-  server: 38.165.231.71
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: ''
-  password: ''
-- name: FR · HTTP · kooker · A427AC7E
-  type: http
-  server: 149.102.245.65
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: GB · HTTP · kooker · AA9B3908
-  type: http
-  server: 212.102.63.61
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: RO · HTTP · kooker · ABA11442
-  type: http
-  server: 193.176.84.40
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: RO · HTTP · kooker · AD3D3793
-  type: http
-  server: 193.176.84.27
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DK · HTTP · kooker · B0FA87FF
-  type: http
-  server: 185.245.84.50
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: US · HTTP · kooker · B87A9440
-  type: http
-  server: 138.199.35.214
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  username: ''
-  password: ''
-- name: US · HTTP · kooker · BAE73085
-  type: http
-  server: 138.199.35.199
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: HU · HTTP · kooker · BE4E582D
-  type: http
-  server: 146.70.203.18
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: RO · HTTP · kooker · BEB8C382
-  type: http
-  server: 193.176.84.16
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  username: "null"
-  password: "null"
-- name: RO · HTTP · kooker · BED3E62F
-  type: http
-  server: 193.176.84.25
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: ZZ · HTTP · kooker · C5080689
-  type: http
-  server: 193.176.84.34
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: US · HTTP · kooker · D0768551
-  type: http
-  server: 138.199.35.213
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: FR · HTTP · kooker · D7BEAAE1
-  type: http
-  server: 103.82.101.43
-  port: 443
-  skip-cert-verify: true
-  sni: 76d1d3ecadca44efa2339867d7dfc9a1-8e928736d0f8dbdc.apache-iv.com
-  tls: true
-- name: NL · HTTP · kooker · DFA82CB5
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · kooker · E3A32FDF
-  type: http
-  server: 138.199.35.216
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · kooker · E3E25B81
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · E5953371
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · kooker · E5BF66A1
-  type: http
-  server: 138.199.35.218
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  username: ''
-  password: ''
-- name: RO · HTTP · kooker · E8241C3A
-  type: http
-  server: 193.176.84.30
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: GB · HTTP · kooker · F20DB149
-  type: http
-  server: 37.120.233.18
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
-- name: BE · HTTP · kooker · F3B51183
-  type: http
-  server: 146.70.123.98
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: NL · HTTP · kooker · FA6562D1
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · FEA813FE
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
+  network: tcp
+  servername: freshjuniper.download

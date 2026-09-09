@@ -1,14 +1,50 @@
 proxies:
-- name: SG · HYSTERIA2 · cfmem · D6DCEE26
+- name: US · HYSTERIA2 · cfmem · 00FA789E
   type: hysteria2
-  server: 138.2.89.249
+  server: gta.internet-card.sbs
   port: 443
-  sni: www.bing.com
+  sni: gta.internet-card.sbs
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: 309502c4a8df10b46fb976d4a8c43f42
   udp: true
-  password: d042d150716709bb778cc73889cddb02
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
+- name: CN→US · SS · cfmem · 078F4188
+  type: ss
+  server: 121.46.230.232
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: NO · VLESS · cfmem · 020B13FD
+  type: vless
+  server: 151.242.168.207
+  port: 443
+  reality-opts:
+    public-key: SiSky02wHz-S0TDHKFTdYhnrlT8Y3CfRsekZlcdLXDY
+    short-id: fd55b698ee8c3629
+  uuid: 1cbeb6e4-06c0-421b-9baa-8af782d6e6cc
+  servername: kibi-institut.de
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: HK→FR · VMESS · cfmem · 05D691A6
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: US · HYSTERIA2 · cfmem · 1159591C
+  type: hysteria2
+  server: news.gazette.help
+  port: 443
+  sni: news.gazette.help
+  skip-cert-verify: true
+  udp: true
+  password: sOiWCQ2AdIV0OWNuqQVyWp4JZnRxdyLROSjX
 - name: MY · SS · cfmem · 14C11A77
   type: ss
   server: 118.107.222.231
@@ -29,14 +65,16 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: HK→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
+- name: SG · HYSTERIA2 · cfmem · D6DCEE26
+  type: hysteria2
+  server: 138.2.89.249
+  port: 443
+  sni: www.bing.com
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: 309502c4a8df10b46fb976d4a8c43f42
+  udp: true
+  password: d042d150716709bb778cc73889cddb02
 - name: CN→JP · SS · cfmem · 3B4A79F1
   type: ss
   server: 121.46.230.137
@@ -57,6 +95,14 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
+- name: IE · SS · cfmem · 6D5BFC65
+  type: ss
+  server: 54.216.102.222
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
 - name: HK→FR · VMESS · cfmem · 4153EE35
   type: vmess
   server: v35.hdacd.com
@@ -67,14 +113,22 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: CN→US · SS · cfmem · D29CBBED
+- name: CA · SS · cfmem · 96B1E0E5
   type: ss
-  server: 121.46.230.233
-  port: 65443
+  server: 15.223.203.202
+  port: 443
   cipher: aes-256-cfb
   skip-cert-verify: true
   udp: true
-  password: 7eadc6dbe2ae
+  password: amazonskr05
+- name: JP→SD · TROJAN · cfmem · 841A876A
+  type: trojan
+  server: z-jp2.1card.cc
+  port: 10012
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
 - name: HK→GB · VMESS · cfmem · 8DAEC115
   type: vmess
   server: v36.hdacd.com
@@ -85,6 +139,22 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: CN→KR · SS · cfmem · F492CF49
+  type: ss
+  server: 121.46.230.138
+  port: 65443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: 7eadc6dbe2ae
+- name: IE · SS · cfmem · FE57F485
+  type: ss
+  server: 54.247.231.139
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
 - name: HK→GB · VMESS · cfmem · BA924DCE
   type: vmess
   server: v36.hdacd.com
@@ -93,6 +163,16 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
+- name: HK→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: JP · VLESS · cfmem · 6267DA71
   type: vless
   server: 130.12.102.125
@@ -103,16 +183,6 @@ proxies:
   servername: localhost
   tls: true
   client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: HK→DE · VMESS · cfmem · BF708C20
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
   skip-cert-verify: true
   udp: true
 - name: HK→DE · VMESS · cfmem · FE3B9D81
