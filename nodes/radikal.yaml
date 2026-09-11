@@ -7,18 +7,6 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
-- name: JP · VMESS · radikal · 045B2062
-  type: vmess
-  server: 168.138.43.75
-  port: 80
-  uuid: 11c3627f-31e8-4695-dfbd-34076e2f1f5d
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /cctv13.m3u8
-    headers:
-      Host: none
 - name: US · VMESS · radikal · 04B25BA7
   type: vmess
   server: 82.198.246.250
@@ -27,6 +15,20 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
+- name: CA · VMESS · radikal · 059E28EF
+  type: vmess
+  server: 104.21.57.84
+  port: 8443
+  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: v2ray1.dozapp.xyz
+  ws-opts:
+    path: /lMnsZUN4/
+    headers:
+      Host: v2ray1.dozapp.xyz
 - name: US · VMESS · radikal · 07673546
   type: vmess
   server: 129.146.77.248
@@ -39,14 +41,14 @@ proxies:
     path: /cctv13.m3u8
     headers:
       Host: 129.146.77.248
-- name: KR · VMESS · radikal · 124B83C0
+- name: JP · VMESS · radikal · 110DB45D
   type: vmess
-  server: 140.238.2.250
-  port: 443
-  uuid: 41a7089a-040b-4538-8b8d-010902405bde
+  server: oc.imfun.fun
+  port: 18112
+  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
   alterId: 0
   cipher: auto
-  network: none
+  network: tcp
 - name: US · VMESS · radikal · 131483A7
   type: vmess
   server: 165.140.216.141
