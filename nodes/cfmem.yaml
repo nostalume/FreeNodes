@@ -1,4 +1,16 @@
 proxies:
+- name: DE · HYSTERIA · cfmem · 4E3248F1
+  type: hysteria
+  server: 5.83.129.153
+  port: 20088
+  up: '10'
+  down: '50'
+  sni: apple.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  udp: true
+  auth-str: dongtaiwang.com
 - name: US · HYSTERIA2 · cfmem · 00FA789E
   type: hysteria2
   server: gta.internet-card.sbs
@@ -69,6 +81,16 @@ proxies:
     path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
     headers:
       Host: fq.jp188.dpdns.org
+- name: HK→JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: RU→PL · HYSTERIA2 · cfmem · 39D78FE1
   type: hysteria2
   server: 144.31.93.126
@@ -96,6 +118,14 @@ proxies:
   obfs-password: 850a3fb1cd33a28f12d837578ae1a2e7
   udp: true
   password: 633bc3be486b646190661ac2387c150a
+- name: HK→JP · VMESS · cfmem · 5704EA5C
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: HK · HYSTERIA2 · cfmem · A2F10ED9
   type: hysteria2
   server: 24.233.8.109
@@ -106,6 +136,20 @@ proxies:
   obfs-password: c8827ab99e316c5bd414e21afa915ddf
   udp: true
   password: 8294f130408299df8cab08c80bf6f819
+- name: CA→US · SS · cfmem · 449AC5CE
+  type: ss
+  server: cdn.shopify.com
+  port: 80
+  cipher: 2022-blake3-aes-128-gcm
+  plugin: gost-plugin
+  plugin-opts:
+    mode: websocket
+    host: ous1.337777777.xyz
+    tls: false
+    path: /api/v1/stream/us1
+  skip-cert-verify: true
+  udp: true
+  password: YTE1ZWU4ZTEyZjc3YmEzZA==:ZjQ4NzExMzUtMGYzNy00NA==
 - name: US · VMESS · cfmem · 575CD8F5
   type: vmess
   server: www.shopify.com
@@ -128,6 +172,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: f317b5d6-d399-4d3d-a051-89d674ae953c
+- name: HK · HYSTERIA2 · cfmem · F0E34C77
+  type: hysteria2
+  server: 31.57.248.176
+  port: 50160
+  sni: www.bing.com
+  skip-cert-verify: true
+  udp: true
+  password: b0917015b656b3dd2286b5633af0c5c1
 - name: US→SG · VLESS · cfmem · 28D3AD7B
   type: vless
   server: news.zoom.us
@@ -143,27 +195,6 @@ proxies:
       Host: u.srilankangrill.online
   skip-cert-verify: true
   udp: true
-- name: HK · HYSTERIA2 · cfmem · F0E34C77
-  type: hysteria2
-  server: 31.57.248.176
-  port: 50160
-  sni: www.bing.com
-  skip-cert-verify: true
-  udp: true
-  password: b0917015b656b3dd2286b5633af0c5c1
-- name: GB→SG · VLESS · cfmem · 2DFC52F1
-  type: vless
-  server: 91.193.58.218
-  port: 2096
-  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
-  network: ws
-  tls: true
-  servername: free-server.techsonic.dev
-  client-fingerprint: chrome
-  ws-opts:
-    path: /free-server.techsonic.dev
-    headers:
-      Host: free-server.techsonic.dev
 - name: US · VMESS · cfmem · 83DF4CA0
   type: vmess
   server: www.shopify.com
@@ -180,6 +211,33 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: GB→SG · VLESS · cfmem · 2DFC52F1
+  type: vless
+  server: 91.193.58.218
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  tls: true
+  servername: free-server.techsonic.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
+- name: JP · VMESS · cfmem · 91C80C9C
+  type: vmess
+  server: 38.47.121.14
+  port: 49432
+  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
+  alterId: 0
+  cipher: none
+  tls: false
+  skip-cert-verify: true
+  network: http
+  http-opts:
+    path:
+    - /
+  udp: true
 - name: RU→FI · VLESS · cfmem · 30A61710
   type: vless
   server: 171.22.129.56
@@ -194,14 +252,6 @@ proxies:
   client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
-- name: HK→US · VMESS · cfmem · C4833202
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: HK→US · VMESS · cfmem · D09F5204
   type: vmess
   server: v4.hdacd.com
@@ -235,6 +285,14 @@ proxies:
       Host: free-server.techsonic.dev
   skip-cert-verify: true
   udp: true
+- name: RO · VLESS · cfmem · 48DAA94C
+  type: vless
+  server: roma1.moritech.net
+  port: 443
+  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
+  network: tcp
+  tls: true
+  flow: xtls-rprx-vision
 - name: GB→SG · VLESS · cfmem · 5A0D98E4
   type: vless
   server: 91.193.58.45
@@ -269,6 +327,20 @@ proxies:
     path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
     headers:
       Host: fq.jp188.dpdns.org
+  skip-cert-verify: true
+  udp: true
+- name: RU→SE · VLESS · cfmem · 83048765
+  type: vless
+  server: 171.22.129.56
+  port: 2083
+  reality-opts:
+    public-key: 40eDnye2AHCQqgM2_ikKzRayZ4Vlu4rnnkHmLmNalQc
+    short-id: 32a37218722f0081
+  uuid: b2744db0-1c64-4218-a93b-9eba0e5f811f
+  servername: swe-one.quiet-rogue.site
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: edge
   skip-cert-verify: true
   udp: true
 - name: CH · VLESS · cfmem · C13754A0
