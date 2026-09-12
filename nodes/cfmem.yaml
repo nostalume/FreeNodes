@@ -1,26 +1,32 @@
 proxies:
-- name: NL · HYSTERIA2 · cfmem · 0B6A2534
+- name: DE · HYSTERIA · cfmem · 4E3248F1
+  type: hysteria
+  server: 5.83.129.153
+  port: 20088
+  up: '10'
+  down: '50'
+  sni: apple.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  udp: true
+  auth-str: dongtaiwang.com
+- name: US · HYSTERIA2 · cfmem · 00FA789E
   type: hysteria2
-  server: 46.229.243.145
-  port: 8443
-  sni: grape-turbo-fr.roxa.org
-  skip-cert-verify: true
-  udp: true
-  password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-- name: US · VLESS · cfmem · 035D4446
-  type: vless
-  server: 5.34.178.120
+  server: gta.internet-card.sbs
   port: 443
-  reality-opts:
-    public-key: EVhq2BxKuw2Cody1DmF_HPvUYKwzdXbHP47blUv-eRM
-    short-id: 55ab5559e3a6d10a
-  uuid: 9063f9fb-e88a-4ee0-b4a4-a92ca7316a9f
-  servername: www.cloudflare.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
+  sni: gta.internet-card.sbs
   skip-cert-verify: true
   udp: true
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
+- name: JP→YE · TROJAN · cfmem · 3C7F55C2
+  type: trojan
+  server: z-jp1.1card.cc
+  port: 10010
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
 - name: HK→US · VMESS · cfmem · 16C8574A
   type: vmess
   server: v24.hdacd.com
@@ -29,6 +35,29 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
+- name: KR · HYSTERIA2 · cfmem · 1065DB23
+  type: hysteria2
+  server: 152.70.237.123
+  port: 2053
+  sni: bing.com
+  skip-cert-verify: true
+  udp: true
+  password: maintell
+- name: GB→SG · VLESS · cfmem · 0CFAA383
+  type: vless
+  server: 91.193.58.45
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  servername: free-server.techsonic.dev
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
+  skip-cert-verify: true
+  udp: true
 - name: HK→US · VMESS · cfmem · 18F6DFDE
   type: vmess
   server: v24.hdacd.com
@@ -39,42 +68,35 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: MY · SS · cfmem · 14C11A77
-  type: ss
-  server: 118.107.222.231
-  port: 65443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: 7eadc6dbe2ae
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: IE · SS · cfmem · 4CD79B19
-  type: ss
-  server: 108.129.176.139
+- name: RU→EE · HYSTERIA2 · cfmem · 1159591C
+  type: hysteria2
+  server: news.gazette.help
   port: 443
-  cipher: aes-256-cfb
+  sni: news.gazette.help
   skip-cert-verify: true
   udp: true
-  password: amazonskr05
+  password: sOiWCQ2AdIV0OWNuqQVyWp4JZnRxdyLROSjX
+- name: US · VLESS · cfmem · 156B2175
+  type: vless
+  server: 104.17.159.189
+  port: 443
+  uuid: 42c62a5a-cd31-4551-80ef-908732370287
+  network: ws
+  tls: true
+  servername: fq.jp188.dpdns.org
+  client-fingerprint: chrome
+  ws-opts:
+    path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
+    headers:
+      Host: fq.jp188.dpdns.org
+- name: RU→PL · HYSTERIA2 · cfmem · 39D78FE1
+  type: hysteria2
+  server: 144.31.93.126
+  port: 443
+  sni: admin.wwwinternetvideo.click
+  skip-cert-verify: true
+  udp: true
+  password: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
 - name: HK · VLESS · cfmem · 1909DBFA
   type: vless
   server: 207.57.133.54
@@ -88,6 +110,87 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
+- name: AU · HYSTERIA2 · cfmem · 81E9FEFC
+  type: hysteria2
+  server: 152.67.115.203
+  port: 443
+  sni: www.bing.com
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: 850a3fb1cd33a28f12d837578ae1a2e7
+  udp: true
+  password: 633bc3be486b646190661ac2387c150a
+- name: HK→JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK · HYSTERIA2 · cfmem · A2F10ED9
+  type: hysteria2
+  server: 24.233.8.109
+  port: 443
+  sni: www.bing.com
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: c8827ab99e316c5bd414e21afa915ddf
+  udp: true
+  password: 8294f130408299df8cab08c80bf6f819
+- name: JP→YE · TROJAN · cfmem · B6887741
+  type: trojan
+  server: z-jp2.1card.cc
+  port: 10010
+  sni: www.cloudflare.com
+  skip-cert-verify: true
+  udp: true
+  password: ultra@kWZdAzt_IH593eGLRjdxnBZ0
+- name: RU · HYSTERIA2 · cfmem · B3C33330
+  type: hysteria2
+  server: msk.frkn.org
+  port: 443
+  sni: msk.frkn.org
+  skip-cert-verify: true
+  udp: true
+  password: f317b5d6-d399-4d3d-a051-89d674ae953c
+- name: GB→SG · VLESS · cfmem · 2DFC52F1
+  type: vless
+  server: 91.193.58.218
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  tls: true
+  servername: free-server.techsonic.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
+- name: HK · HYSTERIA2 · cfmem · F0E34C77
+  type: hysteria2
+  server: 31.57.248.176
+  port: 50160
+  sni: www.bing.com
+  skip-cert-verify: true
+  udp: true
+  password: b0917015b656b3dd2286b5633af0c5c1
+- name: RU→FI · VLESS · cfmem · 30A61710
+  type: vless
+  server: 171.22.129.56
+  port: 2053
+  reality-opts:
+    public-key: AKUQO-fKsD19FFBxNq5XTFCRXWDZfes4zJjRINY1KUI
+    short-id: beff3ff061a64cfd
+  uuid: 9f5b9ca7-d0bb-4e50-a3ca-acf5968027fc
+  servername: fi-one.quiet-rogue.site
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
 - name: HK→JP · VMESS · cfmem · 5704EA5C
   type: vmess
   server: v6.hdacd.com
@@ -96,14 +199,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: GB · SS · cfmem · B837B64F
-  type: ss
-  server: 35.178.181.116
-  port: 443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: amazonskr05
 - name: US · VMESS · cfmem · 575CD8F5
   type: vmess
   server: www.shopify.com
@@ -118,6 +213,16 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: CN · VMESS · cfmem · 6E57C2EB
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 83DF4CA0
   type: vmess
   server: www.shopify.com
@@ -134,19 +239,133 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: IE · SS · cfmem · E4682CEE
-  type: ss
-  server: 63.32.92.226
-  port: 443
-  cipher: aes-256-cfb
+- name: GB→SG · VLESS · cfmem · 3F51831D
+  type: vless
+  server: 91.193.58.218
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  servername: free-server.techsonic.dev
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
   skip-cert-verify: true
   udp: true
-  password: amazonskr05
-- name: GB · SS · cfmem · F008B3EB
-  type: ss
-  server: 3.8.209.170
+- name: HK→US · VMESS · cfmem · C4833202
+  type: vmess
+  server: v24.hdacd.com
+  port: 30824
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: GB→SG · VLESS · cfmem · 5A0D98E4
+  type: vless
+  server: 91.193.58.45
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  tls: true
+  servername: free-server.techsonic.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
+- name: US · VLESS · cfmem · 5B729791
+  type: vless
+  server: 104.17.159.189
   port: 443
-  cipher: aes-256-cfb
+  uuid: 42c62a5a-cd31-4551-80ef-908732370287
+  network: ws
+  servername: fq.jp188.dpdns.org
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
+    headers:
+      Host: fq.jp188.dpdns.org
   skip-cert-verify: true
   udp: true
-  password: amazonskr05
+- name: TR · VLESS · cfmem · 608E4520
+  type: vless
+  server: connect3.nyxserver.ir
+  port: 8444
+  uuid: 0b39a009-2a2a-4035-ba87-cc82894f8e21
+  network: raw
+  tls: true
+  skip-cert-verify: true
+  udp: true
+- name: RU→SE · VLESS · cfmem · 83048765
+  type: vless
+  server: 171.22.129.56
+  port: 2083
+  reality-opts:
+    public-key: 40eDnye2AHCQqgM2_ikKzRayZ4Vlu4rnnkHmLmNalQc
+    short-id: 32a37218722f0081
+  uuid: b2744db0-1c64-4218-a93b-9eba0e5f811f
+  servername: swe-one.quiet-rogue.site
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: edge
+  skip-cert-verify: true
+  udp: true
+- name: JP · VLESS · cfmem · BEDE399F
+  type: vless
+  server: 206.251.54.34
+  port: 55596
+  reality-opts:
+    public-key: QQUHUyF5Wb3XeRRrky-WOaRTxBtHokNaMec02HURWSI
+    short-id: 6ac09686189038
+  uuid: 9fc6444b-987a-41d5-9bf5-195d147e0a05
+  servername: www.amd.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: CH · VLESS · cfmem · C13754A0
+  type: vless
+  server: 45.90.59.15
+  port: 443
+  reality-opts:
+    public-key: P7S4UPFlQbmiBr4txyy8NZIMTrmO3UdxyH16WBU-YzY
+    short-id: 19253fae84102271
+  uuid: 3950b45e-740d-4dca-ac95-505ec8534592
+  servername: www.cloudflare.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: NL · VLESS · cfmem · EF8445F8
+  type: vless
+  server: 31.59.150.174
+  port: 9443
+  reality-opts:
+    public-key: RWu6ktBE4DFbUz_prmz-5KuolLhO53ehh19mNxhP-wI
+    short-id: a1b2c3d4
+  uuid: 92089155-6602-4122-86d4-fe6de20e8c4d
+  servername: hotcoals.aeternavpn.space
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: RU→DE · VLESS · cfmem · F4B00E47
+  type: vless
+  server: 171.22.129.56
+  port: 8443
+  reality-opts:
+    public-key: QMJRGTqZRbpeLpIAdvn6dhftuzrpwbtwmVG2s5IuuU0
+    short-id: 00a02855ba568c29
+  uuid: b2744db0-1c64-4218-a93b-9eba0e5f811f
+  servername: de-two.quiet-rogue.site
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true

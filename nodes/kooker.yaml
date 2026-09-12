@@ -1,29 +1,35 @@
 proxies:
-- name: DE · HYSTERIA2 · kooker · D1911D1F
-  type: hysteria2
-  server: de1.xiaoliyu.cyou
-  port: 4433
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: de1.xiaoliyu.cyou
-  up: ''
-  password: 19f72087-4591-4d72-930b-2697078ec2be
-- name: RU · VLESS · kooker · 6E27535B
+- name: RU · VLESS · kooker · 167A71B9
   type: vless
-  server: 161.104.38.98
+  server: 5.35.91.96
   port: 443
   reality-opts:
-    public-key: kYwdZueXQt_DEKPrWTw8yoj6G4AWqupg8UrWjAgWbkE
-    short-id: 8ba6e72ee60667f6
-  uuid: 82282910-54a0-0032-b2df-86bfbce8ed36
-  client-fingerprint: edge
-  network: xhttp
+    public-key: GKuFgxMDHNxodlhM5bVclxDtFSdb1vSadmpD7fYRERo
+    short-id: c3248f699ea5d8d0
+  uuid: 52d1d193-7a49-4d2e-9d52-c2615704034b
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
   tls: true
   udp: true
-  xhttp-opts:
-    host: donatov.net
-    path: /assets
-  servername: donatov.net
+  xudp: true
+  servername: rus1.baboon.digital
+- name: US · VLESS · kooker · 60C5296A
+  type: vless
+  server: cdn12usa.goonars.com
+  port: 443
+  reality-opts:
+    public-key: vFnG0SzHIv43o3L8bw4reKp3EIFuSS-BCyBqbWUsYCo
+    short-id: 6591f200
+  uuid: 02722550-1915-4629-a653-cbe95e594f70
+  alpn:
+  - v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus
+  client-fingerprint: firefox
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: cdn12usa.goonars.com
