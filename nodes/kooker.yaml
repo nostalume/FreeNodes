@@ -1,18 +1,165 @@
 proxies:
-- name: US · VLESS · kooker · A0C2AC7F
-  type: vless
-  server: 172.67.206.64
+- name: GB · HTTP · kooker · 525D646C
+  type: http
+  server: 212.102.63.1
   port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
+  skip-cert-verify: true
+  tls: true
+- name: HK · SOCKS5 · kooker · 834F47C6
+  type: socks5
+  server: 103.210.161.8
+  port: 1080
+  udp: true
+- name: KR · VLESS · kooker · 0AA989EC
+  type: vless
+  server: kr3-r.link-t7.com
+  port: 10048
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
   client-fingerprint: chrome
-  network: ws
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: update
+  network: grpc
   tls: true
   udp: true
+  servername: s0.awsstatic.com
+- name: US · VLESS · kooker · 3FE304EB
+  type: vless
+  server: 38.244.20.41
+  port: 443
+  reality-opts:
+    public-key: EZgb6P-QQtBeVAWDh1vjvR5Qg1dRk2uYkUG1hMz-qnA
+    short-id: 802db6d56acb5d79
+  uuid: 2869896f-424d-481a-bd68-f2fcae11b0c4
+  client-fingerprint: safari
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: www.apple.com
+- name: TR · VLESS · kooker · 44C0F805
+  type: vless
+  server: 13.143.137.164
+  port: 9443
+  reality-opts:
+    public-key: dZ0rhO_PL67-Ciwc6CHQgtde3a5EUUuReA7M-lRNCDQ
+    short-id: e336c9a786fae301
+  uuid: 953358cb-82ba-4296-960d-6d2ec3468f4c
+  client-fingerprint: firefox
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: plaincanvas.videoclothing.xyz
+- name: US · VLESS · kooker · 5CF80895
+  type: vless
+  server: 38.244.20.149
+  port: 443
+  reality-opts:
+    public-key: HR3BRJLZP0CBPG3r4aTXk0JhAzkyKoEW8WnW8xtHtCA
+    short-id: 0631f6666e3e7035
+  uuid: a2e2d5e7-5d23-40d8-baad-088b9e26b9c2
+  client-fingerprint: safari
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  network: tcp
+  servername: www.apple.com
+- name: JP · VLESS · kooker · 5EF40C85
+  type: vless
+  server: 103.76.85.156
+  port: 443
+  reality-opts:
+    public-key: SsqcoKQAh4wOwKVxQcS4QGb_8xiHJ_IgzsEoTsEPDj8
+    short-id: 41dd2ebdd7e0a61a
+  uuid: 4082b282-dc67-40df-b114-f70d71d61f6f
+  client-fingerprint: safari
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: www.apple.com
+- name: US · VLESS · kooker · 759AAE38
+  type: vless
+  server: 38.244.20.149
+  port: 443
+  reality-opts:
+    public-key: HR3BRJLZP0CBPG3r4aTXk0JhAzkyKoEW8WnW8xtHtCA
+    short-id: 0631f6666e3e7035
+  uuid: a2e2d5e7-5d23-40d8-baad-088b9e26b9c2
+  client-fingerprint: safari
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: www.apple.com
+- name: US · VLESS · kooker · 86D34786
+  type: vless
+  server: us1-r.link-t7.com
+  port: 10238
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-mode: gun
+    grpc-service-name: movie
+  network: grpc
+  tls: true
+  udp: true
+  servername: s0.awsstatic.com
+- name: JP · VLESS · kooker · 9B2644B8
+  type: vless
+  server: 103.76.85.156
+  port: 443
+  reality-opts:
+    public-key: SsqcoKQAh4wOwKVxQcS4QGb_8xiHJ_IgzsEoTsEPDj8
+    short-id: 41dd2ebdd7e0a61a
+  uuid: 4082b282-dc67-40df-b114-f70d71d61f6f
+  client-fingerprint: safari
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  network: tcp
+  servername: www.apple.com
+- name: TR · VLESS · kooker · CF0C2CC8
+  type: vless
+  server: 13.143.137.164
+  port: 9443
+  reality-opts:
+    public-key: dZ0rhO_PL67-Ciwc6CHQgtde3a5EUUuReA7M-lRNCDQ
+    short-id: e336c9a786fae301
+  uuid: 953358cb-82ba-4296-960d-6d2ec3468f4c
+  client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  network: tcp
+  servername: plaincanvas.videoclothing.xyz
+- name: ZZ · VLESS · kooker · F3F66163
+  type: vless
+  server: news.zoom.us
+  port: 8443
+  uuid: 29c3dd6b-b164-40ca-a0d5-f06aca52a8b2
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: true
+  tfo: false
+  tls: true
   ws-opts:
     headers:
-      Host: 3-M16.ayUTthAYa2032.kdNs.FR
-      User-Agent: Mozilla/5.0 (Linux; Android 8.0.0; ANE-LX3 Build/HUAWEIANE-LX3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100
-        Mobile Safari/537.36
-    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
-  xudp: true
-  servername: 3-M16.ayUTthAYa2032.kdNs.FR
+      Host: u.srilankangrill.online
+    path: /
+  servername: u.srilankangrill.online

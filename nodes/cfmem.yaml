@@ -1,40 +1,31 @@
 proxies:
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
+- name: DE · HYSTERIA · cfmem · 4E3248F1
+  type: hysteria
+  server: 5.83.129.153
+  port: 20088
+  up: '10'
+  down: '50'
+  sni: apple.com
   skip-cert-verify: true
+  alpn:
+  - h3
   udp: true
-- name: KR · HYSTERIA2 · cfmem · 1065DB23
+  auth-str: dongtaiwang.com
+- name: US · HYSTERIA2 · cfmem · 375965F7
   type: hysteria2
-  server: 152.70.237.123
-  port: 2053
-  sni: bing.com
+  server: 107.174.255.14
+  port: 4356
   skip-cert-verify: true
   udp: true
-  password: maintell
-- name: NL · VLESS · cfmem · 119535E1
-  type: vless
-  server: nl-new-ded.failspace.top
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  network: tcp
-  tls: true
-  flow: xtls-rprx-vision
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
+  password: c2356e22-b026-4f12-8508-cf61f0b0c867
+- name: NL · SS · cfmem · 95B7F897
+  type: ss
+  server: 158.173.221.214
+  port: 11001
+  cipher: chacha20-ietf-poly1305
   skip-cert-verify: true
   udp: true
+  password: c58d16e593d44f42
 - name: US · VLESS · cfmem · 156B2175
   type: vless
   server: 104.17.159.189
@@ -48,23 +39,14 @@ proxies:
     path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
     headers:
       Host: fq.jp188.dpdns.org
-- name: RU→PL · HYSTERIA2 · cfmem · 39D78FE1
+- name: US · HYSTERIA2 · cfmem · A109F5AF
   type: hysteria2
-  server: 144.31.93.126
-  port: 443
-  sni: admin.wwwinternetvideo.click
+  server: 38.54.6.46
+  port: 36712
+  sni: www.microsoft.com
   skip-cert-verify: true
   udp: true
-  password: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
-- name: RO · VLESS · cfmem · 19C5AF94
-  type: vless
-  server: roma3.moritech.net
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
+  password: CompanyHy2_2026!
 - name: US · VMESS · cfmem · 575CD8F5
   type: vmess
   server: www.shopify.com
@@ -79,39 +61,55 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: AU · HYSTERIA2 · cfmem · 81E9FEFC
+- name: FI · HYSTERIA2 · cfmem · BDE225A7
   type: hysteria2
-  server: 152.67.115.203
-  port: 443
-  sni: www.bing.com
+  server: musicclips.videolinks.ru
+  port: 8443
+  sni: musicclips.videolinks.ru
   skip-cert-verify: true
   obfs: salamander
-  obfs-password: 850a3fb1cd33a28f12d837578ae1a2e7
+  obfs-password: 8zzng75tz4tf82pj
   udp: true
-  password: 633bc3be486b646190661ac2387c150a
-- name: SG · VLESS · cfmem · 1B570B42
+  password: sxc15led4b0vp5fy
+- name: KR · VLESS · cfmem · 3972126D
   type: vless
-  server: 43.160.241.174
-  port: 443
-  uuid: 3db635e4-f9ec-42d6-8aba-e23df8b0e6da
-  network: ws
+  server: kr4-r.link-t7.com
+  port: 10049
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
+  network: grpc
+  servername: s0.awsstatic.com
   tls: true
-  servername: mia11.pages.dev
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-service-name: update
+  skip-cert-verify: true
+  udp: true
+- name: JP · HYSTERIA2 · cfmem · DB212A6C
+  type: hysteria2
+  server: 138.3.208.26
+  port: 50160
+  sni: www.bing.com
+  skip-cert-verify: true
+  udp: true
+  password: 184cdec28da5a09450803c8debcd2cc9
+- name: US · VLESS · cfmem · 5B729791
+  type: vless
+  server: 104.17.159.189
+  port: 443
+  uuid: 42c62a5a-cd31-4551-80ef-908732370287
+  network: ws
+  servername: fq.jp188.dpdns.org
+  tls: true
   client-fingerprint: chrome
   ws-opts:
-    path: /TG:@MiaChatChannel
+    path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
     headers:
-      Host: mia11.pages.dev
-- name: HK · HYSTERIA2 · cfmem · A2F10ED9
-  type: hysteria2
-  server: 24.233.8.109
-  port: 443
-  sni: www.bing.com
+      Host: fq.jp188.dpdns.org
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: c8827ab99e316c5bd414e21afa915ddf
   udp: true
-  password: 8294f130408299df8cab08c80bf6f819
 - name: US · VMESS · cfmem · 83DF4CA0
   type: vmess
   server: www.shopify.com
@@ -128,93 +126,38 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: HK · HYSTERIA2 · cfmem · F0E34C77
-  type: hysteria2
-  server: 31.57.248.176
-  port: 50160
-  sni: www.bing.com
-  skip-cert-verify: true
-  udp: true
-  password: b0917015b656b3dd2286b5633af0c5c1
-- name: GB · SS · cfmem · 95B7F897
-  type: ss
-  server: 158.173.221.214
-  port: 11001
-  cipher: chacha20-ietf-poly1305
-  skip-cert-verify: true
-  udp: true
-  password: c58d16e593d44f42
-- name: HK→FR · VMESS · cfmem · 86A00880
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US→SG · VLESS · cfmem · 28D3AD7B
+- name: KR · VLESS · cfmem · 6D61C13B
   type: vless
-  server: news.zoom.us
-  port: 8443
-  uuid: 29c3dd6b-b164-40ca-a0d5-f06aca52a8b2
-  network: ws
-  servername: u.srilankangrill.online
+  server: kr3-r.link-t7.com
+  port: 10048
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
+  network: grpc
+  servername: s0.awsstatic.com
   tls: true
   client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: u.srilankangrill.online
+  grpc-opts:
+    grpc-service-name: update
   skip-cert-verify: true
   udp: true
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
+- name: US · VLESS · cfmem · B1D5250A
+  type: vless
+  server: us1-r.link-t7.com
+  port: 10238
+  reality-opts:
+    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
+    short-id: 686c0ef0
+  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
+  network: grpc
+  servername: s0.awsstatic.com
+  tls: true
+  client-fingerprint: chrome
+  grpc-opts:
+    grpc-service-name: movie
   skip-cert-verify: true
   udp: true
-- name: JP · VMESS · cfmem · 91C80C9C
-  type: vmess
-  server: 38.47.121.14
-  port: 49432
-  uuid: ce94f204-ffa6-4fa8-a1dc-ecfccfd463cb
-  alterId: 0
-  cipher: none
-  tls: false
-  skip-cert-verify: true
-  network: http
-  http-opts:
-    path:
-    - /
-  udp: true
-- name: HK→JP · VMESS · cfmem · AFF27A81
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→US · VMESS · cfmem · D09F5204
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: HK→US · VMESS · cfmem · FA8FD663
   type: vmess
   server: v4.hdacd.com
@@ -225,184 +168,17 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: RO · VLESS · cfmem · 48DAA94C
+- name: RU→FI · VLESS · cfmem · E3C710D7
   type: vless
-  server: roma1.moritech.net
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  network: tcp
-  tls: true
-  flow: xtls-rprx-vision
-- name: RU · VLESS · cfmem · 4EDD3CE9
-  type: vless
-  server: pr-media.pepro.site
-  port: 14443
-  uuid: fb67fd37-8d41-43a9-a093-c0b807fc5299
-  network: ws
-  servername: pr-media.pepro.site
-  tls: true
-  client-fingerprint: qq
-  ws-opts:
-    path: /ws
-  skip-cert-verify: true
-  udp: true
-- name: RO · VLESS · cfmem · 5A2DD19D
-  type: vless
-  server: roma3.moritech.net
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  network: tcp
-  tls: true
-  flow: xtls-rprx-vision
-- name: US · VLESS · cfmem · 5B729791
-  type: vless
-  server: 104.17.159.189
-  port: 443
-  uuid: 42c62a5a-cd31-4551-80ef-908732370287
-  network: ws
-  servername: fq.jp188.dpdns.org
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /proxyip=154.17.22.207,69.63.210.157,134.195.211.13,172.236.245.153,209.146.115.209,64.186.224.194,149.28.94.52,107.151.188.57fp=chrome
-    headers:
-      Host: fq.jp188.dpdns.org
-  skip-cert-verify: true
-  udp: true
-- name: NL · VLESS · cfmem · 682B4A0E
-  type: vless
-  server: nl-new-ded.failspace.top
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
-- name: FR · VLESS · cfmem · 6EF6493F
-  type: vless
-  server: kama1.api3-max.ru
-  port: 443
-  uuid: 97ecaad4-452c-45ec-b591-d68d3308aad4
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
-- name: FR · VLESS · cfmem · 80E346B0
-  type: vless
-  server: kama1.api3-max.ru
-  port: 443
-  uuid: 97ecaad4-452c-45ec-b591-d68d3308aad4
-  network: tcp
-  tls: true
-  flow: xtls-rprx-vision
-- name: ZZ · VLESS · cfmem · 83048765
-  type: vless
-  server: 171.22.129.56
-  port: 2083
-  reality-opts:
-    public-key: 40eDnye2AHCQqgM2_ikKzRayZ4Vlu4rnnkHmLmNalQc
-    short-id: 32a37218722f0081
-  uuid: b2744db0-1c64-4218-a93b-9eba0e5f811f
-  servername: swe-one.quiet-rogue.site
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: edge
-  skip-cert-verify: true
-  udp: true
-- name: FI · VLESS · cfmem · C7802534
-  type: vless
-  server: fin.pinkmoon.pro
+  server: app-ms-35.ecom-ai-solutions.com
   port: 443
   reality-opts:
-    public-key: DS9mX6cMb5wvwFzga8yN2NLbs7soXM7038_P23yPKwk
-    short-id: 8ffa160e608bf539
-  uuid: 827a0eb0-21bf-4bce-96ef-0a7bac5d68f5
-  servername: fin.pinkmoon.pro
+    public-key: NA5eMfdHkl_L80S75uxQwUirS9nvZ80V2u1s71KeXkc
+    short-id: 2de63d3fd7261b7e
+  uuid: a71ad164-3b29-4dbe-aa66-24d095ca7b6d
+  servername: assets-ms-35.ecom-ai-solutions.com
   tls: true
   flow: xtls-rprx-vision
-  client-fingerprint: qq
-  skip-cert-verify: true
-  udp: true
-- name: US→SG · VLESS · cfmem · CD67EB07
-  type: vless
-  server: news.zoom.us
-  port: 8443
-  uuid: 29c3dd6b-b164-40ca-a0d5-f06aca52a8b2
-  network: ws
-  tls: true
-  servername: u.srilankangrill.online
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: u.srilankangrill.online
-- name: US→SG · VLESS · cfmem · D26878AC
-  type: vless
-  server: news.zoom.us
-  port: 8443
-  uuid: 29c3dd6b-b164-40ca-a0d5-f06aca52a8b2
-  network: ws
-  tls: true
-  servername: u.srilankangrill.online
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: u.srilankangrill.online
-- name: SG · VLESS · cfmem · E396FAB8
-  type: vless
-  server: 43.160.241.174
-  port: 443
-  uuid: 3db635e4-f9ec-42d6-8aba-e23df8b0e6da
-  network: ws
-  servername: mia11.pages.dev
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /TG:@MiaChatChannel
-    headers:
-      Host: mia11.pages.dev
-  skip-cert-verify: true
-  udp: true
-- name: NL · VLESS · cfmem · EF8445F8
-  type: vless
-  server: 31.59.150.174
-  port: 9443
-  reality-opts:
-    public-key: RWu6ktBE4DFbUz_prmz-5KuolLhO53ehh19mNxhP-wI
-    short-id: a1b2c3d4
-  uuid: 92089155-6602-4122-86d4-fe6de20e8c4d
-  servername: hotcoals.aeternavpn.space
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
-  skip-cert-verify: true
-  udp: true
-- name: PL · VLESS · cfmem · F8DC818F
-  type: vless
-  server: poland-new-ded.failspace.top
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  network: tcp
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-- name: PL · VLESS · cfmem · FB37ED0B
-  type: vless
-  server: poland-new-ded.failspace.top
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: RO · VLESS · cfmem · FF9E5CEB
-  type: vless
-  server: roma1.moritech.net
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  tls: true
-  flow: xtls-rprx-vision
+  client-fingerprint: randomized
   skip-cert-verify: true
   udp: true
