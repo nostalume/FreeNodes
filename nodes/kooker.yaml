@@ -1,196 +1,41 @@
 proxies:
-- name: ZZ · HTTP · kooker · 1738CB09
+- name: US · HTTP · kooker · 26FE486C
   type: http
-  server: 193.176.84.22
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: JP · HYSTERIA2 · kooker · 5E6A9E19
-  type: hysteria2
-  server: 8.211.175.129
+  server: 104.244.95.184
+  port: 1092
+- name: US · HTTP · kooker · C1F3C727
+  type: http
+  server: 149.88.21.129
   port: 443
-  obfs: salamander
-  obfs-password: 5c8f1a3e7b2d9046c1f8a5e3b7d04f2a
   skip-cert-verify: true
-  sni: 8.211.175.129
-  udp: true
-  password: 0bffb8e71bca29788862f986caae97b3
-  auth: 0bffb8e71bca29788862f986caae97b3
-- name: HK · SOCKS5 · kooker · C13094A9
-  type: socks5
-  server: 103.210.161.8
-  port: 1080
-  skip-cert-verify: false
-- name: GB · SS · kooker · 235BB7D2
-  type: ss
-  server: 158.173.221.214
-  port: 11001
-  cipher: chacha20-ietf-poly1305
-  password: c58d16e593d44f42
-- name: US · VLESS · kooker · 325217AB
-  type: vless
-  server: 104.21.36.81
-  port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
-  client-fingerprint: chrome
-  network: ws
   tls: true
   udp: true
-  ws-opts:
-    headers:
-      Host: 4-M16.ChIANG-RaI2036.kdnS.fR
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
-    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
-  xudp: true
-  servername: 4-M16.ChIANG-RaI2036.kdnS.fR
-- name: RO · HTTP · kooker · 9E0AD22B
-  type: http
-  server: 193.176.84.23
-  port: 9002
-  skip-cert-verify: true
-  tls: true
   username: ''
   password: ''
-- name: US · VLESS · kooker · 814B11DD
+- name: DE · VLESS · kooker · 2E27FBC6
   type: vless
-  server: us15.zuoai.cf
-  port: 443
-  uuid: b2593749-691c-428c-9481-14979cba3446
+  server: 185.217.108.229
+  port: 23351
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
   client-fingerprint: chrome
+  ech-opts:
+    enable: true
+    query-server-name: cloudflare-ech.com
   network: ws
+  skip-cert-verify: true
   tls: true
-  udp: true
   ws-opts:
     headers:
-      Host: xi.tbv.ccwu.cc
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.93 Safari/537.36
-    path: /proxyip=us.xiabibi.cf
-  xudp: true
-  servername: xi.tbv.ccwu.cc
-- name: IE · HTTP · kooker · CA3D5CA9
-  type: http
-  server: 149.88.96.1
+      Host: cdn8848.776676.xyz
+    path: /help
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2560
+  servername: cdn8848.776676.xyz
+- name: US · SS · kooker · B1E6ABB6
+  type: ss
+  server: 18.191.174.144
   port: 443
-  skip-cert-verify: true
-  tls: true
-- name: AE · VLESS · kooker · 88FB21A1
-  type: vless
-  server: 217.60.98.56
-  port: 443
-  reality-opts:
-    public-key: N8tPKh6gTyc6L5GOmBn_3wIy707a-5QYB0FrF2HigUc
-    short-id: ''
-  uuid: 069ba4cf-e8af-4561-b11e-18bd07b0dbd3
-  client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  servername: west.blackbigdog.com
-- name: ZZ · HTTP · kooker · D693A608
-  type: http
-  server: 193.176.84.20
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: NL · VLESS · kooker · A54F07D8
-  type: vless
-  server: 51.194.251.114
-  port: 61592
-  reality-opts:
-    public-key: jnu0rNHECTe_v7H9Fmgg0iUSepHz4QQQRPW0XpX5URs
-    short-id: 1359c9bf9f7442e5
-  uuid: bd1f7e5e-9e0b-4919-a7f1-84bc9e69426d
-  client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  servername: store.storeimages.cdn-apple.com
-- name: NL · VLESS · kooker · C00B5473
-  type: vless
-  server: 51.194.251.114
-  port: 61592
-  reality-opts:
-    public-key: jnu0rNHECTe_v7H9Fmgg0iUSepHz4QQQRPW0XpX5URs
-    short-id: 1359c9bf9f7442e5
-  uuid: bd1f7e5e-9e0b-4919-a7f1-84bc9e69426d
-  client-fingerprint: chrome
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  network: tcp
-  servername: store.storeimages.cdn-apple.com
-- name: TR · VLESS · kooker · CF0C2CC8
-  type: vless
-  server: 13.143.137.164
-  port: 9443
-  reality-opts:
-    public-key: dZ0rhO_PL67-Ciwc6CHQgtde3a5EUUuReA7M-lRNCDQ
-    short-id: e336c9a786fae301
-  uuid: 953358cb-82ba-4296-960d-6d2ec3468f4c
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  network: tcp
-  servername: plaincanvas.videoclothing.xyz
-- name: GB · VLESS · kooker · D72BDCD2
-  type: vless
-  server: 46.33.8.20
-  port: 443
-  reality-opts:
-    public-key: U_E3xSI6QY_Mj-3zjkB4esvMj0aVvYH6W6oHOR50XBs
-    short-id: a61d99e920140145
-  uuid: 6806dc9a-8f5c-4981-b64d-3527b9522b62
-  client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  servername: filesconvert.org
-- name: US · VLESS · kooker · DFE98C6D
-  type: vless
-  server: 104.21.63.171
-  port: 443
-  uuid: a90c264d-3853-4eef-9a3d-628b2d02d15e
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-  encryption: none
-  network: ws
-  tls: true
-  udp: true
-  ws-opts:
-    headers:
-      Host: 7-M19.SoutH-afRIcA-chaNnEl.CCwu.cc
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36
-    path: /CjBjB9sn5pCvaSwScc
-  xudp: true
-  servername: 7-m19.sOUTh-aFrica-CHAnNEl.CCWu.CC
-- name: US · VLESS · kooker · F3B667F7
-  type: vless
-  server: 172.67.145.113
-  port: 443
-  uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
-  client-fingerprint: chrome
-  network: ws
-  tls: true
-  udp: true
-  ws-opts:
-    headers:
-      Host: 6-M16.AYUTThaYA2028.KdNs.fr
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
-    path: /JRr6VGcSLFc034DC6sDbwyWJLbB
-  xudp: true
-  servername: 6-M16.AYUTThaYA2028.KdNs.fr
+  cipher: aes-256-cfb
+  country: 🇺🇸US
+  delay: 624
+  password: amazonskr05

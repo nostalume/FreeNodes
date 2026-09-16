@@ -11,24 +11,47 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
-- name: HK · HYSTERIA2 · cfmem · 02331742
+- name: US · HYSTERIA2 · cfmem · 00FA789E
   type: hysteria2
-  server: 8.218.56.189
+  server: gta.internet-card.sbs
   port: 443
-  sni: 8.218.56.189
+  sni: gta.internet-card.sbs
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: 5c8f1a3e7b2d9046c1f8a5e3b7d04f2a
   udp: true
-  password: 0c7fa158eb9f72a1c4b80927e48373dc
-- name: NL · SS · cfmem · 95B7F897
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
+- name: US · SS · cfmem · FF5868A9
   type: ss
-  server: 158.173.221.214
-  port: 11001
-  cipher: chacha20-ietf-poly1305
+  server: 18.191.124.183
+  port: 443
+  cipher: aes-256-cfb
   skip-cert-verify: true
   udp: true
-  password: c58d16e593d44f42
+  password: amazonskr05
+- name: HK→US · VMESS · cfmem · 18F6DFDE
+  type: vmess
+  server: v24.hdacd.com
+  port: 30824
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · 1AD832A6
+  type: vless
+  server: 188.114.97.6
+  port: 443
+  uuid: 3c52e091-6714-4915-949f-2149fe69951b
+  network: ws
+  servername: v2ray.simspeedup.com
+  tls: true
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /ws
+    headers:
+      Host: v2ray.simspeedup.com
+  skip-cert-verify: true
+  udp: true
 - name: RU→DE · HYSTERIA2 · cfmem · 4B26FB5B
   type: hysteria2
   server: 31.76.71.252
@@ -37,24 +60,24 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
-- name: JP · HYSTERIA2 · cfmem · 659E784C
+- name: HK→JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: IN · HYSTERIA2 · cfmem · 9C6BB927
   type: hysteria2
-  server: 8.209.217.129
+  server: vpn-in-001.fastervpn.world
   port: 443
-  sni: 8.209.217.129
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: 5c8f1a3e7b2d9046c1f8a5e3b7d04f2a
-  udp: true
-  password: 20b7100438be713dc89876906214c5b1
-- name: US · HYSTERIA2 · cfmem · A109F5AF
-  type: hysteria2
-  server: 38.54.6.46
-  port: 36712
-  sni: www.microsoft.com
+  sni: vpn-in-001.fastervpn.world
   skip-cert-verify: true
   udp: true
-  password: CompanyHy2_2026!
+  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
 - name: US · VMESS · cfmem · 575CD8F5
   type: vmess
   server: www.shopify.com
@@ -69,34 +92,6 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: FI · HYSTERIA2 · cfmem · BDE225A7
-  type: hysteria2
-  server: musicclips.videolinks.ru
-  port: 8443
-  sni: musicclips.videolinks.ru
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: 8zzng75tz4tf82pj
-  udp: true
-  password: sxc15led4b0vp5fy
-- name: JP · HYSTERIA2 · cfmem · DB212A6C
-  type: hysteria2
-  server: 138.3.208.26
-  port: 50160
-  sni: www.bing.com
-  skip-cert-verify: true
-  udp: true
-  password: 184cdec28da5a09450803c8debcd2cc9
-- name: TR · VMESS · cfmem · 6748D494
-  type: vmess
-  server: 188.132.174.236
-  port: 2086
-  uuid: f6361af8-bb8f-4609-bf5d-3fc0f688f47b
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 83DF4CA0
   type: vmess
   server: www.shopify.com
@@ -113,22 +108,92 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: KR · VLESS · cfmem · 6D61C13B
-  type: vless
-  server: kr3-r.link-t7.com
-  port: 10048
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
-  network: grpc
-  servername: s0.awsstatic.com
-  tls: true
-  client-fingerprint: chrome
-  grpc-opts:
-    grpc-service-name: update
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
+- name: US · VLESS · cfmem · 5E12A290
+  type: vless
+  server: 104.16.10.233
+  port: 443
+  uuid: b8d8a5b0-867f-4491-b4e4-30edc04bb10e
+  network: ws
+  tls: true
+  servername: u.srilankangrill.online
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /
+    headers:
+      Host: u.srilankangrill.online
+- name: US · VLESS · cfmem · 62FC3783
+  type: vless
+  server: 104.16.10.233
+  port: 443
+  uuid: b8d8a5b0-867f-4491-b4e4-30edc04bb10e
+  network: ws
+  servername: u.srilankangrill.online
+  tls: true
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /
+    headers:
+      Host: u.srilankangrill.online
+  skip-cert-verify: true
+  udp: true
+- name: HK→JP · VMESS · cfmem · AFF27A81
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→GB · VMESS · cfmem · BA924DCE
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: KZ→US · VLESS · cfmem · 783B38AA
+  type: vless
+  server: kz3.zuoai.cf
+  port: 443
+  uuid: b2593749-691c-428c-9481-14979cba3446
+  network: ws
+  servername: xi.tbv.ccwu.cc
+  tls: true
+  ws-opts:
+    path: /proxyip=us.xiabibi.cf
+    headers:
+      Host: xi.tbv.ccwu.cc
+  skip-cert-verify: true
+  udp: true
+- name: HK→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK→US · VMESS · cfmem · C4833202
+  type: vmess
+  server: v24.hdacd.com
+  port: 30824
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: HK→US · VMESS · cfmem · D09F5204
   type: vmess
   server: v4.hdacd.com
@@ -137,30 +202,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: TR · VMESS · cfmem · D6AD7F72
-  type: vmess
-  server: 188.132.174.236
-  port: 2086
-  uuid: f6361af8-bb8f-4609-bf5d-3fc0f688f47b
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · B1D5250A
-  type: vless
-  server: us1-r.link-t7.com
-  port: 10238
-  reality-opts:
-    public-key: wOu-BMrXvk9KX23JZrlpUlF4SMjDcejm0vNECdhy5xE
-    short-id: 686c0ef0
-  uuid: 7134db35-f254-4468-ba00-d9c099cf5af7
-  network: grpc
-  servername: s0.awsstatic.com
-  tls: true
-  client-fingerprint: chrome
-  grpc-opts:
-    grpc-service-name: movie
-  skip-cert-verify: true
-  udp: true
 - name: HK→US · VMESS · cfmem · FA8FD663
   type: vmess
   server: v4.hdacd.com
@@ -171,34 +212,53 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: KZ→DE · VLESS · cfmem · DE2BCF93
+- name: HK→DE · VMESS · cfmem · FE3B9D81
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: EE · VLESS · cfmem · A30945FD
   type: vless
-  server: 5.35.81.60
-  port: 4443
+  server: 94.183.170.147
+  port: 8443
   reality-opts:
-    public-key: nhvyI4KrKDUSgw9Fa63SDeNATaTsAu9bRZ4qaraydRM
-    short-id: e5f6a1b2
-  uuid: cabd9303-ae32-4d25-86b9-26b312d0f044
+    public-key: s2uiu3GQA2SlZzsr86Z5Dav97eAFTPf7Nvr-zqzzRgg
+    short-id: 72ccd4a7563c2953
+  uuid: 5edbcb44-8d04-4fa7-a587-bc5d60c24ca1
   network: grpc
-  servername: maps.apple.com
+  servername: www.cloudflare.com
   tls: true
-  client-fingerprint: chrome
+  client-fingerprint: firefox
   grpc-opts:
-    grpc-service-name: snob-grpc-de
+    grpc-service-name: 9d30d49278
   skip-cert-verify: true
   udp: true
-- name: RU→DE · VLESS · cfmem · FD3CF2ED
+- name: KZ→US · VLESS · cfmem · BF172477
   type: vless
-  server: ns.o11111o.club
+  server: kz3.zuoai.cf
+  port: 443
+  uuid: b2593749-691c-428c-9481-14979cba3446
+  network: ws
+  tls: true
+  servername: xi.tbv.ccwu.cc
+  ws-opts:
+    path: /proxyip=us.xiabibi.cf
+    headers:
+      Host: xi.tbv.ccwu.cc
+- name: LT · VLESS · cfmem · FFA93095
+  type: vless
+  server: lt.aether-runet.top
   port: 443
   reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-  uuid: b1b3e430-ff52-44b8-b95d-27fa580fbc4f
-  network: grpc
-  servername: id.vk.com
+    public-key: vrcsm8L_tY7sNbnCEdLCEjOthh_w9bdWS3wFPgsIomk
+    short-id: 4fa44664f6a566d3
+  uuid: c5694dc5-39fd-4a92-8430-3837baa522a3
+  servername: lt.aether-runet.top
   tls: true
-  client-fingerprint: chrome
-  grpc-opts:
-    grpc-service-name: vless-grpc-reality
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
