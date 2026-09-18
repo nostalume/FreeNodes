@@ -1,26 +1,26 @@
 {
   "admission": {
     "attempted_sources": 20,
-    "candidate_records": 14562,
+    "candidate_records": 15337,
     "decoded_artifacts": 48,
-    "discovered_artifacts": 61,
-    "duplicate_occurrences": 6519,
-    "eligible_occurrences": 11183,
+    "discovered_artifacts": 57,
+    "duplicate_occurrences": 3804,
+    "eligible_occurrences": 11950,
     "empty_sources": 0,
-    "failed_sources": 11,
-    "rejected_artifacts": 13,
-    "rejected_records": 3379,
-    "sources_with_artifacts": 9,
-    "unique_eligible": 4664
+    "failed_sources": 4,
+    "rejected_artifacts": 9,
+    "rejected_records": 3387,
+    "sources_with_artifacts": 16,
+    "unique_eligible": 8146
   },
-  "base_revision": "0b77da97be06c990e9248d7981d27ad7cacbf2eb",
+  "base_revision": "713b43f5433f21ec146b44d3227798ae4295ca79",
   "capability": {
-    "accepted": 329,
-    "attempted": 2817,
-    "capable": 329,
-    "failed": 2488,
-    "inconclusive": 0,
-    "planned": 3989,
+    "accepted": 500,
+    "attempted": 1280,
+    "capable": 548,
+    "failed": 731,
+    "inconclusive": 1,
+    "planned": 4000,
     "quorum": 2,
     "runner_vantage": "github-actions",
     "targets": [
@@ -40,91 +40,101 @@
         "url": "https://cp.cloudflare.com/generate_204"
       }
     ],
-    "termination": "time_budget"
+    "termination": "target_reached"
   },
   "counts": {
-    "clash": 329,
-    "published": 329,
-    "uri": 60
+    "clash": 500,
+    "published": 500,
+    "uri": 93
   },
-  "created_at": "2026-09-17T21:22:16.314280+00:00",
+  "created_at": "2026-09-18T20:54:08.867972+00:00",
   "files": {
-    "nodes/cfmem.yaml": "7c2d3ad343083c529b4e88e7dd5091e298e7d9a00de6a3187f823de7416cc745",
-    "nodes/clashmeta.yaml": "b50cb8ef2a73189f0eeff728e6264116121843c6468577e3e80fa9018f2c6b8d",
-    "nodes/clashnode.yaml": "ef220e45130efc197ddd711caee34348ac9b8b75a3f91e81d8be435d0d985010",
-    "nodes/clashstair.yaml": "502c837d9178e9fe2dc323b979d97cbc3894259dbbcc925d8cb77b2a693dc909",
-    "nodes/datiya.yaml": "f0c508cdf988579ef91ed391ae1dc0a86ad1a2ff566bdcbc115073eba565a839",
-    "nodes/freeclashnode.yaml": "c8bde4b7172ca267832e72fb5891b5669998d0934fa6c97d22ebda2a3703fa9f",
-    "nodes/jichangx.yaml": "3e675d4606dd883d20c0369857a550132aafe6d14cd20835699b4a869f236967",
-    "nodes/merged.txt": "6581372495de6079f61867c004ea119819b7edd4e958a5089b7c495ca14e2ced",
-    "nodes/merged.yaml": "82b3eb518d61221f3615df2fc5a06bfbba4cd4d32a9035ed3c53401e48389ec0",
-    "nodes/provider-cdn.yaml": "1ba9e56814691d9cbfa141f0a6a35e22f17f25b2e564dfb31149c5d6a2ee61b4",
-    "nodes/provider.yaml": "424d8070d630096daba70eab2e041fc8d2d996795105a369c12bafbfd07e4c9c",
-    "nodes/v2ray.txt": "3c784f8bfe1e07057a23da4d57849485fa0485afd75b27982e70d0ecc43c8377",
-    "nodes/yudou.yaml": "6e469d2c010c4aaad50a9f1d609eeebe49a8ceb44da47acd574fcb78b34f61d3"
+    "nodes/au1rxx-clash.yaml": "6a6538a223db6dfa14f6eaa474a5c35779d2919b60fea8690b0c6886ca4d1ad5",
+    "nodes/au1rxx-v2ray.yaml": "6ab0c87da0333051e5b9a844dd72268ebab7e27fcaaf26d313822482fcc40dfd",
+    "nodes/cfmem.yaml": "f889a8bd4c28898ce69618475a2194c1d2ac3bb8ec5347ba160c754dadb722eb",
+    "nodes/clashmeta.yaml": "1df8a586f7e6cb47f171950858b328a43892457d39b467951af081098a6c3936",
+    "nodes/clashnode.yaml": "3c9d0cd5ebe7137837d5cc34a995f901a329669887dee080ee1099a17e5a573f",
+    "nodes/clashstair.yaml": "2a6767a68735071e17b8783aace6abbb2dac1fd158e176ba5c3685870a53d043",
+    "nodes/datiya.yaml": "9f46c9e0373abd04c0557ad835c3c76a2fc5b205c96a78360cc40732939dea1e",
+    "nodes/jichangx.yaml": "0964a491676804407d0a27586c2abed865c15629975da191254eb7dbdfd74932",
+    "nodes/kooker.yaml": "2fa9e8836b9a987233a5aa14f22c04b2cbde1bb346622ad49989ef5aac5d2885",
+    "nodes/merged.txt": "aac15f5480e16faacc0783baebd76c01dbc93955708b59f61ef22b46012f2ecb",
+    "nodes/merged.yaml": "360cc65ebb2998b63c24e5e2305e7d3c769aa16b172c2833c0405d0fc1efe56d",
+    "nodes/provider-cdn.yaml": "bce9088a9496174adfa54f799dc7f5a3110b65a1605c75472cebe8856d558b52",
+    "nodes/provider.yaml": "6adb028d7d139c58a647602afeef7994554c1246e19086e2d66d17e1c88f561b",
+    "nodes/shaoyouvip.yaml": "e6b88b6b9cea91d22e7f553653b6f208195c7f42763cbee6274fea1c96d4e853",
+    "nodes/ts-sf-clash.yaml": "c0533183e3b28a73176028179dc42f8c0e48c50ebe7805a54477e907962a453d",
+    "nodes/ts-sf-v2ray.yaml": "4f998a4e8572837ca3bc014f1c7fc551ba9cfda44eac6cf27f3515b5b2cc2a4f",
+    "nodes/v2ray.txt": "2c3ba18c5fc807c08d32bc9004143ca27da7868d1721cb9d33a28a540997775e",
+    "nodes/wzmwayne.yaml": "06f6ef3ef28467550665cc7131cc891ffb6487cb4481a645f2e7fceaf8aa464c",
+    "nodes/yudou.yaml": "1597c59f6603bea1a703101ca9946e9c293496c4491ed067fd6fe7f8332a55d5"
   },
   "managed_files": [
+    "nodes/au1rxx-clash.yaml",
+    "nodes/au1rxx-v2ray.yaml",
     "nodes/cfmem.yaml",
     "nodes/clashmeta.yaml",
     "nodes/clashnode.yaml",
     "nodes/clashstair.yaml",
     "nodes/datiya.yaml",
-    "nodes/freeclashnode.yaml",
     "nodes/jichangx.yaml",
+    "nodes/kooker.yaml",
     "nodes/merged.txt",
     "nodes/merged.yaml",
     "nodes/provider-cdn.yaml",
     "nodes/provider.yaml",
+    "nodes/shaoyouvip.yaml",
+    "nodes/ts-sf-clash.yaml",
+    "nodes/ts-sf-v2ray.yaml",
     "nodes/v2ray.txt",
+    "nodes/wzmwayne.yaml",
     "nodes/yudou.yaml",
     "nodes/publication-receipt.json"
   ],
   "rejection_codes": [
     {
       "code": "clock_inversion",
-      "count": 9
+      "count": 3
     },
     {
       "code": "duplicate",
-      "count": 6519
+      "count": 3804
     },
     {
       "code": "endpoint_scope",
       "count": 12
     },
     {
+      "code": "invalid_server",
+      "count": 1
+    },
+    {
       "code": "invalid_uuid",
-      "count": 7
+      "count": 10
     },
     {
       "code": "malformed_node",
-      "count": 3356
+      "count": 3364
     },
     {
       "code": "source_expired",
-      "count": 4
-    },
-    {
-      "code": "unsupported_protocol",
-      "count": 4
+      "count": 6
     }
   ],
   "removed_files": [
     "nodes/au1rxx-clash.txt",
-    "nodes/au1rxx-clash.yaml",
     "nodes/au1rxx-v2ray.txt",
-    "nodes/au1rxx-v2ray.yaml",
     "nodes/cfmem.txt",
     "nodes/clashmeta.txt",
     "nodes/clashnode.txt",
     "nodes/clashstair.txt",
     "nodes/datiya.txt",
     "nodes/freeclashnode.txt",
+    "nodes/freeclashnode.yaml",
     "nodes/fxrj.txt",
     "nodes/fxrj.yaml",
     "nodes/jichangx.txt",
     "nodes/kooker.txt",
-    "nodes/kooker.yaml",
     "nodes/nodev2ray.txt",
     "nodes/nodev2ray.yaml",
     "nodes/oneclash.txt",
@@ -132,13 +142,9 @@
     "nodes/radikal.txt",
     "nodes/radikal.yaml",
     "nodes/shaoyouvip.txt",
-    "nodes/shaoyouvip.yaml",
     "nodes/ts-sf-clash.txt",
-    "nodes/ts-sf-clash.yaml",
     "nodes/ts-sf-v2ray.txt",
-    "nodes/ts-sf-v2ray.yaml",
     "nodes/wzmwayne.txt",
-    "nodes/wzmwayne.yaml",
     "nodes/yudou.txt",
     "nodes/zyfxs.txt",
     "nodes/zyfxs.yaml"
@@ -147,13 +153,13 @@
   "selection_limit": 500,
   "sources": [
     {
-      "artifacts": 12,
+      "artifacts": 10,
       "authority": "clashmeta",
-      "candidate_records": 5332,
+      "candidate_records": 5023,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 874
+          "count": 558
         },
         {
           "code": "endpoint_scope",
@@ -161,20 +167,16 @@
         },
         {
           "code": "invalid_uuid",
-          "count": 2
+          "count": 3
         },
         {
           "code": "malformed_node",
-          "count": 58
-        },
-        {
-          "code": "unsupported_protocol",
-          "count": 2
+          "count": 17
         }
       ],
       "source": "clashmeta",
       "status": "available",
-      "unique_eligible": 4390
+      "unique_eligible": 4439
     },
     {
       "artifacts": 0,
@@ -186,51 +188,27 @@
       "unique_eligible": 0
     },
     {
-      "artifacts": 12,
+      "artifacts": 2,
       "authority": "freeclashnode",
-      "candidate_records": 3871,
+      "candidate_records": 0,
       "rejection_codes": [
         {
           "code": "clock_inversion",
-          "count": 4
-        },
-        {
-          "code": "duplicate",
-          "count": 3754
-        },
-        {
-          "code": "endpoint_scope",
-          "count": 6
-        },
-        {
-          "code": "invalid_uuid",
-          "count": 1
-        },
-        {
-          "code": "malformed_node",
-          "count": 57
-        },
-        {
-          "code": "unsupported_protocol",
           "count": 2
         }
       ],
       "source": "freeclashnode",
       "status": "available",
-      "unique_eligible": 3298
+      "unique_eligible": 0
     },
     {
-      "artifacts": 6,
+      "artifacts": 5,
       "authority": "clashnode",
-      "candidate_records": 311,
+      "candidate_records": 681,
       "rejection_codes": [
         {
-          "code": "clock_inversion",
-          "count": 4
-        },
-        {
           "code": "duplicate",
-          "count": 309
+          "count": 663
         },
         {
           "code": "invalid_uuid",
@@ -238,21 +216,21 @@
         },
         {
           "code": "malformed_node",
-          "count": 1
+          "count": 14
         }
       ],
       "source": "clashnode",
       "status": "available",
-      "unique_eligible": 242
+      "unique_eligible": 541
     },
     {
-      "artifacts": 4,
+      "artifacts": 6,
       "authority": "oneclash",
       "candidate_records": 0,
       "rejection_codes": [
         {
           "code": "source_expired",
-          "count": 4
+          "count": 6
         }
       ],
       "source": "oneclash",
@@ -262,11 +240,11 @@
     {
       "artifacts": 9,
       "authority": "cfmem",
-      "candidate_records": 3326,
+      "candidate_records": 3421,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 35
+          "count": 43
         },
         {
           "code": "invalid_uuid",
@@ -274,17 +252,17 @@
         },
         {
           "code": "malformed_node",
-          "count": 3237
+          "count": 3326
         }
       ],
       "source": "cfmem",
       "status": "available",
-      "unique_eligible": 69
+      "unique_eligible": 61
     },
     {
       "artifacts": 3,
       "authority": "jichangx",
-      "candidate_records": 31,
+      "candidate_records": 40,
       "rejection_codes": [
         {
           "code": "clock_inversion",
@@ -292,7 +270,7 @@
         },
         {
           "code": "duplicate",
-          "count": 18
+          "count": 20
         },
         {
           "code": "malformed_node",
@@ -301,21 +279,21 @@
       ],
       "source": "jichangx",
       "status": "available",
-      "unique_eligible": 29
+      "unique_eligible": 39
     },
     {
       "artifacts": 6,
       "authority": "clashstair",
-      "candidate_records": 78,
+      "candidate_records": 74,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 26
+          "count": 22
         }
       ],
       "source": "clashstair",
       "status": "available",
-      "unique_eligible": 64
+      "unique_eligible": 57
     },
     {
       "artifacts": 3,
@@ -334,24 +312,24 @@
     {
       "artifacts": 6,
       "authority": "yudou",
-      "candidate_records": 1571,
+      "candidate_records": 1531,
       "rejection_codes": [
         {
           "code": "duplicate",
-          "count": 1475
+          "count": 1381
         },
         {
           "code": "invalid_uuid",
-          "count": 2
+          "count": 3
         },
         {
           "code": "malformed_node",
-          "count": 2
+          "count": 3
         }
       ],
       "source": "yudou",
       "status": "available",
-      "unique_eligible": 614
+      "unique_eligible": 581
     },
     {
       "artifacts": 0,
@@ -372,31 +350,54 @@
       "unique_eligible": 0
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:wzmwayne/proxy-node",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 792,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 23
+        },
+        {
+          "code": "endpoint_scope",
+          "count": 5
+        }
+      ],
       "source": "wzmwayne",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 787
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:kooker/freesubscheck",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 1,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 1
+        }
+      ],
       "source": "kooker",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 1
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:shaoyouvip/free",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 101,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 12
+        },
+        {
+          "code": "invalid_uuid",
+          "count": 1
+        }
+      ],
       "source": "shaoyouvip",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 100
     },
     {
       "artifacts": 0,
@@ -408,40 +409,72 @@
       "unique_eligible": 0
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:au1rxx/free-vpn-subscriptions",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 1615,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 907
+        }
+      ],
       "source": "au1rxx-clash",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 990
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:au1rxx/free-vpn-subscriptions",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 1615,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 140
+        }
+      ],
       "source": "au1rxx-v2ray",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 1491
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:ts-sf/fly",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 200,
+      "rejection_codes": [
+        {
+          "code": "invalid_server",
+          "count": 1
+        },
+        {
+          "code": "invalid_uuid",
+          "count": 1
+        }
+      ],
       "source": "ts-sf-clash",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 198
     },
     {
-      "artifacts": 0,
+      "artifacts": 1,
       "authority": "github:ts-sf/fly",
-      "candidate_records": 0,
-      "rejection_codes": [],
+      "candidate_records": 201,
+      "rejection_codes": [
+        {
+          "code": "duplicate",
+          "count": 6
+        },
+        {
+          "code": "endpoint_scope",
+          "count": 1
+        },
+        {
+          "code": "malformed_node",
+          "count": 3
+        }
+      ],
       "source": "ts-sf-v2ray",
-      "status": "failed",
-      "unique_eligible": 0
+      "status": "available",
+      "unique_eligible": 197
     }
   ],
   "status": "accepted"
