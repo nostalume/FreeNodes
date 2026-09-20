@@ -1,17 +1,83 @@
 proxies:
-- name: EE · VLESS · cfmem · A30945FD
+- name: ZZ · VLESS · yudou · 263910ED
   type: vless
-  server: 94.183.170.147
-  port: 8443
+  server: 172.67.138.191
+  port: 443
+  uuid: cb53f904-c979-454f-bf43-621990008148
+  network: ws
+  tls: true
+  servername: 6.qq1-0.kdns.fr
+  client-fingerprint: chrome
+  ws-opts:
+    path: /LNbYtR09FXg1AmmjhdiHvR8v
+    headers:
+      Host: 6.qq1-0.kdns.fr
+- name: ZZ · VLESS · yudou · 540D66EE
+  type: vless
+  server: 103.115.18.54
+  port: 443
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  network: ws
+  tls: true
+  servername: cdn8848.776676.xyz
+  ws-opts:
+    path: /episode/files?ed=2560
+    headers:
+      Host: cdn8848.776676.xyz
+- name: ZZ · VLESS · yudou · 57D5DD49
+  type: vless
+  server: 34.87.244.111
+  port: 443
   reality-opts:
-    public-key: s2uiu3GQA2SlZzsr86Z5Dav97eAFTPf7Nvr-zqzzRgg
-    short-id: 72ccd4a7563c2953
-  uuid: 5edbcb44-8d04-4fa7-a587-bc5d60c24ca1
-  network: grpc
+    public-key: fsdIMU2apN1C_NbkL7mHTsBKEfhwbDhgCRcB8ICf03E
+    short-id: d725f0dd8cce210f
+  uuid: 325bc1be-0cb7-4cf7-bd35-a79ded91bbbd
   servername: www.cloudflare.com
   tls: true
-  client-fingerprint: firefox
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 6D446391
+  type: vless
+  server: 172.67.138.191
+  port: 443
+  uuid: cb53f904-c979-454f-bf43-621990008148
+  network: ws
+  servername: 6.qq1-0.kdns.fr
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /LNbYtR09FXg1AmmjhdiHvR8v
+    headers:
+      Host: 6.qq1-0.kdns.fr
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · F395EAB7
+  type: vless
+  server: 103.115.18.54
+  port: 443
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  network: ws
+  servername: cdn8848.776676.xyz
+  tls: true
+  ws-opts:
+    path: /episode/files?ed=2560
+    headers:
+      Host: cdn8848.776676.xyz
+  skip-cert-verify: true
+  udp: true
+- name: RU→AT · VLESS · cfmem · C49A1FB1
+  type: vless
+  server: 176.108.246.110
+  port: 9830
+  reality-opts:
+    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
+  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+  network: grpc
+  servername: dl.google.com
+  tls: true
+  client-fingerprint: chrome
   grpc-opts:
-    grpc-service-name: 9d30d49278
+    grpc-service-name: grpc-tunnel
   skip-cert-verify: true
   udp: true
