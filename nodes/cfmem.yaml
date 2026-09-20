@@ -11,32 +11,26 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
-- name: HK→US · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: IL · HYSTERIA2 · cfmem · 390CC2D3
-  type: hysteria2
-  server: 129.159.156.109
-  port: 50160
-  sni: www.bing.com
-  skip-cert-verify: true
-  udp: true
-  password: f25f19f29ce3fb53a35bf1b35b452a43
-- name: HK · HYSTERIA2 · cfmem · A2F10ED9
-  type: hysteria2
-  server: 24.233.8.109
+- name: CY · VLESS · cfmem · 0F5D782F
+  type: vless
+  server: 195.26.229.222
   port: 443
-  sni: www.bing.com
+  uuid: b2593749-691c-428c-9481-14979cba3446
+  network: ws
+  tls: true
+  servername: xi.tbv.ccwu.cc
+  ws-opts:
+    path: /proxyip=us.xiabibi.cf
+    headers:
+      Host: xi.tbv.ccwu.cc
+- name: RU→DE · HYSTERIA2 · cfmem · 4B26FB5B
+  type: hysteria2
+  server: 31.76.71.252
+  port: 443
+  sni: gta.internet-card.sbs
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: c8827ab99e316c5bd414e21afa915ddf
   udp: true
-  password: 8294f130408299df8cab08c80bf6f819
+  password: mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj
 - name: FR · SS · cfmem · CBBE1415
   type: ss
   server: 15.237.210.147
@@ -45,14 +39,36 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: HK→US · VMESS · cfmem · 16C8574A
+- name: HK→FR · VMESS · cfmem · 4153EE35
   type: vmess
-  server: v24.hdacd.com
-  port: 30824
+  server: v35.hdacd.com
+  port: 30835
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
-  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: EE · HYSTERIA2 · cfmem · C792A699
+  type: hysteria2
+  server: tishina-axe.dedyn.io
+  port: 8443
+  sni: tishina-axe.dedyn.io
+  skip-cert-verify: true
+  alpn:
+  - h3
+  udp: true
+  password: 319ed24b1c7203aa
+- name: HK→JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: RU · HYSTERIA2 · cfmem · FC2544C7
   type: hysteria2
   server: msk.frkn.org
@@ -60,16 +76,47 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: f317b5d6-d399-4d3d-a051-89d674ae953c
-- name: HK→US · VMESS · cfmem · 18F6DFDE
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
+- name: US · VLESS · cfmem · 2B9B7972
+  type: vless
+  server: 162.159.39.218
+  port: 8880
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  network: ws
   tls: false
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
   skip-cert-verify: true
   udp: true
+- name: CZ · VLESS · cfmem · 2DB54DE7
+  type: vless
+  server: 195.85.23.29
+  port: 443
+  uuid: b09dfed1-90fa-4353-8bdf-de1edb2e2d79
+  network: ws
+  servername: nb.lovecf.ggff.net
+  tls: true
+  ws-opts:
+    path: /
+    headers:
+      Host: nb.lovecf.ggff.net
+  skip-cert-verify: true
+  udp: true
+- name: US · VMESS · cfmem · 575CD8F5
+  type: vmess
+  server: www.shopify.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
 - name: FR · VLESS · cfmem · 301E4091
   type: vless
   server: 34.155.10.226
@@ -96,86 +143,6 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: TH · VLESS · cfmem · 37E2EA9E
-  type: vless
-  server: 34.15.162.1
-  port: 443
-  reality-opts:
-    public-key: LklWoqMQz_TWiuLCUNRwHAKX1adVRSGMhtbo98fbDxw
-    short-id: ca672c53fbbac555
-  uuid: 2b1d0c2a-9c80-4b72-892e-93d0500b9210
-  servername: www.cloudflare.com
-  tls: true
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: US · VLESS · cfmem · 3BAEF66B
-  type: vless
-  server: 139.64.235.174
-  port: 443
-  uuid: b09dfed1-90fa-4353-8bdf-de1edb2e2d79
-  network: ws
-  tls: true
-  servername: nb.lovecf.ggff.net
-  client-fingerprint: chrome
-  ws-opts:
-    path: /proxyip=us.xiabibi.cf
-    headers:
-      Host: nb.lovecf.ggff.net
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · VLESS · cfmem · 3DC2F480
-  type: vless
-  server: 104.16.10.233
-  port: 443
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  servername: cfvvv-ev1.pages.dev
-  tls: true
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
-  skip-cert-verify: true
-  udp: true
-- name: US · VMESS · cfmem · 575CD8F5
-  type: vmess
-  server: www.shopify.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 576FA900
-  type: vless
-  server: 104.16.3.214
-  port: 443
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  servername: cfvvv-ev1.pages.dev
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 83DF4CA0
   type: vmess
   server: www.shopify.com
@@ -192,6 +159,19 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: TH · VLESS · cfmem · 37E2EA9E
+  type: vless
+  server: 34.15.162.1
+  port: 443
+  reality-opts:
+    public-key: LklWoqMQz_TWiuLCUNRwHAKX1adVRSGMhtbo98fbDxw
+    short-id: ca672c53fbbac555
+  uuid: 2b1d0c2a-9c80-4b72-892e-93d0500b9210
+  servername: www.cloudflare.com
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
 - name: HK→FR · VMESS · cfmem · 86A00880
   type: vmess
   server: v35.hdacd.com
@@ -200,19 +180,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: US · VLESS · cfmem · 6CDA9AF6
-  type: vless
-  server: 172.66.0.236
-  port: 2083
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  tls: true
-  servername: cfvvv-ev1.pages.dev
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
 - name: HK→JP · VMESS · cfmem · AFF27A81
   type: vmess
   server: v6.hdacd.com
@@ -221,6 +188,65 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
+- name: US · VLESS · cfmem · 47E83285
+  type: vless
+  server: us15.zuoai.cf
+  port: 443
+  uuid: b2593749-691c-428c-9481-14979cba3446
+  network: ws
+  tls: true
+  servername: xi.tbv.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /proxyip=us.xiabibi.cf
+    headers:
+      Host: xi.tbv.ccwu.cc
+- name: US · VLESS · cfmem · 576FA900
+  type: vless
+  server: 104.16.3.214
+  port: 443
+  uuid: 44eae030-290b-4083-8102-6f8bab05701b
+  network: ws
+  servername: cfvvv-ev1.pages.dev
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: cfvvv-ev1.pages.dev
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · 5E85009A
+  type: vless
+  server: 104.21.62.195
+  port: 443
+  uuid: cb53f904-c979-454f-bf43-621990008148
+  network: ws
+  tls: true
+  servername: 5.qq1-0.kdns.fr
+  client-fingerprint: chrome
+  ws-opts:
+    path: /LNbYtR09FXg1AmmjhdiHvR8v
+    headers:
+      Host: 5.qq1-0.kdns.fr
+- name: HK→US · VMESS · cfmem · D09F5204
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→US · VMESS · cfmem · FA8FD663
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: none
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VLESS · cfmem · 8CA690B6
   type: vless
   server: 104.16.3.214
@@ -234,65 +260,75 @@ proxies:
     path: /
     headers:
       Host: cfvvv-ev1.pages.dev
-- name: US · VLESS · cfmem · 93E8AD28
+- name: CZ · VLESS · cfmem · 95420E28
   type: vless
-  server: 139.64.235.174
+  server: 195.85.23.29
   port: 443
   uuid: b09dfed1-90fa-4353-8bdf-de1edb2e2d79
   network: ws
+  tls: true
   servername: nb.lovecf.ggff.net
+  ws-opts:
+    path: /
+    headers:
+      Host: nb.lovecf.ggff.net
+- name: US · VLESS · cfmem · 99C961F0
+  type: vless
+  server: 104.21.62.195
+  port: 443
+  uuid: cb53f904-c979-454f-bf43-621990008148
+  network: ws
+  servername: 5.qq1-0.kdns.fr
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /LNbYtR09FXg1AmmjhdiHvR8v
+    headers:
+      Host: 5.qq1-0.kdns.fr
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · B39D4CC8
+  type: vless
+  server: us15.zuoai.cf
+  port: 443
+  uuid: b2593749-691c-428c-9481-14979cba3446
+  network: ws
+  servername: xi.tbv.ccwu.cc
   tls: true
   client-fingerprint: chrome
   ws-opts:
     path: /proxyip=us.xiabibi.cf
     headers:
-      Host: nb.lovecf.ggff.net
+      Host: xi.tbv.ccwu.cc
   skip-cert-verify: true
   udp: true
-- name: HK→US · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→US · VMESS · cfmem · D09F5204
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · 9A9542B5
+- name: US · VLESS · cfmem · B9AF5DC3
   type: vless
-  server: 104.16.10.233
+  server: 104.21.16.44
   port: 443
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
+  uuid: cb53f904-c979-454f-bf43-621990008148
   network: ws
-  tls: true
-  servername: cfvvv-ev1.pages.dev
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /
-    headers:
-      Host: cfvvv-ev1.pages.dev
-- name: US · VLESS · cfmem · AC63995B
-  type: vless
-  server: 172.66.0.236
-  port: 2083
-  uuid: 44eae030-290b-4083-8102-6f8bab05701b
-  network: ws
-  servername: cfvvv-ev1.pages.dev
+  servername: 0.aq0.ccwu.cc
   tls: true
   client-fingerprint: chrome
   ws-opts:
-    path: /
+    path: /LNbYtR09FXg1AmmjhdiHvR8v
     headers:
-      Host: cfvvv-ev1.pages.dev
+      Host: 0.aq0.ccwu.cc
+  skip-cert-verify: true
+  udp: true
+- name: FI · VLESS · cfmem · C30BEDE6
+  type: vless
+  server: jujujuj.mervi.icu
+  port: 443
+  reality-opts:
+    public-key: j7_ysAZxK5vBkMqvu0r8_UUuR3Qp7Yml3fXFDGR5x3w
+    short-id: 573703f224b75e8c
+  uuid: 9bbd487f-8f84-4ad7-b897-681c3f7d95dc
+  servername: jujujuj.mervi.icu
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: random
   skip-cert-verify: true
   udp: true
 - name: RU→AT · VLESS · cfmem · C49A1FB1
@@ -310,6 +346,34 @@ proxies:
     grpc-service-name: grpc-tunnel
   skip-cert-verify: true
   udp: true
+- name: CY · VLESS · cfmem · C4DCF9BF
+  type: vless
+  server: 195.26.229.222
+  port: 443
+  uuid: b2593749-691c-428c-9481-14979cba3446
+  network: ws
+  servername: xi.tbv.ccwu.cc
+  tls: true
+  ws-opts:
+    path: /proxyip=us.xiabibi.cf
+    headers:
+      Host: xi.tbv.ccwu.cc
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · C8F676A3
+  type: vless
+  server: 72.56.41.33
+  port: 40443
+  reality-opts:
+    public-key: Uvj5H9pDJP0HX2bN7NN7sCQwVCrC5N2NbKf-yuy1ikE
+    short-id: ee33
+  uuid: 5be7fb02-b6a5-450f-b041-3243b98e8420
+  servername: deepl.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
 - name: RU→TR · VLESS · cfmem · D777B4EF
   type: vless
   server: 13.143.137.164
@@ -324,7 +388,31 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · F5B3AE31
+- name: US · VLESS · cfmem · E9F8F6F9
+  type: vless
+  server: 162.159.39.218
+  port: 8880
+  uuid: 47fcef29-ab4e-4aa6-932b-d95a18f28a4e
+  network: ws
+  ws-opts:
+    path: /?ed=2560security=tls
+    headers:
+      Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
+- name: FI · VLESS · cfmem · F043E164
+  type: vless
+  server: finkafsb.finiki.lol
+  port: 443
+  reality-opts:
+    public-key: YBKHp6R7xp2Ss2kxbvDNMFPpRrf3oh1wQ2dVMukPHmA
+    short-id: d110331f200987ae
+  uuid: 4bdeee92-97e8-414d-bef6-ec1d5e2ab73b
+  servername: finkafsb.finiki.lol
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: random
+  skip-cert-verify: true
+  udp: true
+- name: RU→US · VLESS · cfmem · F5B3AE31
   type: vless
   server: 176.109.104.195
   port: 9873
@@ -338,5 +426,19 @@ proxies:
   client-fingerprint: qq
   grpc-opts:
     grpc-service-name: grpc-tunnel
+  skip-cert-verify: true
+  udp: true
+- name: FI · VLESS · cfmem · F8CACE54
+  type: vless
+  server: 196.196.206.38
+  port: 443
+  reality-opts:
+    public-key: YBKHp6R7xp2Ss2kxbvDNMFPpRrf3oh1wQ2dVMukPHmA
+    short-id: d110331f200987ae
+  uuid: 4bdeee92-97e8-414d-bef6-ec1d5e2ab73b
+  servername: finkafsb.finiki.lol
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
