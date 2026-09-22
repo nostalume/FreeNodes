@@ -11,17 +11,6 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
-- name: TW · VMESS · cfmem · 0C51AE19
-  type: vmess
-  server: dee2309db4se3grs6e8hg4w61sd53g1.oylfmxz.cn
-  port: 443
-  uuid: d90e4077-bc7e-414d-a650-70bf1baae4d6
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /
 - name: JP · HYSTERIA2 · cfmem · 55DA4C26
   type: hysteria2
   server: msjp1.mangshe.xyz
@@ -30,14 +19,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
-- name: FR · SS · cfmem · 8A5AE0BE
-  type: ss
-  server: 54.36.174.140
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  skip-cert-verify: true
-  udp: true
-  password: mrs2e9a
 - name: HK · HYSTERIA2 · cfmem · A2F10ED9
   type: hysteria2
   server: 24.233.8.109
@@ -48,14 +29,19 @@ proxies:
   obfs-password: c8827ab99e316c5bd414e21afa915ddf
   udp: true
   password: 8294f130408299df8cab08c80bf6f819
-- name: CN · VMESS · cfmem · 27130FE8
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  network: tcp
+- name: HK→SG · VLESS · cfmem · 3A17EF7A
+  type: vless
+  server: 103.143.81.178
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
 - name: HK→JP · VMESS · cfmem · 4284FBBE
   type: vmess
   server: v6.hdacd.com
@@ -94,14 +80,19 @@ proxies:
   client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
-- name: CN · VMESS · cfmem · 6E57C2EB
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  tls: false
+- name: HK · VLESS · cfmem · 62568C97
+  type: vless
+  server: 103.143.81.178
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  servername: shuma.ccwu.cc
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
   skip-cert-verify: true
   udp: true
 - name: US · VMESS · cfmem · 83DF4CA0
@@ -120,29 +111,6 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: HK · VLESS · cfmem · 62568C97
-  type: vless
-  server: 103.143.81.178
-  port: 443
-  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
-  network: ws
-  servername: shuma.ccwu.cc
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: shuma.ccwu.cc
-  skip-cert-verify: true
-  udp: true
-- name: HK→GB · VMESS · cfmem · 90C7054A
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: JP · VLESS · cfmem · 78068D2A
   type: vless
   server: 161.33.29.51
@@ -166,69 +134,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: JP · VLESS · cfmem · 7C4ADD1D
-  type: vless
-  server: 35.72.179.15
-  port: 443
-  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
-  network: ws
-  servername: shuma.ccwu.cc
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: shuma.ccwu.cc
-  skip-cert-verify: true
-  udp: true
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: TW · VMESS · cfmem · BACC7504
-  type: vmess
-  server: dee2309db4se3grs6e8hg4w61sd53g1.oylfmxz.cn
-  port: 443
-  uuid: d90e4077-bc7e-414d-a650-70bf1baae4d6
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  udp: true
-- name: US · VLESS · cfmem · 89B7265E
-  type: vless
-  server: lyra.yokkastars.com
-  port: 40443
-  reality-opts:
-    public-key: Uvj5H9pDJP0HX2bN7NN7sCQwVCrC5N2NbKf-yuy1ikE
-    short-id: ee33
-  uuid: 5be7fb02-b6a5-450f-b041-3243b98e8420
-  servername: deepl.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: edge
-  skip-cert-verify: true
-  udp: true
-- name: BZ · VLESS · cfmem · 8EB13F70
-  type: vless
-  server: 45.131.5.241
-  port: 443
-  uuid: b2593749-691c-428c-9481-14979cba3446
-  network: ws
-  servername: xi.tbv.ccwu.cc
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: xi.tbv.ccwu.cc
-  skip-cert-verify: true
-  udp: true
 - name: US · VLESS · cfmem · 95349F76
   type: vless
   server: 172.64.229.170
@@ -254,35 +159,14 @@ proxies:
     path: /?ed=2560security=tls
     headers:
       Host: 8nj2r.2k8t.f88.hh.vavava.kdns.fr
-- name: BZ · VLESS · cfmem · 9D080417
-  type: vless
-  server: 45.131.5.241
-  port: 443
-  uuid: b2593749-691c-428c-9481-14979cba3446
-  network: ws
-  tls: true
-  servername: xi.tbv.ccwu.cc
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: xi.tbv.ccwu.cc
-- name: FR · VLESS · cfmem · AB49D581
-  type: vless
-  server: 152.228.139.33
-  port: 51671
-  reality-opts:
-    public-key: -5PowNUY37Pi01YKO9fjRTrum1m_9n6XauaPDpmOJzU
-    short-id: 2fed44d8c59f7e71
-  uuid: 75cc7568-abb0-46a8-88be-8137d3c647d4
-  network: grpc
-  servername: www.sony.com
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: grpc_common3
-  skip-cert-verify: true
-  udp: true
+- name: HK→DE · VMESS · cfmem · FE3B9D81
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: RU→US · VLESS · cfmem · F5B3AE31
   type: vless
   server: 176.109.104.195

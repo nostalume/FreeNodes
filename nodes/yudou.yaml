@@ -12,7 +12,7 @@ proxies:
     path: /
     headers:
       Host: shuma.ccwu.cc
-- name: FR · SS · cfmem · 8A5AE0BE
+- name: FR · SS · clashmeta · 8A5AE0BE
   type: ss
   server: 54.36.174.140
   port: 443
@@ -60,6 +60,36 @@ proxies:
   client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
+- name: TW · VLESS · clashmeta · 0205B18D
+  type: vless
+  server: 89.46.42.141
+  port: 2053
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  servername: shuma.ccwu.cc
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+  skip-cert-verify: true
+  udp: true
+- name: HK · VLESS · cfmem · 62568C97
+  type: vless
+  server: 103.143.81.178
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  servername: shuma.ccwu.cc
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VLESS · yudou · 0FF66912
   type: vless
   server: 103.101.0.73
@@ -86,21 +116,6 @@ proxies:
     path: /
     headers:
       Host: shuma.ccwu.cc
-- name: HK · VLESS · cfmem · 62568C97
-  type: vless
-  server: 103.143.81.178
-  port: 443
-  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
-  network: ws
-  servername: shuma.ccwu.cc
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: shuma.ccwu.cc
-  skip-cert-verify: true
-  udp: true
 - name: JP · VLESS · cfmem · 78068D2A
   type: vless
   server: 161.33.29.51
@@ -116,10 +131,22 @@ proxies:
       Host: shuma.ccwu.cc
   skip-cert-verify: true
   udp: true
-- name: JP · VLESS · cfmem · 7C4ADD1D
+- name: ZZ · VLESS · yudou · 144CEBD3
   type: vless
-  server: 35.72.179.15
+  server: 104.21.49.165
   port: 443
+  uuid: 2240d8f8-898f-4988-8c08-ac724aa06ddb
+  network: ws
+  tls: true
+  servername: 2-m9.e29eacc3-4cf6-48c2-a90e-c53b3da8b1ef.kdns.fr
+  ws-opts:
+    path: /BzuntJ8qZN0TRKbC8TveMxJ0
+    headers:
+      Host: 2-m9.e29eacc3-4cf6-48c2-a90e-c53b3da8b1ef.kdns.fr
+- name: FR · VLESS · clashmeta · 0612C308
+  type: vless
+  server: 141.227.186.38
+  port: 2053
   uuid: c18b978e-1c4e-415c-8bea-07942b563a64
   network: ws
   servername: shuma.ccwu.cc
@@ -145,50 +172,41 @@ proxies:
       Host: shuma.ccwu.cc
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 194D9336
+- name: ZZ · VLESS · clashmeta · 09B96ABC
   type: vless
-  server: 213.111.177.107
-  port: 443
+  server: 103.126.50.196
+  port: 8443
   uuid: c18b978e-1c4e-415c-8bea-07942b563a64
   network: ws
   servername: shuma.ccwu.cc
   tls: true
+  client-fingerprint: chrome
   ws-opts:
-    path: /fp=chrome
+    path: /
     headers:
       Host: shuma.ccwu.cc
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 1A1593E9
+- name: RU→US · VLESS · cfmem · F5B3AE31
   type: vless
-  server: 109.176.202.20
-  port: 443
-  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
-  network: ws
+  server: 176.109.104.195
+  port: 9873
+  reality-opts:
+    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
+    short-id: aabb
+  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+  network: grpc
+  servername: dl.google.com
   tls: true
-  servername: shuma.ccwu.cc
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: shuma.ccwu.cc
+  client-fingerprint: qq
+  grpc-opts:
+    grpc-service-name: grpc-tunnel
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VLESS · yudou · 1D52A6EB
   type: vless
   server: 103.195.188.206
   port: 443
-  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
-  network: ws
-  tls: true
-  servername: shuma.ccwu.cc
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: shuma.ccwu.cc
-- name: ZZ · VLESS · yudou · 21DC7E68
-  type: vless
-  server: 185.125.171.128
-  port: 8443
   uuid: c18b978e-1c4e-415c-8bea-07942b563a64
   network: ws
   tls: true
@@ -224,22 +242,6 @@ proxies:
     path: /LNbYtR09FXg1AmmjhdiHvR8v
     headers:
       Host: 6.qq1-0.kdns.fr
-- name: RU→US · VLESS · cfmem · F5B3AE31
-  type: vless
-  server: 176.109.104.195
-  port: 9873
-  reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  network: grpc
-  servername: dl.google.com
-  tls: true
-  client-fingerprint: qq
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  skip-cert-verify: true
-  udp: true
 - name: ZZ · VLESS · yudou · 2C950F2B
   type: vless
   server: 198.55.102.68
@@ -279,6 +281,21 @@ proxies:
     path: /
     headers:
       Host: shuma.ccwu.cc
+- name: ZZ · VLESS · clashmeta · 12339566
+  type: vless
+  server: 194.32.107.150
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  servername: shuma.ccwu.cc
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VLESS · yudou · 2F902765
   type: vless
   server: 103.126.50.196
@@ -305,19 +322,21 @@ proxies:
     path: /
     headers:
       Host: shuma.ccwu.cc
-- name: ZZ · VLESS · yudou · 30447A9F
+- name: RU · VLESS · clashmeta · 1347D513
   type: vless
-  server: 140.235.39.162
+  server: 185.179.82.201
   port: 443
   uuid: c18b978e-1c4e-415c-8bea-07942b563a64
   network: ws
-  tls: true
   servername: shuma.ccwu.cc
+  tls: true
   client-fingerprint: chrome
   ws-opts:
     path: /
     headers:
       Host: shuma.ccwu.cc
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VLESS · yudou · 32B94503
   type: vless
   server: 141.227.137.177
@@ -331,20 +350,6 @@ proxies:
     path: /
     headers:
       Host: shuma.ccwu.cc
-- name: ZZ · VLESS · yudou · 37CAF706
-  type: vless
-  server: 104.21.78.105
-  port: 443
-  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
-  network: ws
-  servername: 1-M17.KUwait.kDNS.Fr
-  tls: true
-  ws-opts:
-    path: /fVs1qv0xm8dxmnwuaPwokxgY4XlP
-    headers:
-      Host: 1-m17.KUwAIT.kdNS.FR
-  skip-cert-verify: true
-  udp: true
 - name: ZZ · VLESS · yudou · 394C01AB
   type: vless
   server: 185.105.108.92
@@ -414,6 +419,220 @@ proxies:
   type: vless
   server: 2.56.204.183
   port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 49A7C381
+  type: vless
+  server: 103.170.217.60
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 50E6508C
+  type: vless
+  server: 103.31.77.108
+  port: 2053
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 51E88AB6
+  type: vless
+  server: 45.202.254.133
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 55155631
+  type: vless
+  server: 140.235.39.19
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 57D5DD49
+  type: vless
+  server: 34.87.244.111
+  port: 443
+  reality-opts:
+    public-key: fsdIMU2apN1C_NbkL7mHTsBKEfhwbDhgCRcB8ICf03E
+    short-id: d725f0dd8cce210f
+  uuid: 325bc1be-0cb7-4cf7-bd35-a79ded91bbbd
+  servername: www.cloudflare.com
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 582ABA7E
+  type: vless
+  server: 161.33.29.51
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 5845D5E7
+  type: vless
+  server: 195.246.230.125
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 5DC921D1
+  type: vless
+  server: 45.95.96.236
+  port: 443
+  reality-opts:
+    public-key: rCkSHJ7goy7ZvSlau4LfXF-QLloOJMNeMxpeeQtwtVs
+    short-id: 4fa44664f6a566d3
+  uuid: c5694dc5-39fd-4a92-8430-3837baa522a3
+  servername: gesmankos.sadiepinki.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · clashmeta · 277821BB
+  type: vless
+  server: 194.71.227.213
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  servername: shuma.ccwu.cc
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 603FC92B
+  type: vless
+  server: 13.200.106.232
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 60B7AD1F
+  type: vless
+  server: 103.195.188.192
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 62EDF4EB
+  type: vless
+  server: 161.33.29.51
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  ws-opts:
+    path: /fp=chrome
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 6D446391
+  type: vless
+  server: 172.67.138.191
+  port: 443
+  uuid: cb53f904-c979-454f-bf43-621990008148
+  network: ws
+  servername: 6.qq1-0.kdns.fr
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /LNbYtR09FXg1AmmjhdiHvR8v
+    headers:
+      Host: 6.qq1-0.kdns.fr
+  skip-cert-verify: true
+  udp: true
+- name: IN · VLESS · clashmeta · 2C5924E0
+  type: vless
+  server: 13.200.106.232
+  port: 443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  servername: shuma.ccwu.cc
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 6DF7A958
+  type: vless
+  server: 152.114.195.163
+  port: 8443
+  uuid: c18b978e-1c4e-415c-8bea-07942b563a64
+  network: ws
+  tls: true
+  servername: shuma.ccwu.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: shuma.ccwu.cc
+- name: ZZ · VLESS · yudou · 712E37C8
+  type: vless
+  server: 46.8.194.76
+  port: 2053
   uuid: c18b978e-1c4e-415c-8bea-07942b563a64
   network: ws
   tls: true
