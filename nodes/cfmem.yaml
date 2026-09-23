@@ -11,6 +11,23 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
+- name: DE→LK · VLESS · cfmem · 02BF6B2A
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: 684f9a2e-4f96-497f-bfd9-ff1e34637952
+  network: ws
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK→US · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: US · VLESS · cfmem · 1352095B
   type: vless
   server: 7-m16.PhUkEt2035.kdNS.fr
@@ -25,6 +42,14 @@ proxies:
       Host: 7-m16.PhUkEt2035.kdNS.fr
   skip-cert-verify: true
   udp: true
+- name: DE→LK · VLESS · cfmem · 42A96E71
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: 684f9a2e-4f96-497f-bfd9-ff1e34637952
+  network: ws
+  ws-opts:
+    path: /
 - name: US · VMESS · cfmem · 575CD8F5
   type: vmess
   server: www.shopify.com
@@ -85,20 +110,16 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: HK · VMESS · cfmem · C6CE1433
+- name: HK→DE · VMESS · cfmem · BF708C20
   type: vmess
-  server: dee2309db4944c248b6d4372c6641e7b.oylfmxz.cn
-  port: 443
-  uuid: d90e4077-bc7e-414d-a650-70bf1baae4d6
-  alterId: 0
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
-  network: ws
-  tls: true
-  servername: dee2309db4944c248b6d4372c6641e7b.oylfmxz.cn
-  ws-opts:
-    path: /
-    headers:
-      Host: dee2309db4944c248b6d4372c6641e7b.oylfmxz.cn
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: HK→US · VMESS · cfmem · CEDC84C1
   type: vmess
   server: v4.hdacd.com
@@ -109,21 +130,22 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: HK · VMESS · cfmem · EEE367D9
+- name: HK→DE · VMESS · cfmem · FE3B9D81
   type: vmess
-  server: dee2309db4944c248b6d4372c6641e7b.oylfmxz.cn
-  port: 443
-  uuid: d90e4077-bc7e-414d-a650-70bf1baae4d6
-  alterId: 0
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
+  network: tcp
+- name: DE · VLESS · cfmem · AF054F21
+  type: vless
+  server: de777.lavivas.org
+  port: 7444
+  uuid: 44e1105d-b46e-402f-933b-eaa136fcbb24
   tls: true
+  flow: xtls-rprx-vision
   skip-cert-verify: true
-  servername: dee2309db4944c248b6d4372c6641e7b.oylfmxz.cn
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: dee2309db4944c248b6d4372c6641e7b.oylfmxz.cn
   udp: true
 - name: US · VLESS · cfmem · CC9F67CC
   type: vless

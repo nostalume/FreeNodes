@@ -1,16 +1,4 @@
 proxies:
-- name: ZZ · VLESS · yudou · 144CEBD3
-  type: vless
-  server: 104.21.49.165
-  port: 443
-  uuid: 2240d8f8-898f-4988-8c08-ac724aa06ddb
-  network: ws
-  tls: true
-  servername: 2-m9.e29eacc3-4cf6-48c2-a90e-c53b3da8b1ef.kdns.fr
-  ws-opts:
-    path: /BzuntJ8qZN0TRKbC8TveMxJ0
-    headers:
-      Host: 2-m9.e29eacc3-4cf6-48c2-a90e-c53b3da8b1ef.kdns.fr
 - name: ZZ · VLESS · yudou · 17851B02
   type: vless
   server: 31.76.226.100
@@ -26,17 +14,34 @@ proxies:
     mode: auto
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · B0AF6C9C
+- name: ZZ · VLESS · yudou · 6817377E
   type: vless
-  server: 104.21.49.165
+  server: dey.lnmarketplace.net
   port: 443
-  uuid: 2240d8f8-898f-4988-8c08-ac724aa06ddb
-  network: ws
-  servername: 2-m9.e29eacc3-4cf6-48c2-a90e-c53b3da8b1ef.kdns.fr
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  network: xhttp
+  servername: dey.lnmarketplace.net
   tls: true
-  ws-opts:
-    path: /BzuntJ8qZN0TRKbC8TveMxJ0
-    headers:
-      Host: 2-m9.e29eacc3-4cf6-48c2-a90e-c53b3da8b1ef.kdns.fr
+  client-fingerprint: chrome
+  alpn:
+  - h2
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · B74FD97A
+  type: vless
+  server: 31.76.245.63
+  port: 443
+  reality-opts:
+    public-key: SibLV5WBGdljTiUCmKx77KhHQfErCwjDMD_ZLoha3js
+    short-id: a1b2c3d4e5f67890
+  uuid: d72f05b0-b182-4783-a6f2-21cecc7d841a
+  servername: dzen.ru
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
   skip-cert-verify: true
   udp: true
