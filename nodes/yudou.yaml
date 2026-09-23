@@ -1,17 +1,19 @@
 proxies:
-- name: ZZ · VLESS · yudou · 17851B02
+- name: ZZ · VLESS · yudou · 3EEE0DA0
   type: vless
-  server: 31.76.226.100
-  port: 9443
-  uuid: d9d0f208-d582-41d5-bb7b-742671402810
+  server: dey.lnmarketplace.net
+  port: 443
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
   network: xhttp
-  servername: hub-ee-01.hanvpn.cc
+  servername: dey.lnmarketplace.net
   tls: true
-  client-fingerprint: chrome
+  client-fingerprint: firefox
+  alpn:
+  - h2
   xhttp-opts:
-    path: /ee01-xhttp-8e47a/
-    host: hub-ee-01.hanvpn.cc
-    mode: auto
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
   skip-cert-verify: true
   udp: true
 - name: ZZ · VLESS · yudou · 6817377E
@@ -31,17 +33,31 @@ proxies:
     mode: stream-one
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · B74FD97A
+- name: ZZ · VLESS · yudou · 8818F023
   type: vless
-  server: 31.76.245.63
+  server: dey.lnmarketplace.net
   port: 443
-  reality-opts:
-    public-key: SibLV5WBGdljTiUCmKx77KhHQfErCwjDMD_ZLoha3js
-    short-id: a1b2c3d4e5f67890
-  uuid: d72f05b0-b182-4783-a6f2-21cecc7d841a
-  servername: dzen.ru
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  network: xhttp
+  servername: dey.lnmarketplace.net
   tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
+  alpn:
+  - h2
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
   skip-cert-verify: true
   udp: true
+- name: US · VLESS · clashmeta · 00C47ED1
+  type: vless
+  server: 172.67.212.195
+  port: 443
+  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
+  network: ws
+  tls: true
+  servername: 7-m17.KuWAiT-AIrLiNE.kDns.Fr
+  ws-opts:
+    path: /fVs1qv0xm8dxmnwuaPwokxgY4XlP
+    headers:
+      Host: 7-M17.kUwaIt-AIrLInE.kDNS.fr

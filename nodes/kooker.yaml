@@ -1,18 +1,62 @@
 proxies:
-- name: FI · HYSTERIA2 · kooker · 382F7430
-  type: hysteria2
-  server: de.i-love-russia.online
-  port: 443
-  sni: de.i-love-russia.online
-  udp: true
-  password: a6cf39b3-0424-42a2-abf7-b426da69b1a4
-  auth: a6cf39b3-0424-42a2-abf7-b426da69b1a4
-- name: US · HYSTERIA2 · kooker · E2891B25
-  type: hysteria2
-  server: 143.246.56.172
-  port: 8443
+- name: DE · HYSTERIA · kooker · 73384738
+  type: hysteria
+  server: 5.83.129.90
+  port: 54177
+  alpn:
+  - h3
+  down: '1000'
+  obfs: ''
+  protocol: udp
   skip-cert-verify: true
-  sni: bing.com
+  sni: apple.com
+  up: '500'
+  auth-str: dongtaiwang.com
+- name: HK · HYSTERIA2 · kooker · 40C7DC6B
+  type: hysteria2
+  server: hk2.xiaoliyu.cyou
+  port: 4433
+  skip-cert-verify: true
+  sni: hk2.xiaoliyu.cyou
+  password: 19f72087-4591-4d72-930b-2697078ec2be
+- name: JP · SS · kooker · 3FDB7D19
+  type: ss
+  server: 18.179.111.96
+  port: 443
+  cipher: aes-256-cfb
+  password: amazonskr05
+- name: DE · VLESS · kooker · 5634DEE5
+  type: vless
+  server: 77.91.76.156
+  port: 57160
+  reality-opts:
+    public-key: Tbu7sr_pvHngDWFIa0ApL5UL9vEGxlHESd9g53KQehw
+    short-id: 77b5
+  uuid: 68ad9a6d-2463-4c31-92a7-31547b9d4783
+  client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
   udp: true
-  password: Xmfo9FkLBCNprxd2Dohi
-  auth: Xmfo9FkLBCNprxd2Dohi
+  xudp: true
+  servername: funpay.com
+- name: FI · HYSTERIA2 · kooker · 900AAC44
+  type: hysteria2
+  server: se1.chromevpn.cc
+  port: 443
+  sni: se1.chromevpn.cc
+  udp: true
+  password: 02bd8b5a-170b-4a79-8e68-9cec710272c7
+  auth: 02bd8b5a-170b-4a79-8e68-9cec710272c7
+- name: DE · HYSTERIA2 · kooker · C878C092
+  type: hysteria2
+  server: 168.222.43.35
+  port: 443
+  down: ''
+  fingerprint: 8b5ac8eb1c23f208cb6e92bd41407d32994b0668d3ba2b0cd56400dca8c0b843
+  obfs: salamander
+  obfs-password: V2RayyNGvpn
+  skip-cert-verify: false
+  sni: Play.google.com
+  up: ''
+  password: v2rayyngvpn
