@@ -1,62 +1,64 @@
 proxies:
-- name: DE · HYSTERIA · kooker · 73384738
+- name: DE · HTTP · kooker · 4158FCB1
+  type: http
+  server: 149.36.50.129
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: DE · HYSTERIA · kooker · 3F300C0D
   type: hysteria
-  server: 5.83.129.90
-  port: 54177
+  server: 5.83.129.153
+  port: 20088
   alpn:
   - h3
   down: '1000'
-  obfs: ''
   protocol: udp
   skip-cert-verify: true
   sni: apple.com
   up: '500'
   auth-str: dongtaiwang.com
-- name: HK · HYSTERIA2 · kooker · 40C7DC6B
-  type: hysteria2
-  server: hk2.xiaoliyu.cyou
-  port: 4433
-  skip-cert-verify: true
-  sni: hk2.xiaoliyu.cyou
-  password: 19f72087-4591-4d72-930b-2697078ec2be
-- name: JP · SS · kooker · 3FDB7D19
-  type: ss
-  server: 18.179.111.96
-  port: 443
-  cipher: aes-256-cfb
-  password: amazonskr05
-- name: DE · VLESS · kooker · 5634DEE5
+- name: US · VLESS · kooker · 093A67D6
   type: vless
-  server: 77.91.76.156
-  port: 57160
+  server: 38.244.20.25
+  port: 443
   reality-opts:
-    public-key: Tbu7sr_pvHngDWFIa0ApL5UL9vEGxlHESd9g53KQehw
-    short-id: 77b5
-  uuid: 68ad9a6d-2463-4c31-92a7-31547b9d4783
-  client-fingerprint: firefox
+    public-key: 0dIyov95G3A1ySANsJzdYY9DGLvaIFU8ofJf3Jtv1Ds
+    short-id: befa80d97af98b74
+  uuid: 5272cd9f-a028-4452-ad8a-9bc21f87bb19
+  client-fingerprint: safari
   flow: xtls-rprx-vision
   network: tcp
   tls: true
   udp: true
   xudp: true
-  servername: funpay.com
-- name: FI · HYSTERIA2 · kooker · 900AAC44
-  type: hysteria2
-  server: se1.chromevpn.cc
+  servername: www.apple.com
+- name: FR · HTTP · kooker · 52B2B587
+  type: http
+  server: 149.102.245.65
   port: 443
-  sni: se1.chromevpn.cc
-  udp: true
-  password: 02bd8b5a-170b-4a79-8e68-9cec710272c7
-  auth: 02bd8b5a-170b-4a79-8e68-9cec710272c7
-- name: DE · HYSTERIA2 · kooker · C878C092
-  type: hysteria2
-  server: 168.222.43.35
+  skip-cert-verify: true
+  tls: true
+  username: ''
+  password: ''
+- name: KZ · VLESS · kooker · 83CD2AA9
+  type: vless
+  server: kazartip.thewalkingded.life
   port: 443
-  down: ''
-  fingerprint: 8b5ac8eb1c23f208cb6e92bd41407d32994b0668d3ba2b0cd56400dca8c0b843
-  obfs: salamander
-  obfs-password: V2RayyNGvpn
-  skip-cert-verify: false
-  sni: Play.google.com
-  up: ''
-  password: v2rayyngvpn
+  reality-opts:
+    public-key: 5JhqvTTHIhhA_2Jjc3_y6pwLmKfe4wtwq3vSt43P00I
+    short-id: 7cf408996c82639f
+  uuid: 4bdeee92-97e8-414d-bef6-ec1d5e2ab73b
+  client-fingerprint: firefox
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: kazartip.thewalkingded.life
+  skip-cert-verify: true
+  tfo: false
+  tls: true
+- name: US · HTTP · kooker · 535DDB12
+  type: http
+  server: 154.26.192.123
+  port: 10988
+  tls: false
+  username: fQ67Dpe5dU
+  password: gs4BXwT6SW
