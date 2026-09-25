@@ -1,4 +1,13 @@
 proxies:
+- name: HK · ANYTLS · cfmem · A159B442
+  type: anytls
+  server: ac7548f3ebe045b39a90288ff1e97528.pnuqcnp.cn
+  port: 443
+  sni: ac7548f3ebe045b39a90288ff1e97528.lwdnxf.cn
+  skip-cert-verify: true
+  tls: false
+  udp: true
+  password: 9sK2mP8xQ7vL3nZ6
 - name: DE · HYSTERIA · cfmem · F1B80C6F
   type: hysteria
   server: 5.83.129.90
@@ -11,15 +20,6 @@ proxies:
   - h3
   udp: true
   auth-str: dongtaiwang.com
-- name: DE→LK · VLESS · cfmem · 02BF6B2A
-  type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: 684f9a2e-4f96-497f-bfd9-ff1e34637952
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: HK→FR · VMESS · cfmem · 05D691A6
   type: vmess
   server: v35.hdacd.com
@@ -36,14 +36,16 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: DE→LK · VLESS · cfmem · 42A96E71
+- name: US · VLESS · cfmem · 66C9B5ED
   type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: 684f9a2e-4f96-497f-bfd9-ff1e34637952
+  server: llm-api.sofurry.dpdns.org
+  port: 2095
+  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
   network: ws
   ws-opts:
     path: /
+    headers:
+      Host: llm-api.sofurry.dpdns.org
 - name: HK→FR · VMESS · cfmem · 4153EE35
   type: vmess
   server: v35.hdacd.com
@@ -64,16 +66,19 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · 66C9B5ED
+- name: US · VLESS · cfmem · 8048469A
   type: vless
   server: llm-api.sofurry.dpdns.org
   port: 2095
   uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
   network: ws
+  tls: false
   ws-opts:
     path: /
     headers:
       Host: llm-api.sofurry.dpdns.org
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 575CD8F5
   type: vmess
   server: www.shopify.com
@@ -88,19 +93,14 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 8048469A
-  type: vless
-  server: llm-api.sofurry.dpdns.org
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  network: ws
-  tls: false
-  ws-opts:
-    path: /
-    headers:
-      Host: llm-api.sofurry.dpdns.org
-  skip-cert-verify: true
-  udp: true
+- name: DE→FI · VMESS · cfmem · 74073393
+  type: vmess
+  server: me6.movieseryalirani.ir
+  port: 57361
+  uuid: ed815caa-bff1-4419-8c61-1d108eabaf1f
+  alterId: 0
+  cipher: auto
+  network: tcp
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -131,6 +131,16 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -155,6 +165,24 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
+- name: HK→GB · VMESS · cfmem · BA924DCE
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: HK→US · VMESS · cfmem · CEDC84C1
   type: vmess
   server: v4.hdacd.com
@@ -165,3 +193,11 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: HK→DE · VMESS · cfmem · FE3B9D81
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp

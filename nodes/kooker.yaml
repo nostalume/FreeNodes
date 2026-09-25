@@ -1,64 +1,14 @@
 proxies:
-- name: DE · HTTP · kooker · 4158FCB1
-  type: http
-  server: 149.36.50.129
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: DE · HYSTERIA · kooker · 3F300C0D
-  type: hysteria
-  server: 5.83.129.153
-  port: 20088
-  alpn:
-  - h3
-  down: '1000'
-  protocol: udp
-  skip-cert-verify: true
-  sni: apple.com
-  up: '500'
-  auth-str: dongtaiwang.com
-- name: US · VLESS · kooker · 093A67D6
+- name: IL · VLESS · kooker · 3BE9E6B4
   type: vless
-  server: 38.244.20.25
-  port: 443
-  reality-opts:
-    public-key: 0dIyov95G3A1ySANsJzdYY9DGLvaIFU8ofJf3Jtv1Ds
-    short-id: befa80d97af98b74
-  uuid: 5272cd9f-a028-4452-ad8a-9bc21f87bb19
-  client-fingerprint: safari
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
+  server: platform101.golnamakcert.top
+  port: 80
+  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
+  network: ws
   udp: true
+  ws-opts:
+    headers:
+      Host: platform101.halalkhor.info
+      User-Agent: Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+    path: /platform101
   xudp: true
-  servername: www.apple.com
-- name: FR · HTTP · kooker · 52B2B587
-  type: http
-  server: 149.102.245.65
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  username: ''
-  password: ''
-- name: KZ · VLESS · kooker · 83CD2AA9
-  type: vless
-  server: kazartip.thewalkingded.life
-  port: 443
-  reality-opts:
-    public-key: 5JhqvTTHIhhA_2Jjc3_y6pwLmKfe4wtwq3vSt43P00I
-    short-id: 7cf408996c82639f
-  uuid: 4bdeee92-97e8-414d-bef6-ec1d5e2ab73b
-  client-fingerprint: firefox
-  flow: xtls-rprx-vision
-  network: tcp
-  servername: kazartip.thewalkingded.life
-  skip-cert-verify: true
-  tfo: false
-  tls: true
-- name: US · HTTP · kooker · 535DDB12
-  type: http
-  server: 154.26.192.123
-  port: 10988
-  tls: false
-  username: fQ67Dpe5dU
-  password: gs4BXwT6SW
