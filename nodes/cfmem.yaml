@@ -8,52 +8,48 @@ proxies:
   tls: false
   udp: true
   password: 9sK2mP8xQ7vL3nZ6
-- name: DE · HYSTERIA · cfmem · F1B80C6F
-  type: hysteria
-  server: 5.83.129.90
-  port: 54177
-  up: '500'
-  down: '1000'
-  sni: apple.com
+- name: TW · SS · cfmem · CA527659
+  type: ss
+  server: namrcg001640lrm.cybervena.com
+  port: 50099
+  cipher: chacha20-ietf-poly1305
   skip-cert-verify: true
-  alpn:
-  - h3
   udp: true
-  auth-str: dongtaiwang.com
-- name: HK→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→US · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · 66C9B5ED
+  password: a9a0d092-6f0e-4701-81ee-454643d6d506
+- name: FR · VLESS · cfmem · 12B60337
   type: vless
-  server: llm-api.sofurry.dpdns.org
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: llm-api.sofurry.dpdns.org
-- name: HK→FR · VMESS · cfmem · 4153EE35
+  server: 15.224.68.85
+  port: 22222
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+- name: CN · VMESS · cfmem · 27130FE8
   type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
   cipher: auto
-  tls: false
+  network: tcp
+- name: MD · VLESS · cfmem · 18743959
+  type: vless
+  server: md-new.failspace.top
+  port: 443
+  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
+  network: tcp
+  tls: true
+  flow: xtls-rprx-vision
+- name: US · VLESS · cfmem · 36ED2400
+  type: vless
+  server: Rr.i0-0.De5.NeT
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  servername: rR.i0-0.De5.NEt
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: Rr.i0-0.De5.NeT
   skip-cert-verify: true
   udp: true
 - name: HK→JP · VMESS · cfmem · 4284FBBE
@@ -66,17 +62,12 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · 8048469A
+- name: JP · VLESS · cfmem · 3DBCA07F
   type: vless
-  server: llm-api.sofurry.dpdns.org
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  network: ws
+  server: 20.78.4.41
+  port: 443
+  uuid: 8dc3a9ee-51a6-4737-c40a-472246303713
   tls: false
-  ws-opts:
-    path: /
-    headers:
-      Host: llm-api.sofurry.dpdns.org
   skip-cert-verify: true
   udp: true
 - name: US · VMESS · cfmem · 575CD8F5
@@ -93,6 +84,22 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: JP · VLESS · cfmem · 4B000540
+  type: vless
+  server: 20.78.4.41
+  port: 443
+  uuid: 8dc3a9ee-51a6-4737-c40a-472246303713
+  network: tcp
+- name: CN · VMESS · cfmem · 6E57C2EB
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: DE→FI · VMESS · cfmem · 74073393
   type: vmess
   server: me6.movieseryalirani.ir
@@ -101,6 +108,14 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
+- name: FR · VLESS · cfmem · 561E3BFB
+  type: vless
+  server: 15.224.68.85
+  port: 22224
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -115,6 +130,19 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: US · VLESS · cfmem · 5BA61820
+  type: vless
+  server: 0.i0-6.de5.net
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  tls: true
+  servername: 0.i0-6.dE5.NEt
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 0.I0-6.de5.neT
 - name: US · VMESS · cfmem · 83DF4CA0
   type: vmess
   server: www.shopify.com
@@ -131,6 +159,16 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: US · VLESS · cfmem · 66C9B5ED
+  type: vless
+  server: llm-api.sofurry.dpdns.org
+  port: 2095
+  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: llm-api.sofurry.dpdns.org
 - name: HK→GB · VMESS · cfmem · 8DAEC115
   type: vmess
   server: v36.hdacd.com
@@ -141,6 +179,12 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: FR · VLESS · cfmem · 67C3570D
+  type: vless
+  server: 13.39.231.13
+  port: 22224
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  network: tcp
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -157,6 +201,12 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: FR · VLESS · cfmem · 6A0BA448
+  type: vless
+  server: 13.39.231.13
+  port: 22223
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  network: tcp
 - name: HK→JP · VMESS · cfmem · AFF27A81
   type: vmess
   server: v6.hdacd.com
@@ -165,6 +215,32 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
+- name: FR · VLESS · cfmem · 6ADC668F
+  type: vless
+  server: 13.39.231.13
+  port: 22223
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: DE→FI · VMESS · cfmem · B1549B89
+  type: vmess
+  server: me6.movieseryalirani.ir
+  port: 57361
+  uuid: ed815caa-bff1-4419-8c61-1d108eabaf1f
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: FR · VLESS · cfmem · 723B32CE
+  type: vless
+  server: 13.39.231.13
+  port: 22222
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: HK→GB · VMESS · cfmem · BA924DCE
   type: vmess
   server: v36.hdacd.com
@@ -173,6 +249,21 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
+- name: US · VLESS · cfmem · 7731C737
+  type: vless
+  server: 2.I0-6.DE5.neT
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  servername: 2.i0-6.de5.Net
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 2.I0-6.DE5.neT
+  skip-cert-verify: true
+  udp: true
 - name: HK→DE · VMESS · cfmem · BF708C20
   type: vmess
   server: v33.hdacd.com
@@ -183,21 +274,135 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: HK→US · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
+- name: US · VLESS · cfmem · 7B50270B
+  type: vless
+  server: 1.i0-4.De5.nEt
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  servername: 1.I0-4.de5.Net
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 1.i0-4.De5.nEt
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · 8048469A
+  type: vless
+  server: llm-api.sofurry.dpdns.org
+  port: 2095
+  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
+  network: ws
+  tls: false
+  ws-opts:
+    path: /
+    headers:
+      Host: llm-api.sofurry.dpdns.org
+  skip-cert-verify: true
+  udp: true
+- name: US→IL · VLESS · cfmem · 8BC763C0
+  type: vless
+  server: fserver-worker-001.mapleridgeway.top
+  port: 443
+  uuid: 83b4af70-376e-427c-8c11-a025bec6b085
+  network: ws
+  servername: fserver-worker-001.mapleridgeway.top
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /cdn/99294c014f2c7791?ed=2056
+    headers:
+      Host: fserver-worker-001.mapleridgeway.top
+  skip-cert-verify: true
+  udp: true
+- name: FR · VLESS · cfmem · 9A9E168A
+  type: vless
+  server: 15.224.68.85
+  port: 22223
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  network: tcp
+- name: FR · VLESS · cfmem · A320AF55
+  type: vless
+  server: 13.39.231.13
+  port: 22224
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
   tls: false
   skip-cert-verify: true
   udp: true
-- name: HK→DE · VMESS · cfmem · FE3B9D81
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
+- name: FR · VLESS · cfmem · A3C2662E
+  type: vless
+  server: 13.39.231.13
+  port: 22222
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+- name: FR · VLESS · cfmem · A7D11498
+  type: vless
+  server: 15.224.68.85
+  port: 22222
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: FR · VLESS · cfmem · AB617291
+  type: vless
+  server: 15.224.68.85
+  port: 22223
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · C8AC3723
+  type: vless
+  server: 1.i0-4.de5.net
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  tls: true
+  servername: 1.I0-4.de5.Net
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 1.i0-4.De5.nEt
+- name: FR · VLESS · cfmem · C9CA2411
+  type: vless
+  server: 15.224.68.85
+  port: 22224
+  uuid: e4514801-0d5a-42ba-869f-39bd605aef9e
   network: tcp
+- name: US · VLESS · cfmem · CDB1C4D6
+  type: vless
+  server: 2.i0-6.de5.net
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  tls: true
+  servername: 2.i0-6.de5.Net
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 2.I0-6.DE5.neT
+- name: US→IL · VLESS · cfmem · DB9582EB
+  type: vless
+  server: fserver-worker-001.mapleridgeway.top
+  port: 443
+  uuid: 83b4af70-376e-427c-8c11-a025bec6b085
+  network: ws
+  tls: true
+  servername: fserver-worker-001.mapleridgeway.top
+  client-fingerprint: chrome
+  ws-opts:
+    path: /cdn/99294c014f2c7791?ed=2056
+    headers:
+      Host: fserver-worker-001.mapleridgeway.top
+- name: MD · VLESS · cfmem · FEF8AA2A
+  type: vless
+  server: md-new.failspace.top
+  port: 443
+  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
+  tls: true
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  udp: true
