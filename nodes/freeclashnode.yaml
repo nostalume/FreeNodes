@@ -1,180 +1,44 @@
 proxies:
-- name: NL · SS · clashmeta · 067369CC
-  type: ss
-  server: 82.38.31.35
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: IN · SOCKS5 · clashmeta · 1DAF1E9A
-  type: socks5
-  server: 144.24.111.128
-  port: 1088
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  udp: true
-  username: ''
-  password: ''
-- name: GB · SS · clashmeta · 07AA7760
-  type: ss
-  server: 146.70.61.18
-  port: 8080
-  cipher: rc4-md5
-  sub_tag: A004-260618
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: KR · SOCKS5 · clashmeta · 453F7315
-  type: socks5
-  server: 121.169.46.116
-  port: 1090
-  tls: false
-  username: T2clM0QlM0Q6
-- name: NL · SS · clashmeta · 08B0A345
-  type: ss
-  server: 193.29.139.223
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: S004-260618
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: NL · SS · clashmeta · 290D7B07
-  type: ss
-  server: 82.38.31.191
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: RO · HTTP · clashmeta · 02A3034D
-  type: http
-  server: 193.176.84.35
-  port: 9002
-  delay: 1488
-  skip-cert-verify: true
-  sub_tag: G001-260618
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: NL · SS · clashmeta · 0BE7BD33
-  type: ss
-  server: 193.29.139.147
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: B007-260618
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: US · VMESS · clashmeta · 0358D015
-  type: vmess
-  server: 82.198.246.97
-  port: 180
-  uuid: d13fc2f5-3e05-4795-81eb-44143a09e552
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: M002-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: joss.gpj4.web.id
-- name: SE · SS · clashmeta · 0F13B4A8
-  type: ss
-  server: 16.170.214.108
+- name: TW · ANYTLS · clashmeta · 16B309C9
+  type: anytls
+  server: 6ivh.pnuqcnp.cn
   port: 443
-  cipher: aes-256-cfb
-  sub_tag: R002-260618
-  udp: true
-  password: amazonskr05
-- name: US · HTTP · clashmeta · 073CBC54
-  type: http
-  server: 138.199.35.213
-  port: 9002
+  sni: images.ctfassets.net
+  alpn:
+  - http/1.1
   skip-cert-verify: true
-  sub_tag: R002-260618
   tls: true
   udp: true
-- name: GB · HTTP · clashmeta · 07696F62
-  type: http
-  server: 212.102.63.31
+  client-fingerprint: chrome
+  password: 9sK2mP8xQ7vL3nZ6
+- name: KR · HYSTERIA2 · clashmeta · 9313DCA0
+  type: hysteria2
+  server: 193.122.115.52
+  port: 20000
+  sni: rmgyvpn.rest
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: C0DD7bgChaltqnh/T2az6ijM
+  ports: 20000-30000
+  udp: true
+  password: C0DD7bgChaltqnh/T2az6ijM
+- name: US · VLESS · clashmeta · 00C47ED1
+  type: vless
+  server: 172.67.212.195
   port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
+  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
+  network: ws
   tls: true
-  udp: true
-  password: None
-- name: LV · HTTP · clashmeta · 083F6C1B
-  type: http
-  server: 109.248.147.66
-  port: 443
+  servername: 7-m17.KuWAiT-AIrLiNE.kDns.Fr
+  ws-opts:
+    path: /fVs1qv0xm8dxmnwuaPwokxgY4XlP
+    headers:
+      Host: 7-M17.kUwaIt-AIrLInE.kDNS.fr
+- name: EE · TROJAN · clashmeta · E8F22EBB
+  type: trojan
+  server: 109.206.241.10
+  port: 449
+  sni: russiapower.accesscam.org
   skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
   udp: true
-- name: US · VMESS · clashmeta · 100CC461
-  type: vmess
-  server: 129.146.143.80
-  port: 48111
-  uuid: d4603cc2-e0ee-4651-83f5-1db5b7168177
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 129.146.143.80
-- name: IT · SS · clashmeta · 152365F4
-  type: ss
-  server: 57.131.48.45
-  port: 8388
-  cipher: aes-256-gcm
-  sub_tag: B007-260618
-  udp: true
-  password: itzvpn@321
-- name: US · SS · clashmeta · 54E01726
-  type: ss
-  server: 173.244.56.6
-  port: 443
-  cipher: aes-128-gcm
-  udp: true
-  password: shadowsocks
-- name: BG · SS · clashmeta · 158CE6B7
-  type: ss
-  server: 213.183.63.60
-  port: 9064
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
-  udp: true
-  password: cp8pRSUAyLhTfVWH
-- name: RO · HTTP · clashmeta · 1174D8EF
-  type: http
-  server: 193.176.84.22
-  port: 9002
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  udp: true
-- name: NL · SS · clashmeta · 5C42ACF9
-  type: ss
-  server: 82.38.31.205
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: BG · SS · clashmeta · 19FBA271
-  type: ss
-  server: 213.183.63.60
-  port: 9028
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
-  udp: true
-  password: 9eeJ2fwnZA5Fxgz8
-- name: BR · HTTP · clashmeta · 13575DB1
-  type: http
-  server: 179.184.163.133
-  port: 44443
-  sub_tag: R002-260618
-  udp: true
+  password: oiiaB38ywjEHCWRs_O_a_1113_Il_KeyyyHop_Bes1

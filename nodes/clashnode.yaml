@@ -1,16 +1,4 @@
 proxies:
-- name: TW · ANYTLS · clashmeta · 16B309C9
-  type: anytls
-  server: 6ivh.pnuqcnp.cn
-  port: 443
-  sni: images.ctfassets.net
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 9sK2mP8xQ7vL3nZ6
 - name: US · HTTP · clashmeta · 00028095
   type: http
   server: 138.199.35.218
@@ -20,17 +8,6 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: KR · HYSTERIA2 · clashmeta · 9313DCA0
-  type: hysteria2
-  server: 193.122.115.52
-  port: 20000
-  sni: rmgyvpn.rest
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: C0DD7bgChaltqnh/T2az6ijM
-  ports: 20000-30000
-  udp: true
-  password: C0DD7bgChaltqnh/T2az6ijM
 - name: ZZ · SOCKS5 · clashmeta · 01246BA3
   type: socks5
   server: 121.169.46.116
@@ -270,6 +247,16 @@ proxies:
   cipher: aes-128-gcm
   udp: true
   password: shadowsocks
+- name: AE · VLESS · clashnode · 019BB742
+  type: vless
+  server: uae.unixzone.us
+  port: 22573
+  uuid: 39947382-3212-41c9-bc3a-589574ac8b23
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: uae.unixzone.us
 - name: US · VMESS · clashmeta · 030DA48D
   type: vmess
   server: 82.198.246.250
@@ -356,6 +343,13 @@ proxies:
   udp: true
   username: "null"
   password: "null"
+- name: DE · TROJAN · clashnode · 196DCA12
+  type: trojan
+  server: dggg.wsone.icu
+  port: 443
+  network: tcp
+  servername: dggg.wsone.icu
+  password: M7v%w11Se*
 - name: US · VMESS · clashmeta · 03675FDC
   type: vmess
   server: 82.198.246.250
@@ -378,6 +372,19 @@ proxies:
   cipher: chacha20-ietf-poly1305
   udp: true
   password: eDfN7SODQceIOmIAbtJJtK
+- name: US · VLESS · clashnode · 02F2152E
+  type: vless
+  server: 104.21.62.234
+  port: 443
+  uuid: a90c264d-3853-4eef-9a3d-628b2d02d15e
+  network: ws
+  tls: true
+  servername: 6-M19.SUDan-paRk.cCWU.cc
+  client-fingerprint: chrome
+  ws-opts:
+    path: /CjBjB9sn5pCvaSwScc
+    headers:
+      Host: 6-M19.sUdAN-paRk.ccWU.cC
 - name: CN · SOCKS5 · clashmeta · D63C3034
   type: socks5
   server: 103.210.161.8
@@ -465,18 +472,6 @@ proxies:
   cipher: aes-128-gcm
   udp: true
   password: shadowsocks
-- name: US · VLESS · clashmeta · 00C47ED1
-  type: vless
-  server: 172.67.212.195
-  port: 443
-  uuid: a1a6a3be-2bf9-46a2-bc24-328306e49ab7
-  network: ws
-  tls: true
-  servername: 7-m17.KuWAiT-AIrLiNE.kDns.Fr
-  ws-opts:
-    path: /fVs1qv0xm8dxmnwuaPwokxgY4XlP
-    headers:
-      Host: 7-M17.kUwaIt-AIrLInE.kDNS.fr
 - name: US · VMESS · clashmeta · 07DF173B
   type: vmess
   server: 67.220.95.3
@@ -653,14 +648,6 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: QCXDxuDlTTMD7jtgHUjIoj
-- name: EE · TROJAN · clashmeta · E8F22EBB
-  type: trojan
-  server: 109.206.241.10
-  port: 449
-  sni: russiapower.accesscam.org
-  skip-cert-verify: true
-  udp: true
-  password: oiiaB38ywjEHCWRs_O_a_1113_Il_KeyyyHop_Bes1
 - name: NL · VMESS · clashmeta · 0FF52A57
   type: vmess
   server: 151.243.173.119
@@ -793,6 +780,19 @@ proxies:
   sub_tag: B007-260618
   udp: true
   password: itzvpn@321
+- name: US · VLESS · clashnode · 085408F4
+  type: vless
+  server: 104.21.69.218
+  port: 443
+  uuid: 7e26fd8f-d75a-473d-84ba-9f4e3f47d086
+  network: ws
+  tls: true
+  servername: 5-m20.cd6b506e-5a88-4c5d-9e11-906f39613c04.kdns.fr
+  client-fingerprint: chrome
+  ws-opts:
+    path: /8qMLgNapWf6SBxo8fhQlVPYO
+    headers:
+      Host: 5-m20.cd6b506e-5a88-4c5d-9e11-906f39613c04.kdns.fr
 - name: NL · HTTP · clashmeta · 11147645
   type: http
   server: 103.97.88.154
