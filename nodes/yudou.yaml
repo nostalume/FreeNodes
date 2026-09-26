@@ -1,17 +1,5 @@
 proxies:
-- name: TW · ANYTLS · clashmeta · 16B309C9
-  type: anytls
-  server: 6ivh.pnuqcnp.cn
-  port: 443
-  sni: images.ctfassets.net
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 9sK2mP8xQ7vL3nZ6
-- name: KR · HYSTERIA2 · clashmeta · 9313DCA0
+- name: ZZ · HYSTERIA2 · yudou · 9313DCA0
   type: hysteria2
   server: 193.122.115.52
   port: 20000
@@ -31,6 +19,23 @@ proxies:
   tls: true
   udp: true
   password: 9sK2mP8xQ7vL3nZ6
+- name: ZZ · VLESS · yudou · 03120B19
+  type: vless
+  server: 104.21.90.232
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  servername: 999999.00000.BONd
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 999999.00000.boNd
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VLESS · yudou · 05D1868E
   type: vless
   server: 172.67.162.57
@@ -91,6 +96,19 @@ proxies:
   - http/1.1
   skip-cert-verify: true
   udp: true
+- name: ZZ · VLESS · yudou · 0DE22954
+  type: vless
+  server: 172.67.189.137
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  tls: true
+  servername: ZZZZZ.HUANgsHang.hiDNs.co
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: zzzzZ.huANgShANg.HiDNS.Co
 - name: ZZ · VLESS · yudou · 1031D8DA
   type: vless
   server: 172.67.189.137
@@ -123,19 +141,6 @@ proxies:
       Host: 4444.HuaNGSHAng.hIdNs.cO
   alpn:
   - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 106058D5
-  type: vless
-  server: 34.51.83.115
-  port: 443
-  reality-opts:
-    public-key: 8vHditYTXXNZ37iNTraU4w129svOplF0QUhZwX2n3FA
-    short-id: dcabbf24adf88abc
-  uuid: 9ad81959-02c6-4679-a419-2af6a16ca07a
-  servername: www.cloudflare.com
-  tls: true
-  client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
 - name: ZZ · VLESS · yudou · 1372F4F7
@@ -250,23 +255,6 @@ proxies:
     path: /FbLtzaav4GSW7GPL6LUGsEkZ
     headers:
       Host: 6-7.HuANGshANG.bond
-- name: ZZ · VLESS · yudou · 284DCC5C
-  type: vless
-  server: 172.67.189.137
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  servername: 2.huaNGshaNG.hIDNS.CO
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: 2.HUanGsHANg.HiDns.Co
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
 - name: ZZ · VLESS · yudou · 28B4F871
   type: vless
   server: 172.67.142.235
@@ -280,36 +268,6 @@ proxies:
     path: /FbLtzaav4GSW7GPL6LUGsEkZ
     headers:
       Host: 6.I0-4.DE5.Net
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 2CDA1588
-  type: vless
-  server: 172.67.219.181
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  tls: true
-  servername: 5-5.HUaNgsHANG.bOND
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: 5-5.HuANgShaNG.bONd
-- name: ZZ · VLESS · yudou · 2D5C9425
-  type: vless
-  server: 104.21.90.232
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  servername: YYY.00000.BONd
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: yYy.00000.bond
   alpn:
   - http/1.1
   skip-cert-verify: true
@@ -344,19 +302,6 @@ proxies:
     path: /FbLtzaav4GSW7GPL6LUGsEkZ
     headers:
       Host: 8.I0-4.De5.NEt
-- name: ZZ · VLESS · yudou · 31343756
-  type: vless
-  server: 167.172.183.195
-  port: 2096
-  uuid: bba95b1f-f48c-454b-897b-a6c6bc307df1
-  network: ws
-  tls: true
-  servername: edge.yzkvm.top
-  client-fingerprint: chrome
-  ws-opts:
-    path: /fp=chrome
-    headers:
-      Host: edge.yzkvm.top
 - name: ZZ · VLESS · yudou · 31BA5AA9
   type: vless
   server: 104.21.9.194
@@ -370,6 +315,36 @@ proxies:
     path: /FbLtzaav4GSW7GPL6LUGsEkZ
     headers:
       Host: LLLLll.hUaNGshAnG.hIdNS.cO
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 33ACB9F2
+  type: vless
+  server: 172.67.219.181
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  tls: true
+  servername: 3-2.HUANGSHanG.BoND
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: 3-2.HUaNGsHang.bOnd
+- name: ZZ · VLESS · yudou · 33D9107E
+  type: vless
+  server: 172.67.162.57
+  port: 443
+  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
+  network: ws
+  servername: e.00000.BoNd
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /FbLtzaav4GSW7GPL6LUGsEkZ
+    headers:
+      Host: e.00000.BonD
   alpn:
   - http/1.1
   skip-cert-verify: true
@@ -419,6 +394,23 @@ proxies:
       Host: EEeEeEeEe.HuanGsHanG.hIdNS.co
   alpn:
   - http/1.1
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 3EEE0DA0
+  type: vless
+  server: dey.lnmarketplace.net
+  port: 443
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  network: xhttp
+  servername: dey.lnmarketplace.net
+  tls: true
+  client-fingerprint: firefox
+  alpn:
+  - h2
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
   skip-cert-verify: true
   udp: true
 - name: ZZ · VLESS · yudou · 40E8AC3E
@@ -622,119 +614,3 @@ proxies:
   - http/1.1
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 56558779
-  type: vless
-  server: 172.67.189.137
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  servername: 1.HuANgsHaNG.hiDnS.co
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: 1.hUaNgshANg.HiDNS.cO
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 56826CCF
-  type: vless
-  server: 172.67.189.137
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  servername: m.hUANGSHang.HIDns.Co
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: M.HUaNGShANG.HIDns.co
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 5A5E9652
-  type: vless
-  server: 172.67.210.12
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  servername: R.i0-0.dE5.net
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: r.i0-0.de5.NEt
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 5ABB99CC
-  type: vless
-  server: 172.67.189.137
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  tls: true
-  servername: QQQqq.huAngshaNg.HIDNs.CO
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: qqqQq.huANgSHaNG.HIDnS.CO
-- name: ZZ · VLESS · yudou · 5DA26CDF
-  type: vless
-  server: 172.67.189.137
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  tls: true
-  servername: 1.HuANgsHaNG.hiDnS.co
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: 1.hUaNgshANg.HiDNS.cO
-- name: ZZ · VLESS · yudou · 5FA3035B
-  type: vless
-  server: 104.21.90.232
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  tls: true
-  servername: YYY.00000.BONd
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: yYy.00000.bond
-- name: ZZ · VLESS · yudou · 5FB40B28
-  type: vless
-  server: 34.65.151.186
-  port: 443
-  reality-opts:
-    public-key: f8aV8naD8NKt_mLKaOou0qUrIM1Ge25kJNxywpF3OB0
-    short-id: d016c76007f78038
-  uuid: a18f08dc-76ae-453a-98f5-d41eab7e649b
-  servername: www.cloudflare.com
-  tls: true
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 619AA80D
-  type: vless
-  server: 172.67.189.137
-  port: 443
-  uuid: 62e499fe-458e-47da-a0c8-cae69144ebe9
-  network: ws
-  tls: true
-  servername: GGGgGG.HUaNgShANg.HidNS.CO
-  client-fingerprint: chrome
-  ws-opts:
-    path: /FbLtzaav4GSW7GPL6LUGsEkZ
-    headers:
-      Host: GGGgGg.HuangsHaNg.HIdNS.Co
