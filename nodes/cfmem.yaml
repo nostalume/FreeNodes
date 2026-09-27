@@ -21,6 +21,14 @@ proxies:
     path: /ws
     headers:
       Host: fbsv6.guardora.pro
+- name: HK · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: RU · VLESS · cfmem · 33F50EB3
   type: vless
   server: fbsv6.guardora.pro
@@ -44,20 +52,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: US · VLESS · cfmem · 4A065D8C
-  type: vless
-  server: 45.62.106.145
-  port: 8443
-  uuid: a3054186-5e1d-4c95-a849-a79ee1e447b2
-  network: ws
-  servername: 45.62.106.145
-  tls: false
-  ws-opts:
-    path: /vless-ws
-    headers:
-      Host: 45.62.106.145
-  skip-cert-verify: true
-  udp: true
 - name: HK→US · VMESS · cfmem · 18F6DFDE
   type: vmess
   server: v24.hdacd.com
@@ -68,17 +62,16 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · 67148DCC
-  type: vless
-  server: 45.62.106.145
-  port: 8443
-  uuid: a3054186-5e1d-4c95-a849-a79ee1e447b2
-  network: ws
-  servername: 45.62.106.145
-  ws-opts:
-    path: /vless-ws
-    headers:
-      Host: 45.62.106.145
+- name: HK→JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -109,11 +102,21 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: CN · VMESS · cfmem · CF03F2D9
+- name: HK→JP · VMESS · cfmem · AFF27A81
   type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
   network: tcp
+- name: HK · VMESS · cfmem · CEDC84C1
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
