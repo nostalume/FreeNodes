@@ -1,5 +1,5 @@
 proxies:
-- name: ZZ · ANYTLS · yudou · 16B309C9
+- name: TW · ANYTLS · clashmeta · 16B309C9
   type: anytls
   server: 6ivh.pnuqcnp.cn
   port: 443
@@ -11,7 +11,33 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 9sK2mP8xQ7vL3nZ6
-- name: ZZ · ANYTLS · yudou · 88142B05
+- name: ZZ · HYSTERIA2 · yudou · 9313DCA0
+  type: hysteria2
+  server: 193.122.115.52
+  port: 20000
+  sni: rmgyvpn.rest
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: C0DD7bgChaltqnh/T2az6ijM
+  ports: 20000-30000
+  udp: true
+  password: C0DD7bgChaltqnh/T2az6ijM
+- name: RU · VLESS · cfmem · 33F50EB3
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  servername: fbsv6.guardora.pro
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
+  skip-cert-verify: true
+  udp: true
+- name: TW · ANYTLS · clashmeta · 88142B05
   type: anytls
   server: 6ivh.pnuqcnp.cn
   port: 443
@@ -20,6 +46,19 @@ proxies:
   tls: true
   udp: true
   password: 9sK2mP8xQ7vL3nZ6
+- name: ZZ · VLESS · yudou · 19E5E048
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  tls: true
+  servername: fbsv6.guardora.pro
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
 - name: ZZ · VLESS · yudou · 1D9B9235
   type: vless
   server: 95.163.232.171
@@ -35,6 +74,17 @@ proxies:
       Host: media-se.compressor.work
   skip-cert-verify: true
   udp: true
+- name: ZZ · VLESS · yudou · 31A3B692
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  tls: true
+  servername: fbsv6.guardora.pro
+  client-fingerprint: firefox
+  ws-opts:
+    path: /ws
 - name: ZZ · VLESS · yudou · 3605D313
   type: vless
   server: 95.163.232.171
@@ -46,20 +96,16 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /ws
-- name: ZZ · VLESS · yudou · 3EEE0DA0
+- name: ZZ · VLESS · yudou · 610AC021
   type: vless
-  server: dey.lnmarketplace.net
-  port: 443
-  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
-  network: xhttp
-  servername: dey.lnmarketplace.net
+  server: 95.163.232.171
+  port: 14443
+  uuid: 365de9e9-ba29-4819-af2d-766f9638e3be
+  network: ws
   tls: true
-  client-fingerprint: firefox
-  alpn:
-  - h2
-  xhttp-opts:
-    path: /kavir
-    host: dey.lnmarketplace.net
-    mode: stream-one
-  skip-cert-verify: true
-  udp: true
+  servername: media-se.compressor.work
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: media-se.compressor.work
