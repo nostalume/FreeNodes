@@ -1,5 +1,5 @@
 proxies:
-- name: TW · ANYTLS · clashmeta · 16B309C9
+- name: TW · ANYTLS · clashnode · 16B309C9
   type: anytls
   server: 6ivh.pnuqcnp.cn
   port: 443
@@ -27,15 +27,19 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: QQyhsWE4kraFnuIyxSx/tfdFnd1+IUu3YrQM92BGVrQ=
-- name: TW · ANYTLS · clashmeta · 88142B05
-  type: anytls
-  server: 6ivh.pnuqcnp.cn
-  port: 443
-  sni: images.ctfassets.net
-  skip-cert-verify: true
+- name: ZZ · VLESS · yudou · 03DC1466
+  type: vless
+  server: 95.163.232.171
+  port: 14443
+  uuid: 365de9e9-ba29-4819-af2d-766f9638e3be
+  network: ws
+  servername: media-se.compressor.work
   tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+  skip-cert-verify: true
   udp: true
-  password: 9sK2mP8xQ7vL3nZ6
 - name: RU · VLESS · cfmem · 33F50EB3
   type: vless
   server: fbsv6.guardora.pro
@@ -51,7 +55,7 @@ proxies:
       Host: fbsv6.guardora.pro
   skip-cert-verify: true
   udp: true
-- name: KR · HYSTERIA2 · clashmeta · 9313DCA0
+- name: ZZ · HYSTERIA2 · yudou · 9313DCA0
   type: hysteria2
   server: 193.122.115.52
   port: 20000
@@ -62,3 +66,44 @@ proxies:
   ports: 20000-30000
   udp: true
   password: C0DD7bgChaltqnh/T2az6ijM
+- name: TW · ANYTLS · clashnode · 88142B05
+  type: anytls
+  server: 6ivh.pnuqcnp.cn
+  port: 443
+  sni: images.ctfassets.net
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 9sK2mP8xQ7vL3nZ6
+- name: ZZ · VLESS · yudou · 1D9B9235
+  type: vless
+  server: 95.163.232.171
+  port: 14443
+  uuid: 365de9e9-ba29-4819-af2d-766f9638e3be
+  network: ws
+  servername: media-se.compressor.work
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: media-se.compressor.work
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 6BB8E27B
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  servername: fbsv6.guardora.pro
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  udp: true

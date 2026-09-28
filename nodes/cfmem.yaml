@@ -1,13 +1,12 @@
 proxies:
-- name: HK · ANYTLS · cfmem · A159B442
-  type: anytls
-  server: ac7548f3ebe045b39a90288ff1e97528.pnuqcnp.cn
+- name: US · SS · cfmem · 9F808FA1
+  type: ss
+  server: 54.90.169.61
   port: 443
-  sni: ac7548f3ebe045b39a90288ff1e97528.lwdnxf.cn
+  cipher: aes-256-cfb
   skip-cert-verify: true
-  tls: false
   udp: true
-  password: 9sK2mP8xQ7vL3nZ6
+  password: amazonskr05
 - name: RU · VLESS · cfmem · 1273BDAF
   type: vless
   server: fbsv6.guardora.pro
@@ -21,16 +20,6 @@ proxies:
     path: /ws
     headers:
       Host: fbsv6.guardora.pro
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: RU · VLESS · cfmem · 33F50EB3
   type: vless
   server: fbsv6.guardora.pro
@@ -46,18 +35,12 @@ proxies:
       Host: fbsv6.guardora.pro
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · 4A065D8C
+- name: SG · VLESS · cfmem · 5C99D466
   type: vless
-  server: 45.62.106.145
-  port: 8443
-  uuid: a3054186-5e1d-4c95-a849-a79ee1e447b2
-  network: ws
-  servername: 45.62.106.145
-  tls: false
-  ws-opts:
-    path: /vless-ws
-    headers:
-      Host: 45.62.106.145
+  server: onhit.shalana.xyz
+  port: 443
+  uuid: 408fbae6-a40b-4f0b-9723-0b4ce8e3d035
+  tls: true
   skip-cert-verify: true
   udp: true
 - name: US · VMESS · cfmem · 81382C3E
@@ -74,17 +57,19 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 67148DCC
+- name: SG · VLESS · cfmem · A5878F07
   type: vless
-  server: 45.62.106.145
-  port: 8443
-  uuid: a3054186-5e1d-4c95-a849-a79ee1e447b2
+  server: free-server.techsonic.dev
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
   network: ws
-  servername: 45.62.106.145
+  tls: true
+  servername: free-server.techsonic.dev
+  client-fingerprint: firefox
   ws-opts:
-    path: /vless-ws
+    path: /free-server.techsonic.dev
     headers:
-      Host: 45.62.106.145
+      Host: free-server.techsonic.dev
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -101,17 +86,25 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: MX · VLESS · cfmem · EA74E64F
+- name: SG · VLESS · cfmem · AF8B052B
   type: vless
-  server: 45.164.20.85
-  port: 10226
-  uuid: 9aab8f39-ccb3-44ea-acdc-a8aefe211287
-  tls: false
+  server: onhit.shalana.xyz
+  port: 443
+  uuid: 408fbae6-a40b-4f0b-9723-0b4ce8e3d035
+  network: tcp
+  tls: true
+- name: SG · VLESS · cfmem · BD446578
+  type: vless
+  server: free-server.techsonic.dev
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  servername: free-server.techsonic.dev
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
   skip-cert-verify: true
   udp: true
-- name: MX · VLESS · cfmem · F099E9F3
-  type: vless
-  server: 45.164.20.85
-  port: 10226
-  uuid: 9aab8f39-ccb3-44ea-acdc-a8aefe211287
-  network: tcp
