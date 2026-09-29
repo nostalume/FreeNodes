@@ -1,4 +1,20 @@
 proxies:
+- name: SE · SS · cfmem · 3CEF4C3B
+  type: ss
+  server: 51.20.86.152
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
+- name: FR · VMESS · cfmem · 05D691A6
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: NL · SS · cfmem · 4DF3AD93
   type: ss
   server: 82.38.31.35
@@ -20,12 +36,61 @@ proxies:
     path: /ws
     headers:
       Host: fbsv6.guardora.pro
+- name: US · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: US · SS · cfmem · 9F808FA1
+  type: ss
+  server: 54.90.169.61
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
+- name: US · VMESS · cfmem · 16C8574A
+  type: vmess
+  server: v24.hdacd.com
+  port: 30824
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: RU · VLESS · cfmem · 33F50EB3
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  servername: fbsv6.guardora.pro
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 18F6DFDE
   type: vmess
   server: v24.hdacd.com
   port: 30824
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK · VMESS · cfmem · 207AC371
+  type: vmess
+  server: zfd-hkv2.kunlun01dns.com
+  port: 16116
+  uuid: 0802ac03-7973-39ef-a019-ba02de6c01e1
+  alterId: 0
   cipher: auto
   tls: false
   skip-cert-verify: true
@@ -42,6 +107,16 @@ proxies:
   type: vmess
   server: v35.hdacd.com
   port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
@@ -68,16 +143,6 @@ proxies:
   uuid: 408fbae6-a40b-4f0b-9723-0b4ce8e3d035
   network: tcp
   tls: true
-- name: CN · VMESS · cfmem · 6E57C2EB
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: SG · VLESS · cfmem · BD446578
   type: vless
   server: free-server.techsonic.dev
@@ -91,5 +156,41 @@ proxies:
     path: /free-server.techsonic.dev
     headers:
       Host: free-server.techsonic.dev
+  skip-cert-verify: true
+  udp: true
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: JP · VMESS · cfmem · AFF27A81
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→GB · VMESS · cfmem · BA924DCE
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: US · VMESS · cfmem · CEDC84C1
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
