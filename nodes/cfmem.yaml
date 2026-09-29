@@ -20,19 +20,14 @@ proxies:
     path: /ws
     headers:
       Host: fbsv6.guardora.pro
-- name: RU · VLESS · cfmem · 33F50EB3
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  servername: fbsv6.guardora.pro
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
+- name: US · VMESS · cfmem · 18F6DFDE
+  type: vmess
+  server: v24.hdacd.com
+  port: 30824
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
 - name: SG · VLESS · cfmem · 5C99D466
@@ -43,6 +38,29 @@ proxies:
   tls: true
   skip-cert-verify: true
   udp: true
+- name: FR · VMESS · cfmem · 4153EE35
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: SG · VLESS · cfmem · A5878F07
+  type: vless
+  server: free-server.techsonic.dev
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  tls: true
+  servername: free-server.techsonic.dev
+  client-fingerprint: firefox
+  ws-opts:
+    path: /free-server.techsonic.dev
+    headers:
+      Host: free-server.techsonic.dev
 - name: SG · VLESS · cfmem · AF8B052B
   type: vless
   server: onhit.shalana.xyz
@@ -50,6 +68,16 @@ proxies:
   uuid: 408fbae6-a40b-4f0b-9723-0b4ce8e3d035
   network: tcp
   tls: true
+- name: CN · VMESS · cfmem · 6E57C2EB
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: SG · VLESS · cfmem · BD446578
   type: vless
   server: free-server.techsonic.dev

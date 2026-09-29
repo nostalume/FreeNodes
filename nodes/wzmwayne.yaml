@@ -1,5 +1,12 @@
 proxies:
-- name: TW · ANYTLS · kooker · 4E67061C
+- name: FR · ANYTLS · shaoyouvip · 2D371F14
+  type: anytls
+  server: ip5.934618.xyz
+  port: 30099
+  sni: ip5.934618.xyz
+  udp: true
+  password: github.com/Alvin9999-newpac/fanqiang
+- name: TW · ANYTLS · wzmwayne · 4E67061C
   type: anytls
   server: 6ivh.pnuqcnp.cn
   port: 443
@@ -9,35 +16,13 @@ proxies:
   udp: true
   username: 9sK2mP8xQ7vL3nZ6
   password: 9sK2mP8xQ7vL3nZ6
-- name: FR · ANYTLS · shaoyouvip · 2D371F14
-  type: anytls
-  server: ip5.934618.xyz
-  port: 30099
-  sni: ip5.934618.xyz
-  udp: true
-  password: github.com/Alvin9999-newpac/fanqiang
-- name: SE · ANYTLS · wzmwayne · 4104135E
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  skip-cert-verify: true
-  sni: xjp18.2uuzhe.com
-  udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · SS · au1rxx-clash · 05E90423
+- name: ZZ · SS · au1rxx-clash · 029B226B
   type: ss
-  server: 82.38.31.3
+  server: 82.38.31.42
   port: 8080
   cipher: chacha20-ietf-poly1305
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: ZZ · HTTP · kooker · 07241EB8
-  type: http
-  server: 193.176.84.23
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
 - name: FR · HTTP · wzmwayne · 0001ABF9
   type: http
   server: 83.172.143.53
@@ -65,13 +50,80 @@ proxies:
   up: 500
   down: 1000
   auth-str: dongtaiwang.com
-- name: ZZ · HYSTERIA2 · wzmwayne · 029B8952
+- name: ZZ · VLESS · au1rxx-clash · 00DF0EF2
+  type: vless
+  server: 169.40.42.179
+  port: 443
+  reality-opts:
+    public-key: e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg
+    short-id: c39cc7310a
+  uuid: d65cc14c-f53f-4fe2-b262-97856601319c
+  client-fingerprint: ios
+  flow: xtls-rprx-vision
+  network: raw
+  servername: yahoo.com
+  tls: true
+  udp: true
+- name: SG · HYSTERIA2 · wzmwayne · 02A002A6
   type: hysteria2
-  server: 85.204.107.179
+  server: s3.huhiuh.space
+  port: 18642
+  skip-cert-verify: true
+  sni: www.bing.com
+  udp: true
+  password: user317_windows:c70565e9-a99f-40ef-b96c-469a3949eed2
+  auth: user317_windows:c70565e9-a99f-40ef-b96c-469a3949eed2
+- name: HK · SOCKS5 · wzmwayne · 03E6F8C5
+  type: socks5
+  server: 47.239.98.42
+  port: 1080
+  username: abc123
+  password: abc123
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 0286E2B2
+  type: hysteria2
+  server: 85.204.107.185
   port: 8443
-  skip-cert-verify: false
+  skip-cert-verify: true
   sni: hopp-romania-new.roxa.org
   password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+- name: NL · SS · wzmwayne · 1021EE0C
+  type: ss
+  server: 82.38.31.203
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · SS · au1rxx-clash · 05E90423
+  type: ss
+  server: 82.38.31.3
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: ZZ · TROJAN · wzmwayne · 1159ACF4
+  type: trojan
+  server: 185.220.238.77
+  port: 11543
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: true
+  sni: 185.220.238.77
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100
+        Safari/537.36
+    path: /api
+  password: HutaoCloud
+- name: ZZ · VMESS · wzmwayne · 19532AFD
+  type: vmess
+  server: 158.51.121.63
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: auto
+  network: tcp
+  udp: true
 - name: ZZ · VMESS · au1rxx-clash · 06B052FE
   type: vmess
   server: 66.163.113.176
@@ -81,19 +133,35 @@ proxies:
   cipher: auto
   network: tcp
   udp: true
-- name: HK · SOCKS5 · wzmwayne · 0A77CE6A
-  type: socks5
-  server: 47.239.116.165
-  port: 1080
-  username: admin
-  password: admin
-- name: ZZ · SS · wzmwayne · 029B226B
-  type: ss
-  server: 82.38.31.42
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: US · HTTP · kooker · F790CC07
+  type: http
+  server: 107.167.18.122
+  port: 443
+- name: TW · ANYTLS · wzmwayne · 50965818
+  type: anytls
+  server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
+  port: 443
+  skip-cert-verify: true
+  sni: ac7548f3ebe045b39a90288ff1e97526.lwdnxf.cn
+  password: 9sK2mP8xQ7vL3nZ6
+- name: SG · HYSTERIA2 · kooker · 4D8BB3DD
+  type: hysteria2
+  server: 138.2.89.249
+  port: 443
+  down: ''
+  fingerprint: ''
+  obfs: salamander
+  obfs-password: 309502c4a8df10b46fb976d4a8c43f42
+  skip-cert-verify: true
+  sni: www.bing.com
+  up: ''
+  password: d042d150716709bb778cc73889cddb02
+- name: GB · HTTP · wzmwayne · 00DAB5B3
+  type: http
+  server: 198.105.124.180
+  port: 8443
+  skip-cert-verify: true
+  tls: true
 - name: NL · SS · clashmeta · 067369CC
   type: ss
   server: 82.38.31.35
@@ -101,86 +169,6 @@ proxies:
   cipher: chacha20-ietf-poly1305
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: TW · TUIC · wzmwayne · 801252F3
-  type: tuic
-  server: tw3.dexlos.com
-  port: 8080
-  uuid: 8a9905b7-801b-41af-bfc9-2034212770f6
-  alpn:
-  - h3
-  congestion-controller: bbr
-  sni: tw3.dexlos.com
-  tls: true
-  udp: true
-  udp-relay-mode: native
-  version: 5
-  password: 8A9905B7-801B-41AF-BFC9-2034212770F6
-- name: ZZ · VLESS · au1rxx-clash · 01CE99F7
-  type: vless
-  server: 50.7.120.163
-  port: 443
-  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
-  flow: xtls-rprx-vision
-  network: tcp
-  servername: nl-dedic-new-mori.failspace.top
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · VLESS · wzmwayne · 00706FEE
-  type: vless
-  server: 146.190.124.36
-  port: 74
-  uuid: d4d0d523-0c2a-4b9d-b630-0637f0b77904
-  udp: true
-  tls: true
-  servername: sxyyvihkektlx4rjxsdj.pkc73phpweu4rbxbatm444.workers.dev
-  network: ws
-  ws-opts:
-    path: /@Marisa_kristi
-    headers:
-      Host: sxyyvihkektlx4rjxsdj.pkc73phpweu4rbxbatm444.workers.dev
-- name: IN · VMESS · wzmwayne · 152A26B1
-  type: vmess
-  server: 152.67.8.205
-  port: 80
-  uuid: 9db4c708-aef8-4359-821b-38e47990be0d
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  servername: 152.67.8.205
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: 152.67.8.205
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 0433E5F9
-  type: hysteria2
-  server: 85.204.107.183
-  port: 8443
-  skip-cert-verify: true
-  sni: hopp-romania-new.roxa.org
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-- name: US · ANYTLS · wzmwayne · 584F3A27
-  type: anytls
-  server: anytls2.864106.xyz
-  port: 19000
-  skip-cert-verify: true
-  sni: anytls2.864106.xyz
-  password: github.com/Alvin9999-newpac/fanqiang
-- name: ZZ · SS · au1rxx-clash · 06A26A8D
-  type: ss
-  server: 98.88.75.157
-  port: 443
-  cipher: aes-256-cfb
-  udp: true
-  password: amazonskr05
-- name: GB · HTTP · wzmwayne · 00DAB5B3
-  type: http
-  server: 198.105.124.180
-  port: 8443
-  skip-cert-verify: true
-  tls: true
 - name: ZZ · HYSTERIA · wzmwayne · D314C7CA
   type: hysteria
   server: 5.83.129.90
@@ -194,364 +182,21 @@ proxies:
   protocol: udp
   up: 500
   auth-str: dongtaiwang.com
-- name: DE · HTTP · kooker · 0DCDB22B
-  type: http
-  server: 158.173.154.4
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-- name: SG · HYSTERIA2 · wzmwayne · 02A002A6
-  type: hysteria2
-  server: s3.huhiuh.space
-  port: 18642
-  skip-cert-verify: true
-  sni: www.bing.com
-  udp: true
-  password: user317_windows:c70565e9-a99f-40ef-b96c-469a3949eed2
-  auth: user317_windows:c70565e9-a99f-40ef-b96c-469a3949eed2
-- name: ZZ · VMESS · au1rxx-clash · 0C32F0A6
-  type: vmess
-  server: 38.107.226.227
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
-  alterId: 0
-  cipher: auto
-  network: tcp
-  udp: true
-- name: FR · SOCKS5 · wzmwayne · 0BCED334
-  type: socks5
-  server: 45.61.129.165
-  port: 9050
-  udp: true
-- name: ZZ · SS · wzmwayne · 09A74D1B
-  type: ss
-  server: 85.209.157.184
-  port: 8388
-  cipher: 2022-blake3-aes-128-gcm
-  udp: true
-  password: EIIwJPg8YqgnjLLd58zoTg==:YYHIWhNXALgI+lmzFcEdTw==
-- name: ZZ · SS · au1rxx-clash · 08D9BCE3
-  type: ss
-  server: 209.46.102.22
-  port: 8388
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: 1hhrqrokj3ag
-- name: CA · TROJAN · wzmwayne · 1A887D9F
+- name: ZZ · TROJAN · au1rxx-clash · 087DED0F
   type: trojan
-  server: 104.21.24.95
-  port: 443
-  udp: true
-  sni: 1V95V6TjywCyTbAHl7f7Lx8b27G.L4495eYcqmsE9he0yVoEMJFc4IBYf-4.wORkERS.DeV
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /tr/zJi4ccv7FeEo780U?ed=2560
-    headers:
-      Host: 1v95v6tjywcytbahl7f7lx8b27g.l4495eycqmse9he0yvoemjfc4ibyf-4.workers.dev
-  password: Telegram_healer_config
-- name: ZZ · VLESS · wzmwayne · 01BB291C
-  type: vless
-  server: 82.39.171.142
-  port: 443
-  reality-opts:
-    public-key: e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg
-    short-id: c39cc7310a
-  uuid: d65cc14c-f53f-4fe2-b262-97856601319c
-  client-fingerprint: random
-  flow: xtls-rprx-vision
-  network: tcp
-  servername: yahoo.com
-  tls: true
-  udp: true
-- name: ZZ · VMESS · wzmwayne · 2F944603
-  type: vmess
-  server: 141.95.65.9
-  port: 1234
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  servername: ''
+  server: 2.27.109.179
+  port: 45464
   skip-cert-verify: true
-  tls: true
+  sni: 2.27.109.179.sslip.io
   udp: true
-- name: HK · ANYTLS · wzmwayne · 68590EB8
-  type: anytls
-  server: ac7548f3ebe045b39a90288ff1e97528.pnuqcnp.cn
-  port: 443
-  fingerprint: ''
-  skip-cert-verify: true
-  sni: ac7548f3ebe045b39a90288ff1e97528.lwdnxf.cn
-  udp: true
-  username: 9sK2mP8xQ7vL3nZ6
-  password: 9sK2mP8xQ7vL3nZ6
-- name: ZZ · HTTP · wzmwayne · 0125537E
-  type: http
-  server: 193.176.84.38
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: ZZ · SS · au1rxx-clash · 0CF96B41
-  type: ss
-  server: 57.131.48.45
-  port: 8388
-  cipher: aes-256-gcm
-  udp: true
-  password: itzvpn@321
-- name: ZZ · HYSTERIA2 · wzmwayne · 066AEF96
+  password: XuMweB2PWs
+- name: CH · HYSTERIA2 · wzmwayne · 110C960C
   type: hysteria2
-  server: 66.94.121.46
-  port: 443
+  server: ch.xiaoliyu.cyou
+  port: 18333
   skip-cert-verify: true
-  sni: www.broadcom.com
-  password: gf1:gfhysteria2024
-- name: TW · SOCKS5 · wzmwayne · 7BF6A9BA
-  type: socks5
-  server: 106.107.236.110
-  port: 1080
-  username: '111'
-  password: '111'
-- name: NL · HTTP · kooker · 19482F16
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  username: "null"
-  password: "null"
-- name: PT · SS · wzmwayne · 0A74318D
-  type: ss
-  server: 51.255.13.232
-  port: 8388
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: BqnqToih0PbU
-- name: ZZ · VMESS · au1rxx-clash · 11C65728
-  type: vmess
-  server: 167.88.62.124
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
-  alterId: 0
-  cipher: auto
-  network: tcp
-  udp: true
-- name: US · TROJAN · wzmwayne · 2326D0E4
-  type: trojan
-  server: 165.215.250.14
-  port: 443
-  udp: true
-  sni: www.calmlunch.com
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 0B192ECF
-  type: hysteria2
-  server: admin.wwwinternetvideo.click
-  port: 443
-  skip-cert-verify: true
-  sni: admin.wwwinternetvideo.click
-  password: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
-- name: NL · SS · au1rxx-clash · 1021EE0C
-  type: ss
-  server: 82.38.31.203
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: CA · VMESS · wzmwayne · 368F2E96
-  type: vmess
-  server: 104.17.77.77
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  servername: v2ray1.dozapp.xyz
-  network: ws
-  ws-opts:
-    path: /lMnsZUN4/
-    headers:
-      Host: v2ray1.dozapp.xyz
-- name: TK · HTTP · kooker · 194843D3
-  type: http
-  server: 193.176.84.30
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: PL · HTTP · wzmwayne · 03534B7F
-  type: http
-  server: 31.186.220.204
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 0C73CBD6
-  type: hysteria2
-  server: vp3.yysyy.online
-  port: 443
-  skip-cert-verify: false
-  sni: ''
-  password: 96ab5cd282733fd4c312a61f972f330a
-- name: JP · SOCKS5 · wzmwayne · 7C5EFD1A
-  type: socks5
-  server: 101.36.104.239
-  port: 10808
-- name: ZZ · SS · wzmwayne · 0D26FDEF
-  type: ss
-  server: 82.38.31.175
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: ZZ · SS · au1rxx-clash · 13FDE2F5
-  type: ss
-  server: 168.107.84.41
-  port: 56927
-  cipher: 2022-blake3-chacha20-poly1305
-  udp: true
-  password: s9CVCQlH8SB/LXByDobKTOMdTjJ7WScGfA57wZhHbek=
-- name: CA · TROJAN · wzmwayne · 2ECC2CE3
-  type: trojan
-  server: chat.openai.com
-  port: 443
-  udp: true
-  sni: www.calmlunch.com
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
-- name: ZZ · TROJAN · au1rxx-clash · 8DA037E4
-  type: trojan
-  server: us3.zestapp778.com
-  port: 443
-  skip-cert-verify: false
-  sni: us3.zestapp778.com
-  udp: true
-  password: Trojan@82164024
-- name: CA · VLESS · wzmwayne · 021E3575
-  type: vless
-  server: ez-30c541.aliminaie277.workers.dev
-  port: 443
-  uuid: 50414e45-4c5f-5a45-5553-d536262105ae
-  udp: true
-  tls: true
-  servername: ez-30c541.aliminaie277.workers.dev
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /stream/PANEL_ZEUS/d536262105ae
-    headers:
-      Host: ez-30c541.aliminaie277.workers.dev
-- name: ES · HTTP · wzmwayne · 05463F51
-  type: http
-  server: 130.195.250.34
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: US · SS · clashmeta · 0940C120
-  type: ss
-  server: 37.19.198.160
-  port: 443
-  cipher: aes-128-gcm
-  udp: true
-  password: shadowsocks
-- name: IE · HTTP · kooker · 2A5B0238
-  type: http
-  server: 149.88.96.12
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 0D965BEE
-  type: hysteria2
-  server: 85.204.107.178
-  port: 8080
-  skip-cert-verify: true
-  sni: hopp-romania-new.roxa.org
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-- name: ZZ · SS · au1rxx-clash · 154FFA49
-  type: ss
-  server: 23.251.121.242
-  port: 8080
-  cipher: rc4-md5
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: NL · SOCKS5 · wzmwayne · C1A61038
-  type: socks5
-  server: 213.111.146.36
-  port: 18080
-- name: ZZ · TROJAN · au1rxx-clash · A1A02E4E
-  type: trojan
-  server: 109.206.241.10
-  port: 449
-  skip-cert-verify: true
-  sni: 109.206.241.10
-  udp: true
-  password: oiiaB38ywjEHCWRs_O_a_1113_Il_KeyyyHop_Bes1
-- name: ZZ · SS · wzmwayne · 0D60E4E9
-  type: ss
-  server: 217.30.10.44
-  port: 9071
-  cipher: aes-256-cfb
-  udp: true
-  password: mENfxTFQpRKKh4As
-- name: CA · TROJAN · wzmwayne · 40F80B2F
-  type: trojan
-  server: 104.16.71.213
-  port: 443
-  udp: true
-  sni: www.calmlunch.com
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
-- name: ZZ · VLESS · wzmwayne · 028453FD
-  type: vless
-  server: surstreming.vvzzkontaktezzvv.garden
-  port: 443
-  reality-opts:
-    public-key: x6p656szvu_3CKLsJ4NtkooRvdTVGx7IoPca_p58_jA
-    short-id: fb442438e2223836
-  uuid: 4bdeee92-97e8-414d-bef6-ec1d5e2ab73b
-  client-fingerprint: random
-  flow: xtls-rprx-vision
-  network: tcp
-  servername: surstreming.vvzzkontaktezzvv.garden
-  tls: true
-  udp: true
-- name: CA · VMESS · wzmwayne · 3EE1B243
-  type: vmess
-  server: 23.162.200.198
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: tcp
-- name: US · HTTP · wzmwayne · 05715D95
-  type: http
-  server: 52.44.235.33
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 0EFEB6AA
-  type: hysteria2
-  server: 85.204.107.190
-  port: 8443
-  skip-cert-verify: true
-  sni: hopp-romania-new.roxa.org
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+  sni: ch.xiaoliyu.cyou
+  password: 19f72087-4591-4d72-930b-2697078ec2be
 - name: ZZ · VLESS · au1rxx-clash · 039650D8
   type: vless
   server: 51.81.203.63
@@ -566,284 +211,146 @@ proxies:
   servername: www.icloud.com
   tls: true
   udp: true
-- name: CA · HTTP · kooker · 497F022D
-  type: http
-  server: 206.223.183.13
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: HK · SOCKS5 · wzmwayne · D576D96A
+- name: HK · SOCKS5 · wzmwayne · 0A77CE6A
   type: socks5
-  server: 123.58.219.171
-  port: 10808
-- name: ZZ · HYSTERIA2 · kooker · C1A7BFC8
-  type: hysteria2
-  server: mg.mangshe.xyz
-  port: 2060
-  skip-cert-verify: true
-  sni: mg.mangshe.xyz
-  password: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
-- name: ZZ · SS · wzmwayne · 0F6B57D6
+  server: 47.239.116.165
+  port: 1080
+  username: admin
+  password: admin
+- name: ZZ · SS · wzmwayne · 13FDE2F5
   type: ss
-  server: 130.61.45.158
-  port: 59924
+  server: 168.107.84.41
+  port: 56927
   cipher: 2022-blake3-chacha20-poly1305
   udp: true
-  password: ZEntWGl0SEq0qUIMx4UiTN482RzOg2VeZ2N5Qrte1Xc=
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 123B3B26
-  type: hysteria2
-  server: 62.210.147.2
-  port: 43115
-  skip-cert-verify: true
-  sni: www.microsoft.com
-  password: github.com/Alvin9999-newpac/fanqiang
-- name: ZZ · TROJAN · wzmwayne · 45855A09
-  type: trojan
-  server: 154.90.62.70
-  port: 56127
-  skip-cert-verify: true
-  sni: 154.90.62.70
-  udp: true
-  password: p5jTPcffLgi4gaNOJd2KUTb9YEPBBD5B
-- name: ZZ · SS · au1rxx-clash · 1D446F25
-  type: ss
-  server: 67.217.57.157
-  port: 19743
-  cipher: aes-128-gcm
-  udp: true
-  password: e5ec86c79d726d01bf0958087e0dd91f
-- name: RU · HTTP · kooker · 4EF7FD06
-  type: http
-  server: 46.29.166.134
-  port: 1446
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · VMESS · wzmwayne · 431640E5
-  type: vmess
-  server: 169.197.142.22
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-  udp: true
-- name: ZZ · HTTP · wzmwayne · 0A3CFA3F
-  type: http
-  server: 193.176.84.21
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: ZZ · HYSTERIA2 · wzmwayne · 10AFD20B
-  type: hysteria2
-  server: 202.146.222.174
-  port: 443
-  skip-cert-verify: true
-  sni: https://t.me/wangcai2
-  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 12C0AB68
-  type: hysteria2
-  server: 103.115.109.49
-  port: 443
-  skip-cert-verify: true
-  sni: https://t.me/wangcai2🇨🇳
-  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: NL · SS · clashmeta · 0D550C3F
-  type: ss
-  server: 82.38.31.2
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: NL · SS · au1rxx-clash · 1D498DDE
-  type: ss
-  server: 82.38.31.176
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: ZA · SS · wzmwayne · 19B3B217
-  type: ss
-  server: 102.37.156.224
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: aduB9HGxQHjA2SBMRjkHX6
-- name: DE · TROJAN · wzmwayne · 50E5E11B
-  type: trojan
-  server: 45.80.111.7
-  port: 443
-  udp: true
-  sni: www.calmlunch.com
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
-- name: ZZ · VLESS · wzmwayne · 04D3465D
-  type: vless
-  server: 64.118.158.56
-  port: 443
-  reality-opts:
-    public-key: XTarABsaaFbjYNk6lRKnUzGavHzeqMIP7B8dZGNCvkE
-    short-id: 5c6481cdd4
-  uuid: 8af93649-403b-46d8-9966-923d4c58402c
-  client-fingerprint: chrome
-  flow: xtls-rprx-vision
-  network: tcp
-  servername: buckeye-retail-website.amazon.com
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · 57BBF516
-  type: http
-  server: 185.246.153.28
-  port: 443
-  skip-cert-verify: true
-  sni: 4a8c2906c96058315dffbc2b0e7ff19b-0c66a58858a795df.apache-iv.com
-  tls: true
-- name: ZZ · VMESS · wzmwayne · 5C0955A7
-  type: vmess
-  server: 162.19.204.71
-  port: 1234
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  servername: supervpn.super.com
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · wzmwayne · 0B9BD1AA
-  type: http
-  server: 138.199.35.200
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-- name: DE · HTTP · kooker · 61129A79
-  type: http
-  server: 87.249.132.97
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 10DC706C
+  password: s9CVCQlH8SB/LXByDobKTOMdTjJ7WScGfA57wZhHbek=
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 03AB4ACB
   type: hysteria2
   server: 185.156.44.99
   port: 443
   skip-cert-verify: true
-  sni: css.rbxcdn.com
+  sni: 185.156.44.99
   password: gf1:gfhysteria2024
-- name: ZZ · SS · wzmwayne · 20C9A03F
+- name: ZZ · SS · au1rxx-clash · 08D9BCE3
   type: ss
-  server: 2.58.81.221
-  port: 443
-  cipher: aes-256-gcm
+  server: 209.46.102.22
+  port: 8388
+  cipher: chacha20-ietf-poly1305
   udp: true
-  password: kKEd0rBrd56Furjz
-- name: RU · HTTP · kooker · 6B09BF40
-  type: http
-  server: 82.147.71.46
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: CA · TROJAN · wzmwayne · 53C5F7B9
-  type: trojan
-  server: 104.19.229.21
-  port: 443
-  udp: true
-  sni: www.calmlunch.com
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
-- name: CA · VLESS · wzmwayne · 0677818E
-  type: vless
-  server: 104.21.23.72
-  port: 8880
-  uuid: 4e81922a-1c2e-41ee-bb4c-9095a0a363fe
+  password: 1hhrqrokj3ag
+- name: JP · VMESS · wzmwayne · 26D3B2F1
+  type: vmess
+  server: 172.111.146.64
+  port: 80
+  uuid: 05b8c783-7f59-47f9-9923-06a465679f6a
+  alterId: 0
+  cipher: auto
   udp: true
   tls: false
-  servername: gentle-cell-501a.273-d6b.workers.dev
+  servername: 172.111.146.64
   network: ws
   ws-opts:
-    path: /pyip=ProxyIP.SG.CMLiussss.net
+    path: /vmess/
     headers:
-      Host: gentle-cell-501a.273-d6b.workers.dev
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 1471AB54
-  type: hysteria2
-  server: 43.167.208.94
+      Host: 172.111.146.64
+- name: ZZ · VLESS · au1rxx-clash · 0398AA90
+  type: vless
+  server: 38.180.146.40
   port: 443
+  reality-opts:
+    public-key: -5fYyQrVTjiSxdsLpf6VzNaawYlZLqeU2_8ezyn3kBg
+    short-id: eb26ce282d7ba399
+  uuid: 1e6245c4-fb80-44fd-b354-c6b94a459203
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: www.apple.com
+  tls: true
+  udp: true
+- name: RU · HYSTERIA2 · kooker · FDB28267
+  type: hysteria2
+  server: 91.240.86.70
+  port: 22443
+  down: ''
+  fingerprint: ''
+  obfs: ''
+  obfs-password: ''
+  skip-cert-verify: false
+  sni: hy.quattro-tech.ru
+  up: ''
+  password: 3f63c86c-ac4a-4900-85cf-4fedf93c2ca5
+- name: US · ANYTLS · wzmwayne · 584F3A27
+  type: anytls
+  server: anytls2.864106.xyz
+  port: 19000
   skip-cert-verify: true
-  sni: ''
-  password: RQBXe4kpsRant_2u1PzdneBOPuCSwUSI
-- name: ZZ · HTTP · wzmwayne · 0BC3A4D7
+  sni: anytls2.864106.xyz
+  password: github.com/Alvin9999-newpac/fanqiang
+- name: ZZ · VMESS · au1rxx-clash · 0C32F0A6
+  type: vmess
+  server: 38.107.226.227
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: auto
+  network: tcp
+  udp: true
+- name: ZZ · HTTP · wzmwayne · 0125537E
   type: http
-  server: 193.176.84.36
+  server: 193.176.84.38
   port: 9002
   skip-cert-verify: true
   tls: true
-  udp: true
   sni: www.bing.com
-- name: PL · HTTP · kooker · 7143DB3A
-  type: http
-  server: 91.228.89.45
-  port: 7
-- name: CH · HYSTERIA2 · wzmwayne · 110C960C
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 0433E5F9
   type: hysteria2
-  server: ch.xiaoliyu.cyou
-  port: 18333
+  server: 85.204.107.183
+  port: 8443
   skip-cert-verify: true
-  sni: ch.xiaoliyu.cyou
-  password: 19f72087-4591-4d72-930b-2697078ec2be
-- name: ZZ · SS · wzmwayne · 21F016F9
-  type: ss
-  server: 82.38.31.18
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: DE · HTTP · kooker · 77127109
-  type: http
-  server: 149.36.50.1
+  sni: hopp-romania-new.roxa.org
+  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+- name: FR · HYSTERIA2 · wzmwayne · 265CB8B9
+  type: hysteria2
+  server: 173.212.201.85
   port: 443
   skip-cert-verify: true
-  tls: true
-- name: CA · TROJAN · wzmwayne · 5BF47DB2
-  type: trojan
-  server: 104.18.9.83
-  port: 443
+  sni: www.docker.com
   udp: true
-  sni: www.calmlunch.com
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
-- name: CA · VLESS · wzmwayne · 0AA18831
-  type: vless
-  server: time.is
-  port: 2083
-  uuid: fc8a0708-951a-4027-860f-2a154ebc4dd7
-  udp: true
-  tls: true
-  servername: crimson-king-301d.nexoxnet.workers.dev
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: crimson-king-301d.nexoxnet.workers.dev
-- name: ZZ · SS · au1rxx-clash · 20B929AB
+  password: gf1:gfhysteria2024
+  auth: gf1:gfhysteria2024
+- name: SE · SOCKS5 · wzmwayne · 403A79EB
+  type: socks5
+  server: 45.61.129.165
+  port: 9050
+- name: DE · SS · wzmwayne · 1858AABB
   type: ss
-  server: 130.61.84.196
+  server: 130.61.45.158
   port: 59924
   cipher: 2022-blake3-chacha20-poly1305
+  password: ZEntWGl0SEq0qUIMx4UiTN482RzOg2VeZ2N5Qrte1Xc=
+- name: ZZ · VMESS · au1rxx-clash · 0CE2762F
+  type: vmess
+  server: 198.57.27.190
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: auto
+  network: raw
   udp: true
-  password: zwbOr/I/6+EK8ln8DB8N3/w+EGgtGtwGscxeRXRk53A=
+- name: ZZ · VLESS · wzmwayne · 070266AF
+  type: vless
+  server: 169.40.42.223
+  port: 443
+  reality-opts:
+    public-key: e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg
+    short-id: c39cc7310a
+  uuid: d65cc14c-f53f-4fe2-b262-97856601319c
+  client-fingerprint: qq
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: yahoo.com
+  tls: true
+  udp: true
 - name: ZZ · VMESS · wzmwayne · 80DBFBA9
   type: vmess
   server: 31.77.8.97
@@ -853,209 +360,153 @@ proxies:
   cipher: auto
   network: tcp
   udp: true
-- name: US · HTTP · wzmwayne · 0BC817B9
-  type: http
-  server: purposebydesig.club
-  port: 443
-  tls: true
-  udp: true
-  password: None
-- name: LV · HTTP · kooker · 7E92E0A4
-  type: http
-  server: 109.248.147.66
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 11D7FA2F
-  type: hysteria2
-  server: vpn-hk-004.fastervpn.world
-  port: 443
-  skip-cert-verify: true
-  sni: vpn-hk-004.fastervpn.world
-  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: ZZ · SS · wzmwayne · 263CD717
+- name: ZZ · SS · au1rxx-clash · 0A74318D
   type: ss
-  server: 213.35.124.191
-  port: 56927
-  cipher: 2022-blake3-chacha20-poly1305
-  udp: true
-  password: f3lz1aPywEuTpS4I3mmarFU+LDABF1eDBRHJ2zNgiRM=
-- name: ZZ · SS · au1rxx-clash · 22E57B59
-  type: ss
-  server: 107.155.57.11
-  port: 8080
-  cipher: rc4-md5
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: US · HTTP · kooker · 87AF100F
-  type: http
-  server: 52.15.98.63
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: CA · TROJAN · wzmwayne · 64AEAAA3
-  type: trojan
-  server: 6m1rgyieclmrx9hef1.z6-0hlnubjibwzpa85.workers.dev
-  port: 443
-  udp: true
-  sni: 6m1rGyIEclMRx9HeF1.Z6-0hlNUbJIBwZPa85.wOrKerS.DEV
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /tr/GaQvfFwT5sWgVxHig8YaXjtiuQPZNI?ed=2560
-    headers:
-      Host: 6m1rgyieclmrx9hef1.z6-0hlnubjibwzpa85.workers.dev
-  password: Telegram_healer_config
-- name: CA · VLESS · wzmwayne · 0ABECBE4
-  type: vless
-  server: 162.159.156.214
-  port: 8880
-  uuid: 8991a496-1baa-486f-9948-ffe44e68c072
-  udp: true
-  tls: false
-  servername: soft-band-8da6.426.workers.dev
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.SG.CMLiussss.net
-    headers:
-      Host: soft-band-8da6.426.workers.dev
-- name: ZZ · VMESS · au1rxx-clash · 3D678C78
-  type: vmess
-  server: 38.91.107.49
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-  udp: true
-- name: GE · HTTP · kooker · 95FCB22F
-  type: http
-  server: 195.54.178.210
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: US · VMESS · wzmwayne · 89B5B744
-  type: vmess
-  server: 129.146.143.80
-  port: 48111
-  uuid: d4603cc2-e0ee-4651-83f5-1db5b7168177
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: tcp
-- name: RU · HTTP · wzmwayne · 0C26E67C
-  type: http
-  server: 178.219.43.226
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: FR · HTTP · kooker · 9A875212
-  type: http
-  server: 82.65.162.76
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: JP · HYSTERIA2 · wzmwayne · 18FE2247
-  type: hysteria2
-  server: open.2ml.bid
-  port: 443
-  skip-cert-verify: true
-  sni: open.2ml.bid
-  udp: true
-  password: my_super_password_123
-  auth: my_super_password_123
-- name: NL · SS · wzmwayne · 2788BB33
-  type: ss
-  server: 82.38.31.149
-  port: 8080
+  server: 51.255.13.232
+  port: 8388
   cipher: chacha20-ietf-poly1305
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: CA · TROJAN · wzmwayne · 9BA2F1DF
-  type: trojan
-  server: 104.21.4.124
-  port: 443
+  password: BqnqToih0PbU
+- name: US · ANYTLS · wzmwayne · 588ACD65
+  type: anytls
+  server: 134.195.101.162
+  port: 21333
+  skip-cert-verify: true
+  sni: apple.com
   udp: true
-  sni: vRE6r9qrbQi0T25tg.SRtB0M3HDbWr2cjZ8fJuR.WoRKerS.DEv
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /tr/W3Ei3SdcW9sRVMLIbEd8sB1lm?ed=2560
-    headers:
-      Host: vre6r9qrbqi0t25tg.srtb0m3hdbwr2cjz8fjur.workers.dev
-  password: Telegram_healer_config
-- name: CA · VLESS · wzmwayne · 0AC2CF0C
+  password: d7340868-b74c-455a-8ce0-17a52afa43b7
+- name: PL · HTTP · wzmwayne · 03534B7F
+  type: http
+  server: 31.186.220.204
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · VLESS · au1rxx-clash · 03C0F10E
   type: vless
-  server: codecanyon.net
-  port: 8880
-  uuid: 692d631b-cff1-4ed4-ba81-f716388fff46
-  udp: true
-  tls: false
-  servername: odd-darkness-57ce.334-a29.workers.dev
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.US.CMLiussss.net
-    headers:
-      Host: odd-darkness-57ce.334-a29.workers.dev
-- name: NL · HTTP · kooker · 9F164E13
-  type: http
-  server: 185.246.153.42
+  server: 169.40.42.133
   port: 443
-  skip-cert-verify: true
-  sni: 482c8436a1f7c908b48a1757abb5dd79-3791fb4df2db250b.apache-iv.com
+  reality-opts:
+    public-key: e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg
+    short-id: c39cc7310a
+  uuid: d65cc14c-f53f-4fe2-b262-97856601319c
+  client-fingerprint: qq
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: yahoo.com
   tls: true
-- name: ZZ · VMESS · wzmwayne · 8A6B86B5
-  type: vmess
-  server: 216.152.152.187
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
-  alterId: 0
-  cipher: auto
-  network: raw
   udp: true
-- name: US · HTTP · wzmwayne · 0C60FFD7
-  type: http
-  server: 24.142.229.178
-  port: 8090
-  skip-cert-verify: true
-  tls: true
-- name: DE · HTTP · kooker · A046084A
-  type: http
-  server: 87.106.223.158
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 1A40FE0C
+- name: ZZ · HYSTERIA2 · wzmwayne · 2D3852ED
   type: hysteria2
-  server: 85.204.107.172
-  port: 8443
+  server: open.w2m.ink
+  port: 5443
   skip-cert-verify: false
-  sni: hopp-romania-new.roxa.org
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 19B805AA
-  type: hysteria2
-  server: 85.204.107.184
-  port: 8443
-  skip-cert-verify: true
-  sni: hopp-romania-new.roxa.org
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-- name: NL · SS · wzmwayne · 27922BAC
+  sni: ''
+  password: my_super_password_123
+- name: NL · SS · wzmwayne · 1D498DDE
   type: ss
-  server: 82.38.31.217
+  server: 82.38.31.176
   port: 8080
   cipher: chacha20-ietf-poly1305
   udp: true
   password: k1dBOmOB4oqi7Ump37a1bQ
-- name: US · HTTP · kooker · ADA96C6E
+- name: ZZ · SS · au1rxx-clash · 0CF96B41
+  type: ss
+  server: 57.131.48.45
+  port: 8388
+  cipher: aes-256-gcm
+  udp: true
+  password: itzvpn@321
+- name: US · TROJAN · wzmwayne · 2326D0E4
+  type: trojan
+  server: 165.215.250.14
+  port: 443
+  udp: true
+  sni: www.calmlunch.com
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /assignment
+    headers:
+      Host: www.calmlunch.com
+  password: humanity
+- name: ZZ · VLESS · wzmwayne · 09F22D82
+  type: vless
+  server: 212.227.235.66
+  port: 2053
+  reality-opts:
+    public-key: 7Y6Xb5Ql_03K25x8yKUSOKI2JTOMyv2nyCcFza90uxk
+    short-id: 29e8dcd2b37aaa7f
+  uuid: ead0dd61-d398-40ad-80d6-a0e1e516d7d3
+  client-fingerprint: chrome
+  network: raw
+  servername: www.apple.com
+  tls: true
+  udp: true
+- name: ZZ · VMESS · au1rxx-clash · 11C65728
+  type: vmess
+  server: 167.88.62.124
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: auto
+  network: tcp
+  udp: true
+- name: HK · ANYTLS · wzmwayne · 68590EB8
+  type: anytls
+  server: ac7548f3ebe045b39a90288ff1e97528.pnuqcnp.cn
+  port: 443
+  fingerprint: ''
+  skip-cert-verify: true
+  sni: ac7548f3ebe045b39a90288ff1e97528.lwdnxf.cn
+  udp: true
+  username: 9sK2mP8xQ7vL3nZ6
+  password: 9sK2mP8xQ7vL3nZ6
+- name: US · HTTP · wzmwayne · 05715D95
   type: http
-  server: 162.244.227.36
+  server: 52.44.235.33
   port: 443
   skip-cert-verify: true
   tls: true
-- name: AT · TROJAN · wzmwayne · 9D55CFF0
+- name: ZZ · SS · au1rxx-clash · 0D26FDEF
+  type: ss
+  server: 82.38.31.175
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: ZZ · HYSTERIA2 · wzmwayne · 34AAAAA3
+  type: hysteria2
+  server: ru1.xiaoliyu.cyou
+  port: 18333
+  skip-cert-verify: true
+  sni: ru1.xiaoliyu.cyou
+  password: 19f72087-4591-4d72-930b-2697078ec2be
+- name: JP · SOCKS5 · wzmwayne · 7C5EFD1A
+  type: socks5
+  server: 101.36.104.239
+  port: 10808
+- name: ZZ · SS · wzmwayne · 237E7EAE
+  type: ss
+  server: 51.20.96.231
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: ZZ · VMESS · au1rxx-clash · 1395E41D
+  type: vmess
+  server: 141.95.65.9
+  port: 1234
+  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
+  alterId: 0
+  cipher: none
+  network: tcp
+  servername: supervpn.super.com
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: CA · TROJAN · wzmwayne · 40F80B2F
   type: trojan
-  server: 212.183.88.136
+  server: 104.16.71.213
   port: 443
   udp: true
   sni: www.calmlunch.com
@@ -1065,6 +516,60 @@ proxies:
     headers:
       Host: www.calmlunch.com
   password: humanity
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 06A36F4A
+  type: hysteria2
+  server: hy2.561891.xyz
+  port: 44356
+  skip-cert-verify: true
+  sni: ''
+  password: dongtaiwang.com
+- name: US · SS · clashmeta · 0940C120
+  type: ss
+  server: 37.19.198.160
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
+- name: ZZ · VLESS · wzmwayne · 1A14514D
+  type: vless
+  server: 138.124.180.137
+  port: 443
+  reality-opts:
+    public-key: GBdkyDLfr0LIZo_94Xv8ycAKOmkjArYzwJAEMhuXX2c
+    short-id: 33acba1b
+  uuid: 5234b2b7-5e07-422c-8159-d62a676c00c6
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: raw
+  servername: www.apple.com
+  tls: true
+  udp: true
+- name: NL · SS · clashmeta · 0D550C3F
+  type: ss
+  server: 82.38.31.2
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: ZZ · VMESS · wzmwayne · AE01D5DE
+  type: vmess
+  server: 67.220.72.237
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: none
+  network: tcp
+  udp: true
+- name: US · ANYTLS · wzmwayne · B9E6605F
+  type: anytls
+  server: awefd2313fefarg23fr24.pnuqcnp.cn
+  port: 443
+  fingerprint: ''
+  skip-cert-verify: true
+  sni: images.ctfassets.net
+  udp: true
+  username: 9sK2mP8xQ7vL3nZ6
+  password: 9sK2mP8xQ7vL3nZ6
 - name: ZZ · VLESS · au1rxx-clash · 04CA9065
   type: vless
   server: 3.114.220.22
@@ -1079,73 +584,36 @@ proxies:
   servername: www.apple.com
   tls: true
   udp: true
-- name: ZZ · VMESS · au1rxx-clash · 47E030CE
-  type: vmess
-  server: 169.197.143.116
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
-  alterId: 0
-  cipher: auto
-  network: tcp
-  udp: true
-- name: HK · VMESS · wzmwayne · 97EB8952
-  type: vmess
-  server: nycqg19zkwacpm1b.v.3dns.vip
-  port: 443
-  uuid: f23bb427-c1f9-4373-876c-2f43e9f790f3
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  servername: nycqg19zkwacpm1b.v.3dns.vip
-  network: ws
-  ws-opts:
-    path: /ws-vmess
-    headers:
-      Host: nycqg19zkwacpm1b.v.3dns.vip
-- name: US · HTTP · wzmwayne · 0CE81BBC
+- name: ZZ · HTTP · wzmwayne · 05E4272E
   type: http
-  server: 170.199.233.89
-  port: 443
+  server: nl209.freeconnect.link
+  port: 9251
   skip-cert-verify: true
+  sni: nl209.freeconnect.link
   tls: true
-- name: ZZ · SS · au1rxx-clash · 271B2C08
-  type: ss
-  server: 129.151.75.241
-  port: 61312
-  cipher: 2022-blake3-chacha20-poly1305
-  udp: true
-  password: FQrzr8AfOOU7hZ4+8Cr8iDUUzlHz0S6dvyS44jdUe1o=
-- name: FR · HTTP · kooker · BB9FDEC9
-  type: http
-  server: 82.64.255.151
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 1A8891DA
+  username: freeuser1
+  password: freeuser1
+- name: ZZ · HYSTERIA2 · wzmwayne · 43C74B51
   type: hysteria2
-  server: 85.204.107.189
-  port: 8443
-  skip-cert-verify: false
-  sni: hopp-romania-new.roxa.org
-  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
-- name: ZZ · SS · wzmwayne · 2B317655
-  type: ss
-  server: 82.38.31.174
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: SE · HTTP · kooker · C5E4EFBA
-  type: http
-  server: 79.142.77.63
-  port: 443
+  server: 31.57.248.176
+  port: 50160
   skip-cert-verify: true
-  tls: true
-  password: None
-- name: CA · TROJAN · wzmwayne · A89F3590
+  sni: www.bing.com%23%e9%a6%83%e5%9a%9f%e9%a6%83%e5%9a%a2%7chk%7c%40wxgqlfx%7c147
+  password: b0917015b656b3dd2286b5633af0c5c1
+- name: CH · SOCKS5 · wzmwayne · BA7FFC0F
+  type: socks5
+  server: 185.195.71.218
+  port: 18080
+- name: ZZ · SS · wzmwayne · 23C611C4
+  type: ss
+  server: 185.135.86.175
+  port: 9033
+  cipher: aes-256-cfb
+  udp: true
+  password: UTJA57ypk2XKQpnm
+- name: DE · TROJAN · wzmwayne · 50E5E11B
   type: trojan
-  server: 188.114.96.3
+  server: 45.80.111.7
   port: 443
   udp: true
   sni: www.calmlunch.com
@@ -1156,72 +624,217 @@ proxies:
     headers:
       Host: www.calmlunch.com
   password: humanity
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 21210E6A
-  type: hysteria2
-  server: 138.2.73.238
-  port: 50160
-  skip-cert-verify: true
-  sni: ''
-  password: f87376e17da040ed04c9665ce8972930
-- name: US · VLESS · wzmwayne · 0BEC762E
+- name: ZZ · VLESS · wzmwayne · 1FB160EA
   type: vless
-  server: 141.101.114.8
+  server: norw-mori-4.failspace.top
   port: 443
-  uuid: 5d8eb33a-2166-4daf-88fe-4be5799c493b
+  uuid: cd3bb7d9-7df3-4644-ac05-c260990ac277
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: ''
+  skip-cert-verify: false
+  tls: true
+  udp: true
+- name: ZZ · VMESS · au1rxx-clash · 155A9DD5
+  type: vmess
+  server: 172.111.38.100
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: auto
+  network: tcp
+  udp: true
+- name: ZZ · HTTP · wzmwayne · 07241EB8
+  type: http
+  server: 193.176.84.23
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com
+- name: ZZ · SS · au1rxx-clash · 0EF05124
+  type: ss
+  server: 193.29.139.202
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: ZZ · HYSTERIA2 · wzmwayne · 4734C3AE
+  type: hysteria2
+  server: 202.146.222.174
+  port: 443
+  skip-cert-verify: true
+  sni: https%3a%2f%2ft.me%2fwangcai2
+  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
+- name: NL · SOCKS5 · wzmwayne · C1A61038
+  type: socks5
+  server: 213.111.146.36
+  port: 18080
+- name: ZZ · SS · wzmwayne · 24AA4636
+  type: ss
+  server: 141.227.134.63
+  port: 17000
+  cipher: aes-256-gcm
+  udp: true
+  password: pX0uhU3ZjUcLWYs0Vez55BO3JoQrRlL
+- name: CA · TROJAN · wzmwayne · 5BF47DB2
+  type: trojan
+  server: 104.18.9.83
+  port: 443
+  udp: true
+  sni: www.calmlunch.com
+  network: ws
+  ws-opts:
+    path: /assignment
+    headers:
+      Host: www.calmlunch.com
+  password: humanity
+- name: GB · VLESS · wzmwayne · 2028BEDC
+  type: vless
+  server: 141.101.122.147
+  port: 443
+  uuid: c4edb87e-8544-4fa4-bd1c-b0cda9a34b46
   udp: true
   tls: true
-  servername: noisy-term-e657.airdrop2014aa5168.workers.dev
+  servername: a.cwvps.eu.org
   client-fingerprint: chrome
   network: ws
   ws-opts:
-    path: /
+    path: /ws
     headers:
-      Host: noisy-term-e657.airdrop2014aa5168.workers.dev
-- name: DE · HTTP · kooker · C92406E4
+      Host: a.cwvps.eu.org
+- name: ZZ · SS · au1rxx-clash · 154FFA49
+  type: ss
+  server: 23.251.121.242
+  port: 8080
+  cipher: rc4-md5
+  udp: true
+  password: 14fFPrbezE3HDZzsMOr6
+- name: US · HTTP · wzmwayne · 07F21DAE
   type: http
-  server: 212.132.126.182
-  port: 443
+  server: 173.42.49.102
+  port: 8090
   skip-cert-verify: true
   tls: true
-- name: IE · HTTP · wzmwayne · 12427F00
-  type: http
-  server: 54.194.223.138
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: FR · HTTP · kooker · E03EAAA7
-  type: http
-  server: 84.235.228.156
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 2064B070
+- name: US · HYSTERIA2 · wzmwayne · 520DCF71
   type: hysteria2
-  server: 202.146.222.29
+  server: vpn-us-004.fastervpn.world
   port: 443
+  down: ''
+  fingerprint: ''
+  obfs: ''
+  obfs-password: ''
   skip-cert-verify: true
-  sni: css.rbxcdn.com
+  sni: vpn-us-004.fastervpn.world
+  up: ''
   password: H7mP2xY9kJ4nQ8wR5tF6vB3z
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 26290604
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 0B192ECF
   type: hysteria2
-  server: 132.226.226.189
-  port: 50160
+  server: admin.wwwinternetvideo.click
+  port: 443
   skip-cert-verify: true
-  sni: www.bing.com
-  password: 1671a252e2a97dc2bda4e515475931da
-- name: ZZ · SS · wzmwayne · 2DD9A906
+  sni: admin.wwwinternetvideo.click
+  password: YutbgyXL1mGaSlBXDoEucWvYbrDCINgUcQ6R6_At5Pjr2xCc
+- name: NL · SS · wzmwayne · 27922BAC
+  type: ss
+  server: 82.38.31.217
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · SS · au1rxx-clash · 18B84FE8
+  type: ss
+  server: 82.38.31.204
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: FR · TROJAN · wzmwayne · 9A8D3E30
+  type: trojan
+  server: 104.18.152.73
+  port: 443
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: false
+  sni: www.ignitelimit.com
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+    path: /assignment
+  password: humanity
+- name: MX · HTTP · wzmwayne · 0893D2BE
+  type: http
+  server: 189.51.168.165
+  port: 999
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 0D965BEE
+  type: hysteria2
+  server: 85.204.107.178
+  port: 8080
+  skip-cert-verify: true
+  sni: hopp-romania-new.roxa.org
+  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+- name: JP · HYSTERIA2 · wzmwayne · 5CC2CF2D
+  type: hysteria2
+  server: 43.167.208.94
+  port: 443
+  skip-cert-verify: true
+  sni: 43.167.208.94
+  udp: true
+  password: RQBXe4kpsRant_2u1PzdneBOPuCSwUSI
+  auth: RQBXe4kpsRant_2u1PzdneBOPuCSwUSI
+- name: ZZ · SS · au1rxx-clash · 19B3B217
+  type: ss
+  server: 102.37.156.224
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: aduB9HGxQHjA2SBMRjkHX6
+- name: HK · SOCKS5 · wzmwayne · F4E726B6
+  type: socks5
+  server: 47.242.19.215
+  port: 8899
+  skip-cert-verify: true
+  username: admin
+  password: admin
+- name: US · SS · wzmwayne · 2DD9A906
   type: ss
   server: 37.19.198.236
   port: 443
   cipher: aes-128-gcm
   udp: true
   password: shadowsocks
-- name: RO · HTTP · kooker · E3CACFFB
-  type: http
-  server: 193.176.84.29
-  port: 9002
-  skip-cert-verify: true
+- name: ZZ · VLESS · wzmwayne · 2757DF11
+  type: vless
+  server: 5.253.30.99
+  port: 40443
+  reality-opts:
+    public-key: cwmcqsfS7klQlkcoUNuATEk0NiPY-NnRb9z8rCJDQw0
+    short-id: 88b6
+  uuid: 511c1563-2cb6-4064-abc6-a59ee49818a8
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: raw
+  servername: deepl.com
   tls: true
+  udp: true
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 0EFEB6AA
+  type: hysteria2
+  server: 85.204.107.190
+  port: 8443
+  skip-cert-verify: true
+  sni: hopp-romania-new.roxa.org
+  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+- name: CO · HTTP · wzmwayne · 0A114B53
+  type: http
+  server: 190.145.193.46
+  port: 8089
+- name: ZZ · HYSTERIA2 · wzmwayne · 5E28D650
+  type: hysteria2
+  server: 185.174.137.172
+  port: 8446
+  skip-cert-verify: true
+  sni: ''
+  password: e9dc02d400b67c727aca1620
 - name: CA · TROJAN · wzmwayne · B1141C07
   type: trojan
   server: 104.18.32.47
@@ -1235,143 +848,43 @@ proxies:
     headers:
       Host: www.calmlunch.com
   password: humanity
-- name: DE · VLESS · wzmwayne · 0C8078C9
-  type: vless
-  server: 185.125.103.62
-  port: 8082
-  uuid: 7909e164-d482-4620-a370-07e6fda6676b
-  udp: true
-  tls: true
-  servername: wjwkhoaftdgrt8qus.mp8pmwdgwf3sdapasouszjobjr57nrxxgtx9n.workers.dev
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /@Marisa_kristi
-    headers:
-      Host: wjwkhoaftdgrt8qus.mp8pmwdgwf3sdapasouszjobjr57nrxxgtx9n.workers.dev
-- name: ZZ · VMESS · au1rxx-clash · 538F1010
+- name: ZZ · VMESS · au1rxx-clash · 366528D9
   type: vmess
-  server: 172.111.38.100
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  server: 152.67.8.205
+  port: 80
+  uuid: 9db4c708-aef8-4359-821b-38e47990be0d
   alterId: 0
   cipher: auto
-  network: raw
-  udp: true
-- name: ES · VMESS · wzmwayne · A5691A68
-  type: vmess
-  server: 85.90.217.42
-  port: 22324
-  uuid: 04621bae-ab36-11ec-b909-0242ac120002
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: tcp
-- name: US · HTTP · wzmwayne · 12497365
-  type: http
-  server: 107.149.232.90
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · SS · au1rxx-clash · 2E91BCFC
-  type: ss
-  server: 82.110.60.9
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · HTTP · kooker · F45EF0BD
-  type: http
-  server: 12.202.180.10
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: FR · HYSTERIA2 · wzmwayne · 265CB8B9
-  type: hysteria2
-  server: 173.212.201.85
-  port: 443
-  skip-cert-verify: true
-  sni: www.docker.com
-  udp: true
-  password: gf1:gfhysteria2024
-  auth: gf1:gfhysteria2024
-- name: DE · SS · wzmwayne · 2F933D76
-  type: ss
-  server: 213.202.208.199
-  port: 7001
-  cipher: aes-256-gcm
-  udp: true
-  password: RexnBgU7EV5ADxG
-- name: FR · TROJAN · wzmwayne · C0709573
-  type: trojan
-  server: 104.26.15.137
-  port: 443
-  client-fingerprint: chrome
   network: ws
-  skip-cert-verify: false
-  sni: www.ignitelimit.com
   udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36
-    path: /assignment
-  password: humanity
-- name: CA · VLESS · wzmwayne · 0D49E017
-  type: vless
-  server: 188.114.97.6
-  port: 8880
-  uuid: b19b768d-bc57-4d03-9bea-61129ed5fef9
-  udp: true
-  tls: false
-  servername: new.106-79e.workers.dev
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.SG.CMLiussss.net
-    headers:
-      Host: new.106-79e.workers.dev
-- name: ZZ · SS · au1rxx-clash · 33F48C8F
-  type: ss
-  server: 82.38.31.218
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: HK · VMESS · wzmwayne · AF2E350C
-  type: vmess
-  server: lcv8v9l7oyamxxfz.v.3dns.vip
-  port: 443
-  uuid: f23bb427-c1f9-4373-876c-2f43e9f790f3
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  servername: lcv8v9l7OyamxxfZ.v.3dns.vip
-  network: ws
-  ws-opts:
-    path: /ws-vmess
-    headers:
-      Host: lcv8v9l7OyamxxfZ.v.3dns.vip
-- name: FR · HTTP · wzmwayne · 1254DC08
+- name: ZZ · HTTP · wzmwayne · 0A3CFA3F
   type: http
-  server: 217.181.201.254
-  port: 8090
+  server: 193.176.84.21
+  port: 9002
   skip-cert-verify: true
   tls: true
-- name: ZZ · HYSTERIA2 · wzmwayne · 2DB14AF5
-  type: hysteria2
-  server: 72.56.92.120
-  port: 443
-  skip-cert-verify: true
-  sni: 72.56.92.120
-  password: CnVfXXvMzh
-- name: ZZ · SS · wzmwayne · 32BFF536
+  sni: www.bing.com
+- name: ZZ · SS · au1rxx-clash · 22E57B59
   type: ss
-  server: 146.70.23.32
+  server: 107.155.57.11
   port: 8080
   cipher: rc4-md5
   udp: true
   password: 14fFPrbezE3HDZzsMOr6
+- name: ZZ · HYSTERIA2 · wzmwayne · 6625D989
+  type: hysteria2
+  server: 85.204.107.187
+  port: 8443
+  skip-cert-verify: true
+  sni: hopp-romania-new.roxa.org
+  password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+- name: ZZ · SS · wzmwayne · 38CB4A21
+  type: ss
+  server: 149.102.132.184
+  port: 443
+  cipher: aes-256-gcm
+  udp: true
+  password: g5h5jleTRSyO3Rk4
 - name: ES · TROJAN · wzmwayne · DAA67D8B
   type: trojan
   server: 185.18.250.252
@@ -1384,129 +897,368 @@ proxies:
     headers:
       Host: www.calmlunch.com
   password: humanity
-- name: CA · VLESS · wzmwayne · 11670B7A
-  type: vless
-  server: 104.21.15.212
-  port: 8880
-  uuid: 902fd911-ca5d-49a6-99ad-47372a266804
+- name: ZZ · HTTP · wzmwayne · 0BC3A4D7
+  type: http
+  server: 193.176.84.36
+  port: 9002
+  skip-cert-verify: true
+  tls: true
   udp: true
-  tls: false
-  servername: young-wildflower-6b6c.100-52d.workers.dev
+  sni: www.bing.com
+- name: ZZ · SS · au1rxx-clash · 2438910C
+  type: ss
+  server: 185.22.154.239
+  port: 40101
+  cipher: aes-256-gcm
+  udp: true
+  password: bdb313adf74c2ede
+- name: ZZ · HYSTERIA2 · wzmwayne · 69386A53
+  type: hysteria2
+  server: 5.129.235.85
+  port: 443
+  skip-cert-verify: true
+  sni: vk.com
+  password: gf1:gfhysteria2024
+- name: ZZ · SS · wzmwayne · 3BF5DEDD
+  type: ss
+  server: 82.38.31.164
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: US · HTTP · wzmwayne · 0BC817B9
+  type: http
+  server: purposebydesig.club
+  port: 443
+  tls: true
+  udp: true
+  password: None
+- name: ZZ · SS · au1rxx-clash · 263CD717
+  type: ss
+  server: 213.35.124.191
+  port: 56927
+  cipher: 2022-blake3-chacha20-poly1305
+  udp: true
+  password: f3lz1aPywEuTpS4I3mmarFU+LDABF1eDBRHJ2zNgiRM=
+- name: US · HYSTERIA2 · wzmwayne · 6FE5A09F
+  type: hysteria2
+  server: starlink-ft.251313.xyz
+  port: 443
+  skip-cert-verify: true
+  sni: xship.top
+  udp: true
+  password: https://xship.top
+- name: JP · SS · wzmwayne · 3EC747FA
+  type: ss
+  server: 149.22.87.240
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
+- name: ZZ · VLESS · au1rxx-clash · 097526BF
+  type: vless
+  server: 185.47.254.251
+  port: 443
+  reality-opts:
+    public-key: 6-_ZidygR8PRt4gtHlGCAW-PPmjEIm7Wn7MZqJU1z1Q
+    short-id: 6c059ecfddf9b179
+  uuid: 878fb7f7-fc65-465e-a352-17c7216c6f3d
+  client-fingerprint: random
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: gateway.icloud.com
+  tls: true
+  udp: true
+- name: JP · HTTP · wzmwayne · 0C19D6DE
+  type: http
+  server: fan.571589.xyz
+  port: 443
+  skip-cert-verify: true
+  sni: fan.571589.xyz
+  tls: true
+  udp: true
+  username: ''
+  password: ''
+- name: ZZ · SS · au1rxx-clash · 271B2C08
+  type: ss
+  server: 129.151.75.241
+  port: 61312
+  cipher: 2022-blake3-chacha20-poly1305
+  udp: true
+  password: FQrzr8AfOOU7hZ4+8Cr8iDUUzlHz0S6dvyS44jdUe1o=
+- name: US · HYSTERIA2 · wzmwayne · 813D65F5
+  type: hysteria2
+  server: 108.181.6.53
+  port: 50524
+  down: ''
+  fingerprint: ''
+  obfs: ''
+  obfs-password: ''
+  skip-cert-verify: true
+  sni: iosapps.itunes.apple.com
+  up: ''
+  password: 0db8b567-77f3-4698-80c7-4d7889be8f02
+- name: JP · SS · wzmwayne · 41DD8F46
+  type: ss
+  server: 149.22.87.241
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
+- name: ZZ · VMESS · au1rxx-clash · 3D678C78
+  type: vmess
+  server: 38.91.107.49
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: raw
+  udp: true
+- name: RU · HTTP · wzmwayne · 0C26E67C
+  type: http
+  server: 178.219.43.226
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 123B3B26
+  type: hysteria2
+  server: 62.210.147.2
+  port: 43115
+  skip-cert-verify: true
+  sni: www.microsoft.com
+  password: github.com/Alvin9999-newpac/fanqiang
+- name: DE · HYSTERIA2 · wzmwayne · 94F48C58
+  type: hysteria2
+  server: hy2.aspidnet.xyz
+  port: 443
+  sni: hy2.aspidnet.xyz
+  obfs: salamander
+  obfs-password: rG07s3COMIEvdnQipRyWzx_H_2xygNC3
+  password: p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR
+- name: ZZ · SS · au1rxx-clash · 2788BB33
+  type: ss
+  server: 82.38.31.149
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: NL · SS · wzmwayne · 43C420EB
+  type: ss
+  server: 82.38.31.201
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: US · HTTP · wzmwayne · 0C60FFD7
+  type: http
+  server: 24.142.229.178
+  port: 8090
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · HYSTERIA2 · wzmwayne · A3D21AAD
+  type: hysteria2
+  server: 72.56.92.120
+  port: 443
+  skip-cert-verify: true
+  sni: "off"
+  password: CnVfXXvMzh
+- name: ZZ · SS · wzmwayne · 471384A8
+  type: ss
+  server: 129.151.93.216
+  port: 61312
+  cipher: 2022-blake3-chacha20-poly1305
+  udp: true
+  password: OLSE823mI1o8K0A56QvU38ZcxIjpyhMayqkmo2vnDIs=
+- name: ZZ · SS · au1rxx-clash · 2A9E74BB
+  type: ss
+  server: 82.38.31.193
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · VLESS · wzmwayne · 33AF7A43
+  type: vless
+  server: free-amsterdam-node-1.cloudwidecdn.com
+  port: 443
+  reality-opts:
+    public-key: PryGoq51ilG0eLUPl9i0xCvmk1xpwkyFSr_tG4GNLlU
+    short-id: 1d86d17709852910
+  uuid: 44ae52b9-76fc-444d-8e43-186b4384b80a
+  client-fingerprint: edge
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: www.apple.com
+  tls: true
+  udp: true
+- name: US · HTTP · wzmwayne · 0E2498A3
+  type: http
+  server: 138.199.35.206
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+- name: CH · HYSTERIA2 · wzmwayne · AB3410FC
+  type: hysteria2
+  server: 152.67.75.161
+  port: 443
+  obfs: salamander
+  obfs-password: c13f29db6a638ad2b211b9ce2669ef27
+  skip-cert-verify: true
+  sni: www.bing.com
+  udp: true
+  password: 3a702d4d1de4949005d8431220e040fb
+  auth: 3a702d4d1de4949005d8431220e040fb
+- name: CA · SS · wzmwayne · 486AEB86
+  type: ss
+  server: 51.79.64.198
+  port: 8119
+  cipher: aes-256-gcm
+  udp: true
+  password: cdBIDV42DCwnfIN
+- name: NL · VLESS · wzmwayne · 35697E19
+  type: vless
+  server: 51.158.206.87
+  port: 23576
+  reality-opts:
+    public-key: 1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s
+    short-id: "01"
+  uuid: 48ff2b70-e180-582f-8866-d9a2edeed5f5
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: fuck.rkn
+  client-fingerprint: chrome
+  network: tcp
+- name: ZZ · SS · au1rxx-clash · 2B317655
+  type: ss
+  server: 82.38.31.174
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: US · HTTP · wzmwayne · 1209CF4A
+  type: http
+  server: 68.235.56.59
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · HYSTERIA2 · wzmwayne · AE310A97
+  type: hysteria2
+  server: 192.255.128.123
+  port: 443
+  skip-cert-verify: true
+  sni: www.bing.com
+  password: RN_3f80eeb4bbd0f13f
+- name: ZZ · SS · wzmwayne · 49BD2079
+  type: ss
+  server: 149.102.132.184
+  port: 80
+  cipher: aes-256-gcm
+  udp: true
+  password: g5h5jleTRSyO3Rk4
+- name: ZZ · VMESS · au1rxx-clash · 47E030CE
+  type: vmess
+  server: 169.197.143.116
+  port: 22324
+  uuid: 04621bae-ab36-11ec-b909-0242ac120002
+  alterId: 0
+  cipher: auto
+  network: tcp
+  udp: true
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 157EF917
+  type: hysteria2
+  server: 45.88.43.116
+  port: 52454
+  skip-cert-verify: true
+  sni: ''
+  password: 6c077487-06af-4fb1-9e46-d485d98f0a31
+- name: US · HTTP · wzmwayne · 12497365
+  type: http
+  server: 107.149.232.90
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: US · SS · wzmwayne · 4D941BEA
+  type: ss
+  server: 108.181.0.177
+  port: 8388
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: G5p6ww4o67HB
+- name: CA · VLESS · wzmwayne · 37AA0596
+  type: vless
+  server: 104.24.16.23
+  port: 443
+  uuid: 2c122b00-78ed-44af-ae96-61f0786bf8a6
+  udp: true
+  tls: true
+  servername: dark-rain-2989.gzgshsgs.workers.dev
+  client-fingerprint: chrome
   network: ws
   ws-opts:
-    path: /pyip=ProxyIP.JP.CMLiussss.net
+    path: /
     headers:
-      Host: young-wildflower-6b6c.100-52d.workers.dev
-- name: ZZ · VMESS · au1rxx-clash · 5F244B4A
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  udp: true
-- name: ZZ · VMESS · wzmwayne · BCC10ABB
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  udp: true
-- name: ZZ · HYSTERIA2 · au1rxx-clash · 2D3852ED
-  type: hysteria2
-  server: open.w2m.ink
-  port: 5443
-  skip-cert-verify: false
-  sni: ''
-  password: my_super_password_123
+      Host: dark-rain-2989.gzgshsgs.workers.dev
 - name: IT · HTTP · wzmwayne · 167258DC
   type: http
   server: 94.177.163.156
   port: 443
   skip-cert-verify: true
   tls: true
-- name: ES · HYSTERIA2 · wzmwayne · 2DCB77F8
-  type: hysteria2
-  server: xby.mangshe.xyz
-  port: 2060
-  skip-cert-verify: true
-  sni: xby.mangshe.xyz
-  password: 5d0a6445-a30d-4522-bb1f-94f1d3ad63be
-- name: ZZ · VLESS · au1rxx-clash · 070266AF
-  type: vless
-  server: 169.40.42.223
-  port: 443
-  reality-opts:
-    public-key: e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg
-    short-id: c39cc7310a
-  uuid: d65cc14c-f53f-4fe2-b262-97856601319c
-  client-fingerprint: qq
-  flow: xtls-rprx-vision
-  network: tcp
-  servername: yahoo.com
-  tls: true
-  udp: true
-- name: ZA · SS · wzmwayne · 334B181E
+- name: ZZ · SS · au1rxx-clash · 32BFF536
   type: ss
-  server: 102.133.165.160
-  port: 16233
+  server: 146.70.23.32
+  port: 8080
+  cipher: rc4-md5
+  udp: true
+  password: 14fFPrbezE3HDZzsMOr6
+- name: US · SS · wzmwayne · 4DF1E46D
+  type: ss
+  server: 23.150.248.20
+  port: 8388
   cipher: chacha20-ietf-poly1305
   udp: true
-  password: Xsy8Ox4yOV3xLlpxtjzs3X
-- name: CA · TROJAN · wzmwayne · DF28597A
-  type: trojan
-  server: 172.67.132.19
+  password: qB2Cv9VIlujj
+- name: US · VLESS · wzmwayne · 3827233A
+  type: vless
+  server: 31.76.245.63
   port: 443
-  udp: true
-  sni: VRE6R9qRbQI0t25TG.SRTB0M3hdbwr2cJZ8fjUr.WoRKeRS.dev
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /tr/bDodLFtTQwCZ6EX3ffMYJ06j9EjLse4d?ed=2560
-    headers:
-      Host: vre6r9qrbqi0t25tg.srtb0m3hdbwr2cjz8fjur.workers.dev
-  password: Telegram_healer_config
-- name: US · VLESS · wzmwayne · 11CDB3A1
-  type: vless
-  server: 162.159.81.104
-  port: 80
-  uuid: 4b00d726-e072-429b-997e-f07affea3b7f
-  network: ws
-  tls: false
-  ws-opts:
-    path: /eyJqdW5rIjoiUEVTdDRlR2hhc0JuYyIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJlZml4IiwicGFuZWxJUHMiOlsiWzI2MDI6ZmM1OTpiMDo2NDo6XSJdfQ
-    headers:
-      Host: icy-darkness-8ff1.farzambia12mo.workers.dev
-  skip-cert-verify: true
-  udp: true
-- name: KR · VMESS · wzmwayne · BD0740F7
-  type: vmess
-  server: 132.145.80.230
-  port: 80
-  uuid: 5155860e-d07d-46c3-9128-3afbd84626c7
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: ws
-  ws-opts:
-    path: /cctv13.m3u8
-- name: ZZ · VLESS · au1rxx-clash · 077FDEB1
-  type: vless
-  server: 217.217.254.126
-  port: 2053
   reality-opts:
-    public-key: VzRjuHwcY-nLqkEIJS4S1CpButKc90Bh0gDbphyZ0Tw
-    short-id: 87829de0e2bb82cb
-  uuid: cb15cce9-73ed-4928-b38c-462f0732cbe9
+    public-key: SibLV5WBGdljTiUCmKx77KhHQfErCwjDMD_ZLoha3js
+    short-id: a1b2c3d4e5f67890
+  uuid: d72f05b0-b182-4783-a6f2-21cecc7d841a
   client-fingerprint: firefox
-  network: raw
-  servername: www.cloudflare.com
+  flow: xtls-rprx-vision
+  http-opts:
+    headers: {}
+    path:
+    - /
+  network: tcp
+  servername: dzen.ru
   tls: true
   udp: true
+  xudp: true
+- name: US · HTTP · wzmwayne · 170B6418
+  type: http
+  server: 138.199.35.219
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  username: ''
+  password: ''
+- name: ZZ · HYSTERIA2 · wzmwayne · CEFB5B0C
+  type: hysteria2
+  server: 162.249.127.134
+  port: 8443
+  skip-cert-verify: true
+  sni: hop-germany-september.dynuddns.com
+  password: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
+- name: DE · SS · wzmwayne · 4E73C826
+  type: ss
+  server: 51.195.126.38
+  port: 8388
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: 2YdE4lFOid5a
 - name: ZZ · HTTP · wzmwayne · 1738CB09
   type: http
   server: 193.176.84.22
@@ -1514,10 +1266,427 @@ proxies:
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
-- name: ZZ · HYSTERIA2 · wzmwayne · 31858B96
+- name: NL · SS · wzmwayne · 55130EAC
+  type: ss
+  server: 193.29.139.223
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 17530F11
   type: hysteria2
-  server: 85.204.107.177
-  port: 8443
+  server: nl01ntrhy01.tcp-reset-club.net
+  port: 443
   skip-cert-verify: true
+  sni: tcp-reset-club.net
+  password: aa6f8aaf-d7ff-46f8-a9a0-d143d7e71f71
+- name: ZZ · SS · au1rxx-clash · 33F48C8F
+  type: ss
+  server: 82.38.31.218
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: RU · HTTP · wzmwayne · 1857B34F
+  type: http
+  server: 193.19.190.59
+  port: 8095
+- name: ZZ · TROJAN · au1rxx-clash · 45855A09
+  type: trojan
+  server: 154.90.62.70
+  port: 56127
+  skip-cert-verify: true
+  sni: 154.90.62.70
+  udp: true
+  password: p5jTPcffLgi4gaNOJd2KUTb9YEPBBD5B
+- name: ZZ · HYSTERIA2 · wzmwayne · E048A194
+  type: hysteria2
+  server: streambox.wwwinternetvideo.click
+  port: 443
+  skip-cert-verify: true
+  sni: streambox.wwwinternetvideo.click
+  password: 865e271f7c97b549b024255c9d02cebe9cc0c2c070a82b1e11bb11b9cd88dd01
+- name: SE · SS · wzmwayne · 56652D67
+  type: ss
+  server: 13.60.213.145
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: US · HTTP · wzmwayne · 18D6D88E
+  type: http
+  server: 54.235.192.64
+  port: 442
+- name: ZZ · SS · au1rxx-clash · 36E80422
+  type: ss
+  server: 173.244.56.9
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
+- name: US · HYSTERIA2 · wzmwayne · E47CA81A
+  type: hysteria2
+  server: 159.223.157.129
+  port: 8443
+  sni: www.microsoft.com
+  skip-cert-verify: true
+  password: suAmQS9LlInNq4Wumh-FUF4GGlpgmG_g
+- name: ZZ · SS · wzmwayne · 5CBBC4EA
+  type: ss
+  server: 15.204.247.206
+  port: 4444
+  cipher: aes-256-gcm
+  udp: true
+  password: pKEW8JPByTVTLtM
+- name: TK · HTTP · wzmwayne · 194843D3
+  type: http
+  server: 193.176.84.30
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 1916F2BD
+  type: hysteria2
+  server: 202.146.222.89
+  port: 443
+  skip-cert-verify: true
+  sni: https%253a%252f%252ft.me%252fclashv8%25f0%259f%2587%25a8%25f0%259f%2587%25b3
+  password: H7mP2xY9kJ4nQ8wR5tF6vB3z
+- name: ZZ · HYSTERIA2 · wzmwayne · F4C6F950
+  type: hysteria2
+  server: rou0001ntrhy01.tcp-reset-club.net
+  port: 443
+  skip-cert-verify: false
+  sni: tcp-reset-club.net
+  password: aa6f8aaf-d7ff-46f8-a9a0-d143d7e71f71
+- name: NL · SS · wzmwayne · 5DF6F384
+  type: ss
+  server: 82.38.31.216
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · TROJAN · au1rxx-clash · 4CEB5B97
+  type: trojan
+  server: 107.149.159.190
+  port: 10443
+  skip-cert-verify: false
+  sni: cf.shiranyu.xyz
+  udp: true
+  password: 8bdfa4e8dac99c57decdd8bf55d2da4c
+- name: ZZ · VLESS · wzmwayne · 3D59081C
+  type: vless
+  server: 91.193.58.108
+  port: 2096
+  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  network: ws
+  servername: free-server.techsonic.dev
+  skip-cert-verify: false
+  tls: true
+  udp: true
+  tfo: false
+  ws-opts:
+    headers:
+      Host: free-server.techsonic.dev
+    path: /free-server.techsonic.dev
+  client-fingerprint: chrome
+- name: NL · HTTP · wzmwayne · 1BFE78B1
+  type: http
+  server: 84.17.47.126
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · HYSTERIA2 · wzmwayne · F6038D84
+  type: hysteria2
+  server: 138.3.208.26
+  port: 50160
+  skip-cert-verify: true
+  sni: 138.3.208.26
+  password: 184cdec28da5a09450803c8debcd2cc9
+- name: NL · SS · wzmwayne · 6495F691
+  type: ss
+  server: 82.38.31.190
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · SS · au1rxx-clash · 39EFAB9A
+  type: ss
+  server: 107.151.182.197
+  port: 8080
+  cipher: rc4-md5
+  udp: true
+  password: 14fFPrbezE3HDZzsMOr6
+- name: NL · VLESS · wzmwayne · 3D80A218
+  type: vless
+  server: 51.158.206.97
+  port: 23576
+  reality-opts:
+    public-key: 1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s
+    short-id: "01"
+  uuid: 48ff2b70-e180-582f-8866-d9a2edeed5f5
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: fuck.rkn
+  client-fingerprint: chrome
+  network: tcp
+- name: HR · HTTP · wzmwayne · 20690A75
+  type: http
+  server: 154.47.29.161
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: NL · SS · wzmwayne · 704A526C
+  type: ss
+  server: 82.38.31.16
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: ZZ · VLESS · wzmwayne · 42863715
+  type: vless
+  server: 95.216.27.15
+  port: 2053
+  reality-opts:
+    public-key: 4nfogj5mHqNowtSn_2sXS3xTX8vcH75rFEU2BWvyekM
+    short-id: d368b94e275ab080
+  uuid: 1c81f6d3-5771-4c5d-9fdd-1655eff50634
+  client-fingerprint: chrome
+  network: tcp
+  servername: www.google.com
+  tls: true
+  udp: true
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 1A40FE0C
+  type: hysteria2
+  server: 85.204.107.172
+  port: 8443
+  skip-cert-verify: false
   sni: hopp-romania-new.roxa.org
   password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+- name: DE · HTTP · wzmwayne · 2087D315
+  type: http
+  server: fan.973511.xyz
+  port: 443
+  sni: fan.973511.xyz
+  tls: true
+- name: ZZ · SS · au1rxx-clash · 3B4544F2
+  type: ss
+  server: 138.199.43.159
+  port: 8080
+  cipher: rc4-md5
+  udp: true
+  password: 14fFPrbezE3HDZzsMOr6
+- name: ZZ · SS · wzmwayne · 756ACCEF
+  type: ss
+  server: 217.30.10.44
+  port: 9063
+  cipher: aes-256-cfb
+  udp: true
+  password: aQqJbtwFGcCCaeL3
+- name: ZZ · VLESS · au1rxx-clash · 0D16CD73
+  type: vless
+  server: 172.104.237.173
+  port: 20855
+  reality-opts:
+    public-key: c6Pu0_yAYxIrnYjbwIYLsKB_xhcLsk17BgojLeaIvE8
+    short-id: efe9
+  uuid: d00d9d18-20cf-4191-be76-6f73d43a27ec
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: www.cloudflare.com
+  tls: true
+  udp: true
+- name: IE · HTTP · wzmwayne · 212E5BA3
+  type: http
+  server: 18.200.158.139
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · SS · au1rxx-clash · 3D1744D8
+  type: ss
+  server: 15.204.233.41
+  port: 8882
+  cipher: aes-256-gcm
+  udp: true
+  password: kDWvXYZoTBcGkC4
+- name: TK · HTTP · wzmwayne · 250251AC
+  type: http
+  server: 38.28.193.188
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: SE · SS · wzmwayne · 7E1E6FE0
+  type: ss
+  server: 13.48.104.64
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: ZZ · VMESS · au1rxx-clash · 5C0955A7
+  type: vmess
+  server: 162.19.204.71
+  port: 1234
+  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
+  alterId: 0
+  cipher: auto
+  network: tcp
+  servername: supervpn.super.com
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: BE · HTTP · wzmwayne · 25BB335D
+  type: http
+  server: 78.110.197.210
+  port: 7080
+- name: ZZ · HYSTERIA2 · au1rxx-clash · 1E62CD28
+  type: hysteria2
+  server: 66.94.121.46
+  port: 443
+  skip-cert-verify: true
+  sni: vk.com
+  password: gf1:gfhysteria2024
+- name: NL · SS · wzmwayne · 87B770B7
+  type: ss
+  server: 82.38.31.198
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · SS · au1rxx-clash · 42493F37
+  type: ss
+  server: 217.30.10.44
+  port: 9095
+  cipher: aes-256-cfb
+  udp: true
+  password: N7j3pdTYkKmsy8CR
+- name: NL · VLESS · wzmwayne · 4FF05782
+  type: vless
+  server: 51.158.206.26
+  port: 23576
+  reality-opts:
+    public-key: 1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s
+    short-id: "01"
+  uuid: 48ff2b70-e180-582f-8866-d9a2edeed5f5
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: fuck.rkn
+  client-fingerprint: chrome
+  network: tcp
+- name: RU · HTTP · wzmwayne · 2712308A
+  type: http
+  server: 193.187.107.120
+  port: 8095
+- name: ZZ · VLESS · au1rxx-clash · 0DC00053
+  type: vless
+  server: 38.180.243.154
+  port: 443
+  reality-opts:
+    public-key: -5fYyQrVTjiSxdsLpf6VzNaawYlZLqeU2_8ezyn3kBg
+    short-id: eb26ce282d7ba399
+  uuid: 1e6245c4-fb80-44fd-b354-c6b94a459203
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: www.apple.com
+  tls: true
+  udp: true
+- name: CA · SS · wzmwayne · 8C5FDB2D
+  type: ss
+  server: 15.235.75.71
+  port: 8388
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: FD3rCuOsxOay
+- name: NL · HTTP · wzmwayne · 2AF91C91
+  type: http
+  server: 51.158.243.91
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  username: "null"
+  password: "null"
+- name: ZZ · SS · au1rxx-clash · 467AEA45
+  type: ss
+  server: 15.204.246.132
+  port: 7307
+  cipher: aes-256-gcm
+  udp: true
+  password: FoOiGlkAA9yPEGP
+- name: NL · SS · wzmwayne · 8DCD38E5
+  type: ss
+  server: 82.38.31.187
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: ZZ · VLESS · wzmwayne · 596359BB
+  type: vless
+  server: 107.149.159.190
+  port: 4433
+  reality-opts:
+    public-key: ptrxM_lwiuXte-ynRSfM7AyayGbWrfCzkV1gQ5EgeSw
+    short-id: 0fa5bc397af019a2
+  uuid: 443d55c9-9b78-4ad4-ac34-5ada5b98e97e
+  client-fingerprint: random
+  flow: xtls-rprx-vision
+  network: tcp
+  servername: www.postgresql.org
+  tls: true
+  udp: true
+- name: LV · HTTP · wzmwayne · 2D21892E
+  type: http
+  server: 185.219.159.16
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · SS · wzmwayne · 8E1CAAD0
+  type: ss
+  server: 185.135.86.175
+  port: 9034
+  cipher: aes-256-cfb
+  udp: true
+  password: Yg4MbdXFQ9HFFVY6
+- name: NL · VLESS · wzmwayne · 5BE5C475
+  type: vless
+  server: 51.158.206.12
+  port: 23576
+  reality-opts:
+    public-key: 1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s
+    short-id: "01"
+  uuid: 48ff2b70-e180-582f-8866-d9a2edeed5f5
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: fuck.rkn
+  client-fingerprint: chrome
+  network: tcp
+- name: ZZ · SS · au1rxx-clash · 484BF5E6
+  type: ss
+  server: 79.110.53.169
+  port: 8080
+  cipher: rc4-md5
+  udp: true
+  password: 14fFPrbezE3HDZzsMOr6
+- name: US · HTTP · wzmwayne · 30140AC0
+  type: http
+  server: 50.76.211.251
+  port: 8090
+  skip-cert-verify: true
+  tls: true
+- name: ZZ · SS · wzmwayne · 90434F99
+  type: ss
+  server: 149.102.149.207
+  port: 443
+  cipher: aes-256-gcm
+  udp: true
+  password: LXchLsIwtCeUAUgu
+- name: TK · HTTP · wzmwayne · 3362F239
+  type: http
+  server: 193.176.84.35
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com

@@ -1,18 +1,4 @@
 proxies:
-- name: CN · SOCKS5 · clashstair · 36FDF79C
-  type: socks5
-  server: 103.210.161.8
-  port: 1080
-  udp: true
-  username: Og
-  password: Og
-- name: NL · SS · clashmeta · 067369CC
-  type: ss
-  server: 82.38.31.35
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: US · VLESS · clashstair · 194B5653
   type: vless
   server: 172.67.223.190
@@ -41,6 +27,21 @@ proxies:
   skip-cert-verify: false
   servername: www.cloudflare.com
   client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: CH · VLESS · clashstair · 1EC947B4
+  type: vless
+  server: 208.69.78.217
+  port: 2053
+  reality-opts:
+    public-key: A49ue7zXSusJZdErPAewg3jqGdUFIO1a9xOunEKJfC0
+    short-id: ad86e2d52ff40ebd
+  uuid: c0dd6d59-1573-43af-8b70-1470b2632a6d
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: www.apple.com
+  client-fingerprint: firefox
   network: tcp
   udp: true
 - name: GB · VLESS · clashstair · 248DC615
@@ -91,22 +92,6 @@ proxies:
   client-fingerprint: firefox
   network: tcp
   udp: true
-- name: US · VLESS · clashstair · 43C359B2
-  type: vless
-  server: 38.180.243.154
-  port: 443
-  reality-opts:
-    public-key: -5fYyQrVTjiSxdsLpf6VzNaawYlZLqeU2_8ezyn3kBg
-    short-id: eb26ce282d7ba399
-  uuid: 1e6245c4-fb80-44fd-b354-c6b94a459203
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: www.apple.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: SE · VLESS · clashstair · 45EE9122
   type: vless
   server: 176.108.247.67
@@ -123,6 +108,22 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: grpc-tunnel
+  udp: true
+- name: HK · VLESS · clashstair · 4621F4DD
+  type: vless
+  server: 139.28.168.201
+  port: 443
+  reality-opts:
+    public-key: 4ubYp4HaBJgn1qXwfo0hiejncurXCckII-O_FMDXTgI
+    short-id: 3b74d85e
+  uuid: a368752a-32fc-42f3-980a-6b049218b23f
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: china.letsconnectpoint.com
+  client-fingerprint: firefox
+  network: tcp
   udp: true
 - name: CA · VLESS · clashstair · 49086D51
   type: vless
@@ -153,86 +154,6 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: NL · VLESS · clashstair · 4D1844A9
-  type: vless
-  server: 31.77.13.19
-  port: 2063
-  reality-opts:
-    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
-    short-id: ''
-  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: rusbid.de
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
-- name: DK · VLESS · clashstair · 59FAE2C0
-  type: vless
-  server: 176.108.244.38
-  port: 9881
-  reality-opts:
-    public-key: Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: dl.google.com
-  client-fingerprint: chrome
-  network: grpc
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  udp: true
-- name: JP · VLESS · clashstair · 615F21B6
-  type: vless
-  server: 13.158.67.183
-  port: 33561
-  reality-opts:
-    public-key: 158SMilJQo8T-Fi8-T1354xZsVFCYxA8dXQstKbIdVs
-    short-id: 6b9e61372a82002c
-  uuid: d00d9d18-20cf-4191-be76-6f73d43a27ec
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: www.cloudflare.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: SE · VLESS · clashstair · 6B2DBC81
-  type: vless
-  server: 176.109.106.182
-  port: 9881
-  reality-opts:
-    public-key: Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0
-    short-id: ''
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: dl.google.com
-  client-fingerprint: chrome
-  network: grpc
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  udp: true
-- name: US · VLESS · clashstair · 6F987A95
-  type: vless
-  server: cf3.466688.xyz
-  port: 8880
-  uuid: 7111212b-6bc3-459a-85b4-3b13038a19f8
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.KR.CMLiussss.net@https://t.me/QiangLieTuiJian
-    headers:
-      Host: shrill-fog-67af.235-e6a.workers.dev
-  udp: true
 - name: TW · VLESS · clashstair · 73DF5994
   type: vless
   server: 35.201.181.122
@@ -248,7 +169,53 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: HK · VLESS · clashstair · A3DE780A
+- name: EE · VLESS · clashstair · 775B45C9
+  type: vless
+  server: 143.246.41.6
+  port: 25395
+  reality-opts:
+    public-key: NPeupAuDrIhrFEXxPXUnsmuT0zSOkSQByegy5DPJQhU
+    short-id: b4
+  uuid: 900e2cca-4798-47f6-b972-5288a77c8093
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: amd.com
+  client-fingerprint: chrome
+  network: xhttp
+  udp: true
+- name: CA · VLESS · clashstair · 804A0E34
+  type: vless
+  server: 34.95.28.161
+  port: 443
+  reality-opts:
+    public-key: l4tGdE5Zn8ABfBQns3pRBcxy6CckHTLSIsw5JaBumTk
+    short-id: c9d4bf8d94ec8dab
+  uuid: 448b76ac-c636-4303-bec1-0b2c22afee0c
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: www.cloudflare.com
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: DE · VLESS · clashstair · 9728F8BB
+  type: vless
+  server: 31.76.101.39
+  port: 443
+  reality-opts:
+    public-key: SibLV5WBGdljTiUCmKx77KhHQfErCwjDMD_ZLoha3js
+    short-id: a1b2c3d4e5f67890
+  uuid: d72f05b0-b182-4783-a6f2-21cecc7d841a
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: dzen.ru
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: ZZ · VLESS · clashstair · A3DE780A
   type: vless
   server: 47.239.6.251
   port: 13779
@@ -261,22 +228,6 @@ proxies:
   flow: xtls-rprx-vision
   skip-cert-verify: false
   servername: tesla.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: SG · VLESS · clashstair · B891E093
-  type: vless
-  server: 18.139.227.162
-  port: 28243
-  reality-opts:
-    public-key: IXxfPvq2OkbSuA-ZTBFpMzkDU1uO8dEI1e7s9VfHh1Y
-    short-id: 7996bf4dcf194d18
-  uuid: d00d9d18-20cf-4191-be76-6f73d43a27ec
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: www.cloudflare.com
   client-fingerprint: chrome
   network: tcp
   udp: true
@@ -326,22 +277,21 @@ proxies:
     headers:
       Host: vms.lifetime40.workers.dev
   udp: true
-- name: DE · VLESS · clashstair · EB8DEDBB
+- name: DE · VLESS · clashstair · EA95F30D
   type: vless
-  server: 176.108.241.137
-  port: 9891
+  server: 13.143.186.29
+  port: 443
   reality-opts:
-    public-key: Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
+    public-key: YTO2eLUPj_pLJijheLCvxg3d53o5BTNSjRSpJKCAa3k
+    short-id: f54ec8b46381247f
+  uuid: 3e2591b2-4739-4c59-b540-344f0b6505ac
   tls: true
   tfo: false
+  flow: xtls-rprx-vision
   skip-cert-verify: false
-  servername: dl.google.com
-  client-fingerprint: qq
-  network: grpc
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
+  servername: st2.megabitvpn.org
+  client-fingerprint: chrome
+  network: tcp
   udp: true
 - name: US · VLESS · clashstair · F28E0830
   type: vless
