@@ -7,15 +7,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: NL · SS · cfmem · 4DF3AD93
+- name: US · SS · cfmem · 4DF3AD93
   type: ss
   server: 82.38.31.35
   port: 8080
@@ -36,14 +28,6 @@ proxies:
     path: /ws
     headers:
       Host: fbsv6.guardora.pro
-- name: US · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: US · SS · cfmem · 9F808FA1
   type: ss
   server: 54.90.169.61
@@ -52,7 +36,7 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: US · VMESS · cfmem · 16C8574A
+- name: HK→US · VMESS · cfmem · 16C8574A
   type: vmess
   server: v24.hdacd.com
   port: 30824
@@ -75,26 +59,19 @@ proxies:
       Host: fbsv6.guardora.pro
   skip-cert-verify: true
   udp: true
-- name: US · VMESS · cfmem · 18F6DFDE
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK · VMESS · cfmem · 207AC371
-  type: vmess
-  server: zfd-hkv2.kunlun01dns.com
-  port: 16116
-  uuid: 0802ac03-7973-39ef-a019-ba02de6c01e1
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
+- name: US→DE · VLESS · cfmem · 5C8E5D68
+  type: vless
+  server: ewylr.smartorbitbox-bekhabdg.site
+  port: 443
+  uuid: bcf89786-1b01-47dc-9a36-a7db03626e53
+  network: ws
+  tls: true
+  servername: ewylr.smartorbitbox-bekhabdg.site
+  client-fingerprint: chrome
+  ws-opts:
+    path: /tigerjoon
+    headers:
+      Host: ewylr.smartorbitbox-bekhabdg.site
 - name: SG · VLESS · cfmem · 5C99D466
   type: vless
   server: onhit.shalana.xyz
@@ -103,39 +80,30 @@ proxies:
   tls: true
   skip-cert-verify: true
   udp: true
-- name: FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: SG · VLESS · cfmem · A5878F07
+- name: US→DE · VLESS · cfmem · 631BDE49
   type: vless
-  server: free-server.techsonic.dev
-  port: 2096
-  uuid: 6e59d5c5-7aa3-4c36-a4c4-e3b899525ed2
+  server: ewylr.smartorbitbox-bekhabdg.site
+  port: 443
+  uuid: bcf89786-1b01-47dc-9a36-a7db03626e53
+  network: ws
+  servername: ewylr.smartorbitbox-bekhabdg.site
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /tigerjoon
+    headers:
+      Host: ewylr.smartorbitbox-bekhabdg.site
+  skip-cert-verify: true
+  udp: true
+- name: US→DE · VLESS · cfmem · 9EDFBDB9
+  type: vless
+  server: Site.check-looks.space
+  port: 2083
+  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
   network: ws
   tls: true
-  servername: free-server.techsonic.dev
-  client-fingerprint: firefox
-  ws-opts:
-    path: /free-server.techsonic.dev
-    headers:
-      Host: free-server.techsonic.dev
+  skip-cert-verify: true
+  udp: true
 - name: SG · VLESS · cfmem · AF8B052B
   type: vless
   server: onhit.shalana.xyz
@@ -158,39 +126,12 @@ proxies:
       Host: free-server.techsonic.dev
   skip-cert-verify: true
   udp: true
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: JP · VMESS · cfmem · AFF27A81
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
+- name: US→DE · VLESS · cfmem · DB5298DD
+  type: vless
+  server: site.check-looks.space
+  port: 2083
+  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
+  network: ws
+  tls: true
+  ws-opts:
+    path: /
