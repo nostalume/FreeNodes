@@ -1,4 +1,12 @@
 proxies:
+- name: SE · SS · cfmem · 3CEF4C3B
+  type: ss
+  server: 51.20.86.152
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
 - name: DE · TROJAN · cfmem · 0EC8E05A
   type: trojan
   server: alive-flea.rooster465.autos
@@ -44,19 +52,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: US→DE · VLESS · cfmem · 5C8E5D68
-  type: vless
-  server: ewylr.smartorbitbox-bekhabdg.site
-  port: 443
-  uuid: bcf89786-1b01-47dc-9a36-a7db03626e53
-  network: ws
-  tls: true
-  servername: ewylr.smartorbitbox-bekhabdg.site
-  client-fingerprint: chrome
-  ws-opts:
-    path: /tigerjoon
-    headers:
-      Host: ewylr.smartorbitbox-bekhabdg.site
 - name: HK→US · VMESS · cfmem · 18F6DFDE
   type: vmess
   server: v24.hdacd.com
@@ -65,21 +60,6 @@ proxies:
   alterId: 2
   cipher: auto
   tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US→DE · VLESS · cfmem · 631BDE49
-  type: vless
-  server: ewylr.smartorbitbox-bekhabdg.site
-  port: 443
-  uuid: bcf89786-1b01-47dc-9a36-a7db03626e53
-  network: ws
-  servername: ewylr.smartorbitbox-bekhabdg.site
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /tigerjoon
-    headers:
-      Host: ewylr.smartorbitbox-bekhabdg.site
   skip-cert-verify: true
   udp: true
 - name: HK · VMESS · cfmem · 4284FBBE
@@ -99,6 +79,16 @@ proxies:
   uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
   network: ws
   tls: true
+  skip-cert-verify: true
+  udp: true
+- name: HK · VMESS · cfmem · 50EF27ED
+  type: vmess
+  server: v10.hdacd.com
+  port: 30807
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
 - name: US→DE · VLESS · cfmem · DB5298DD
@@ -124,6 +114,16 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -162,6 +162,16 @@ proxies:
   port: 110
   uuid: d2d8601b-c14b-42c6-b8ea-33889bce152a
   alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: HK→US · VMESS · cfmem · CEDC84C1
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
   tls: false
   skip-cert-verify: true

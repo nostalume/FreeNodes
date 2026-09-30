@@ -43,13 +43,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: NL · SS · freeclashnode · 067369CC
-  type: ss
-  server: 82.38.31.35
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: SG · VMESS · freeclashnode · 0078DD79
   type: vmess
   server: 149.88.23.202
@@ -81,6 +74,32 @@ proxies:
   port: 18080
   sub_tag: R002-260618
   udp: true
+- name: NL · SS · freeclashnode · 067369CC
+  type: ss
+  server: 82.38.31.35
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: oZIoA69Q8yhcQV8ka3Pa3A
+- name: JP · VMESS · freeclashnode · 022F4569
+  type: vmess
+  server: 168.138.43.75
+  port: 80
+  uuid: 11c3627f-31e8-4695-dfbd-34076e2f1f5d
+  alterId: 0
+  cipher: auto
+  network: ws
+  skip-cert-verify: false
+  sub_tag: S004-260618
+  tls: false
+  udp: true
+  ws-opts:
+    headers:
+      Host: none
+    path: /cctv13.m3u8
+  xudp: true
+  packet-encoding: xudp
+  servername: none
 - name: IT · SS · freeclashnode · 07A1FED6
   type: ss
   server: 91.201.65.122
@@ -89,20 +108,6 @@ proxies:
   sub_tag: A004-260618
   udp: true
   password: b8KkNDjEd5QqFyRm
-- name: RU · HTTP · freeclashnode · 02290AB1
-  type: http
-  server: 193.19.190.59
-  port: 8095
-  sub_tag: R002-260618
-  udp: true
-- name: GB · SS · freeclashnode · 07AA7760
-  type: ss
-  server: 146.70.61.18
-  port: 8080
-  cipher: rc4-md5
-  sub_tag: A004-260618
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
 - name: CA · VMESS · freeclashnode · 02AC8D2F
   type: vmess
   server: 158.51.121.123
@@ -130,21 +135,22 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: US · SS · freeclashnode · 0940C120
-  type: ss
-  server: 37.19.198.160
-  port: 443
-  cipher: aes-128-gcm
+- name: ZZ · SOCKS5 · freeclashnode · 29379BC2
+  type: socks5
+  server: 144.91.111.48
+  port: 1088
+  skip-cert-verify: false
+  sub_tag: M001-260618
   udp: true
-  password: shadowsocks
-- name: NL · SS · freeclashnode · 07C23C58
+  password: None
+- name: GB · SS · freeclashnode · 07AA7760
   type: ss
-  server: 82.38.31.162
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  sub_tag: B007-260618
+  server: 146.70.61.18
+  port: 8080
+  cipher: rc4-md5
+  sub_tag: A004-260618
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
+  password: 14fFPrbezE3HDZzsMOr6
 - name: US · VMESS · freeclashnode · 03DBD7A6
   type: vmess
   server: 167.88.63.59
@@ -168,20 +174,27 @@ proxies:
   tls: true
   udp: true
   password: None
+- name: US · SS · freeclashnode · 0940C120
+  type: ss
+  server: 37.19.198.160
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
 - name: KR · SOCKS5 · freeclashnode · 453F7315
   type: socks5
   server: 121.169.46.116
   port: 1090
   tls: false
   username: T2clM0QlM0Q6
-- name: NL · SS · freeclashnode · 08B0A345
+- name: NL · SS · freeclashnode · 07C23C58
   type: ss
-  server: 193.29.139.223
-  port: 8080
+  server: 82.38.31.162
+  port: 443
   cipher: chacha20-ietf-poly1305
-  sub_tag: S004-260618
+  sub_tag: B007-260618
   udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
+  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: CA · VMESS · freeclashnode · 07A77EE8
   type: vmess
   server: 23.162.200.198
@@ -204,6 +217,14 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
+- name: NL · SS · freeclashnode · 08B0A345
+  type: ss
+  server: 193.29.139.223
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  sub_tag: S004-260618
+  udp: true
+  password: k1dBOmOB4oqi7Ump37a1bQ
 - name: US · VMESS · freeclashnode · 07DF173B
   type: vmess
   server: 67.220.95.3
@@ -232,6 +253,24 @@ proxies:
   port: 1088
   sub_tag: R002-260618
   udp: true
+- name: IN · VMESS · freeclashnode · 07E7725A
+  type: vmess
+  server: 152.67.8.205
+  port: 80
+  uuid: 9db4c708-aef8-4359-821b-38e47990be0d
+  alterId: 0
+  cipher: auto
+  network: ws
+  skip-cert-verify: false
+  sub_tag: A004-260618
+  tls: false
+  udp: true
+  ws-opts:
+    headers: {}
+    path: /
+  xudp: true
+  packet-encoding: xudp
+  servername: 🇮🇳in-152.67.8.205-0200 | 0.0mb
 - name: RO · HTTP · freeclashnode · 02A3034D
   type: http
   server: 193.176.84.35
@@ -243,33 +282,6 @@ proxies:
   udp: true
   username: "null"
   password: "null"
-- name: NL · SS · freeclashnode · 0BE7BD33
-  type: ss
-  server: 193.29.139.147
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: B007-260618
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: ES · VLESS · freeclashnode · 012CF2CE
-  type: vless
-  server: 141.253.194.63
-  port: 443
-  uuid: 9e3132b8-b595-444a-833a-2de44789f9d7
-  client-fingerprint: chrome
-  encryption: none
-  network: ws
-  sub_tag: B007-260618
-  tls: true
-  udp: true
-  ws-opts:
-    headers:
-      Host: shephe.dpdns.org
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
-    path: /
-  xudp: true
-  packet-encoding: xudp
-  servername: shephe.dpdns.org
 - name: CA · VMESS · freeclashnode · 0A7267E9
   type: vmess
   server: 23.162.200.198
@@ -301,13 +313,30 @@ proxies:
   udp: true
   username: ''
   password: ''
-- name: NL · SS · freeclashnode · 0D550C3F
+- name: NL · SS · freeclashnode · 0BE7BD33
   type: ss
-  server: 82.38.31.2
+  server: 193.29.139.147
   port: 8080
   cipher: chacha20-ietf-poly1305
+  sub_tag: B007-260618
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
+  password: k1dBOmOB4oqi7Ump37a1bQ
+- name: FR · TROJAN · freeclashnode · 0B080661
+  type: trojan
+  server: 212.227.144.37
+  port: 8443
+  client-fingerprint: chrome
+  network: ws
+  skip-cert-verify: false
+  sni: www.calmlunch.com
+  sub_tag: V002-260618
+  udp: true
+  ws-opts:
+    headers:
+      User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; SM-G532M Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91
+        Mobile Safari/537.36
+    path: /assignment
+  password: humanity
 - name: KR · VMESS · freeclashnode · 0C44FC46
   type: vmess
   server: 140.238.2.250
@@ -338,29 +367,13 @@ proxies:
   port: 18080
   sub_tag: R002-260618
   udp: true
-- name: US · SS · freeclashnode · 0E40B526
+- name: NL · SS · freeclashnode · 0D550C3F
   type: ss
-  server: 107.151.182.197
+  server: 82.38.31.2
   port: 8080
-  cipher: rc4-md5
-  sub_tag: A004-260618
+  cipher: chacha20-ietf-poly1305
   udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: ID · TROJAN · freeclashnode · 08D02667
-  type: trojan
-  server: edu.ruangguru.com
-  port: 443
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: true
-  sni: id1.nathaya.web.id
-  sub_tag: B007-260618
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36
-    path: /trojan
-  password: 018b8e7b-7813-4dcb-84a5-3c98f1521e00
+  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: US · VMESS · freeclashnode · 0D6D0630
   type: vmess
   server: khasav.org
@@ -380,12 +393,25 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: khasav.org
-- name: EC · HTTP · freeclashnode · 03B05BC8
-  type: http
-  server: 181.188.203.40
-  port: 999
-  sub_tag: R002-260618
+- name: US · SS · freeclashnode · 0E40B526
+  type: ss
+  server: 107.151.182.197
+  port: 8080
+  cipher: rc4-md5
+  sub_tag: A004-260618
   udp: true
+  password: 14fFPrbezE3HDZzsMOr6
+- name: EE · TROJAN · freeclashnode · 0D52A8C4
+  type: trojan
+  server: 109.206.241.10
+  port: 449
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  sni: russiapower.accesscam.org
+  sub_tag: B007-260618
+  udp: true
+  network: tcp
+  password: oiiaB38ywjEHCWRs_O_a_1113_Il_KeyyyHop_Bes1
 - name: ES · VMESS · freeclashnode · 0DA3395A
   type: vmess
   server: mygptagent.org
@@ -414,22 +440,6 @@ proxies:
   udp: true
   username: "null"
   password: "null"
-- name: FR · TROJAN · freeclashnode · 0B080661
-  type: trojan
-  server: 212.227.144.37
-  port: 8443
-  client-fingerprint: chrome
-  network: ws
-  skip-cert-verify: false
-  sni: www.calmlunch.com
-  sub_tag: V002-260618
-  udp: true
-  ws-opts:
-    headers:
-      User-Agent: Mozilla/5.0 (Linux; Android 6.0.1; SM-G532M Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91
-        Mobile Safari/537.36
-    path: /assignment
-  password: humanity
 - name: NL · VMESS · freeclashnode · 0FF52A57
   type: vmess
   server: 151.243.173.119
@@ -449,6 +459,13 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: 151.243.173.119
+- name: US · SS · freeclashnode · 266D7192
+  type: ss
+  server: 198.98.53.130
+  port: 443
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: eDfN7SODQceIOmIAbtJJtK
 - name: IT · HTTP · freeclashnode · 0471EF35
   type: http
   server: 109.116.41.154
@@ -457,29 +474,14 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: CA · SS · freeclashnode · 10726E1A
+- name: US · SS · freeclashnode · 0ECD490F
   type: ss
-  server: 51.222.12.127
-  port: 445
+  server: 15.204.247.244
+  port: 4444
   cipher: aes-256-gcm
-  sub_tag: A004-260618
+  sub_tag: B007-260618
   udp: true
-  password: zDNVedRFPQexG9v
-- name: US · VMESS · freeclashnode · 100CC461
-  type: vmess
-  server: 129.146.143.80
-  port: 48111
-  uuid: d4603cc2-e0ee-4651-83f5-1db5b7168177
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 129.146.143.80
+  password: pKEW8JPByTVTLtM
 - name: RO · HTTP · freeclashnode · 04D8DEE9
   type: http
   server: 193.176.84.38
@@ -489,25 +491,39 @@ proxies:
   udp: true
   username: "null"
   password: "null"
-- name: US · SS · freeclashnode · 112D3EE5
+- name: CA · SS · freeclashnode · 10726E1A
   type: ss
-  server: 107.155.57.51
+  server: 51.222.12.127
+  port: 445
+  cipher: aes-256-gcm
+  sub_tag: A004-260618
+  udp: true
+  password: zDNVedRFPQexG9v
+- name: IN · VMESS · freeclashnode · 10750F76
+  type: vmess
+  server: 152.67.8.205
+  port: 80
+  uuid: 9db4c708-aef8-4359-821b-38e47990be0d
+  alterId: 0
+  cipher: auto
+  network: ws
+  skip-cert-verify: false
+  sub_tag: M002-260618
+  tls: false
+  udp: true
+  ws-opts:
+    headers: {}
+    path: /
+  xudp: true
+  packet-encoding: xudp
+  servername: 🇮🇳in-152.67.8.205-0164 | 0.149mb
+- name: NL · SS · freeclashnode · 290D7B07
+  type: ss
+  server: 82.38.31.191
   port: 8080
-  cipher: rc4-md5
-  sub_tag: M003-260806
+  cipher: chacha20-ietf-poly1305
   udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: EE · TROJAN · freeclashnode · 0D52A8C4
-  type: trojan
-  server: 109.206.241.10
-  port: 449
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  sni: russiapower.accesscam.org
-  sub_tag: B007-260618
-  udp: true
-  network: tcp
-  password: oiiaB38ywjEHCWRs_O_a_1113_Il_KeyyyHop_Bes1
+  password: k1dBOmOB4oqi7Ump37a1bQ
 - name: PL · HTTP · freeclashnode · 0559E2B4
   type: http
   server: 151.115.54.133
@@ -517,14 +533,14 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: PL · SS · freeclashnode · 11337F93
+- name: US · SS · freeclashnode · 112D3EE5
   type: ss
-  server: 217.30.10.44
-  port: 9063
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
+  server: 107.155.57.51
+  port: 8080
+  cipher: rc4-md5
+  sub_tag: M003-260806
   udp: true
-  password: aQqJbtwFGcCCaeL3
+  password: 14fFPrbezE3HDZzsMOr6
 - name: US · VMESS · freeclashnode · 11B72A6C
   type: vmess
   server: 167.88.63.59
@@ -552,14 +568,14 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: NL · SS · freeclashnode · 1181CF60
+- name: PL · SS · freeclashnode · 11337F93
   type: ss
-  server: 82.38.31.149
-  port: 443
-  cipher: chacha20-ietf-poly1305
+  server: 217.30.10.44
+  port: 9063
+  cipher: aes-256-cfb
   sub_tag: A004-260618
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
+  password: aQqJbtwFGcCCaeL3
 - name: US · VMESS · freeclashnode · 12881AB0
   type: vmess
   server: vspeedfast.org
@@ -581,13 +597,6 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: vspeedfast.org
-- name: US · SS · freeclashnode · 266D7192
-  type: ss
-  server: 198.98.53.130
-  port: 443
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: eDfN7SODQceIOmIAbtJJtK
 - name: GB · HTTP · freeclashnode · 07696F62
   type: http
   server: 212.102.63.31
@@ -597,14 +606,14 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: NL · SS · freeclashnode · 123CD8D0
+- name: NL · SS · freeclashnode · 1181CF60
   type: ss
-  server: 193.29.139.168
-  port: 8080
+  server: 82.38.31.149
+  port: 443
   cipher: chacha20-ietf-poly1305
-  sub_tag: B007-260618
+  sub_tag: A004-260618
   udp: true
-  password: QCXDxuDlTTMD7jtgHUjIoj
+  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: CA · VMESS · freeclashnode · 1430B860
   type: vmess
   server: 134.195.198.214
@@ -619,6 +628,13 @@ proxies:
   udp: true
   xudp: true
   packet-encoding: xudp
+- name: US · SS · freeclashnode · 2B322B68
+  type: ss
+  server: 156.146.38.169
+  port: 443
+  cipher: aes-128-gcm
+  udp: true
+  password: shadowsocks
 - name: RO · HTTP · freeclashnode · 0A23683C
   type: http
   server: 193.176.84.22
@@ -628,24 +644,14 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: FR · VLESS · freeclashnode · 02D15CBE
-  type: vless
-  server: cf-socks.caoyuwu.eu.org
-  port: 443
-  uuid: 9cdcbaf0-d244-4f37-b227-90166e43f5b5
-  client-fingerprint: chrome
-  network: ws
-  sub_tag: F003-260618
-  tls: true
+- name: NL · SS · freeclashnode · 123CD8D0
+  type: ss
+  server: 193.29.139.168
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  sub_tag: B007-260618
   udp: true
-  ws-opts:
-    headers:
-      Host: ''
-      User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36
-    path: /
-  xudp: true
-  packet-encoding: xudp
-  servername: cf-socks.caoyuwu.eu.org
+  password: QCXDxuDlTTMD7jtgHUjIoj
 - name: US · VMESS · freeclashnode · 167FE628
   type: vmess
   server: 169.197.142.22
@@ -666,6 +672,14 @@ proxies:
   port: 9090
   sub_tag: R002-260618
   udp: true
+- name: PL · SS · freeclashnode · 147183BE
+  type: ss
+  server: 217.30.10.44
+  port: 9042
+  cipher: aes-256-cfb
+  sub_tag: A004-260618
+  udp: true
+  password: S7KwUu7yBy58S3Ga
 - name: HK · VMESS · freeclashnode · 18B0AEB9
   type: vmess
   server: aksai.org
@@ -685,13 +699,6 @@ proxies:
   xudp: true
   packet-encoding: xudp
   servername: aksai.org
-- name: NL · SS · freeclashnode · 290D7B07
-  type: ss
-  server: 82.38.31.191
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
 - name: FR · HTTP · freeclashnode · 0BE4764C
   type: http
   server: 217.181.201.254
@@ -700,14 +707,6 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: NL · SS · freeclashnode · 14D994C4
-  type: ss
-  server: 82.38.31.47
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: A003-260618
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: DE · VMESS · freeclashnode · 18EACD04
   type: vmess
   server: 216.106.187.60
@@ -731,14 +730,14 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: IT · SS · freeclashnode · 152365F4
+- name: NL · SS · freeclashnode · 14D994C4
   type: ss
-  server: 57.131.48.45
-  port: 8388
-  cipher: aes-256-gcm
-  sub_tag: B007-260618
+  server: 82.38.31.47
+  port: 8080
+  cipher: chacha20-ietf-poly1305
+  sub_tag: A003-260618
   udp: true
-  password: itzvpn@321
+  password: oZIoA69Q8yhcQV8ka3Pa3A
 - name: NL · VMESS · freeclashnode · 19E4BA43
   type: vmess
   server: 139.64.166.25
@@ -768,30 +767,32 @@ proxies:
   udp: true
   sni: zebpay.site
   password: None
-- name: BG · SS · freeclashnode · 158CE6B7
+- name: IT · SS · freeclashnode · 152365F4
   type: ss
-  server: 213.183.63.60
-  port: 9064
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
+  server: 57.131.48.45
+  port: 8388
+  cipher: aes-256-gcm
+  sub_tag: B007-260618
   udp: true
-  password: cp8pRSUAyLhTfVWH
-- name: FR · VLESS · freeclashnode · 03238E02
-  type: vless
-  server: cf6.466688.xyz
-  port: 8880
-  uuid: f989cbf4-40d2-41d2-8a00-1fe4e29b2192
-  encryption: none
+  password: itzvpn@321
+- name: IN · VMESS · freeclashnode · 1A0178F6
+  type: vmess
+  server: 152.67.8.205
+  port: 80
+  uuid: 9db4c708-aef8-4359-821b-38e47990be0d
+  alterId: 0
+  cipher: auto
   network: ws
-  sub_tag: C002-260622
+  skip-cert-verify: false
+  sub_tag: A004-260618
+  tls: false
   udp: true
   ws-opts:
-    headers:
-      Host: ancient-rice-c180.455-8ad.workers.dev
-      User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
-    path: /pyip=ProxyIP.SG.CMLiussss.net@https://t.me/QiangLieTuiJian
+    headers: {}
+    path: /
   xudp: true
   packet-encoding: xudp
+  servername: 🇮🇳in-152.67.8.205-4877 | 0.022mb
 - name: US · HTTP · freeclashnode · 10EDE39A
   type: http
   server: jgwynphotoarts.pro
@@ -800,21 +801,14 @@ proxies:
   sub_tag: R002-260618
   tls: true
   udp: true
-- name: DE · SS · freeclashnode · 2FCB59FE
+- name: BG · SS · freeclashnode · 158CE6B7
   type: ss
-  server: 185.226.172.8
-  port: 8008
-  cipher: aes-256-gcm
-  udp: true
-  password: XKFKl2rULjIp74
-- name: NL · SS · freeclashnode · 190D4AD1
-  type: ss
-  server: 82.38.31.164
-  port: 443
-  cipher: chacha20-ietf-poly1305
+  server: 213.183.63.60
+  port: 9064
+  cipher: aes-256-cfb
   sub_tag: A004-260618
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
+  password: cp8pRSUAyLhTfVWH
 - name: FR · VMESS · freeclashnode · 1A9D719C
   type: vmess
   server: google.whatsapp.snapp.torob.basalam.fortresshost.ir.
@@ -833,52 +827,3 @@ proxies:
     path: /
   xudp: true
   packet-encoding: xudp
-- name: NL · HTTP · freeclashnode · 11147645
-  type: http
-  server: 103.97.88.154
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: BG · SS · freeclashnode · 19FBA271
-  type: ss
-  server: 213.183.63.60
-  port: 9028
-  cipher: aes-256-cfb
-  sub_tag: A004-260618
-  udp: true
-  password: 9eeJ2fwnZA5Fxgz8
-- name: US · VMESS · freeclashnode · 1E912F79
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 67.220.85.46
-- name: FR · HTTP · freeclashnode · 11232A72
-  type: http
-  server: 82.65.162.76
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: US · SS · freeclashnode · 19FE6B77
-  type: ss
-  server: 138.199.43.159
-  port: 8080
-  cipher: rc4-md5
-  sub_tag: A004-260618
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
