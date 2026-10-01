@@ -1,12 +1,4 @@
 proxies:
-- name: SE · SS · cfmem · 3CEF4C3B
-  type: ss
-  server: 51.20.86.152
-  port: 443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: amazonskr05
 - name: DE · TROJAN · cfmem · 0EC8E05A
   type: trojan
   server: alive-flea.rooster465.autos
@@ -14,19 +6,13 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: UX82473651
-- name: US · SS · cfmem · 4DF3AD93
-  type: ss
-  server: 82.38.31.35
-  port: 8080
-  cipher: chacha20-ietf-poly1305
+- name: PL · TROJAN · cfmem · 15BB391F
+  type: trojan
+  server: cheerful-swan.rooster465.autos
+  port: 443
+  sni: cheerful-swan.rooster465.autos
   skip-cert-verify: true
   udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: DE · TROJAN · cfmem · 91AF96EE
-  type: trojan
-  server: alive-flea.rooster465.autos
-  port: 443
-  tls: true
   password: UX82473651
 - name: HK→US · VMESS · cfmem · 0B82D95D
   type: vmess
@@ -36,36 +22,31 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: US · SS · cfmem · 9F808FA1
-  type: ss
-  server: 54.90.169.61
+- name: PL · TROJAN · cfmem · 1AF1309B
+  type: trojan
+  server: cheerful-swan.rooster465.autos
   port: 443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: amazonskr05
-- name: HK→US · VMESS · cfmem · 16C8574A
+  tls: true
+  servername: cheerful-swan.rooster465.autos
+  password: UX82473651
+- name: DE · VLESS · cfmem · 337227F8
+  type: vless
+  server: 0cf703b86ea5a239.ravenlo.ir
+  port: 8080
+  uuid: 50d10e6c-37e1-4512-b35a-2d4e0adfd079
+  network: ws
+  ws-opts:
+    path: /
+- name: DE · TROJAN · cfmem · 91AF96EE
+  type: trojan
+  server: alive-flea.rooster465.autos
+  port: 443
+  tls: true
+  password: UX82473651
+- name: HK→FR · VMESS · cfmem · 4153EE35
   type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→US · VMESS · cfmem · 18F6DFDE
-  type: vmess
-  server: v24.hdacd.com
-  port: 30824
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
+  server: v35.hdacd.com
+  port: 30835
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
@@ -81,25 +62,15 @@ proxies:
   tls: true
   skip-cert-verify: true
   udp: true
-- name: HK · VMESS · cfmem · 50EF27ED
-  type: vmess
-  server: v10.hdacd.com
-  port: 30807
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
+- name: DE · VLESS · cfmem · B9C7A458
+  type: vless
+  server: 0cf703b86ea5a239.RaVEnlO.iR
+  port: 8080
+  uuid: 50d10e6c-37e1-4512-b35a-2d4e0adfd079
+  network: ws
   tls: false
   skip-cert-verify: true
   udp: true
-- name: US→DE · VLESS · cfmem · DB5298DD
-  type: vless
-  server: site.check-looks.space
-  port: 2083
-  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
-  network: ws
-  tls: true
-  ws-opts:
-    path: /
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -114,6 +85,15 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: US→DE · VLESS · cfmem · DB5298DD
+  type: vless
+  server: site.check-looks.space
+  port: 2083
+  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
+  network: ws
+  tls: true
+  ws-opts:
+    path: /
 - name: HK→GB · VMESS · cfmem · 8DAEC115
   type: vmess
   server: v36.hdacd.com
@@ -140,14 +120,6 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: HK · VMESS · cfmem · AFF27A81
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: HK→GB · VMESS · cfmem · BA924DCE
   type: vmess
   server: v36.hdacd.com
@@ -162,16 +134,6 @@ proxies:
   port: 110
   uuid: d2d8601b-c14b-42c6-b8ea-33889bce152a
   alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→US · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
   cipher: auto
   tls: false
   skip-cert-verify: true
