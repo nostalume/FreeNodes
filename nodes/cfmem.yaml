@@ -1,11 +1,39 @@
 proxies:
-- name: DE · TROJAN · cfmem · 0EC8E05A
+- name: PL · TROJAN · cfmem · 1AF1309B
   type: trojan
-  server: alive-flea.rooster465.autos
+  server: cheerful-swan.rooster465.autos
   port: 443
+  tls: true
+  servername: cheerful-swan.rooster465.autos
+  password: UX82473651
+- name: US · VLESS · cfmem · 1480D264
+  type: vless
+  server: hk.152568.xyz
+  port: 443
+  uuid: 0250424c-ae75-4b6b-890f-3fe26fae36c3
+  network: ws
+  servername: hk.152568.xyz
+  tls: true
+  client-fingerprint: edge
+  ws-opts:
+    path: /cdn/packages/runtime-core.tar.gz
+    headers:
+      Host: hk.152568.xyz
   skip-cert-verify: true
   udp: true
-  password: UX82473651
+- name: US→HK · VLESS · cfmem · 1E248273
+  type: vless
+  server: hk.152568.xyz
+  port: 8443
+  uuid: 0250424c-ae75-4b6b-890f-3fe26fae36c3
+  network: ws
+  tls: true
+  servername: hk.152568.xyz
+  client-fingerprint: edge
+  ws-opts:
+    path: /cdn/packages/runtime-core.tar.gz
+    headers:
+      Host: hk.152568.xyz
 - name: PL · TROJAN · cfmem · 15BB391F
   type: trojan
   server: cheerful-swan.rooster465.autos
@@ -14,63 +42,34 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: UX82473651
-- name: HK→US · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: PL · TROJAN · cfmem · 1AF1309B
-  type: trojan
-  server: cheerful-swan.rooster465.autos
-  port: 443
-  tls: true
-  servername: cheerful-swan.rooster465.autos
-  password: UX82473651
-- name: DE · VLESS · cfmem · 337227F8
+- name: US→HK · VLESS · cfmem · 3F42FCB2
   type: vless
-  server: 0cf703b86ea5a239.ravenlo.ir
-  port: 8080
-  uuid: 50d10e6c-37e1-4512-b35a-2d4e0adfd079
+  server: hk.152568.xyz
+  port: 8443
+  uuid: 0250424c-ae75-4b6b-890f-3fe26fae36c3
   network: ws
+  servername: hk.152568.xyz
+  tls: true
+  client-fingerprint: edge
   ws-opts:
-    path: /
-- name: DE · TROJAN · cfmem · 91AF96EE
-  type: trojan
-  server: alive-flea.rooster465.autos
+    path: /cdn/packages/runtime-core.tar.gz
+    headers:
+      Host: hk.152568.xyz
+  skip-cert-verify: true
+  udp: true
+- name: US · VLESS · cfmem · 61C9FA95
+  type: vless
+  server: hk.152568.xyz
   port: 443
-  tls: true
-  password: UX82473651
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US→DE · VLESS · cfmem · 9EDFBDB9
-  type: vless
-  server: Site.check-looks.space
-  port: 2083
-  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
+  uuid: 0250424c-ae75-4b6b-890f-3fe26fae36c3
   network: ws
   tls: true
-  skip-cert-verify: true
-  udp: true
-- name: DE · VLESS · cfmem · B9C7A458
-  type: vless
-  server: 0cf703b86ea5a239.RaVEnlO.iR
-  port: 8080
-  uuid: 50d10e6c-37e1-4512-b35a-2d4e0adfd079
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
+  servername: hk.152568.xyz
+  client-fingerprint: edge
+  ws-opts:
+    path: /cdn/packages/runtime-core.tar.gz
+    headers:
+      Host: hk.152568.xyz
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -85,25 +84,6 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US→DE · VLESS · cfmem · DB5298DD
-  type: vless
-  server: site.check-looks.space
-  port: 2083
-  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
-  network: ws
-  tls: true
-  ws-opts:
-    path: /
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -120,14 +100,6 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: DE · VMESS · cfmem · C1F424FE
   type: vmess
   server: 31.77.8.97
