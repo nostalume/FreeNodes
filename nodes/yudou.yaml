@@ -16,7 +16,20 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: cf83b611-6cba-4535-adcb-8da06c6a9146
-- name: ZZ · ANYTLS · yudou · 98E9A899
+- name: ZZ · VLESS · yudou · 04C95FFB
+  type: vless
+  server: 35.185.179.62
+  port: 443
+  reality-opts:
+    public-key: hJCcmOf_ECJ3GUfHUjsgfcFKcgGb22H7cz_m_FvcVm4
+    short-id: eb97ce837da2f6ad
+  uuid: 5567cac6-2a32-4318-83cd-7df3a9eebbd7
+  servername: www.cloudflare.com
+  tls: true
+  client-fingerprint: qq
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · clashmeta · 98E9A899
   type: anytls
   server: svip.skycon808.com
   port: 60005
@@ -33,22 +46,19 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
-- name: ZZ · VLESS · yudou · 04B5AED3
-  type: vless
-  server: 176.109.111.7
-  port: 9881
-  reality-opts:
-    public-key: Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0
-    short-id: aa
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  network: grpc
-  servername: dl.google.com
+- name: ZZ · VMESS · yudou · 26FE4115
+  type: vmess
+  server: yg1.ygkkk.dpdns.org
+  port: 443
+  uuid: b2ba4a73-3123-479e-aa96-5973a9ecd0c0
+  alterId: 0
+  cipher: auto
+  network: ws
   tls: true
-  client-fingerprint: random
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  skip-cert-verify: true
-  udp: true
+  ws-opts:
+    path: /b2ba4a73-3123-479e-aa96-5973a9ecd0c0-vm
+    headers:
+      Host: jmp1.907737.xyz
 - name: US · VLESS · cfmem · 85F319BC
   type: vless
   server: v2ray.aizgl.com
@@ -64,34 +74,6 @@ proxies:
       Host: v2ray.aizgl.com
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · 21F76A53
-  type: vmess
-  server: yg1.ygkkk.dpdns.org
-  port: 443
-  uuid: b2ba4a73-3123-479e-aa96-5973a9ecd0c0
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /b2ba4a73-3123-479e-aa96-5973a9ecd0c0-vm
-    headers:
-      Host: jmp1.907737.xyz
-  udp: true
-- name: ZZ · VMESS · yudou · 26FE4115
-  type: vmess
-  server: yg1.ygkkk.dpdns.org
-  port: 443
-  uuid: b2ba4a73-3123-479e-aa96-5973a9ecd0c0
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /b2ba4a73-3123-479e-aa96-5973a9ecd0c0-vm
-    headers:
-      Host: jmp1.907737.xyz
 - name: ZZ · VLESS · yudou · 343098FD
   type: vless
   server: site.check-looks.space
@@ -102,19 +84,6 @@ proxies:
   servername: Site.check-looks.space
   ws-opts:
     path: /
-- name: ZZ · VLESS · yudou · 3B1F246F
-  type: vless
-  server: 34.165.56.30
-  port: 443
-  reality-opts:
-    public-key: AeQDUAVCESyA1hFkw6lENmgWAY3sBH9CFPpPAddPwVc
-    short-id: fffff8acddadcac3
-  uuid: 0c40bce9-8710-4820-8f22-0742b61df999
-  servername: www.cloudflare.com
-  tls: true
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
 - name: ZZ · VLESS · yudou · 3EDFB93A
   type: vless
   server: 13.143.185.29
@@ -164,4 +133,57 @@ proxies:
   tls: true
   client-fingerprint: chrome
   skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 56810D85
+  type: vless
+  server: v2ray.aizgl.com
+  port: 443
+  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  network: ws
+  tls: true
+  servername: v2ray.aizgl.com
+  client-fingerprint: chrome
+  ws-opts:
+    path: /xray-ws
+    headers:
+      Host: v2ray.aizgl.com
+- name: ZZ · VLESS · yudou · 8D5A47C7
+  type: vless
+  server: 31.76.34.216
+  port: 443
+  reality-opts:
+    public-key: XrgbY2hKJQG8QOZO2J1pGmZsbvjSsSWoM9iULIMGK00
+  uuid: 94def50e-5f3c-4e4c-9719-3325f42d2131
+  servername: ru-c-1.minzt.su
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 96704243
+  type: vless
+  server: site.check-looks.space
+  port: 2083
+  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
+  network: ws
+  servername: Site.check-looks.space
+  tls: true
+  ws-opts:
+    path: /
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · clashmeta · 21F76A53
+  type: vmess
+  server: yg1.ygkkk.dpdns.org
+  port: 443
+  uuid: b2ba4a73-3123-479e-aa96-5973a9ecd0c0
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /b2ba4a73-3123-479e-aa96-5973a9ecd0c0-vm
+    headers:
+      Host: jmp1.907737.xyz
   udp: true

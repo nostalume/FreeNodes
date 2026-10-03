@@ -1,14 +1,25 @@
 proxies:
-- name: CN→PH · VMESS · cfmem · 25402DED
-  type: vmess
-  server: silversbgfgov.vip44.wogbcnmnagfwgov.com
-  port: 11244
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
-  alterId: 2
-  cipher: auto
-  tls: false
+- name: US · SS · cfmem · 29B3B732
+  type: ss
+  server: 98.89.22.134
+  port: 443
+  cipher: aes-256-cfb
   skip-cert-verify: true
   udp: true
+  password: amazonskr05
+- name: US · VLESS · cfmem · 5B66E3CD
+  type: vless
+  server: v2ray.aizgl.com
+  port: 443
+  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  network: ws
+  tls: true
+  servername: v2ray.aizgl.com
+  client-fingerprint: chrome
+  ws-opts:
+    path: /xray-ws
+    headers:
+      Host: v2ray.aizgl.com
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -39,6 +50,29 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
+- name: SG→LK · VLESS · cfmem · 7E860A0B
+  type: vless
+  server: cloud.ghostdev.lk
+  port: 80
+  uuid: 1eaed465-d720-400b-9f9f-439600a2d093
+  network: ws
+  ws-opts:
+    path: /
+- name: US · VLESS · cfmem · 85F319BC
+  type: vless
+  server: v2ray.aizgl.com
+  port: 443
+  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  network: ws
+  servername: v2ray.aizgl.com
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /xray-ws
+    headers:
+      Host: v2ray.aizgl.com
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · ADEC7A4D
   type: vmess
   server: v2ray1.dozapp.xyz
@@ -55,31 +89,12 @@ proxies:
     headers:
       Host: v2ray1.dozapp.xyz
   udp: true
-- name: US · VLESS · cfmem · 5B66E3CD
+- name: SG→LK · VLESS · cfmem · E4888A74
   type: vless
-  server: v2ray.aizgl.com
-  port: 443
-  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  server: cloud.ghostdev.lk
+  port: 80
+  uuid: 1eaed465-d720-400b-9f9f-439600a2d093
   network: ws
-  tls: true
-  servername: v2ray.aizgl.com
-  client-fingerprint: chrome
-  ws-opts:
-    path: /xray-ws
-    headers:
-      Host: v2ray.aizgl.com
-- name: US · VLESS · cfmem · 85F319BC
-  type: vless
-  server: v2ray.aizgl.com
-  port: 443
-  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
-  network: ws
-  servername: v2ray.aizgl.com
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /xray-ws
-    headers:
-      Host: v2ray.aizgl.com
+  tls: false
   skip-cert-verify: true
   udp: true
