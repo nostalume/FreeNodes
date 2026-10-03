@@ -1,5 +1,30 @@
 proxies:
-- name: ZZ · HYSTERIA2 · yudou · AC8FE99C
+- name: ZZ · ANYTLS · yudou · 607D1B67
+  type: anytls
+  server: anytls2.864106.xyz
+  port: 19000
+  sni: anytls2.864106.xyz
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: github.com/Alvin9999-newpac/fanqiang
+- name: ZZ · HYSTERIA2 · yudou · 8C3E5F05
+  type: hysteria2
+  server: covers.pantera-radio.ru
+  port: 443
+  sni: covers.pantera-radio.ru
+  skip-cert-verify: true
+  udp: true
+  password: 0a11d3b4-682c-4bfb-afb0-820b8285cb4b
+- name: ZZ · HYSTERIA2 · yudou · ABD50CD7
+  type: hysteria2
+  server: 144.31.212.253
+  port: 443
+  sni: vps155-edge.kermemehori.ru
+  skip-cert-verify: true
+  udp: true
+  password: cf83b611-6cba-4535-adcb-8da06c6a9146
+- name: RU · HYSTERIA2 · clashmeta · AC8FE99C
   type: hysteria2
   server: 91.240.86.70
   port: 22443
@@ -16,79 +41,68 @@ proxies:
   tls: true
   udp: true
   password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · VLESS · yudou · 02CC5581
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  servername: fbsv6.guardora.pro
-  tls: true
-  client-fingerprint: random
-  ws-opts:
-    path: /ws
+- name: ZZ · HYSTERIA2 · yudou · B9DFBE7F
+  type: hysteria2
+  server: 162.249.127.146
+  port: 8443
+  sni: hop-germany-september.dynuddns.com
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 0A486233
+  password: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
+- name: ZZ · VLESS · yudou · 04B5AED3
   type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  servername: fbsv6.guardora.pro
-  tls: true
-  client-fingerprint: random
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 1873C9D3
-  type: vless
-  server: 176.109.109.105
-  port: 9830
+  server: 176.109.111.7
+  port: 9881
   reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
+    public-key: Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0
     short-id: aa
   uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
   network: grpc
   servername: dl.google.com
   tls: true
-  client-fingerprint: ios
+  client-fingerprint: random
   grpc-opts:
     grpc-service-name: grpc-tunnel
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 19E5E048
+- name: ZZ · VLESS · yudou · 04C95FFB
   type: vless
-  server: fbsv6.guardora.pro
+  server: 35.185.179.62
   port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  reality-opts:
+    public-key: hJCcmOf_ECJ3GUfHUjsgfcFKcgGb22H7cz_m_FvcVm4
+    short-id: eb97ce837da2f6ad
+  uuid: 5567cac6-2a32-4318-83cd-7df3a9eebbd7
+  servername: www.cloudflare.com
+  tls: true
+  client-fingerprint: qq
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · TROJAN · yudou · 6AF7EB0A
+  type: trojan
+  server: www.calmlunch.com
+  port: 443
   network: ws
   tls: true
-  servername: fbsv6.guardora.pro
-  client-fingerprint: chrome
+  servername: www.calmlunch.com
   ws-opts:
-    path: /ws
+    path: /assignment
     headers:
-      Host: fbsv6.guardora.pro
-- name: ZZ · VLESS · yudou · 1A46ABB7
+      Host: www.calmlunch.com
+  password: humanity
+- name: US · VLESS · cfmem · 85F319BC
   type: vless
-  server: 176.108.241.126
-  port: 9892
-  reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  network: grpc
-  servername: dl.google.com
+  server: v2ray.aizgl.com
+  port: 443
+  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  network: ws
+  servername: v2ray.aizgl.com
   tls: true
   client-fingerprint: chrome
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
+  ws-opts:
+    path: /xray-ws
+    headers:
+      Host: v2ray.aizgl.com
   skip-cert-verify: true
   udp: true
 - name: ZZ · VMESS · yudou · 21F76A53
@@ -119,180 +133,86 @@ proxies:
     path: /b2ba4a73-3123-479e-aa96-5973a9ecd0c0-vm
     headers:
       Host: jmp1.907737.xyz
-- name: ZZ · VLESS · yudou · 28A666B5
+- name: ZZ · VLESS · yudou · 343098FD
   type: vless
-  server: 176.108.241.126
-  port: 9892
+  server: site.check-looks.space
+  port: 2083
+  uuid: ca608afb-55ff-4f36-9d00-606fedbb30e1
+  network: ws
+  tls: true
+  servername: Site.check-looks.space
+  ws-opts:
+    path: /
+- name: ZZ · VLESS · yudou · 3B1F246F
+  type: vless
+  server: 34.165.56.30
+  port: 443
   reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  network: grpc
-  servername: dl.google.com
-  tls: true
-  client-fingerprint: ios
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 33F50EB3
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  servername: fbsv6.guardora.pro
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 340295DE
-  type: vless
-  server: 176.108.241.126
-  port: 9892
-  reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  network: grpc
-  servername: dl.google.com
-  tls: true
-  client-fingerprint: safari
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 6A926C75
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  tls: true
-  servername: fbsv6.guardora.pro
-  client-fingerprint: chrome
-  ws-opts:
-    path: /ws
-- name: ZZ · VLESS · yudou · 6BB8E27B
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  servername: fbsv6.guardora.pro
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 6E23AE13
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  tls: true
-  servername: fbsv6.guardora.pro
-  client-fingerprint: random
-  ws-opts:
-    path: /ws
-- name: ZZ · VLESS · yudou · 749BEF51
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  servername: fbsv6.guardora.pro
+    public-key: AeQDUAVCESyA1hFkw6lENmgWAY3sBH9CFPpPAddPwVc
+    short-id: fffff8acddadcac3
+  uuid: 0c40bce9-8710-4820-8f22-0742b61df999
+  servername: www.cloudflare.com
   tls: true
   client-fingerprint: chrome
-  ws-opts:
-    path: /ws
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 87DCDEB5
+- name: ZZ · VLESS · yudou · 3EDFB93A
   type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
+  server: 13.143.185.29
+  port: 8448
+  reality-opts:
+    public-key: SEFnqOIUiHZpOgtXZ3FFFhVTALc1ReEVt78femI770U
+    short-id: c90743ca346c8da7
+  uuid: 2897717e-55b6-4d3d-8752-72c5fd4614ae
+  network: xhttp
+  servername: api-maps.yandex.ru
   tls: true
-  servername: fbsv6.guardora.pro
-  client-fingerprint: chrome
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-- name: ZZ · VLESS · yudou · 92D57782
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  tls: true
-  servername: fbsv6.guardora.pro
   client-fingerprint: firefox
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-- name: ZZ · VLESS · yudou · 9A638A04
+  xhttp-opts:
+    path: /assets/v2
+    host: 13.143.185.29
+    mode: auto
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 47C52F3E
   type: vless
-  server: 176.108.241.126
+  server: 2.28.142.170
+  port: 443
+  reality-opts:
+    public-key: IqFTx4k5VQydmffvavaOHDXBtdgDxX26A6NtsVvDfhw
+    short-id: d485c3d5248d6b51
+  uuid: f774f037-6320-42e3-a97b-6d4a1f018dd5
+  encryption: mlkem768x25519plus.native.0rtt.Y0-j5e-CpehUKzhEeat1dTYevroKyHV4g9HML3ujmlQ
+  network: xhttp
+  servername: germanytest.tulnaro.ir
+  tls: true
+  client-fingerprint: chrome
+  xhttp-opts:
+    path: /
+    host: germanytest.tulnaro.ir
+    mode: auto
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 4FF5A3FB
+  type: vless
+  server: 34.35.58.153
+  port: 443
+  reality-opts:
+    public-key: bSN0cv0VMxmYZsNsMkkLndOTHZu74C1htJ2M71QMaVE
+    short-id: 89b3a20484eb43ec
+  uuid: 8d65c8a7-4876-4556-bb6a-feccfb46ee81
+  servername: www.cloudflare.com
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 541F2C9F
+  type: vless
+  server: 176.109.105.186
   port: 9892
   reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
-    short-id: aabb
-  uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
-  network: grpc
-  servername: dl.google.com
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: grpc-tunnel
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · A93469F0
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  tls: true
-  servername: fbsv6.guardora.pro
-  client-fingerprint: random
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-- name: ZZ · VLESS · yudou · AA52A636
-  type: vless
-  server: fbsv6.guardora.pro
-  port: 443
-  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
-  network: ws
-  tls: true
-  servername: fbsv6.guardora.pro
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws
-    headers:
-      Host: fbsv6.guardora.pro
-- name: ZZ · VLESS · yudou · B7259CEE
-  type: vless
-  server: 176.109.109.105
-  port: 9830
-  reality-opts:
-    public-key: bnRIb3Er1i-K6NGGByCO9UbGfOvu43ZoiK7ulPd1SzU
-    short-id: aabb
+    public-key: Dfgu8Ey0M8Hz4gXGZAwQ3H9jLt2HByVsjAOTWiuKDB0
+    short-id: aa
   uuid: 5d16ac22-6eea-426f-b778-6f4c2961faef
   network: grpc
   servername: dl.google.com
@@ -300,5 +220,32 @@ proxies:
   client-fingerprint: random
   grpc-opts:
     grpc-service-name: grpc-tunnel
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 56810D85
+  type: vless
+  server: v2ray.aizgl.com
+  port: 443
+  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  network: ws
+  tls: true
+  servername: v2ray.aizgl.com
+  client-fingerprint: chrome
+  ws-opts:
+    path: /xray-ws
+    headers:
+      Host: v2ray.aizgl.com
+- name: ZZ · VLESS · yudou · 7DAFB8E1
+  type: vless
+  server: 172.67.203.138
+  port: 8080
+  uuid: 015fada5-2c95-4251-9c58-39fa3abf1e24
+  network: ws
+  servername: 172.67.203.138
+  tls: false
+  ws-opts:
+    path: /eyJqdW5rIjoidzY2QTdySkdOeiIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJlZml4IiwicGFuZWxJUHMiOlsiWzJhMDI6ODk4OjE0Njo2NDo6XSIsIlsyNjAyOmZjNTk6MTE6NjQ6Ol0iLCJbMjYwMjpmYzU5OmIwOjY0OjpdIl19?ed=2560
+    headers:
+      Host: server17.peekconfig1.workers.dev
   skip-cert-verify: true
   udp: true

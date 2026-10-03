@@ -1,4 +1,12 @@
 proxies:
+- name: US · SS · cfmem · 29B3B732
+  type: ss
+  server: 98.89.22.134
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
 - name: SG→LK · VLESS · cfmem · 0670AE36
   type: vless
   server: trackydev.site
@@ -8,6 +16,14 @@ proxies:
   tls: true
   skip-cert-verify: true
   udp: true
+- name: CN→PH · VMESS · cfmem · 51DB2E3E
+  type: vmess
+  server: silversbgfgov.vip44.wogbcnmnagfwgov.com
+  port: 11244
+  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: DE · VLESS · cfmem · 278DBE73
   type: vless
   server: germany.tofreedom.ru
@@ -30,21 +46,6 @@ proxies:
   tls: true
   ws-opts:
     path: /
-- name: DE · VLESS · cfmem · 3A2D3C4F
-  type: vless
-  server: germany.tofreedom.ru
-  port: 8444
-  uuid: 9cb2520c-148b-4bbc-a149-9d5a43ff0db3
-  network: ws
-  servername: germany.tofreedom.ru
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /c7f5317cd04691bc
-    headers:
-      Host: germany.tofreedom.ru
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -59,15 +60,6 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: SG · VLESS · cfmem · 45C59082
-  type: vless
-  server: 5.223.19.211
-  port: 80
-  uuid: 4b8a0930-1c36-4efe-b4fe-21f9ad97905c
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -83,6 +75,21 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+  udp: true
+- name: DE · VLESS · cfmem · 3A2D3C4F
+  type: vless
+  server: germany.tofreedom.ru
+  port: 8444
+  uuid: 9cb2520c-148b-4bbc-a149-9d5a43ff0db3
+  network: ws
+  servername: germany.tofreedom.ru
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /c7f5317cd04691bc
+    headers:
+      Host: germany.tofreedom.ru
+  skip-cert-verify: true
   udp: true
 - name: US · VMESS · cfmem · ADEC7A4D
   type: vmess
@@ -100,11 +107,46 @@ proxies:
     headers:
       Host: v2ray1.dozapp.xyz
   udp: true
-- name: SG · VLESS · cfmem · E946E86B
+- name: SG→LK · VLESS · cfmem · 5C7815F1
   type: vless
-  server: 5.223.19.211
-  port: 80
-  uuid: 4b8a0930-1c36-4efe-b4fe-21f9ad97905c
+  server: trackydev.site
+  port: 443
+  uuid: 92d67828-4c56-4795-af5a-f387651380dc
   network: ws
+  tls: true
+  servername: trackydev.site
+  client-fingerprint: random
   ws-opts:
     path: /
+    headers:
+      Host: trackydev.site
+- name: US · VLESS · cfmem · 85F319BC
+  type: vless
+  server: v2ray.aizgl.com
+  port: 443
+  uuid: 4b21fbc7-00c2-4665-9788-02153832f9e5
+  network: ws
+  servername: v2ray.aizgl.com
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /xray-ws
+    headers:
+      Host: v2ray.aizgl.com
+  skip-cert-verify: true
+  udp: true
+- name: SG→LK · VLESS · cfmem · F8A80F35
+  type: vless
+  server: trackydev.site
+  port: 443
+  uuid: 92d67828-4c56-4795-af5a-f387651380dc
+  network: ws
+  servername: trackydev.site
+  tls: true
+  client-fingerprint: random
+  ws-opts:
+    path: /
+    headers:
+      Host: trackydev.site
+  skip-cert-verify: true
+  udp: true
