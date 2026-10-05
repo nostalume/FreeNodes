@@ -8,32 +8,6 @@ proxies:
   tls: true
   udp: true
   password: github.com/Alvin9999-newpac/fanqiang
-- name: ZZ · ANYTLS · yudou · 0E64B9B9
-  type: anytls
-  server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
-  port: 443
-  sni: ac7548f3ebe045b39a90288ff1e97526.lwdnxf.cn
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 9sK2mP8xQ7vL3nZ6
-- name: ZZ · ANYTLS · yudou · 6098AFDA
-  type: anytls
-  server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
-  port: 443
-  sni: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 9sK2mP8xQ7vL3nZ6
-- name: ZZ · HYSTERIA2 · yudou · B9DFBE7F
-  type: hysteria2
-  server: 162.249.127.146
-  port: 8443
-  sni: hop-germany-september.dynuddns.com
-  skip-cert-verify: true
-  udp: true
-  password: 9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z
 - name: US · HYSTERIA2 · clashmeta · ABD50CD7
   type: hysteria2
   server: 144.31.212.253
@@ -42,6 +16,16 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: cf83b611-6cba-4535-adcb-8da06c6a9146
+- name: ZZ · HYSTERIA2 · yudou · D58D8237
+  type: hysteria2
+  server: me17.msjia8844.site
+  port: 7443
+  sni: me17.msjia8844.site
+  skip-cert-verify: true
+  obfs: salamander
+  obfs-password: u3Soh9_Ui0UmcuY6vk0ug8Lq
+  udp: true
+  password: M8LP9DztTr3znqCkmf-r08CQLBLLFK1r
 - name: ZZ · VLESS · yudou · 0B3D600F
   type: vless
   server: 31.77.109.35
@@ -56,6 +40,22 @@ proxies:
   client-fingerprint: ios
   skip-cert-verify: true
   udp: true
+- name: ZZ · TROJAN · yudou · BA1DCE5B
+  type: trojan
+  server: pl.tronsg.com
+  port: 443
+  sni: pl.tronsg.com
+  skip-cert-verify: true
+  udp: true
+  password: Trojan@82164024
+- name: ZZ · TROJAN · yudou · EE2C10C2
+  type: trojan
+  server: pl.tronsg.com
+  port: 443
+  network: tcp
+  tls: true
+  servername: pl.tronsg.com
+  password: Trojan@82164024
 - name: ZZ · TROJAN · yudou · EF4356C2
   type: trojan
   server: prime-corgi.rooster465.autos
@@ -64,16 +64,6 @@ proxies:
   tls: true
   servername: prime-corgi.rooster465.autos
   password: UX82473651
-- name: ZZ · VLESS · yudou · 21D976E0
-  type: vless
-  server: 162.159.81.104
-  port: 80
-  uuid: 4b00d726-e072-429b-997e-f07affea3b7f
-  network: ws
-  ws-opts:
-    path: /eyJqdW5rIjoiUEVTdDRlR2hhc0JuYyIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJlZml4IiwicGFuZWxJUHMiOlsiWzI2MDI6ZmM1OTpiMDo2NDo6XSJdfQ==
-    headers:
-      Host: icy-darkness-8ff1.farzambia12mo.workers.dev
 - name: ZZ · VLESS · yudou · 343098FD
   type: vless
   server: site.check-looks.space
@@ -110,5 +100,37 @@ proxies:
   tls: true
   flow: xtls-rprx-vision
   client-fingerprint: safari
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 78ACFC58
+  type: vless
+  server: 163.245.52.91
+  port: 443
+  reality-opts:
+    public-key: g36Z7YIqJMJP-uv3DBr72X5jvfjyW1qIAxa8TkWmpmQ
+    short-id: ad6e08b22389abd2
+  uuid: 87fd990d-ca93-440a-bbd4-e8281c4a0910
+  servername: d3-ee1.cloud-cdn.xyz
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 817D7189
+  type: vless
+  server: 13.143.185.29
+  port: 8448
+  reality-opts:
+    public-key: SEFnqOIUiHZpOgtXZ3FFFhVTALc1ReEVt78femI770U
+    short-id: c90743ca346c8da7
+  uuid: 2897717e-55b6-4d3d-8752-72c5fd4614ae
+  network: xhttp
+  servername: api-maps.yandex.ru
+  tls: true
+  client-fingerprint: chrome
+  xhttp-opts:
+    path: /assets/v2
+    host: 13.143.185.29
+    mode: auto
   skip-cert-verify: true
   udp: true

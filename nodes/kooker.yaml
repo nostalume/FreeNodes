@@ -1,9 +1,39 @@
 proxies:
-- name: ZZ · HTTP · kooker · 6415793A
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
+- name: HK · TROJAN · kooker · 17F7802D
+  type: trojan
+  server: node1.luoye.ee
+  port: 443
+  sni: node1.luoye.ee
+  udp: true
+  network: tcp
+  password: 80dd183b-0ca3-4039-bd18-e85b61a1d584
+- name: KR · VLESS · kooker · 3D77C006
+  type: vless
+  server: 47.80.19.173
+  port: 2053
+  reality-opts:
+    public-key: DfFU5OG93GxB1x25Dl2BTkxKsBTFF4Su4PXYPbYvmms
+    short-id: 3c4041d3
+  uuid: 319d5ffb-57e8-4bbd-ac0c-5d55d0c253de
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
   tls: true
   udp: true
-  password: None
+  servername: gateway.icloud.com
+- name: HK · TROJAN · kooker · CBBDCABA
+  type: trojan
+  server: node1.luoye.ee
+  port: 443
+  sni: node1.luoye.ee
+  udp: true
+  network: tcp
+  password: a72513ad-90f9-4ae0-8ef5-c25b7fb81d77
+- name: HK · TROJAN · kooker · EC77C6A8
+  type: trojan
+  server: node1.luoye.ee
+  port: 443
+  sni: node1.luoye.ee
+  udp: true
+  network: tcp
+  password: bc96cf70-9c62-4f52-aa7b-70b1814a94cf
