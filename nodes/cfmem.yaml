@@ -7,18 +7,22 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: KR · TROJAN · cfmem · 15D5338A
-  type: trojan
-  server: liked-eft.rooster465.autos
-  port: 443
-  tls: true
-  servername: liked-eft.rooster465.autos
-  password: UX82473651
-- name: NL · VLESS · cfmem · 05BCD7BA
+- name: US→DE · VLESS · cfmem · 01E2B609
   type: vless
-  server: s11.shahankhan.ir
-  port: 8080
-  uuid: 6fddf57a-313c-4d4a-8ae1-939b207a1588
+  server: iiproxy888.iiproxy.com
+  port: 8443
+  uuid: 806fa224-44f7-4c1b-b7a3-05bfdfdfbf87
+  network: ws
+  tls: true
+  ws-opts:
+    path: /
+- name: HK→FR · VMESS · cfmem · 05D691A6
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
   network: tcp
 - name: FR · SS · cfmem · 3C7A0858
   type: ss
@@ -28,6 +32,13 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
+- name: KR · TROJAN · cfmem · 15D5338A
+  type: trojan
+  server: liked-eft.rooster465.autos
+  port: 443
+  tls: true
+  servername: liked-eft.rooster465.autos
+  password: UX82473651
 - name: US · TROJAN · cfmem · 2AA4D23E
   type: trojan
   server: happy-gibbon.rooster465.autos
@@ -35,29 +46,27 @@ proxies:
   tls: true
   servername: happy-gibbon.rooster465.autos
   password: UX82473651
-- name: IE · TROJAN · cfmem · 3BB3B91E
+- name: SG · TROJAN · cfmem · 2B8D8396
   type: trojan
-  server: sacred-anemone.rooster465.autos
+  server: pet-antelope.rooster465.autos
   port: 443
-  sni: sacred-anemone.rooster465.autos
+  sni: pet-antelope.rooster465.autos
   skip-cert-verify: true
   udp: true
   password: UX82473651
-- name: HK · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: KR · TROJAN · cfmem · 50F7CC98
-  type: trojan
-  server: ikr100b.zxom.eu.org
-  port: 20007
+- name: RU · VLESS · cfmem · 10AEBC20
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
   tls: true
-  servername: ikr100b.zxom.eu.org
-  password: 178c178666bb4ae5
+  servername: fbsv6.guardora.pro
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
 - name: SG · TROJAN · cfmem · 53C05601
   type: trojan
   server: real-cardinal.rooster465.autos
@@ -65,6 +74,19 @@ proxies:
   tls: true
   servername: real-cardinal.rooster465.autos
   password: UX82473651
+- name: US→DE · VLESS · cfmem · 29F237FB
+  type: vless
+  server: ccc.010304.xyz
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
+  network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: ccc.010304.xyz
 - name: KR · TROJAN · cfmem · 63F5A9E0
   type: trojan
   server: optimum-snapper.rooster465.autos
@@ -72,28 +94,13 @@ proxies:
   tls: true
   servername: optimum-snapper.rooster465.autos
   password: UX82473651
-- name: US→TW · VLESS · cfmem · 50EE7B3A
+- name: US→PL · VLESS · cfmem · 47068630
   type: vless
-  server: argo6.5671234.xyz
-  port: 443
-  uuid: 08aaab35-a42d-4755-a03e-20c18cb1b3e8
+  server: iiproxy8.iiproxy.com
+  port: 8443
+  uuid: 806fa224-44f7-4c1b-b7a3-05bfdfdfbf87
   network: ws
-  servername: argo6.5671234.xyz
   tls: true
-  ws-opts:
-    path: /e8e2cecb6188f7fb
-    headers:
-      Host: argo6.5671234.xyz
-  skip-cert-verify: true
-  udp: true
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
   skip-cert-verify: true
   udp: true
 - name: SG · TROJAN · cfmem · 6542B0E3
@@ -110,6 +117,20 @@ proxies:
   tls: true
   servername: ultimate-jaguar.rooster465.autos
   password: UX82473651
+- name: US→TW · VLESS · cfmem · 50EE7B3A
+  type: vless
+  server: argo6.5671234.xyz
+  port: 443
+  uuid: 08aaab35-a42d-4755-a03e-20c18cb1b3e8
+  network: ws
+  servername: argo6.5671234.xyz
+  tls: true
+  ws-opts:
+    path: /e8e2cecb6188f7fb
+    headers:
+      Host: argo6.5671234.xyz
+  skip-cert-verify: true
+  udp: true
 - name: KR · TROJAN · cfmem · 7818ECC7
   type: trojan
   server: kind-stork.rooster465.autos
@@ -117,6 +138,20 @@ proxies:
   tls: true
   servername: kind-stork.rooster465.autos
   password: UX82473651
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
 - name: KR · TROJAN · cfmem · 7D25EDB2
   type: trojan
   server: noted-cougar.rooster465.autos
@@ -124,14 +159,19 @@ proxies:
   tls: true
   servername: noted-cougar.rooster465.autos
   password: UX82473651
-- name: NL · VLESS · cfmem · 90B0D2E7
+- name: RU · VLESS · cfmem · 87DCDEB5
   type: vless
-  server: s11.shahankhan.ir
-  port: 8080
-  uuid: 6fddf57a-313c-4d4a-8ae1-939b207a1588
-  tls: false
-  skip-cert-verify: true
-  udp: true
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  tls: true
+  servername: fbsv6.guardora.pro
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
 - name: SG · TROJAN · cfmem · 96D59396
   type: trojan
   server: inviting-ferret.rooster465.autos
@@ -139,14 +179,21 @@ proxies:
   tls: true
   servername: inviting-ferret.rooster465.autos
   password: UX82473651
-- name: SE · VLESS · cfmem · A451F441
-  type: vless
-  server: stsr.hospitaldt.ir
-  port: 8443
-  uuid: 9cdcec15-2c73-40d5-b50f-d00381fddd26
-  network: ws
+- name: US · VMESS · cfmem · 9A6922CB
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
   tls: true
   skip-cert-verify: true
+  servername: guanwang.awsno.com
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
   udp: true
 - name: SG · TROJAN · cfmem · 9AA050E7
   type: trojan
@@ -155,6 +202,38 @@ proxies:
   tls: true
   servername: desired-boxer.rooster465.autos
   password: UX82473651
+- name: US→PL · VLESS · cfmem · 96321B92
+  type: vless
+  server: iiproxy8.iiproxy.com
+  port: 8443
+  uuid: 806fa224-44f7-4c1b-b7a3-05bfdfdfbf87
+  network: ws
+  tls: true
+  ws-opts:
+    path: /
+- name: JP · TROJAN · cfmem · AD01BFC6
+  type: trojan
+  server: winning-marten.rooster465.autos
+  port: 443
+  sni: winning-marten.rooster465.autos
+  skip-cert-verify: true
+  udp: true
+  password: UX82473651
+- name: US→DE · VLESS · cfmem · 9CDC57CC
+  type: vless
+  server: ccc.010304.xyz
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
+  network: ws
+  servername: ccc.010304.xyz
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: ccc.010304.xyz
+  skip-cert-verify: true
+  udp: true
 - name: KR · TROJAN · cfmem · B161853B
   type: trojan
   server: evolving-ewe.rooster465.autos
@@ -169,14 +248,6 @@ proxies:
   tls: true
   servername: organic-caribou.rooster465.autos
   password: UX82473651
-- name: KR · TROJAN · cfmem · 11963A38
-  type: trojan
-  server: kind-stork.rooster465.autos
-  port: 443
-  sni: kind-stork.rooster465.autos
-  skip-cert-verify: true
-  udp: true
-  password: UX82473651
 - name: JP · TROJAN · cfmem · D6C0C904
   type: trojan
   server: winning-marten.rooster465.autos
@@ -184,14 +255,25 @@ proxies:
   tls: true
   servername: winning-marten.rooster465.autos
   password: UX82473651
-- name: KR · TROJAN · cfmem · 12FCEEB5
-  type: trojan
-  server: ikr100b.zxom.eu.org
-  port: 20007
-  sni: ikr100b.zxom.eu.org
+- name: US→DE · VLESS · cfmem · DF295A7F
+  type: vless
+  server: iiproxy888.iiproxy.com
+  port: 8443
+  uuid: 806fa224-44f7-4c1b-b7a3-05bfdfdfbf87
+  network: ws
+  tls: true
   skip-cert-verify: true
   udp: true
-  password: 178c178666bb4ae5
+- name: HK→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: IE · TROJAN · cfmem · D6E52507
   type: trojan
   server: sacred-anemone.rooster465.autos
@@ -206,50 +288,29 @@ proxies:
   tls: true
   servername: prime-corgi.rooster465.autos
   password: UX82473651
-- name: HK→JP · VMESS · cfmem · AFF27A81
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→DE · VMESS · cfmem · BF708C20
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · TROJAN · cfmem · 14E7F476
+- name: KR · TROJAN · cfmem · 11963A38
   type: trojan
-  server: happy-gibbon.rooster465.autos
+  server: kind-stork.rooster465.autos
   port: 443
-  sni: happy-gibbon.rooster465.autos
+  sni: kind-stork.rooster465.autos
   skip-cert-verify: true
   udp: true
   password: UX82473651
+- name: RU · VLESS · cfmem · E9309B1F
+  type: vless
+  server: fbsv6.guardora.pro
+  port: 443
+  uuid: bc5ec86c-3e65-4272-994c-59a924c72a68
+  network: ws
+  servername: fbsv6.guardora.pro
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: fbsv6.guardora.pro
+  skip-cert-verify: true
+  udp: true
 - name: HK→DE · VMESS · cfmem · FE3B9D81
   type: vmess
   server: v33.hdacd.com
@@ -258,19 +319,11 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: SG · TROJAN · cfmem · 2B8D8396
+- name: US · TROJAN · cfmem · 14E7F476
   type: trojan
-  server: pet-antelope.rooster465.autos
+  server: happy-gibbon.rooster465.autos
   port: 443
-  sni: pet-antelope.rooster465.autos
-  skip-cert-verify: true
-  udp: true
-  password: UX82473651
-- name: SG · TROJAN · cfmem · 3A457EB5
-  type: trojan
-  server: real-cardinal.rooster465.autos
-  port: 443
-  sni: real-cardinal.rooster465.autos
+  sni: happy-gibbon.rooster465.autos
   skip-cert-verify: true
   udp: true
   password: UX82473651
