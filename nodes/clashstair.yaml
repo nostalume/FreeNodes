@@ -1,36 +1,36 @@
 proxies:
-- name: ZZ · VLESS · clashstair · 0170ED2B
-  type: vless
-  server: 43.99.93.77
-  port: 443
-  reality-opts:
-    public-key: o8SsyMfDn8-WIfsseuvnnyq5dVpZqql_ubVTuj-S6FU
-    short-id: c69c8691
-  uuid: 91ad30e9-ab06-4b4c-9fb9-1c2aa97d8b3a
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: www.apple.com
-  client-fingerprint: random
-  network: tcp
+- name: SG · SS · clashstair · B879DB61
+  type: ss
+  server: gw.lydwan.com
+  port: 35601
+  cipher: chacha20-ietf-poly1305
   udp: true
-- name: DE · VLESS · clashstair · 312EF37F
-  type: vless
-  server: 64.188.115.219
-  port: 443
-  reality-opts:
-    public-key: 2tjr1gP8eecWi9xlKFB1SmPKOzRgDt40NBQcxhjaKCA
-    short-id: 270b5417f8ecb723
-  uuid: 1ef3cfdd-a0b7-4584-87b4-2b217d8a4581
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: www.swift.com
-  client-fingerprint: chrome
-  network: tcp
+  password: 4c8fced0-8987-4504-b8cf-15aca9cbb82e
+- name: ZZ · VMESS · clashstair · 27540037
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
   udp: true
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
+- name: ZZ · VMESS · clashstair · D57E2D17
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /arki
 - name: CA · VLESS · clashstair · 35605CF0
   type: vless
   server: 188.114.97.6
@@ -45,38 +45,6 @@ proxies:
     headers:
       Host: 571x2.r4bn.bim.hh.vavava.kdns.fr
   udp: true
-- name: DE · VLESS · clashstair · 3BA8677A
-  type: vless
-  server: 2.27.35.74
-  port: 443
-  reality-opts:
-    public-key: zAmNLsLPizp96b55zNe2kJ3zXBdpuNY0olnRaOpluks
-    short-id: 34e797af
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: EE · VLESS · clashstair · 412CFAFB
-  type: vless
-  server: 163.245.52.91
-  port: 443
-  reality-opts:
-    public-key: g36Z7YIqJMJP-uv3DBr72X5jvfjyW1qIAxa8TkWmpmQ
-    short-id: ad6e08b22389abd2
-  uuid: 87fd990d-ca93-440a-bbd4-e8281c4a0910
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: d3-ee1.cloud-cdn.xyz
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: DE · VLESS · clashstair · 44A7FF36
   type: vless
   server: 31.77.109.35
@@ -90,92 +58,6 @@ proxies:
   flow: xtls-rprx-vision
   skip-cert-verify: false
   servername: d3-de1.cloud-cdn.xyz
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
-- name: US · VLESS · clashstair · 5A250030
-  type: vless
-  server: 34.187.170.146
-  port: 443
-  reality-opts:
-    public-key: LYnDDS0AkBwVeeTyIEE5MhrTV_PZO5f1qBAbMN6z4HM
-    short-id: f1955f72763eb2fb
-  uuid: dffab367-7769-4c6c-86f2-66fc6bd03003
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.cloudflare.com
-  client-fingerprint: qq
-  network: tcp
-  udp: true
-- name: KR · VLESS · clashstair · 68078697
-  type: vless
-  server: 104.17.144.29
-  port: 8880
-  uuid: 85e14d59-02ea-4642-a317-50f1e1691660
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.KR.CMLiussss.net
-    headers:
-      Host: icy-hat-20f3.328-99f.workers.dev
-  udp: true
-- name: US · VLESS · clashstair · 9636757C
-  type: vless
-  server: 104.243.33.154
-  port: 45299
-  uuid: 261f011c-e97a-4d72-b596-e6329b50b47b
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  network: tcp
-  udp: true
-- name: FR · VLESS · clashstair · A2BE2B0D
-  type: vless
-  server: 104.17.144.29
-  port: 8880
-  uuid: 85e14d59-02ea-4642-a317-50f1e1691660
-  network: ws
-  ws-opts:
-    path: /pyip=ProxyIP.KR.CMLiussss.net
-    headers:
-      Host: icy-hat-20f3.328-99f.workers.dev
-- name: TW · VLESS · clashstair · A6DEE1C0
-  type: vless
-  server: 130.211.240.128
-  port: 443
-  reality-opts:
-    public-key: qvekI7tKB1NDnZA6JcS_24aV4n8mlCbI3SFvkRr22wg
-    short-id: d74a6321deec9f31
-  uuid: 31a40f42-4ad6-4a32-a760-71102b459584
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.cloudflare.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: US · VLESS · clashstair · AA3FD07A
-  type: vless
-  server: 104.243.33.154
-  port: 45299
-  uuid: 261f011c-e97a-4d72-b596-e6329b50b47b
-  network: tcp
-- name: US · VLESS · clashstair · B1DE24B1
-  type: vless
-  server: 45.151.71.63
-  port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-    short-id: ''
-  uuid: 3984a6ee-9fc6-4219-93fd-706c59e02171
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: abuse.sellflow.org
   client-fingerprint: firefox
   network: tcp
   udp: true
@@ -195,21 +77,6 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: EE · VLESS · clashstair · CEE5395A
-  type: vless
-  server: ee.h1cloud.net
-  port: 25895
-  reality-opts:
-    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
-    short-id: a73f0410d728c823
-  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.samsung.com
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
 - name: CA · VLESS · clashstair · E707CB82
   type: vless
   server: 188.114.97.6
@@ -220,6 +87,22 @@ proxies:
     path: ?ed=2560
     headers:
       Host: 571x2.r4bn.bim.hh.vavava.kdns.fr
+- name: EE · VLESS · clashstair · F58309A2
+  type: vless
+  server: 163.245.52.91
+  port: 443
+  reality-opts:
+    public-key: g36Z7YIqJMJP-uv3DBr72X5jvfjyW1qIAxa8TkWmpmQ
+    short-id: ad6e08b22389abd2
+  uuid: 87fd990d-ca93-440a-bbd4-e8281c4a0910
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: d3-ee1.cloud-cdn.xyz
+  client-fingerprint: safari
+  network: tcp
+  udp: true
 - name: DE · VLESS · clashstair · FAEBED5A
   type: vless
   server: 31.77.109.35
