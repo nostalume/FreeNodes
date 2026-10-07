@@ -1,35 +1,44 @@
 proxies:
-- name: FR · VLESS · cfmem · 06872629
-  type: vless
-  server: fr2.vip-get.ru
-  port: 443
-  uuid: db4fb2a7-a31d-46d8-b6d2-76eafe8cfe2a
-  network: ws
-  tls: true
-  servername: fr2.vip-get.ru
-  client-fingerprint: firefox
-  ws-opts:
-    path: /api/download
-    headers:
-      Host: fr2.vip-get.ru
-- name: DE · TROJAN · cfmem · AEAA06C5
+- name: NL · TROJAN · cfmem · 10BE856F
   type: trojan
-  server: de.zhabulik.ru
+  server: nl.zhabulik.ru
   port: 443
-  sni: de.zhabulik.ru
+  tls: true
+  servername: nl.zhabulik.ru
+  password: WFer-5gN21nfHbVB2N8s71Z74EPUfzVj
+- name: NL · VLESS · cfmem · C3361DEB
+  type: vless
+  server: s170.gogocs.xyz
+  port: 443
+  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  tls: true
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  udp: true
+- name: US · VMESS · cfmem · 9A6922CB
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: guanwang.awsno.com
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+  udp: true
+- name: NL · TROJAN · cfmem · 15BA9C50
+  type: trojan
+  server: nl.zhabulik.ru
+  port: 443
+  sni: nl.zhabulik.ru
   skip-cert-verify: true
   udp: true
   password: WFer-5gN21nfHbVB2N8s71Z74EPUfzVj
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: US→JP · VLESS · cfmem · 2844BCF5
   type: vless
   server: jeffsubs.com
@@ -45,55 +54,6 @@ proxies:
       Host: jeffsubs.com
   skip-cert-verify: true
   udp: true
-- name: US · VLESS · cfmem · 31EA7524
-  type: vless
-  server: s4ws.ragingbull.de5.net
-  port: 2083
-  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
-  network: ws
-  tls: true
-  servername: s4ws.ragingbull.de5.net
-  client-fingerprint: chrome
-  ws-opts:
-    path: /wsrb7k2m
-    headers:
-      Host: s4ws.ragingbull.de5.net
-- name: US→JP · VLESS · cfmem · 3A4F145F
-  type: vless
-  server: jeffsubs.com
-  port: 443
-  uuid: 3d841cdf-f91e-4f3b-a315-c18edcbd2606
-  network: ws
-  tls: true
-  servername: jeffsubs.com
-  client-fingerprint: chrome
-  ws-opts:
-    path: /nnuyws
-    headers:
-      Host: jeffsubs.com
-- name: US · VLESS · cfmem · 452C67FD
-  type: vless
-  server: s4ws.ragingbull.de5.net
-  port: 2083
-  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
-  network: ws
-  servername: s4ws.ragingbull.de5.net
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /wsrb7k2m
-    headers:
-      Host: s4ws.ragingbull.de5.net
-  skip-cert-verify: true
-  udp: true
-- name: HK→US · VMESS · cfmem · 76966289
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -116,29 +76,68 @@ proxies:
   network: tcp
   tls: true
   flow: xtls-rprx-vision
-- name: US · VMESS · cfmem · 9A6922CB
+- name: CN · VMESS · cfmem · 514668A1
   type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
   alterId: 0
   cipher: auto
-  tls: true
+  tls: false
   skip-cert-verify: true
-  servername: guanwang.awsno.com
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
   udp: true
-- name: SG · VLESS · cfmem · 6F3A18BE
+- name: US · VLESS · cfmem · 452C67FD
+  type: vless
+  server: s4ws.ragingbull.de5.net
+  port: 2083
+  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
+  network: ws
+  servername: s4ws.ragingbull.de5.net
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /wsrb7k2m
+    headers:
+      Host: s4ws.ragingbull.de5.net
+  skip-cert-verify: true
+  udp: true
+- name: HK→DE · VMESS · cfmem · FE3B9D81
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: US · VLESS · cfmem · 31EA7524
+  type: vless
+  server: s4ws.ragingbull.de5.net
+  port: 2083
+  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
+  network: ws
+  tls: true
+  servername: s4ws.ragingbull.de5.net
+  client-fingerprint: chrome
+  ws-opts:
+    path: /wsrb7k2m
+    headers:
+      Host: s4ws.ragingbull.de5.net
+- name: HK→DE · VMESS · cfmem · BF708C20
+  type: vmess
+  server: v33.hdacd.com
+  port: 30833
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: SG · VLESS · cfmem · 96109A86
   type: vless
   server: asia.csmaster.site
-  port: 8443
-  uuid: 799b1006-3255-4e36-8ea0-64fe24d2bfa7
+  port: 443
+  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
   network: ws
-  servername: asia.csmaster.site
   tls: true
   client-fingerprint: chrome
   ws-opts:
@@ -146,6 +145,34 @@ proxies:
       Host: asia.csmaster.site
   skip-cert-verify: true
   udp: true
+- name: CN · VMESS · cfmem · 7385ED0E
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: SG · VLESS · cfmem · AB24ED26
+  type: vless
+  server: asia.csmaster.site
+  port: 443
+  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
+  network: ws
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: asia.csmaster.site
+- name: HK→IE · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
 - name: US · VLESS · cfmem · 7A0F4812
   type: vless
   server: s3ws.ragingbull.de5.net
@@ -167,90 +194,27 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: SG · VLESS · cfmem · 96109A86
-  type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
-  network: ws
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    headers:
-      Host: asia.csmaster.site
-  skip-cert-verify: true
-  udp: true
-- name: SG · VLESS · cfmem · AB24ED26
-  type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
-  network: ws
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: asia.csmaster.site
-- name: HK→IE · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: NL · VLESS · cfmem · C3361DEB
-  type: vless
-  server: s170.gogocs.xyz
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
-- name: SG · VLESS · cfmem · CB82D557
+- name: SG · VLESS · cfmem · 6F3A18BE
   type: vless
   server: asia.csmaster.site
   port: 8443
   uuid: 799b1006-3255-4e36-8ea0-64fe24d2bfa7
   network: ws
-  tls: true
   servername: asia.csmaster.site
+  tls: true
   client-fingerprint: chrome
   ws-opts:
-    path: /
     headers:
       Host: asia.csmaster.site
-- name: US · VLESS · cfmem · CE19755D
-  type: vless
-  server: s3ws.ragingbull.de5.net
-  port: 443
-  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
-  network: ws
-  servername: s3ws.ragingbull.de5.net
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /wsrb7k2m
-    headers:
-      Host: s3ws.ragingbull.de5.net
   skip-cert-verify: true
   udp: true
-- name: FR · VLESS · cfmem · E7069170
-  type: vless
-  server: fr2.vip-get.ru
-  port: 443
-  uuid: db4fb2a7-a31d-46d8-b6d2-76eafe8cfe2a
-  network: ws
-  servername: fr2.vip-get.ru
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /api/download
-    headers:
-      Host: fr2.vip-get.ru
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
