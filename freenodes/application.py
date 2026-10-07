@@ -315,8 +315,12 @@ class Application:
         now: datetime | None = None,
         base_revision: str | None = None,
     ) -> PublicationReceipt:
-        if policy is not None and policy.rank_latency:
-            raise PublicationError("latency ranking is private validation only")
+        if (
+            policy is not None
+            and policy.rank_latency
+            and not self.publication.rank_latency
+        ):
+            raise PublicationError("latency ranking is not enabled for publication")
         observed_at = now or datetime.now(UTC)
         start = self._begin_run(None, observed_at=observed_at)
         if start.kind == "failure":
@@ -327,16 +331,28 @@ class Application:
         if admission.kind == "failure":
             raise PublicationError(admission.message)
         quality_policy = policy or CapabilityPolicy(
-            max_published=admission.context.publication.node_limit
+            max_published=admission.context.publication.node_limit,
+            rank_latency=admission.context.publication.rank_latency,
         )
         previous_history = load_quality_history(repository_root.resolve())
-        catalog, measurement, _ = await self._measure(
+        catalog, measurement, ranking = await self._measure(
             admission.catalog,
             probe_session,
             quality_policy,
             targets,
             history=previous_history,
         )
+        if ranking is not None:
+            logger.info(
+                "Latency selection: %s; accepted=%d; median_ms=%s -> %s; "
+                "attempted=%d; elapsed_seconds=%.2f",
+                ranking.selection,
+                len(measurement.accepted_fingerprints),
+                ranking.baseline_median_delay_ms,
+                ranking.selected_median_delay_ms,
+                measurement.attempted,
+                ranking.elapsed_seconds,
+            )
         try:
             capability = PublicationCapability.from_run(
                 measurement,

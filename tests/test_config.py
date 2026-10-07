@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from freenodes.config import PasswordEvidence, load_config
+from freenodes.config import PasswordEvidence, PublicationPolicy, load_config
 
 
 def write_config(path: Path, sources: str, audit_sources: str = "[]") -> None:
@@ -107,3 +107,11 @@ def test_source_identity_must_be_unique_across_active_and_audit(tmp_path: Path):
     )
     with pytest.raises(ValidationError, match="source names must be unique"):
         load_config(path)
+
+
+def test_publication_ranking_is_explicit_and_strict():
+    assert PublicationPolicy().rank_latency is False
+    assert PublicationPolicy(rank_latency=True).rank_latency is True
+    for value in ("true", 1):
+        with pytest.raises(ValidationError, match="rank_latency"):
+            PublicationPolicy.model_validate({"rank_latency": value})

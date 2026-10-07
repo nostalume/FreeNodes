@@ -257,6 +257,7 @@ class PublicationPolicy(FrozenModel):
     stale_after_hours: int = Field(default=24, gt=0, strict=True)
     expires_after_hours: int = Field(default=48, gt=0, strict=True)
     node_limit: int = Field(default=500, gt=0, strict=True)
+    rank_latency: bool = Field(default=False, strict=True)
 
     @model_validator(mode="after")
     def validate_freshness_window(self) -> "PublicationPolicy":

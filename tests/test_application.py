@@ -3,16 +3,19 @@ import json
 from datetime import UTC, datetime
 
 import pytest
+import yaml
 
 from freenodes.capability import (
     CapabilityPolicy,
     CapabilityRunReceipt,
     NodeCapabilityDecision,
+    ProbeDiagnostic,
 )
 from freenodes.config import (
     AppConfig,
     DiscoveryLimits,
     GitHubFileSource,
+    PublicationPolicy,
     WebSource,
 )
 from freenodes.discovery import DiscoveryFailure, DiscoverySuccess
@@ -366,7 +369,7 @@ async def test_private_latency_pilot_ranks_and_receipts_without_public_mutation(
     assert receipt_path.read_bytes() == b"previous receipt untouched"
     assert set(public.iterdir()) == {receipt_path}
 
-    with pytest.raises(PublicationError, match="private validation only"):
+    with pytest.raises(PublicationError, match="not enabled for publication"):
         await application.publish(
             repository_root=tmp_path,
             validator=consumer,
@@ -379,6 +382,148 @@ async def test_private_latency_pilot_ranks_and_receipts_without_public_mutation(
 
 
 NOW = datetime(2026, 8, 29, tzinfo=UTC)
+
+
+@pytest.mark.parametrize(
+    ("mode", "real_consumer"),
+    (
+        ("disabled", False),
+        ("ranked", False),
+        ("ranked", True),
+        ("deadline", False),
+        ("no_improvement", False),
+        ("override", False),
+        ("consumer", False),
+        ("inconclusive", False),
+    ),
+)
+async def test_publication_ranking_rollout_and_recovery(
+    monkeypatch, tmp_path, request, caplog, mode, real_consumer
+):
+    from freenodes.mihomo import MihomoValidator
+    from freenodes.publication import PublicationArtifact
+    from tests.support import snapshot
+
+    async def discover(self):
+        return DiscoverySuccess(
+            site_name="a",
+            artifacts=(
+                SourceArtifact.inline(
+                    site="a",
+                    content="\n".join(
+                        f"trojan://secret@node{index}.example:443#Node{index}"
+                        for index in range(3)
+                    ),
+                    observed_at=NOW,
+                ),
+            ),
+        )
+
+    class MeasuredProbe:
+        stage = "disabled"
+        expected_ranking = False
+        expected_limit = 3
+        first = faster = ""
+
+        async def probe_capabilities(self, plan, targets, policy):
+            assert policy.rank_latency == self.expected_ranking
+            assert policy.max_published == self.expected_limit
+            if self.stage == "inconclusive":
+                return CapabilityRunReceipt(
+                    status="inconclusive",
+                    diagnostic=ProbeDiagnostic(code="control_unavailable"),
+                )
+            decisions = tuple(
+                NodeCapabilityDecision(
+                    fingerprint=entry.node.fingerprint,
+                    status="capable",
+                    reason="quorum",
+                    successful_targets=("github", "google"),
+                    target_delays=(("github", delay), ("google", delay)),
+                )
+                for index, entry in enumerate(plan.entries)
+                for delay in (
+                    900
+                    if index == 0 or self.stage == "no_improvement"
+                    else 10 + index * 10,
+                )
+            )
+            self.first, self.faster = decisions[0].fingerprint, decisions[1].fingerprint
+            self.servers = {
+                entry.node.fingerprint: entry.node.proxy.server
+                for entry in plan.entries
+            }
+            deadline = self.stage == "deadline"
+            return CapabilityRunReceipt(
+                status="complete",
+                planned=3 + int(deadline),
+                termination="time_budget" if deadline else "candidates_exhausted",
+                deadline_reached=deadline,
+                decisions=decisions,
+                accepted_fingerprints=(self.first,),
+            )
+
+    monkeypatch.setattr("freenodes.application.SourceDiscovery.discover", discover)
+    probe = MeasuredProbe()
+    config = web_sources_config(("a",)).model_copy(
+        update={"publication": PublicationPolicy(node_limit=3)}
+    )
+    # A valid previous generation/history must survive every rejected rollout.
+    await make_application(config).publish(
+        repository_root=tmp_path,
+        validator=ConsumerValidator(),
+        probe_session=probe,
+        now=NOW,
+    )
+    before = snapshot(tmp_path)
+    config = config.model_copy(
+        update={
+            "publication": PublicationPolicy(
+                node_limit=1,
+                rank_latency=mode != "disabled",
+            )
+        }
+    )
+    probe.stage = mode
+    probe.expected_limit = 1
+    probe.expected_ranking = mode not in ("disabled", "override")
+    consumer = (
+        MihomoValidator(request.getfixturevalue("real_mihomo_path"))
+        if real_consumer
+        else ConsumerValidator(fail=mode == "consumer")
+    )
+    caplog.set_level("INFO", logger="freenodes.application")
+    arguments = {
+        "repository_root": tmp_path,
+        "validator": consumer,
+        "probe_session": probe,
+        "now": NOW,
+        "policy": CapabilityPolicy(max_published=1) if mode == "override" else None,
+    }
+    if mode in ("consumer", "inconclusive"):
+        with pytest.raises(RuntimeError if mode == "consumer" else PublicationError):
+            await make_application(config).publish(**arguments)
+        assert snapshot(tmp_path) == before
+        return
+    await make_application(config).publish(**arguments)
+    artifact = PublicationArtifact.admit(tmp_path)
+    selected = probe.faster if mode == "ranked" else probe.first
+    assert artifact.receipt.capability.accepted == 1
+    profile = yaml.safe_load(
+        (tmp_path / "nodes/merged.yaml").read_text(encoding="utf-8")
+    )
+    assert [proxy["server"] for proxy in profile["proxies"]] == [
+        probe.servers[selected]
+    ]
+    assert (
+        artifact.receipt.quality_history.generations[0].entries[0].fingerprint
+        == selected
+    )
+    if probe.expected_ranking:
+        reason = "incomplete_pool" if mode == "deadline" else mode
+        assert f"Latency selection: {reason}; accepted=1" in caplog.text
+    else:
+        assert "Latency selection:" not in caplog.text
 
 
 class FirstOnlyProbe:
