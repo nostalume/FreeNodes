@@ -2,6 +2,7 @@ import asyncio
 import logging
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from time import perf_counter
 from typing import Literal, Protocol
 
 from pydantic import AwareDatetime, Field
@@ -13,8 +14,10 @@ from freenodes.capability import (
     CapabilityRunReceipt,
     CapabilityTarget,
     CapableCatalog,
+    LatencyRankingReport,
     ProbePlan,
     plan_probe_candidates,
+    rank_measured_capable,
 )
 from freenodes.config import (
     DiscoveryLimits,
@@ -49,7 +52,9 @@ from freenodes.publication import (
     PublicationCapability,
     PublicationError,
     PublicationReceipt,
+    QualityHistory,
     ValidationReceipt,
+    load_quality_history,
     publish_bundle,
     validate_bundle_output_parent,
     write_validated_bundle,
@@ -310,6 +315,8 @@ class Application:
         now: datetime | None = None,
         base_revision: str | None = None,
     ) -> PublicationReceipt:
+        if policy is not None and policy.rank_latency:
+            raise PublicationError("latency ranking is private validation only")
         observed_at = now or datetime.now(UTC)
         start = self._begin_run(None, observed_at=observed_at)
         if start.kind == "failure":
@@ -322,11 +329,13 @@ class Application:
         quality_policy = policy or CapabilityPolicy(
             max_published=admission.context.publication.node_limit
         )
-        catalog, measurement = await self._measure(
+        previous_history = load_quality_history(repository_root.resolve())
+        catalog, measurement, _ = await self._measure(
             admission.catalog,
             probe_session,
             quality_policy,
             targets,
+            history=previous_history,
         )
         try:
             capability = PublicationCapability.from_run(
@@ -336,6 +345,13 @@ class Application:
             )
         except (CapabilityError, ValueError) as error:
             raise PublicationError(str(error)) from error
+        quality_history = QualityHistory.record(
+            previous_history,
+            measurement,
+            observed_at=observed_at,
+            accepted_fingerprints=measurement.accepted_fingerprints,
+            node_limit=quality_policy.max_published,
+        )
         summary = admission.catalog.summary
         assert summary is not None
         bundle = render_profiles(catalog, registry or self.registry)
@@ -354,6 +370,7 @@ class Application:
             selection_limit=quality_policy.max_published,
             base_revision=base_revision,
             capability=capability,
+            quality_history=quality_history,
         )
 
     async def validate_profiles(
@@ -381,11 +398,15 @@ class Application:
         quality_policy = policy or CapabilityPolicy(
             max_published=admission.context.publication.node_limit
         )
-        catalog, _ = await self._measure(
+        history = (
+            load_quality_history(Path.cwd()) if quality_policy.rank_latency else None
+        )
+        catalog, _, ranking = await self._measure(
             admission.catalog,
             probe_session,
             quality_policy,
             targets,
+            history=history,
         )
 
         bundle = render_profiles(catalog, registry or self.registry)
@@ -394,6 +415,7 @@ class Application:
             bundle=bundle,
             output_parent=validation_parent,
             validator=validator,
+            latency_ranking=ranking,
         )
 
     @staticmethod
@@ -402,8 +424,10 @@ class Application:
         probe_session: CapabilityProbeSession,
         policy: CapabilityPolicy,
         targets: tuple[CapabilityTarget, ...],
-    ) -> tuple[CapableCatalog, CapabilityRunReceipt]:
-        plan = plan_probe_candidates(admitted, policy)
+        history: QualityHistory | None = None,
+    ) -> tuple[CapableCatalog, CapabilityRunReceipt, LatencyRankingReport | None]:
+        plan = plan_probe_candidates(admitted, policy, history)
+        started = perf_counter()
         measurement = await probe_session.probe_capabilities(plan, targets, policy)
         if measurement.status != "complete":
             detail = (
@@ -411,7 +435,20 @@ class Application:
             )
             raise PublicationError(f"capability measurement is inconclusive: {detail}")
         try:
-            return CapableCatalog.from_measurement(admitted, measurement), measurement
+            ranking = None
+            if policy.rank_latency:
+                measurement, ranking = rank_measured_capable(
+                    admitted,
+                    measurement,
+                    policy,
+                    history=history,
+                    elapsed_seconds=perf_counter() - started,
+                )
+            return (
+                CapableCatalog.from_measurement(admitted, measurement),
+                measurement,
+                ranking,
+            )
         except CapabilityError as error:
             raise PublicationError(str(error)) from error
 

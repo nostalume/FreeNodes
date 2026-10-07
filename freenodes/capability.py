@@ -1,7 +1,8 @@
-from collections import defaultdict, deque
-from collections.abc import Sequence
+from collections import Counter, defaultdict, deque
+from collections.abc import Callable, Sequence
 from ipaddress import ip_address
-from typing import Literal, Self
+from statistics import median
+from typing import Literal, Protocol, Self
 
 from pydantic import Field, HttpUrl, model_validator
 
@@ -126,6 +127,12 @@ class ProbePlan(FrozenModel):
     @property
     def nodes(self) -> tuple[ProbeableNode, ...]:
         return tuple(item.node for item in self.entries)
+
+
+class ProbeHistory(Protocol):
+    def is_quarantined(self, fingerprint: str) -> bool: ...
+
+    def preference_key(self, fingerprint: str) -> tuple[int, int, str]: ...
 
 
 class ProbeDiagnostic(FrozenModel):
@@ -328,6 +335,14 @@ class CapabilityPolicy(FrozenModel):
     max_candidates: int = Field(default=4000, gt=0)
     max_full_probes: int = Field(default=4000, gt=0, le=4000)
     max_published: int = Field(default=500, gt=0)
+    rank_latency: bool = False
+
+    @property
+    def probe_limit(self) -> int:
+        return min(
+            self.max_full_probes,
+            2 * self.max_published if self.rank_latency else self.max_full_probes,
+        )
 
     @model_validator(mode="after")
     def validate_bounds(self) -> Self:
@@ -452,16 +467,27 @@ def _sources(node: Node) -> tuple[str, ...]:
 
 
 class ProbePlanner:
-    def __init__(self, catalog: AdmittedCatalog, policy: CapabilityPolicy):
+    def __init__(
+        self,
+        catalog: AdmittedCatalog,
+        policy: CapabilityPolicy,
+        history: ProbeHistory | None = None,
+        *,
+        preference_key: Callable[[str], tuple[int, float, str]] | None = None,
+    ):
         self.catalog = catalog
         self.policy = policy
+        self.history = history
+        self.preference_key = preference_key or (
+            history.preference_key if history is not None else lambda fp: (0, 0, fp)
+        )
 
     def plan(self) -> ProbePlan:
         grouped, memberships = self._group()
         selected = self._select(self._queues(grouped))
         return ProbePlan(
             candidate_ceiling=self.policy.max_candidates,
-            full_probe_limit=self.policy.max_full_probes,
+            full_probe_limit=self.policy.probe_limit,
             entries=tuple(
                 ProbePlanEntry(
                     ordinal=index,
@@ -484,6 +510,10 @@ class ProbePlanner:
         )
         memberships: dict[str, tuple[str, ...]] = {}
         for node in self.catalog.clash_nodes:
+            if self.history is not None and self.history.is_quarantined(
+                node.fingerprint
+            ):
+                continue
             sources = _sources(node)
             grouped[sources[0]][node.proxy.type].append(node)
             memberships[node.fingerprint] = sources
@@ -496,7 +526,12 @@ class ProbePlanner:
         queues: dict[str, deque[ProbeableNode]] = {}
         for source, protocols in grouped.items():
             buckets = {
-                protocol: deque(sorted(nodes, key=lambda node: node.fingerprint))
+                protocol: deque(
+                    sorted(
+                        nodes,
+                        key=lambda node: self.preference_key(node.fingerprint),
+                    )
+                )
                 for protocol, nodes in protocols.items()
             }
             ordered = deque[ProbeableNode]()
@@ -514,7 +549,7 @@ class ProbePlanner:
     ) -> list[ProbeableNode]:
         selected: list[ProbeableNode] = []
         sources = sorted(queues)
-        limit = min(self.policy.max_candidates, self.policy.max_full_probes)
+        limit = min(self.policy.max_candidates, self.policy.probe_limit)
         while sources and len(selected) < limit:
             for source in sources:
                 if len(selected) == limit:
@@ -540,5 +575,90 @@ class ProbePlanner:
 def plan_probe_candidates(
     catalog: AdmittedCatalog,
     policy: CapabilityPolicy,
+    history: ProbeHistory | None = None,
 ) -> ProbePlan:
-    return ProbePlanner(catalog, policy).plan()
+    return ProbePlanner(catalog, policy, history).plan()
+
+
+class LatencyRankingReport(FrozenModel):
+    measurement: CapabilityRunReceipt
+    elapsed_seconds: float = Field(ge=0)
+    ranking_pool_complete: bool
+    baseline_fingerprints: tuple[str, ...] = Field(strict=False)
+    selected_fingerprints: tuple[str, ...] = Field(strict=False)
+    baseline_median_delay_ms: float | None
+    selected_median_delay_ms: float | None
+    source_counts: dict[str, tuple[int, int]]
+    protocol_counts: dict[str, tuple[int, int]]
+
+
+def rank_measured_capable(
+    admitted: AdmittedCatalog,
+    run: CapabilityRunReceipt,
+    policy: CapabilityPolicy,
+    *,
+    history: ProbeHistory | None = None,
+    elapsed_seconds: float,
+) -> tuple[CapabilityRunReceipt, LatencyRankingReport]:
+    """Rank a completed bounded pool, or retain first-capable on a deadline."""
+    if run.status != "complete":
+        raise CapabilityError("latency ranking requires a complete measurement")
+    indexed = {node.fingerprint: node for node in admitted.clash_nodes}
+    measured = tuple(item.fingerprint for item in run.decisions)
+    if len(set(measured)) != len(measured) or not set(measured).issubset(indexed):
+        raise CapabilityError("latency measurement does not belong to the catalog")
+    baseline = run.accepted_fingerprints
+    delays = {
+        item.fingerprint: median(delay for _target, delay in item.target_delays)
+        if item.target_delays
+        else float("inf")
+        for item in run.decisions
+        if item.status == "capable"
+    }
+    complete = run.termination == "candidates_exhausted" and not run.deadline_reached
+    selected = baseline
+    if complete:
+        capable = AdmittedCatalog(
+            nodes=tuple(node for node in admitted.nodes if node.fingerprint in delays)
+        )
+        selection_policy = policy.model_copy(
+            update={
+                "max_full_probes": min(policy.max_full_probes, policy.max_published),
+            }
+        )
+        ranked = ProbePlanner(
+            capable,
+            selection_policy,
+            preference_key=lambda fp: (
+                history.preference_key(fp)[0] if history is not None else 0,
+                delays[fp],
+                fp,
+            ),
+        ).plan()
+        selected = tuple(entry.node.fingerprint for entry in ranked.entries)
+
+    def median_delay(fingerprints: tuple[str, ...]) -> float | None:
+        values = [delays[fp] for fp in fingerprints if delays[fp] != float("inf")]
+        return float(median(values)) if values else None
+
+    def coverage(key: Callable[[ProbeableNode], str]) -> dict[str, tuple[int, int]]:
+        before = Counter(key(indexed[fp]) for fp in baseline)
+        after = Counter(key(indexed[fp]) for fp in selected)
+        return {
+            name: (before[name], after[name])
+            for name in sorted(before.keys() | after.keys())
+        }
+
+    return run.model_copy(
+        update={"accepted_fingerprints": selected}
+    ), LatencyRankingReport(
+        measurement=run,
+        elapsed_seconds=elapsed_seconds,
+        ranking_pool_complete=complete,
+        baseline_fingerprints=baseline,
+        selected_fingerprints=selected,
+        baseline_median_delay_ms=median_delay(baseline),
+        selected_median_delay_ms=median_delay(selected),
+        source_counts=coverage(lambda node: _sources(node)[0]),
+        protocol_counts=coverage(lambda node: node.proxy.type),
+    )

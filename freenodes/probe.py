@@ -192,7 +192,7 @@ class MihomoProbeSession:
         policy: CapabilityPolicy,
     ) -> CapabilityRunReceipt:
         admitted_targets = CapabilityTarget.admit_registry(targets, quorum=2)
-        nodes = plan.nodes
+        nodes = plan.nodes[: min(policy.max_candidates, policy.probe_limit)]
         if not nodes:
             return CapabilityRunReceipt(
                 status="complete",
@@ -389,7 +389,8 @@ class MihomoProbeSession:
                 for node in block
             )
             if (
-                sum(item.status == "capable" for item in decisions)
+                not policy.rank_latency
+                and sum(item.status == "capable" for item in decisions)
                 >= policy.max_published
             ):
                 return self._complete(

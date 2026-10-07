@@ -1,0 +1,56 @@
+name: Compare latency privately
+
+on:
+  push:
+    branches: ["pilot/latency-comparison-*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: latency-pilot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout tested revision
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - name: Verify software
+        uses: ./.github/actions/verify-software
+        env:
+          FREENODES_REAL_MIHOMO: "1"
+
+      - name: Compare private profiles
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: uv run --locked --extra youtube python -m freenodes.latency_pilot
+
+      - name: Report comparison
+        if: always()
+        shell: bash
+        run: |
+          if test -f .cache/latency-comparison/report.json; then
+            {
+              echo '## Private latency comparison'
+              echo '```json'
+              cat .cache/latency-comparison/report.json
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload redacted comparison only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: latency-comparison-${{ github.run_id }}
+          path: .cache/latency-comparison/report.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 1

@@ -2,7 +2,7 @@ name: Publish verified profiles
 
 on:
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "17 */4 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -12,6 +12,7 @@ concurrency:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    timeout-minutes: 210
     permissions:
       contents: read
     outputs:
@@ -63,6 +64,7 @@ jobs:
   commit:
     needs: prepare
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     outputs:
@@ -124,6 +126,7 @@ jobs:
   observe:
     needs: commit
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:

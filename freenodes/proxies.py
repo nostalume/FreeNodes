@@ -139,7 +139,7 @@ class VmessProxy(ProxyBase):
     type: Literal["vmess"]
     uuid: UUID = Field(strict=False)
     alter_id: int = Field(default=0, alias="alterId", strict=False)
-    cipher: str = "auto"
+    cipher: str = Field(default="auto", min_length=1)
 
 
 class VlessProxy(ProxyBase):

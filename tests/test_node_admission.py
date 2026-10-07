@@ -8,6 +8,11 @@ from freenodes import proxies
 from freenodes.capability import CapabilityPolicy, plan_probe_candidates
 from freenodes.nodes import AdmittedCatalog, ClashNode, NodeProvenance, UriNode
 from freenodes.proxies import admit_proxy
+from freenodes.publication import (
+    QualityHistory,
+    QualityHistoryEntry,
+    QualityHistoryGeneration,
+)
 
 NOW = datetime(2026, 9, 2, tzinfo=UTC)
 
@@ -104,6 +109,41 @@ def test_plan_is_source_fair_then_refills_from_an_abundant_source():
     assert len({entry.node.display_name for entry in planned.entries}) == 40
 
 
+def test_plan_prefers_capable_history_and_excludes_quarantined_nodes():
+    catalog = AdmittedCatalog(nodes=tuple(node(index, "a") for index in range(1, 4)))
+    history = QualityHistory(
+        generations=(
+            QualityHistoryGeneration(
+                observed_at=NOW,
+                entries=(
+                    QualityHistoryEntry(
+                        fingerprint=node(2, "a").fingerprint,
+                        outcome="capable",
+                        delay_ms=10,
+                        consecutive_failures=0,
+                    ),
+                    QualityHistoryEntry(
+                        fingerprint=node(3, "a").fingerprint,
+                        outcome="failed",
+                        consecutive_failures=2,
+                    ),
+                ),
+            ),
+        )
+    )
+
+    planned = plan_probe_candidates(
+        catalog,
+        CapabilityPolicy(max_candidates=3, max_full_probes=3),
+        history,
+    )
+
+    assert tuple(entry.node.fingerprint for entry in planned.entries) == (
+        node(2, "a").fingerprint,
+        node(1, "a").fingerprint,
+    )
+
+
 NOW = datetime(2026, 8, 29, 4, 0, tzinfo=UTC)
 
 
@@ -140,6 +180,55 @@ proxies:
         proxies.TrojanProxy,
         proxies.VmessProxy,
     }
+
+
+@pytest.mark.parametrize("representation", ("yaml", "uri"))
+@pytest.mark.parametrize("cipher", (None, "auto", ""))
+def test_vmess_cipher_defaults_when_omitted_but_rejects_explicit_empty(
+    representation, cipher
+):
+    import base64
+    import json
+
+    import yaml
+
+    if representation == "yaml":
+        payload = {
+            "name": "VMess",
+            "type": "vmess",
+            "server": "vmess.example",
+            "port": 443,
+            "uuid": "11111111-1111-1111-1111-111111111111",
+        }
+        if cipher is not None:
+            payload["cipher"] = cipher
+        source = artifact(
+            yaml.safe_dump({"proxies": [payload]}), media_type="application/yaml"
+        )
+    else:
+        payload = {
+            "ps": "VMess",
+            "add": "vmess.example",
+            "port": 443,
+            "id": "11111111-1111-1111-1111-111111111111",
+        }
+        if cipher is not None:
+            payload["scy"] = cipher
+        source = artifact(
+            "vmess://" + base64.urlsafe_b64encode(json.dumps(payload).encode()).decode()
+        )
+
+    catalog = nodes.admit_artifacts([source], now=NOW)
+
+    if cipher == "":
+        assert catalog.accepted_count == 0
+        assert catalog.summary.counts.rejected_records == 1
+        assert {item.code for item in catalog.summary.rejection_codes} == {
+            "missing_cipher" if representation == "yaml" else "malformed_node"
+        }
+    else:
+        assert catalog.accepted_count == 1
+        assert catalog.clash_nodes[0].proxy.cipher == "auto"
 
 
 def test_artifact_requires_admitted_timezone_and_unknown_proxy_variant_is_rejected():
