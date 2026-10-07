@@ -131,7 +131,7 @@ async def test_private_runner_comparison_fails_closed_and_redacts_report(
     assert ComparisonReport.model_validate_json(raw) == report
     assert not list(report_path.parent.glob("private-profiles-*"))
     failed_check = {
-        "coverage": "coverage_not_reduced",
+        "coverage": "coverage_target_met",
         "latency": "latency_improved",
         "deadline": "rank_pool_complete",
         "cdn": "public_current",
@@ -143,7 +143,7 @@ async def test_private_runner_comparison_fails_closed_and_redacts_report(
     if defect is not None:
         assert report.checks[failed_check[defect]] is False
     if defect not in ("control", "consumer", "foreign"):
-        assert calls == [(6, False), (4, True)]
+        assert calls == [(6, True)]
 
 
 @pytest.mark.parametrize("path", ("nodes/report.json", "IMPORT.md"))

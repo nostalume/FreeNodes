@@ -338,11 +338,9 @@ class CapabilityPolicy(FrozenModel):
     rank_latency: bool = False
 
     @property
-    def probe_limit(self) -> int:
-        return min(
-            self.max_full_probes,
-            2 * self.max_published if self.rank_latency else self.max_full_probes,
-        )
+    def extra_probe_limit(self) -> int:
+        """Additional candidates after ordinary capable coverage is reached."""
+        return self.max_published if self.rank_latency else 0
 
     @model_validator(mode="after")
     def validate_bounds(self) -> Self:
@@ -487,7 +485,7 @@ class ProbePlanner:
         selected = self._select(self._queues(grouped))
         return ProbePlan(
             candidate_ceiling=self.policy.max_candidates,
-            full_probe_limit=self.policy.probe_limit,
+            full_probe_limit=self.policy.max_full_probes,
             entries=tuple(
                 ProbePlanEntry(
                     ordinal=index,
@@ -549,7 +547,7 @@ class ProbePlanner:
     ) -> list[ProbeableNode]:
         selected: list[ProbeableNode] = []
         sources = sorted(queues)
-        limit = min(self.policy.max_candidates, self.policy.probe_limit)
+        limit = min(self.policy.max_candidates, self.policy.max_full_probes)
         while sources and len(selected) < limit:
             for source in sources:
                 if len(selected) == limit:
@@ -584,6 +582,9 @@ class LatencyRankingReport(FrozenModel):
     measurement: CapabilityRunReceipt
     elapsed_seconds: float = Field(ge=0)
     ranking_pool_complete: bool
+    selection: Literal[
+        "ranked", "incomplete_pool", "coverage_regression", "no_improvement"
+    ]
     baseline_fingerprints: tuple[str, ...] = Field(strict=False)
     selected_fingerprints: tuple[str, ...] = Field(strict=False)
     baseline_median_delay_ms: float | None
@@ -600,7 +601,7 @@ def rank_measured_capable(
     history: ProbeHistory | None = None,
     elapsed_seconds: float,
 ) -> tuple[CapabilityRunReceipt, LatencyRankingReport]:
-    """Rank a completed bounded pool, or retain first-capable on a deadline."""
+    """Keep first-capable unless a completed extension safely improves selection."""
     if run.status != "complete":
         raise CapabilityError("latency ranking requires a complete measurement")
     indexed = {node.fingerprint: node for node in admitted.clash_nodes}
@@ -615,8 +616,12 @@ def rank_measured_capable(
         for item in run.decisions
         if item.status == "capable"
     }
-    complete = run.termination == "candidates_exhausted" and not run.deadline_reached
+    complete = (
+        run.termination in ("target_reached", "candidates_exhausted")
+        and not run.deadline_reached
+    )
     selected = baseline
+    selection = "incomplete_pool"
     if complete:
         capable = AdmittedCatalog(
             nodes=tuple(node for node in admitted.nodes if node.fingerprint in delays)
@@ -649,12 +654,32 @@ def rank_measured_capable(
             for name in sorted(before.keys() | after.keys())
         }
 
+    if complete:
+        before = median_delay(baseline)
+        after = median_delay(selected)
+        if len(selected) != len(baseline) or any(
+            original > 0 and current == 0
+            for counts in (
+                coverage(lambda node: _sources(node)[0]),
+                coverage(lambda node: node.proxy.type),
+            )
+            for original, current in counts.values()
+        ):
+            selection = "coverage_regression"
+        elif before is None or after is None or after >= before:
+            selection = "no_improvement"
+        else:
+            selection = "ranked"
+        if selection != "ranked":
+            selected = baseline
+
     return run.model_copy(
         update={"accepted_fingerprints": selected}
     ), LatencyRankingReport(
         measurement=run,
         elapsed_seconds=elapsed_seconds,
         ranking_pool_complete=complete,
+        selection=selection,
         baseline_fingerprints=baseline,
         selected_fingerprints=selected,
         baseline_median_delay_ms=median_delay(baseline),

@@ -68,13 +68,18 @@ class SelectionMetrics(FrozenModel):
 
 
 class ComparisonReport(FrozenModel):
-    schema_version: Literal[1] = Field(default=1, alias="schema")
+    schema_version: Literal[2] = Field(default=2, alias="schema")
+    shared_measurement: Literal[True] = True
     status: Literal["passed", "failed"]
     observed_at: AwareDatetime
     scope: Literal["active_github_sources"] = "active_github_sources"
     snapshots: tuple[tuple[str, str, str], ...] = Field(default=(), strict=False)
     baseline: SelectionMetrics | None = None
     ranked: SelectionMetrics | None = None
+    selection: (
+        Literal["ranked", "incomplete_pool", "coverage_regression", "no_improvement"]
+        | None
+    ) = None
     checks: dict[str, bool]
     diagnostic: str = ""
     public: PublicVerificationReceipt | None = None
@@ -88,23 +93,20 @@ def comparison_checks(
     *,
     now: datetime,
     stale_hours: int,
+    node_limit: int,
 ) -> dict[str, bool]:
     if baseline is None or ranked is None or ranking is None or public is None:
         return {"execution_complete": False}
     delay = ranked.median_delay_ms
     before = ranking.baseline_median_delay_ms
-    baseline_delay = baseline.median_delay_ms
     age = now - datetime.fromisoformat(public.direct_generation)
     return {
         "execution_complete": True,
         "rank_pool_complete": ranking.ranking_pool_complete,
         "coverage_not_reduced": ranked.accepted >= baseline.accepted,
+        "coverage_target_met": baseline.accepted >= node_limit,
         "latency_improved": (
-            delay is not None
-            and before is not None
-            and baseline_delay is not None
-            and delay < before
-            and delay <= baseline_delay
+            delay is not None and before is not None and delay < before
         ),
         "source_coverage_preserved": baseline.source_counts.keys()
         <= ranked.source_counts.keys(),
@@ -169,37 +171,39 @@ async def compare(
         with TemporaryDirectory(
             prefix="private-profiles-", dir=report_path.parent
         ) as scratch:
-            for mode in ("first_capable", "ranked"):
-                stage = mode
-                policy = CapabilityPolicy(
-                    max_published=application.publication.node_limit,
-                    rank_latency=mode == "ranked",
-                )
-                started = perf_counter()
-                catalog, _, report = await asyncio.wait_for(
-                    application._measure(
-                        admission.catalog,
-                        probe_session,
-                        policy,
-                        history=history,
-                        targets=DEFAULT_CAPABILITY_TARGETS,
+            stage = "measurement"
+            started = perf_counter()
+            catalog, _, ranking = await asyncio.wait_for(
+                application._measure(
+                    admission.catalog,
+                    probe_session,
+                    CapabilityPolicy(
+                        max_published=application.publication.node_limit,
+                        rank_latency=True,
                     ),
-                    420,
-                )
-                metrics = SelectionMetrics.from_catalog(
-                    catalog, perf_counter() - started
-                )
+                    history=history,
+                    targets=DEFAULT_CAPABILITY_TARGETS,
+                ),
+                420,
+            )
+            assert ranking is not None
+            elapsed = perf_counter() - started
+            first_capable = CapableCatalog.from_measurement(
+                admission.catalog, ranking.measurement
+            )
+            for mode, selected in (
+                ("first_capable", first_capable),
+                ("ranked", catalog),
+            ):
+                stage = mode + "_consumer"
                 write_validated_bundle(
-                    catalog=catalog,
-                    bundle=render_profiles(catalog, application.registry),
+                    catalog=selected,
+                    bundle=render_profiles(selected, application.registry),
                     output_parent=Path(scratch) / mode,
                     validator=validator,
-                    latency_ranking=report,
                 )
-                if mode == "first_capable":
-                    baseline = metrics
-                else:
-                    ranked, ranking = metrics, report
+            baseline = SelectionMetrics.from_catalog(first_capable, elapsed)
+            ranked = SelectionMetrics.from_catalog(catalog, elapsed)
         stage = "public_observation"
         public = await asyncio.wait_for(observe_public(), 180)
     except Exception as error:
@@ -215,6 +219,7 @@ async def compare(
         public,
         now=datetime.now(UTC),
         stale_hours=application.publication.stale_after_hours,
+        node_limit=application.publication.node_limit,
     )
     checks["public_snapshot_unchanged"] = public_digests(root) == before
     result = ComparisonReport(
@@ -223,6 +228,7 @@ async def compare(
         snapshots=snapshots,
         baseline=baseline,
         ranked=ranked,
+        selection=ranking.selection if ranking is not None else None,
         checks=checks,
         diagnostic=diagnostic,
         public=public,

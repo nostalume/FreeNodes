@@ -205,7 +205,7 @@ async def test_session_adapts_to_yield_with_bounded_work_and_one_process(tmp_pat
     assert len(processes) == 1 and processes[0].returncode == 0
 
 
-@pytest.mark.parametrize("ranking, expected_attempts", ((False, 512), (True, 1000)))
+@pytest.mark.parametrize("ranking, expected_attempts", ((False, 512), (True, 1012)))
 async def test_ranking_pilot_measures_beyond_500_without_exceeding_pool(
     tmp_path, ranking, expected_attempts
 ):
@@ -234,11 +234,44 @@ async def test_ranking_pilot_measures_beyond_500_without_exceeding_pool(
 
     assert receipt.attempted == expected_attempts
     assert len(receipt.accepted_fingerprints) == 500
-    assert receipt.planned == (1000 if ranking else 1500)
-    assert receipt.termination == (
-        "candidates_exhausted" if ranking else "target_reached"
-    )
+    assert receipt.planned == 1500
+    assert receipt.termination == "target_reached"
     assert calls == 2 * expected_attempts
+    assert process.returncode == 0
+
+
+@pytest.mark.parametrize(
+    "count, expected, termination",
+    ((2500, 2036, "target_reached"), (1600, 1600, "candidates_exhausted")),
+)
+async def test_ranking_reaches_coverage_before_bounded_extension(
+    tmp_path, count, expected, termination
+):
+    process = FakeProcess()
+
+    async def request(url, timeout):
+        if url.endswith("/version"):
+            return {"version": "test"}
+        proxy = unquote(urlsplit(url).path.split("/")[2])
+        if not proxy.startswith("CONTROL / ") and int(proxy.removeprefix("node-")) % 3:
+            raise RuntimeError("candidate failed")
+        return {"delay": 20}
+
+    session = MihomoProbeSession(
+        tmp_path / "mihomo.exe",
+        delay_probe=MihomoDelayProbe(request_json=request),
+        process_factory=lambda *args, **kwargs: process,
+        validate_config=lambda *args: None,
+    )
+    receipt = await session.probe_capabilities(
+        plan(*(node(index, f"node-{index}") for index in range(count))),
+        TARGETS,
+        CapabilityPolicy(rank_latency=True),
+    )
+    assert receipt.planned == count
+    assert receipt.attempted == expected
+    assert len(receipt.accepted_fingerprints) == 500
+    assert receipt.termination == termination
     assert process.returncode == 0
 
 

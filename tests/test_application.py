@@ -328,7 +328,7 @@ async def test_private_latency_pilot_ranks_and_receipts_without_public_mutation(
 
     class MeasuredProbe:
         async def probe_capabilities(self, plan, targets, policy):
-            assert len(plan.entries) == 2
+            assert len(plan.entries) == 3
             assert policy.rank_latency is True
             decisions = tuple(
                 NodeCapabilityDecision(
@@ -338,11 +338,11 @@ async def test_private_latency_pilot_ranks_and_receipts_without_public_mutation(
                     successful_targets=("github", "google"),
                     target_delays=(("github", delay), ("google", delay)),
                 )
-                for entry, delay in zip(plan.entries, (900, 20), strict=True)
+                for entry, delay in zip(plan.entries, (900, 20, 30), strict=True)
             )
             return CapabilityRunReceipt(
                 status="complete",
-                planned=2,
+                planned=3,
                 termination="candidates_exhausted",
                 decisions=decisions,
                 accepted_fingerprints=(decisions[0].fingerprint,),

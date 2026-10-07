@@ -1,6 +1,8 @@
+import asyncio
 import base64
 import hashlib
 
+import httpx
 import pytest
 import yaml
 
@@ -11,7 +13,11 @@ from freenodes.publication import (
     PublicationCounts,
     PublicationManifestV2,
 )
-from freenodes.verification import PublicEntryVerifier, PublicVerificationError
+from freenodes.verification import (
+    PublicEntryVerifier,
+    PublicVerificationError,
+    PublicVerificationReceipt,
+)
 from tests.support import publication_admission_summary
 
 LOADED_PROVIDER = ProviderLoadReceipt(
@@ -224,4 +230,101 @@ async def test_provider_name_only_smoke_is_not_complete_entry_validation():
             fetch=fetch,
             validate_standalone=lambda body: None,
             smoke_provider=lambda body: None,
+        ).verify()
+
+
+@pytest.mark.parametrize(
+    "failure, stage",
+    (
+        ("fetch", "fetch"),
+        ("digest", "artifact"),
+        ("standalone", "standalone"),
+        ("provider", "provider"),
+    ),
+)
+async def test_cdn_failures_report_only_redacted_boundary(failure, stage):
+    registry = SubscriptionURLs.from_identity(
+        RepositoryIdentity(owner="owner", name="repo")
+    )
+    content = bodies(registry)
+    if failure == "digest":
+        content[registry.plain.cdn] += b"credential-secret"
+    seen = {"standalone": 0, "provider": 0}
+
+    async def fetch(url):
+        if failure == "fetch" and url == registry.receipt.cdn:
+            raise httpx.HTTPStatusError(
+                "credential-secret " + url,
+                request=httpx.Request("GET", url),
+                response=httpx.Response(403),
+            )
+        return content[url]
+
+    def standalone(body):
+        seen["standalone"] += 1
+        if failure == "standalone" and seen["standalone"] == 2:
+            raise ValueError("credential-secret")
+
+    def provider(body):
+        seen["provider"] += 1
+        if failure == "provider" and seen["provider"] == 2:
+            raise ValueError("credential-secret")
+        return LOADED_PROVIDER
+
+    receipt = await PublicEntryVerifier(
+        registry, fetch=fetch, validate_standalone=standalone, smoke_provider=provider
+    ).verify()
+    assert receipt.direct == "current" and receipt.cdn == "degraded"
+    assert receipt.cdn_diagnostic.stage == stage
+    assert receipt.cdn_diagnostic.http_status == (403 if failure == "fetch" else None)
+    assert receipt.cdn_diagnostic.entry == (
+        "receipt"
+        if failure == "fetch"
+        else failure
+        if failure in ("standalone", "provider")
+        else None
+    )
+    assert "credential-secret" not in receipt.model_dump_json()
+    assert "https://" not in receipt.model_dump_json()
+
+
+def test_legacy_public_receipt_without_diagnostic_remains_valid():
+    receipt = PublicVerificationReceipt.model_validate(
+        {
+            "direct": "current",
+            "cdn": "degraded",
+            "direct_generation": "2026-08-29T00:00:00+00:00",
+            "cdn_generation": None,
+        }
+    )
+    assert receipt.cdn_diagnostic is None
+    with pytest.raises(ValueError, match="failure diagnostic"):
+        PublicVerificationReceipt.model_validate(
+            {
+                "direct": "current",
+                "cdn": "current",
+                "direct_generation": receipt.direct_generation,
+                "cdn_generation": receipt.direct_generation,
+                "cdn_diagnostic": {"stage": "fetch", "error_type": "TimeoutError"},
+            }
+        )
+
+
+async def test_public_cancellation_is_not_relabelled_as_degraded():
+    registry = SubscriptionURLs.from_identity(
+        RepositoryIdentity(owner="owner", name="repo")
+    )
+    content = bodies(registry)
+
+    async def fetch(url):
+        if url == registry.receipt.cdn:
+            raise asyncio.CancelledError
+        return content[url]
+
+    with pytest.raises(asyncio.CancelledError):
+        await PublicEntryVerifier(
+            registry,
+            fetch=fetch,
+            validate_standalone=lambda body: None,
+            smoke_provider=lambda body: LOADED_PROVIDER,
         ).verify()
