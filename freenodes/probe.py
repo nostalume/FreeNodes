@@ -192,7 +192,7 @@ class MihomoProbeSession:
         policy: CapabilityPolicy,
     ) -> CapabilityRunReceipt:
         admitted_targets = CapabilityTarget.admit_registry(targets, quorum=2)
-        nodes = plan.nodes
+        nodes = plan.nodes[: min(policy.max_candidates, policy.max_full_probes)]
         if not nodes:
             return CapabilityRunReceipt(
                 status="complete",
@@ -274,6 +274,7 @@ class MihomoProbeSession:
         candidate_deadline = deadline - closing_reserve
         decisions: list[NodeCapabilityDecision] = []
         controls: list[TargetControlWindow] = []
+        extension_end = len(nodes)
 
         async def observe(proxy_name: str, target: CapabilityTarget):
             value = await self.delay_probe.observe(
@@ -318,7 +319,7 @@ class MihomoProbeSession:
                 return self._complete(
                     nodes, decisions, controls, policy, "time_budget", deadline=True
                 )
-            block = nodes[offset : offset + self.BLOCK_SIZE]
+            block = nodes[offset : min(offset + self.BLOCK_SIZE, extension_end)]
             opening = await observe_controls()
             if sum(item.status == "success" for item in opening) < 2:
                 controls.extend(await close_windows(opening))
@@ -365,8 +366,6 @@ class MihomoProbeSession:
                     )
                     < 2
                 )
-                if not unresolved:
-                    break
             windows = await close_windows(opening)
             controls.extend(windows)
             deadline_reached = any(
@@ -388,10 +387,13 @@ class MihomoProbeSession:
                 )
                 for node in block
             )
+            end = offset + len(block)
             if (
                 sum(item.status == "capable" for item in decisions)
                 >= policy.max_published
             ):
+                extension_end = min(extension_end, end + policy.extra_probe_limit)
+            if end == extension_end and end < len(nodes):
                 return self._complete(
                     nodes, decisions, controls, policy, "target_reached"
                 )
@@ -412,6 +414,12 @@ class MihomoProbeSession:
         capable = tuple(
             item.fingerprint for item in decisions if item.status == "capable"
         )
+        if (
+            not policy.rank_latency
+            and termination == "candidates_exhausted"
+            and len(capable) >= policy.max_published
+        ):
+            termination = "target_reached"
         return CapabilityRunReceipt(
             status="complete",
             planned=len(nodes),

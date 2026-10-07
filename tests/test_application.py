@@ -4,7 +4,11 @@ from datetime import UTC, datetime
 
 import pytest
 
-from freenodes.capability import CapabilityRunReceipt, NodeCapabilityDecision
+from freenodes.capability import (
+    CapabilityPolicy,
+    CapabilityRunReceipt,
+    NodeCapabilityDecision,
+)
 from freenodes.config import (
     AppConfig,
     DiscoveryLimits,
@@ -283,6 +287,97 @@ async def test_application_validates_profiles_without_public_cutover(
     assert receipt.output_dir.is_relative_to((tmp_path / "validation-output").resolve())
 
 
+@pytest.mark.parametrize("real_consumer", (False, True))
+async def test_private_latency_pilot_ranks_and_receipts_without_public_mutation(
+    monkeypatch,
+    tmp_path,
+    request,
+    real_consumer,
+):
+    from freenodes.mihomo import MihomoValidator
+    from freenodes.publication import ValidationManifestV1
+
+    consumer = (
+        MihomoValidator(request.getfixturevalue("real_mihomo_path"))
+        if real_consumer
+        else ConsumerValidator()
+    )
+    monkeypatch.chdir(tmp_path)
+    public = tmp_path / "nodes"
+    public.mkdir()
+    receipt_path = public / "publication-receipt.json"
+    receipt_path.write_bytes(b"previous receipt untouched")
+    config = web_sources_config(("a",))
+    discovery_calls = 0
+
+    async def discover(self):
+        nonlocal discovery_calls
+        discovery_calls += 1
+        now = datetime.now(UTC)
+        return DiscoverySuccess(
+            site_name="a",
+            artifacts=tuple(
+                SourceArtifact.inline(
+                    site="a",
+                    content=f"trojan://secret@node{index}.example:443#Node{index}",
+                    observed_at=now,
+                )
+                for index in range(3)
+            ),
+        )
+
+    class MeasuredProbe:
+        async def probe_capabilities(self, plan, targets, policy):
+            assert len(plan.entries) == 3
+            assert policy.rank_latency is True
+            decisions = tuple(
+                NodeCapabilityDecision(
+                    fingerprint=entry.node.fingerprint,
+                    status="capable",
+                    reason="quorum",
+                    successful_targets=("github", "google"),
+                    target_delays=(("github", delay), ("google", delay)),
+                )
+                for entry, delay in zip(plan.entries, (900, 20, 30), strict=True)
+            )
+            return CapabilityRunReceipt(
+                status="complete",
+                planned=3,
+                termination="candidates_exhausted",
+                decisions=decisions,
+                accepted_fingerprints=(decisions[0].fingerprint,),
+            )
+
+    monkeypatch.setattr("freenodes.application.SourceDiscovery.discover", discover)
+    application = make_application(config)
+    receipt = await application.validate_profiles(
+        output_parent=tmp_path / "private",
+        validator=consumer,
+        probe_session=MeasuredProbe(),
+        policy=CapabilityPolicy(max_published=1, rank_latency=True),
+    )
+    assert receipt.accepted_count == receipt.uri_count == receipt.clash_count == 1
+    assert receipt.latency_ranking.selected_median_delay_ms == 20
+    assert receipt.latency_ranking.baseline_median_delay_ms == 900
+    manifest = ValidationManifestV1.model_validate_json(
+        (receipt.output_dir / "validation-receipt.json").read_bytes()
+    )
+    assert manifest.latency_ranking == receipt.latency_ranking
+    assert receipt_path.read_bytes() == b"previous receipt untouched"
+    assert set(public.iterdir()) == {receipt_path}
+
+    with pytest.raises(PublicationError, match="private validation only"):
+        await application.publish(
+            repository_root=tmp_path,
+            validator=consumer,
+            probe_session=MeasuredProbe(),
+            policy=CapabilityPolicy(max_published=1, rank_latency=True),
+        )
+    assert receipt_path.read_bytes() == b"previous receipt untouched"
+
+    assert discovery_calls == 1
+
+
 NOW = datetime(2026, 8, 29, tzinfo=UTC)
 
 
@@ -335,7 +430,8 @@ async def test_publication_requires_capability_after_deterministic_admission(
     manifest = json.loads(
         (tmp_path / "nodes" / "publication-receipt.json").read_bytes()
     )
-    assert manifest["schema"] == 4
+    assert manifest["schema"] == 5
+    assert len(manifest["quality_history"]["generations"]) == 1
     assert manifest["capability"]["planned"] == 1
     assert manifest["capability"]["termination"] == "candidates_exhausted"
     assert manifest["capability"]["accepted"] == 1

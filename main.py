@@ -14,6 +14,7 @@ import logging
 import os
 import sys
 from contextlib import redirect_stdout, suppress
+from datetime import timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Annotated, Literal, Protocol, cast
@@ -22,6 +23,7 @@ from dotenv import load_dotenv
 from pydantic import Field
 
 from freenodes.application import Application
+from freenodes.capability import CapabilityPolicy
 from freenodes.config import FrozenModel, load_config
 from freenodes.discovery import DiscoveryOutcome
 from freenodes.llm import OPENROUTER_CREDENTIAL_ENV, OpenRouterFallback
@@ -70,6 +72,7 @@ class ValidateCommand(FrozenModel):
     kind: Literal["validate"] = "validate"
     output_parent: Path = Field(strict=False)
     target: str | None = None
+    rank_latency: bool = False
 
 
 class VerifyPublicCommand(FrozenModel):
@@ -119,6 +122,7 @@ class ParsedArguments(FrozenModel):
     report_publication: bool = False
     receipt_sha: str | None = None
     pathspec_output: Path | None = Field(default=None, strict=False)
+    rank_latency: bool = False
 
 
 def render_discovery_report(outcomes: list[DiscoveryOutcome]) -> str:
@@ -222,6 +226,11 @@ def parse_args(argv: list[str] | None = None) -> Command:
         help="render the admitted publication receipt as a Markdown summary",
     )
     parser.add_argument(
+        "--rank-latency",
+        action="store_true",
+        help="private validation pilot: measure up to twice the node limit and rank capable nodes",
+    )
+    parser.add_argument(
         "--receipt-sha",
         help="expected publication receipt SHA-256 for --apply-publication",
     )
@@ -230,6 +239,8 @@ def parse_args(argv: list[str] | None = None) -> Command:
         help="contained Git pathspec output for --apply-publication",
     )
     args = ParsedArguments.model_validate(vars(parser.parse_args(argv)))
+    if args.rank_latency and not args.validation_output:
+        parser.error("--rank-latency requires --validate-profiles")
     transfer = _transfer_command(args, parser)
     if transfer:
         return transfer
@@ -245,6 +256,7 @@ def parse_args(argv: list[str] | None = None) -> Command:
         return ValidateCommand(
             target=args.target,
             output_parent=args.validation_output,
+            rank_latency=args.rank_latency,
         )
     if args.target:
         return DiscoverCommand(target=args.target)
@@ -266,7 +278,15 @@ async def run(command: Command) -> int:
         print(f"Publication artifact {applied.status}: {applied.receipt_sha256}")
         return 0
     if command.kind == "report_publication":
-        print(render_publication_report(Path.cwd()), end="")
+        config = load_config()
+        print(
+            render_publication_report(
+                Path.cwd(),
+                stale_after=timedelta(hours=config.publication.stale_after_hours),
+                expires_after=timedelta(hours=config.publication.expires_after_hours),
+            ),
+            end="",
+        )
         return 0
     config = load_config()
 
@@ -315,11 +335,17 @@ async def run(command: Command) -> int:
             validator=MihomoValidator(acquired.executable),
             probe_session=MihomoProbeSession(acquired.executable),
             target=command.target,
+            policy=CapabilityPolicy(
+                max_published=config.publication.node_limit,
+                rank_latency=command.rank_latency,
+            ),
         )
         print(
             f"Profiles validated: {receipt.output_dir} "
             f"({receipt.accepted_count} admitted, {receipt.rejected_count} rejected)"
         )
+        if receipt.latency_ranking is not None:
+            print(receipt.latency_ranking.model_dump_json(indent=2))
         return 0
 
     if command.kind == "discover":

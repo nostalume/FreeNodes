@@ -36,6 +36,7 @@ def test_help_exposes_publish_discover_validate_verify_and_audit_operations():
     assert "--validate-profiles" in help_text
     assert "--verify-public" in help_text
     assert "--audit-sources" in help_text
+    assert "--rank-latency" in help_text
 
 
 @pytest.mark.parametrize(
@@ -47,12 +48,25 @@ def test_help_exposes_publish_discover_validate_verify_and_audit_operations():
         ),
         (("source", "--verify-public"), "--verify-public does not accept a target"),
         (("source", "--audit-sources"), "--audit-sources does not accept a target"),
+        (("--rank-latency",), "--rank-latency requires --validate-profiles"),
+        (
+            ("--rank-latency", "--audit-sources"),
+            "--rank-latency requires --validate-profiles",
+        ),
     ),
 )
 def test_incompatible_operations_are_rejected(arguments, message):
     result = run_cli(*arguments)
     assert result.returncode == 2
     assert message in result.stderr
+
+
+def test_latency_pilot_is_only_available_for_private_validation():
+    command = cli.parse_args(
+        ["--validate-profiles", ".private/pilot", "--rank-latency"]
+    )
+    assert command.kind == "validate"
+    assert command.rank_latency is True
 
 
 async def test_publication_handoff_runs_without_discovery_configuration(

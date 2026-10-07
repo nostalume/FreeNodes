@@ -1,16 +1,25 @@
 import hashlib
 import json
 import subprocess
-from datetime import UTC, datetime
+from contextlib import nullcontext
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
 import freenodes.publication as publication
-from freenodes.capability import DEFAULT_CAPABILITY_TARGETS
+from freenodes.capability import (
+    DEFAULT_CAPABILITY_TARGETS,
+    CapabilityRunReceipt,
+    NodeCapabilityDecision,
+)
 from freenodes.profiles import OutputBundle, render_profiles
 from freenodes.publication import (
     PublicationCapability,
     PublicationError,
+    QualityHistory,
+    QualityHistoryEntry,
+    QualityHistoryGeneration,
+    load_quality_history,
     render_publication_report,
     validate_bundle_output_parent,
     write_bundle,
@@ -134,11 +143,31 @@ def test_publication_report_uses_redacted_receipt_accounting(tmp_path):
 
     assert persisted["schema"] == 4
     assert "Published 1 of 1 unique eligible nodes" in report
+    assert "Publication generation: 2026-08-29T06:00:00+00:00" in report
     assert "Sources: attempted 1" in report
     assert "Capability (fixture-runner, quorum 2)" in report
     assert "attempted 1 of 3; stopped because time_budget" in report
     assert "capable 1, failed 0, inconclusive 0, accepted 1" in report
     assert "quality" not in report.casefold()
+
+    assert "Publication freshness: current" in render_publication_report(
+        tmp_path,
+        now=NOW,
+        stale_after=timedelta(hours=12),
+        expires_after=timedelta(hours=24),
+    )
+    assert "Publication freshness: stale" in render_publication_report(
+        tmp_path,
+        now=NOW + timedelta(hours=13),
+        stale_after=timedelta(hours=12),
+        expires_after=timedelta(hours=24),
+    )
+    assert "Publication freshness: expired" in render_publication_report(
+        tmp_path,
+        now=NOW + timedelta(hours=25),
+        stale_after=timedelta(hours=12),
+        expires_after=timedelta(hours=24),
+    )
 
     legacy = json.loads(json.dumps(persisted))
     legacy["schema"] = 3
@@ -431,6 +460,88 @@ def test_apply_publication_rolls_back_partial_replacement(tmp_path):
     assert snapshot(old) == before
 
 
+@pytest.mark.parametrize(
+    "failure",
+    ("consumer", "replace", "receipt", "transport_replace", "transport_receipt", None),
+)
+def test_history_promotes_with_receipt_or_rolls_back_with_snapshot(tmp_path, failure):
+    live = tmp_path / "live"
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    run = sample_catalog(NOW).receipt
+    capability = PublicationCapability.from_run(
+        run, DEFAULT_CAPABILITY_TARGETS, "fixture-runner"
+    )
+    old_history = QualityHistory.record(
+        QualityHistory(),
+        run,
+        observed_at=NOW,
+        accepted_fingerprints=run.accepted_fingerprints,
+        node_limit=500,
+    )
+    new_history = QualityHistory.record(
+        old_history,
+        run,
+        observed_at=NOW + timedelta(hours=4),
+        accepted_fingerprints=run.accepted_fingerprints,
+        node_limit=500,
+    )
+    publish_bundle(
+        bundle("old"),
+        live,
+        validator=ConsumerValidator(),
+        now=NOW,
+        capability=capability,
+        quality_history=old_history,
+    )
+    (live / "nodes" / "user.yaml").write_bytes(b"user-owned")
+    before = snapshot(live)
+    replacements = []
+
+    def inject_failure(relative, index):
+        replacements.append(relative)
+        if (failure in ("replace", "transport_replace") and index == 3) or (
+            failure in ("receipt", "transport_receipt")
+            and relative == publication.RECEIPT_PATH
+        ):
+            raise RuntimeError("injected promotion failure")
+
+    transport = failure is None or failure.startswith("transport_")
+    expected_error = RuntimeError if failure == "consumer" else PublicationError
+    message = "consumer rejected staging" if failure == "consumer" else "apply failed"
+    with pytest.raises(expected_error, match=message) if failure else nullcontext():
+        publish_bundle(
+            bundle("new"),
+            source if transport else live,
+            validator=ConsumerValidator(fail=failure == "consumer"),
+            now=NOW + timedelta(hours=4),
+            capability=capability,
+            quality_history=new_history,
+            before_replace=None if transport else inject_failure,
+        )
+        if transport:
+            prepared = publication.prepare_publication(source, payload)
+            publication.apply_publication(
+                payload,
+                live,
+                expected_receipt_sha256=prepared.receipt_sha256,
+                pathspec_output=live / ".git" / "pathspec",
+                before_replace=inject_failure,
+            )
+
+    if failure:
+        assert snapshot(live) == before
+        assert load_quality_history(live) == old_history
+    else:
+        assert load_quality_history(live) == new_history
+        assert (live / "nodes" / "merged.yaml").read_bytes() == b"proxies: [new]\n"
+        assert (live / "nodes" / "user.yaml").read_bytes() == b"user-owned"
+        assert replacements[-1] == publication.RECEIPT_PATH
+        assert "Publication freshness: current" in render_publication_report(
+            live, now=NOW + timedelta(hours=4)
+        )
+
+
 def test_reapplying_identical_publication_is_a_no_change(tmp_path):
     source = tmp_path / "source"
     payload = tmp_path / "payload"
@@ -450,6 +561,48 @@ def test_reapplying_identical_publication_is_a_no_change(tmp_path):
     assert snapshot(repository / "nodes") == before
 
 
+def test_real_consumer_validated_history_survives_artifact_handoff(
+    tmp_path, real_mihomo_path
+):
+    from freenodes.mihomo import MihomoValidator
+
+    source = tmp_path / "source"
+    payload = tmp_path / "payload"
+    live = tmp_path / "live"
+    catalog = sample_catalog(NOW)
+    history = QualityHistory.record(
+        QualityHistory(),
+        catalog.receipt,
+        observed_at=NOW,
+        accepted_fingerprints=catalog.receipt.accepted_fingerprints,
+        node_limit=500,
+    )
+    validator = MihomoValidator(real_mihomo_path)
+    publish_bundle(
+        render_profiles(catalog),
+        source,
+        validator=validator,
+        now=NOW,
+        capability=PublicationCapability.from_run(
+            catalog.receipt, DEFAULT_CAPABILITY_TARGETS, "fixture-runner"
+        ),
+        quality_history=history,
+    )
+    prepared = publication.prepare_publication(source, payload)
+    applied = publication.apply_publication(
+        payload,
+        live,
+        expected_receipt_sha256=prepared.receipt_sha256,
+        pathspec_output=live / ".git" / "pathspec",
+    )
+
+    assert applied.status == "applied"
+    assert load_quality_history(live) == history
+    assert snapshot(live / "nodes") == snapshot(source / "nodes")
+    consumer = validator.validate_bundle(live)
+    assert consumer.profiles and consumer.provider_profiles
+
+
 def test_prepare_publication_rejects_unsafe_receipt_path(tmp_path):
     repository = tmp_path / "repository"
     publish_bundle(bundle(), repository, validator=ConsumerValidator(), now=NOW)
@@ -463,3 +616,82 @@ def test_prepare_publication_rejects_unsafe_receipt_path(tmp_path):
         publication.prepare_publication(repository, tmp_path / "payload")
 
     assert not (tmp_path / "payload").exists()
+
+
+def test_quality_history_bounds_generations_and_skips_inconclusive():
+    previous = QualityHistory(
+        generations=(
+            QualityHistoryGeneration(
+                observed_at=NOW,
+                entries=(
+                    QualityHistoryEntry(
+                        fingerprint="b",
+                        outcome="failed",
+                        consecutive_failures=1,
+                    ),
+                ),
+            ),
+        )
+    )
+    run = CapabilityRunReceipt(
+        status="complete",
+        planned=3,
+        termination="candidates_exhausted",
+        decisions=(
+            NodeCapabilityDecision(
+                fingerprint="a",
+                status="capable",
+                successful_targets=("github", "google"),
+                target_delays=(("github", 20), ("google", 30)),
+                reason="quorum",
+            ),
+            NodeCapabilityDecision(
+                fingerprint="b",
+                status="failed",
+                failed_targets=("github", "google"),
+                reason="target_failures",
+            ),
+            NodeCapabilityDecision(
+                fingerprint="c",
+                status="inconclusive",
+                reason="incomplete_evidence",
+            ),
+        ),
+        accepted_fingerprints=("a",),
+    )
+
+    updated = QualityHistory.record(
+        previous,
+        run,
+        observed_at=NOW + timedelta(hours=4),
+        accepted_fingerprints=run.accepted_fingerprints,
+        node_limit=2,
+    )
+
+    assert len(updated.generations) == 2
+    assert [entry.fingerprint for entry in updated.generations[0].entries] == ["a", "b"]
+    assert updated.generations[0].entries[0].delay_ms == 20
+    assert updated.generations[0].entries[1].consecutive_failures == 2
+    assert all(entry.fingerprint != "c" for entry in updated.generations[0].entries)
+
+
+def test_schema_four_receipt_starts_empty_quality_history(tmp_path):
+    publish_bundle(
+        bundle(),
+        tmp_path,
+        validator=ConsumerValidator(),
+        now=NOW,
+        capability=PublicationCapability(
+            targets=DEFAULT_CAPABILITY_TARGETS,
+            runner_vantage="fixture-runner",
+            planned=3,
+            attempted=1,
+            capable=1,
+            failed=0,
+            inconclusive=0,
+            accepted=1,
+            termination="time_budget",
+        ),
+    )
+
+    assert load_quality_history(tmp_path).generations == ()

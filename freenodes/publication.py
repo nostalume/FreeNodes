@@ -7,7 +7,7 @@ import shutil
 import tempfile
 import uuid
 from collections.abc import Callable, Sequence
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path, PurePosixPath
 from types import MappingProxyType
 from typing import Annotated, Literal, Protocol
@@ -24,7 +24,9 @@ from pydantic import (
 from freenodes.capability import (
     CapabilityEvidence,
     CapabilityEvidenceV3,
+    CapabilityRunReceipt,
     CapableCatalog,
+    LatencyRankingReport,
 )
 from freenodes.config import FrozenModel
 from freenodes.mihomo import ConsumerValidation
@@ -50,6 +52,113 @@ class PublicationCounts(FrozenModel):
 
 
 PublicationCapability = CapabilityEvidence
+
+
+class QualityHistoryEntry(FrozenModel):
+    fingerprint: str = Field(min_length=1)
+    outcome: Literal["capable", "failed"]
+    successful_targets: tuple[str, ...] = Field(default=(), strict=False)
+    delay_ms: int | None = Field(default=None, ge=0, strict=True)
+    consecutive_failures: int = Field(ge=0, strict=True)
+
+
+class QualityHistoryGeneration(FrozenModel):
+    observed_at: AwareDatetime
+    entries: tuple[QualityHistoryEntry, ...] = Field(
+        default=(), max_length=500, strict=False
+    )
+
+
+class QualityHistory(FrozenModel):
+    schema_version: Literal[1] = Field(default=1, alias="schema")
+    generations: tuple[QualityHistoryGeneration, ...] = Field(
+        default=(), max_length=3, strict=False
+    )
+
+    def _latest_entries(self) -> dict[str, QualityHistoryEntry]:
+        latest: dict[str, QualityHistoryEntry] = {}
+        for generation in self.generations:
+            for entry in generation.entries:
+                latest.setdefault(entry.fingerprint, entry)
+        return latest
+
+    def is_quarantined(self, fingerprint: str) -> bool:
+        entry = self._latest_entries().get(fingerprint)
+        return (
+            entry is not None
+            and entry.outcome == "failed"
+            and entry.consecutive_failures >= 2
+        )
+
+    def preference_key(self, fingerprint: str) -> tuple[int, int, str]:
+        entry = self._latest_entries().get(fingerprint)
+        if entry is None:
+            return (1, 2**31 - 1, fingerprint)
+        if entry.outcome == "capable":
+            return (
+                0,
+                entry.delay_ms if entry.delay_ms is not None else 2**31 - 1,
+                fingerprint,
+            )
+        return (2, 2**31 - 1, fingerprint)
+
+    @classmethod
+    def record(
+        cls,
+        previous: QualityHistory,
+        run: CapabilityRunReceipt,
+        *,
+        observed_at: datetime,
+        accepted_fingerprints: Sequence[str],
+        node_limit: int,
+    ) -> QualityHistory:
+        if run.status != "complete":
+            raise PublicationError("quality history requires a complete run")
+        prior = previous._latest_entries()
+        accepted = set(accepted_fingerprints)
+        entries: list[QualityHistoryEntry] = []
+        for decision in run.decisions:
+            if decision.status == "inconclusive":
+                continue
+            delay_values = tuple(delay for _target, delay in decision.target_delays)
+            failed_before = prior.get(decision.fingerprint)
+            failures = (
+                failed_before.consecutive_failures + 1
+                if decision.status == "failed"
+                and failed_before is not None
+                and failed_before.outcome == "failed"
+                else int(decision.status == "failed")
+            )
+            entries.append(
+                QualityHistoryEntry(
+                    fingerprint=decision.fingerprint,
+                    outcome=decision.status,
+                    successful_targets=decision.successful_targets,
+                    delay_ms=min(delay_values) if delay_values else None,
+                    consecutive_failures=failures,
+                )
+            )
+        entries.sort(
+            key=lambda item: (item.fingerprint not in accepted, item.fingerprint)
+        )
+        generation = QualityHistoryGeneration(
+            observed_at=observed_at,
+            entries=tuple(entries[: min(500, max(1, node_limit))]),
+        )
+        return cls(generations=(generation, *previous.generations[:2]))
+
+
+def load_quality_history(repository_root: Path) -> QualityHistory:
+    receipt_path = repository_root / Path(RECEIPT_PATH)
+    try:
+        manifest = admit_publication_manifest_json(receipt_path.read_bytes())
+    except (OSError, ValueError, ValidationError):
+        return QualityHistory()
+    return (
+        manifest.quality_history
+        if isinstance(manifest, PublicationManifestV5)
+        else QualityHistory()
+    )
 
 
 class PublicationManifestBase(FrozenModel):
@@ -106,6 +215,7 @@ class PublicationManifestV2(PublicationManifestBase):
     def report_lines(self) -> tuple[str, ...]:
         return (
             "## Publication preparation",
+            f"- Publication generation: {self.created_at}",
             f"- Published {self.counts.published} of "
             f"{self.admission.unique_eligible} unique eligible nodes",
             f"- Sources: attempted {self.admission.attempted_sources}, "
@@ -165,11 +275,28 @@ class PublicationManifestV4(PublicationManifestV3):
         return tuple(lines)
 
 
+class PublicationManifestV5(PublicationManifestV4):
+    schema_version: Literal[5] = Field(alias="schema")
+    quality_history: QualityHistory
+
+    def report_lines(self) -> tuple[str, ...]:
+        lines = list(super().report_lines())
+        generations = len(self.quality_history.generations)
+        entries = sum(
+            len(generation.entries) for generation in self.quality_history.generations
+        )
+        lines.append(
+            f"- Quality history: {entries} entries across {generations} generations"
+        )
+        return tuple(lines)
+
+
 PublicationManifest = Annotated[
     PublicationManifestV1
     | PublicationManifestV2
     | PublicationManifestV3
-    | PublicationManifestV4,
+    | PublicationManifestV4
+    | PublicationManifestV5,
     Field(discriminator="schema_version"),
 ]
 PUBLICATION_MANIFEST_ADAPTER = TypeAdapter(PublicationManifest)
@@ -573,6 +700,7 @@ class ValidationReceipt(FrozenModel):
     validated_profiles: tuple[str, ...] = Field(default=(), strict=False)
     provider_names: tuple[str, ...] = Field(default=(), strict=False)
     group_names: tuple[str, ...] = Field(default=(), strict=False)
+    latency_ranking: LatencyRankingReport | None = None
 
     @property
     def files(self):
@@ -609,6 +737,7 @@ class ValidationManifestV1(FrozenModel):
     files: dict[str, str]
     consumer_validation: ValidationConsumer
     sources: tuple[ValidationSource, ...] = Field(strict=False)
+    latency_ranking: LatencyRankingReport | None = None
 
 
 BeforeReplace = Callable[[str, int], None]
@@ -680,14 +809,38 @@ def apply_publication(
     )
 
 
-def render_publication_report(repository_root: Path) -> str:
+def render_publication_report(
+    repository_root: Path,
+    *,
+    now: datetime | None = None,
+    stale_after: timedelta = timedelta(hours=24),
+    expires_after: timedelta = timedelta(hours=48),
+) -> str:
     try:
         manifest = PublicationArtifact.admit(repository_root).receipt
     except PublicationError:
         return (
             "## Publication preparation\n- Publication receipt is absent or invalid\n"
         )
-    return "\n".join(manifest.report_lines()) + "\n"
+    observed_at = now or datetime.now(UTC)
+    if observed_at.tzinfo is None:
+        raise ValueError("now must be timezone-aware")
+    created_at = TypeAdapter(AwareDatetime).validate_python(manifest.created_at)
+    age = observed_at.astimezone(UTC) - created_at.astimezone(UTC)
+    if age < timedelta(0):
+        freshness = "future"
+    elif age <= stale_after:
+        freshness = "current"
+    elif age <= expires_after:
+        freshness = "stale"
+    else:
+        freshness = "expired"
+    lines = list(manifest.report_lines())
+    lines.append(
+        f"- Publication freshness: {freshness} "
+        f"(stale after {stale_after}, expires after {expires_after})"
+    )
+    return "\n".join(lines) + "\n"
 
 
 def validate_bundle_output_parent(output_parent: Path, public_dir: Path) -> Path:
@@ -755,6 +908,7 @@ def write_validated_bundle(
     output_parent: Path,
     validator: BundleValidator,
     now: datetime | None = None,
+    latency_ranking: LatencyRankingReport | None = None,
 ) -> ValidationReceipt:
     observed_now = now or datetime.now(UTC)
     written = write_bundle(bundle, output_parent, now=observed_now)
@@ -771,6 +925,7 @@ def write_validated_bundle(
         validated_profiles=validation.profiles,
         provider_names=validation.provider_names,
         group_names=validation.group_names,
+        latency_ranking=latency_ranking,
     )
     manifest = ValidationManifestV1(
         schema=1,
@@ -789,6 +944,7 @@ def write_validated_bundle(
             groups=receipt.group_names,
         ),
         sources=_source_summary(catalog),
+        latency_ranking=latency_ranking,
     )
     receipt_path = written.output_dir / "validation-receipt.json"
     with receipt_path.open("x", encoding="utf-8", newline="\n") as output:
@@ -827,6 +983,7 @@ def publish_bundle(
     selection_limit: int,
     base_revision: str | None = None,
     capability: CapabilityEvidence | None = None,
+    quality_history: QualityHistory | None = None,
 ) -> PublicationReceipt:
     if min(bundle.accepted_count, bundle.clash_count, bundle.uri_count) <= 0:
         raise PublicationError(
@@ -873,7 +1030,7 @@ def publish_bundle(
             managed_files=managed_files,
             removed_files=tuple(obsolete),
         )
-    else:
+    elif quality_history is None:
         receipt_manifest = PublicationManifestV4(
             schema=4,
             status="accepted",
@@ -888,6 +1045,23 @@ def publish_bundle(
             managed_files=managed_files,
             removed_files=tuple(obsolete),
             capability=capability,
+        )
+    else:
+        receipt_manifest = PublicationManifestV5(
+            schema=5,
+            status="accepted",
+            created_at=observed_at.astimezone(UTC).isoformat(),
+            base_revision=base_revision,
+            selection_limit=selection_limit,
+            admission=admission_summary.counts,
+            counts=counts,
+            rejection_codes=admission_summary.rejection_codes,
+            sources=admission_summary.sources,
+            files=digests,
+            managed_files=managed_files,
+            removed_files=tuple(obsolete),
+            capability=capability,
+            quality_history=quality_history,
         )
     receipt_bytes = (
         json.dumps(

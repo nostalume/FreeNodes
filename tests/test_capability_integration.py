@@ -1,6 +1,8 @@
 import asyncio
 from datetime import UTC, datetime
+from functools import partial
 from pathlib import Path
+from time import perf_counter
 from urllib.parse import parse_qs, unquote, urlsplit
 
 import pytest
@@ -12,8 +14,9 @@ from freenodes.capability import (
     ProbeCandidate,
     ProbePlan,
     ProbePlanEntry,
+    rank_measured_capable,
 )
-from freenodes.nodes import ClashNode, NodeProvenance
+from freenodes.nodes import AdmittedCatalog, ClashNode, NodeProvenance
 from freenodes.probe import MihomoDelayProbe, MihomoProbeSession
 from freenodes.proxies import admit_proxy
 
@@ -202,7 +205,80 @@ async def test_session_adapts_to_yield_with_bounded_work_and_one_process(tmp_pat
     assert len(processes) == 1 and processes[0].returncode == 0
 
 
-async def test_invalid_controls_stop_candidates_and_preserve_diagnosis(tmp_path):
+@pytest.mark.parametrize("ranking, expected_attempts", ((False, 512), (True, 1012)))
+async def test_ranking_pilot_measures_beyond_500_without_exceeding_pool(
+    tmp_path, ranking, expected_attempts
+):
+    calls = 0
+    process = FakeProcess()
+
+    async def request(url, timeout):
+        nonlocal calls
+        if url.endswith("/version"):
+            return {"version": "test"}
+        proxy = unquote(urlsplit(url).path.split("/")[2])
+        calls += not proxy.startswith("CONTROL / ")
+        return {"delay": 20}
+
+    session = MihomoProbeSession(
+        tmp_path / "mihomo.exe",
+        delay_probe=MihomoDelayProbe(request_json=request),
+        process_factory=lambda *args, **kwargs: process,
+        validate_config=lambda *args: None,
+    )
+    receipt = await session.probe_capabilities(
+        plan(*(node(index, f"node-{index}") for index in range(1500))),
+        TARGETS,
+        CapabilityPolicy(rank_latency=ranking),
+    )
+
+    assert receipt.attempted == expected_attempts
+    assert len(receipt.accepted_fingerprints) == 500
+    assert receipt.planned == 1500
+    assert receipt.termination == "target_reached"
+    assert calls == 2 * expected_attempts
+    assert process.returncode == 0
+
+
+@pytest.mark.parametrize(
+    "count, expected, termination",
+    ((2500, 2036, "target_reached"), (1600, 1600, "candidates_exhausted")),
+)
+async def test_ranking_reaches_coverage_before_bounded_extension(
+    tmp_path, count, expected, termination
+):
+    process = FakeProcess()
+
+    async def request(url, timeout):
+        if url.endswith("/version"):
+            return {"version": "test"}
+        proxy = unquote(urlsplit(url).path.split("/")[2])
+        if not proxy.startswith("CONTROL / ") and int(proxy.removeprefix("node-")) % 3:
+            raise RuntimeError("candidate failed")
+        return {"delay": 20}
+
+    session = MihomoProbeSession(
+        tmp_path / "mihomo.exe",
+        delay_probe=MihomoDelayProbe(request_json=request),
+        process_factory=lambda *args, **kwargs: process,
+        validate_config=lambda *args: None,
+    )
+    receipt = await session.probe_capabilities(
+        plan(*(node(index, f"node-{index}") for index in range(count))),
+        TARGETS,
+        CapabilityPolicy(rank_latency=True),
+    )
+    assert receipt.planned == count
+    assert receipt.attempted == expected
+    assert len(receipt.accepted_fingerprints) == 500
+    assert receipt.termination == termination
+    assert process.returncode == 0
+
+
+@pytest.mark.parametrize("ranking", (False, True))
+async def test_invalid_controls_stop_candidates_and_preserve_diagnosis(
+    tmp_path, ranking
+):
     executable = tmp_path / "mihomo.exe"
     executable.write_bytes(b"fake")
     candidate_called = False
@@ -227,7 +303,7 @@ async def test_invalid_controls_stop_candidates_and_preserve_diagnosis(tmp_path)
     )
 
     receipt = await session.probe_capabilities(
-        plan(node(1, "one")), TARGETS, CapabilityPolicy()
+        plan(node(1, "one")), TARGETS, CapabilityPolicy(rank_latency=ranking)
     )
 
     assert receipt.status == "inconclusive"
@@ -235,7 +311,8 @@ async def test_invalid_controls_stop_candidates_and_preserve_diagnosis(tmp_path)
     assert candidate_called is False and process.returncode == 0
 
 
-async def test_deadline_and_cancellation_reap_process_and_workers(tmp_path):
+@pytest.mark.parametrize("ranking", (False, True))
+async def test_deadline_and_cancellation_reap_process_and_workers(tmp_path, ranking):
     executable = tmp_path / "mihomo.exe"
     executable.write_bytes(b"fake")
 
@@ -271,7 +348,7 @@ async def test_deadline_and_cancellation_reap_process_and_workers(tmp_path):
                     else (node(1, "one"),)
                 ),
                 TARGETS,
-                CapabilityPolicy(),
+                CapabilityPolicy(rank_latency=ranking),
             )
         )
         await started.wait()
@@ -391,3 +468,82 @@ async def test_real_process_proves_capability_and_releases_local_resources(
     assert result.status == "complete", result.model_dump()
     assert result.accepted_fingerprints == (node.fingerprint,), result.model_dump()
     assert result.decisions[0].status == "capable"
+
+
+async def test_real_mihomo_latency_ranking_selects_faster_loopback_proxy(
+    real_mihomo_path,
+):
+    async def respond(reader, writer, *, delay):
+        try:
+            header = await reader.readuntil(b"\r\n\r\n")
+            if header.startswith(b"CONNECT "):
+                writer.write(b"HTTP/1.1 200 Connection established\r\n\r\n")
+                await writer.drain()
+                await reader.readuntil(b"\r\n\r\n")
+            await asyncio.sleep(delay)
+            writer.write(
+                b"HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: close\r\n\r\nOK"
+            )
+            await writer.drain()
+        finally:
+            writer.close()
+            await writer.wait_closed()
+
+    servers = []
+    try:
+        for delay in (0.01, 0.2, 0.01):
+            servers.append(
+                await asyncio.start_server(
+                    partial(respond, delay=delay),
+                    "0.0.0.0" if not servers else "127.0.0.1",
+                    0,
+                )
+            )
+        target_port = servers[0].sockets[0].getsockname()[1]
+        targets = tuple(
+            CapabilityTarget(
+                id=f"target-{index}",
+                url=f"http://127.0.0.{index}:{target_port}/",
+                expected_status=200,
+            )
+            for index in range(1, 4)
+        )
+        nodes = tuple(
+            node(index, f"node-{index}").model_copy(
+                update={
+                    "proxy": admit_proxy(
+                        {
+                            "name": f"node-{index}",
+                            "type": "http",
+                            "server": "127.0.0.1",
+                            "port": server.sockets[0].getsockname()[1],
+                        }
+                    ),
+                }
+            )
+            for index, server in enumerate(servers[1:], start=1)
+        )
+        policy = CapabilityPolicy(max_published=1, rank_latency=True)
+        started = perf_counter()
+        measured = await MihomoProbeSession(real_mihomo_path).probe_capabilities(
+            plan(*nodes), targets, policy
+        )
+        selected, report = rank_measured_capable(
+            AdmittedCatalog(nodes=nodes),
+            measured,
+            policy,
+            elapsed_seconds=perf_counter() - started,
+        )
+    finally:
+        for server in servers:
+            server.close()
+            await server.wait_closed()
+
+    assert measured.status == "complete"
+    assert measured.planned == measured.attempted == 2
+    assert measured.accepted_fingerprints == (nodes[0].fingerprint,), (
+        measured.model_dump()
+    )
+    assert selected.accepted_fingerprints == (nodes[1].fingerprint,)
+    assert report.ranking_pool_complete is True
+    assert report.selected_median_delay_ms < report.baseline_median_delay_ms

@@ -18,6 +18,10 @@ Use the direct URL first. jsDelivr is a fallback and may temporarily serve an ol
 
 The standalone Clash profile embeds the accepted nodes and needs only one download. The provider profile is smaller, keeps sources separate, and refreshes nested provider files independently; those extra requests make it more sensitive to origin or CDN availability.
 
+Publication runs are scheduled by GitHub Actions every four hours. This publication cadence is independent from client-side profile refresh: standalone profiles currently use a 600-second lazy `url-test`, while provider profiles refresh their nested files every 3600 seconds. A failed run preserves the last accepted snapshot; snapshots older than 12 hours are reported stale and older than 24 hours are reported expired.
+
+The publication receipt also retains up to three completed, bounded runner-side quality generations. Previously capable nodes are preferred during bounded probing, while two consecutive completed failures quarantine a node. Inconclusive or failed publication runs do not replace that history, and the history is evidence for deterministic selection—not a claim of end-user uptime.
+
 Node remarks use `region hint · protocol · source · identity`, for example
 `US · VLESS · wzmwayne · A1B2C3D4`. Region hints come only from explicit source
 labels and are not verified exit locations. Clash and URI/VMess subscriptions use
@@ -69,10 +73,16 @@ uv run --locked ruff check .
 uv run --locked ty check
 uv run --locked pytest -q
 uv run --locked --extra youtube python main.py --validate-profiles .private/profile-validation
+uv run --locked --extra youtube python main.py --validate-profiles .private/latency-pilot --rank-latency
+uv run --locked --extra youtube python -m freenodes.latency_pilot
 uv run --locked python main.py --verify-public
 ```
 
 The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-backed sources. Google Drive discovery uses the core HTTP dependency. The normal `uv run --locked --extra youtube python main.py` command performs deterministic discovery, admission, capability measurement, consumer validation, and local publication. Supplying a source name performs discovery and typed-admission diagnostics only; it does not change public files. `--verify-public` reads the published direct and CDN URLs, checks receipt digests, counts, schemas, and generation, and asks pinned Mihomo to consume both Clash forms without changing repository files.
+
+`--rank-latency` is a private validation pilot, not a publication option. It first probes until the normal capable-node limit is reached at a completed block, then tests at most one publication limit of additional candidates (currently 500). The existing 4000-candidate ceiling and 300-second probe budget remain unchanged. A completed extension selects up to 500 capable nodes using historical success and median successful-target delay within source/protocol round-robin, but only if coverage and source/protocol presence are preserved and median latency strictly improves. Otherwise, or on a deadline, it retains the exact first-capable selection; inconclusive controls reject the run. The private receipt records the shared observations, selection/fallback reason, elapsed measurement time, medians and source/protocol counts as `[before, after]`. Checks still stop once a node passes the unchanged 2-of-3 quorum, so delay samples can cover different targets; these runner-relative timings are not throughput or universal service-access guarantees. Live evidence must support rollout before enabling ranked publication.
+
+`python -m freenodes.latency_pilot` requires authenticated `gh` access and compares first-capable and ranked selections from one measurement of active GitHub sources; it does not activate reserves or publish subscriptions. Both reported durations and attempt counts describe that shared measurement, not an early-stop speed comparison. It consumer-validates both private bundles, checks coverage, latency, source/protocol presence and direct/CDN freshness, then writes only a redacted report to `.cache/latency-comparison/report.json` (which must not already exist). Degraded CDN observations identify the fetch/artifact/consumer boundary and error type without exposing profiles or raw exceptions. The runner uploads only that report. A failed gate exits nonzero; a single runner comparison is not a general performance guarantee.
 
 Pushes and pull requests run the same locked formatting, lint, type, and test sequence used before scheduled publication. Publication preparation has no repository write permission; a separate job admits only receipt-owned paths and commits them, then a read-only job observes the public URLs. Failed checks, empty deterministic admission, consumer validation, receipt admission, commit, or direct remote observation stop that run. CDN lag or temporary CDN failure is reported without invalidating a current direct publication.
 

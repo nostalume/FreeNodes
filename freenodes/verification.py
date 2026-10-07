@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import base64
-import binascii
 import hashlib
 import tempfile
 from collections.abc import Awaitable, Callable
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlsplit
@@ -32,6 +32,38 @@ class PublicVerificationError(RuntimeError):
 FetchBytes = Callable[[str], Awaitable[bytes]]
 ContentCheck = Callable[[bytes], None]
 ProviderCheck = Callable[[bytes], ProviderLoadReceipt]
+PublicEntryStage = Literal["fetch", "artifact", "standalone", "provider", "internal"]
+PublicEntryName = Literal["encoded", "plain", "standalone", "provider", "receipt"]
+
+
+class PublicEntryDiagnostic(FrozenModel):
+    stage: PublicEntryStage
+    entry: PublicEntryName | None = None
+    error_type: str
+    http_status: int | None = None
+
+
+class PublicChannelError(RuntimeError):
+    def __init__(self, diagnostic: PublicEntryDiagnostic):
+        self.diagnostic = diagnostic
+        super().__init__(f"public {diagnostic.stage} validation failed")
+
+
+@contextmanager
+def _entry_boundary(stage: PublicEntryStage, entry: PublicEntryName | None = None):
+    try:
+        yield
+    except Exception as error:
+        raise PublicChannelError(
+            PublicEntryDiagnostic(
+                stage=stage,
+                entry=entry,
+                error_type=type(error).__name__,
+                http_status=error.response.status_code
+                if isinstance(error, httpx.HTTPStatusError)
+                else None,
+            )
+        ) from error
 
 
 class PublicVerificationReceipt(FrozenModel):
@@ -39,6 +71,7 @@ class PublicVerificationReceipt(FrozenModel):
     cdn: Literal["current", "lagging", "degraded"]
     direct_generation: str
     cdn_generation: str | None
+    cdn_diagnostic: PublicEntryDiagnostic | None = None
 
     @model_validator(mode="after")
     def validate_generations(self) -> PublicVerificationReceipt:
@@ -47,6 +80,8 @@ class PublicVerificationReceipt(FrozenModel):
             if self.cdn_generation is not None:
                 raise ValueError("degraded CDN cannot claim a generation")
             return self
+        if self.cdn_diagnostic is not None:
+            raise ValueError("verified CDN cannot carry a failure diagnostic")
         if self.cdn_generation is None:
             raise ValueError("verified CDN requires a generation")
         TypeAdapter(AwareDatetime).validate_python(self.cdn_generation)
@@ -76,68 +111,96 @@ class PublicEntryVerifier:
             raise PublicVerificationError(
                 "direct public entries failed verification"
             ) from error
+        diagnostic = None
         try:
             cdn_generation = await self._verify_channel(cdn=True)
             cdn_status = "current" if cdn_generation == direct_generation else "lagging"
-        except Exception:
+        except Exception as error:
             cdn_generation = None
             cdn_status = "degraded"
+            diagnostic = (
+                error.diagnostic
+                if isinstance(error, PublicChannelError)
+                else PublicEntryDiagnostic(
+                    stage="internal", error_type=type(error).__name__
+                )
+            )
         return PublicVerificationReceipt(
             direct="current",
             cdn=cdn_status,
             direct_generation=direct_generation,
             cdn_generation=cdn_generation,
+            cdn_diagnostic=diagnostic,
         )
 
     async def _verify_channel(self, *, cdn: bool) -> str:
-        urls = {
+        urls: dict[PublicEntryName, str] = {
             "encoded": self.registry.v2ray.for_channel(cdn=cdn),
             "plain": self.registry.plain.for_channel(cdn=cdn),
             "standalone": self.registry.clash.for_channel(cdn=cdn),
             "provider": self.registry.provider.for_channel(cdn=cdn),
             "receipt": self.registry.receipt.for_channel(cdn=cdn),
         }
-        bodies = await asyncio.gather(*(self.fetch(url) for url in urls.values()))
-        content = dict(zip(urls, bodies, strict=True))
-        if any(not body for body in content.values()):
-            raise ValueError("empty public entry")
-        try:
-            decoded = base64.b64decode(content["encoded"], validate=True)
-        except (binascii.Error, ValueError) as error:
-            raise ValueError("invalid V2Ray base64") from error
-        if decoded != content["plain"] or not decoded.strip():
-            raise ValueError("V2Ray base64 and plain URI entries differ")
 
-        standalone = StandaloneProfile.model_validate(
-            yaml.safe_load(content["standalone"])
+        async def fetch_entry(name: PublicEntryName, url: str) -> bytes:
+            with _entry_boundary("fetch", name):
+                return await self.fetch(url)
+
+        bodies = await asyncio.gather(
+            *(fetch_entry(name, url) for name, url in urls.items()),
+            return_exceptions=True,
         )
-        provider = ProviderProfile.model_validate(yaml.safe_load(content["provider"]))
-        if not provider.proxy_providers:
-            raise ValueError("provider Clash profile has no providers")
-        expected_host = "cdn.jsdelivr.net" if cdn else "raw.githubusercontent.com"
-        nested_hosts = {
-            urlsplit(item.url).hostname for item in provider.proxy_providers.values()
-        }
-        if nested_hosts != {expected_host}:
-            raise ValueError("provider profile mixes publication channels")
+        content: dict[PublicEntryName, bytes] = {}
+        for name, body in zip(urls, bodies, strict=True):
+            if isinstance(body, BaseException):
+                raise body
+            content[name] = body
+        with _entry_boundary("artifact"):
+            if any(not body for body in content.values()):
+                raise ValueError("empty public entry")
+            decoded = base64.b64decode(content["encoded"], validate=True)
+            if decoded != content["plain"] or not decoded.strip():
+                raise ValueError("V2Ray base64 and plain URI entries differ")
 
-        manifest = admit_publication_manifest_json(content["receipt"])
-        profile_paths = {
-            "encoded": "nodes/v2ray.txt",
-            "plain": "nodes/merged.txt",
-            "standalone": "nodes/merged.yaml",
-            "provider": ("nodes/provider-cdn.yaml" if cdn else "nodes/provider.yaml"),
-        }
-        for name, path in profile_paths.items():
-            if hashlib.sha256(content[name]).hexdigest() != manifest.files.get(path):
-                raise ValueError(f"public digest mismatch: {path}")
-        if len(decoded.splitlines()) != manifest.counts.uri:
-            raise ValueError("published URI count disagrees with receipt")
-        if len(standalone.proxies) != manifest.counts.clash:
-            raise ValueError("published Clash count disagrees with receipt")
+            standalone = StandaloneProfile.model_validate(
+                yaml.safe_load(content["standalone"])
+            )
+            provider = ProviderProfile.model_validate(
+                yaml.safe_load(content["provider"])
+            )
+            if not provider.proxy_providers:
+                raise ValueError("provider Clash profile has no providers")
+            expected_host = "cdn.jsdelivr.net" if cdn else "raw.githubusercontent.com"
+            nested_hosts = {
+                urlsplit(item.url).hostname
+                for item in provider.proxy_providers.values()
+            }
+            if nested_hosts != {expected_host}:
+                raise ValueError("provider profile mixes publication channels")
 
-        self.validate_standalone(content["standalone"])
-        ProviderLoadReceipt.model_validate(self.smoke_provider(content["provider"]))
+            manifest = admit_publication_manifest_json(content["receipt"])
+            profile_paths: dict[PublicEntryName, str] = {
+                "encoded": "nodes/v2ray.txt",
+                "plain": "nodes/merged.txt",
+                "standalone": "nodes/merged.yaml",
+                "provider": (
+                    "nodes/provider-cdn.yaml" if cdn else "nodes/provider.yaml"
+                ),
+            }
+            for name, path in profile_paths.items():
+                if hashlib.sha256(content[name]).hexdigest() != manifest.files.get(
+                    path
+                ):
+                    raise ValueError(f"public digest mismatch: {path}")
+            if len(decoded.splitlines()) != manifest.counts.uri:
+                raise ValueError("published URI count disagrees with receipt")
+            if len(standalone.proxies) != manifest.counts.clash:
+                raise ValueError("published Clash count disagrees with receipt")
+
+        with _entry_boundary("standalone", "standalone"):
+            self.validate_standalone(content["standalone"])
+        with _entry_boundary("provider", "provider"):
+            ProviderLoadReceipt.model_validate(self.smoke_provider(content["provider"]))
         return manifest.created_at
 
 

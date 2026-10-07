@@ -125,6 +125,14 @@ def test_provider_profiles_use_http_sources_and_never_yaml_aliases():
     assert direct_provider["url"] == registry.site_provider("yaml-source", cdn=False)
     assert cdn_provider["url"] == registry.site_provider("yaml-source", cdn=True)
     assert direct_provider["path"] == "./proxy_providers/yaml-source.yaml"
+    assert all(
+        provider["interval"] == 3600 for provider in direct["proxy-providers"].values()
+    )
+    assert all(
+        provider["interval"] == 3600 for provider in cdn["proxy-providers"].values()
+    )
+    assert direct["proxy-groups"][0]["interval"] == 600
+    assert direct["proxy-groups"][0]["lazy"] is True
     assert b"&id" not in direct_bytes + cdn_bytes
     assert b"*id" not in direct_bytes + cdn_bytes
 
