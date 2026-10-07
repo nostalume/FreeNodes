@@ -6,6 +6,13 @@ proxies:
   udp: true
   username: Og
   password: Og
+- name: SG · SS · clashstair · B879DB61
+  type: ss
+  server: gw.lydwan.com
+  port: 35601
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  password: 4c8fced0-8987-4504-b8cf-15aca9cbb82e
 - name: UZ · VLESS · clashstair · 0B0B31CF
   type: vless
   server: 193.202.113.5
@@ -22,6 +29,16 @@ proxies:
   client-fingerprint: firefox
   network: tcp
   udp: true
+- name: ZZ · VMESS · clashstair · D57E2D17
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /arki
 - name: DE · VLESS · clashstair · BD54F8A5
   type: vless
   server: 2.27.69.157
@@ -38,38 +55,21 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: DE · VLESS · clashstair · 44A7FF36
-  type: vless
-  server: 31.77.109.35
-  port: 443
-  reality-opts:
-    public-key: SPyieysl8w1lo950icthB72kn_ElyJXkpCdKqmnjGEY
-    short-id: 494afdc75f8c2fa8
-  uuid: 87fd990d-ca93-440a-bbd4-e8281c4a0910
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: d3-de1.cloud-cdn.xyz
-  client-fingerprint: firefox
-  network: tcp
+- name: ZZ · VMESS · clashstair · 27540037
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
   udp: true
-- name: NL · VLESS · clashstair · C0F74EEC
-  type: vless
-  server: 157.228.150.34
-  port: 443
-  reality-opts:
-    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
-    short-id: 3cef317b
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
+  tls: false
   skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: randomized
-  network: tcp
-  udp: true
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
 - name: RU · VLESS · clashstair · FA458F1D
   type: vless
   server: 159.194.250.154
@@ -84,5 +84,45 @@ proxies:
   skip-cert-verify: false
   servername: api-maps.yandex.ru
   client-fingerprint: firefox
+  network: tcp
+  udp: true
+- name: DE · VLESS · clashstair · 921212E2
+  type: vless
+  server: 172.64.229.129
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
+  network: ws
+  ws-opts:
+    path: /rain1226
+    headers:
+      Host: eu02.123450908.xyz
+- name: DE · VLESS · clashstair · 2A10DF10
+  type: vless
+  server: 172.64.229.129
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
+  tls: false
+  tfo: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /rain1226
+    headers:
+      Host: eu02.123450908.xyz
+  udp: true
+- name: FI · VLESS · clashstair · 9E869E6A
+  type: vless
+  server: 157.228.128.59
+  port: 443
+  reality-opts:
+    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
+    short-id: 06e00e7c
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: addons.mozilla.org
+  client-fingerprint: randomized
   network: tcp
   udp: true
