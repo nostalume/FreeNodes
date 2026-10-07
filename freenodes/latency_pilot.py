@@ -112,7 +112,7 @@ def comparison_checks(
         <= ranked.source_counts.keys(),
         "protocol_coverage_preserved": baseline.protocol_counts.keys()
         <= ranked.protocol_counts.keys(),
-        "public_current": public.direct == public.cdn == "current",
+        "direct_current": public.direct == "current",
         "publication_fresh": timedelta(0) <= age <= timedelta(hours=stale_hours),
     }
 

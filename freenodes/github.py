@@ -59,8 +59,14 @@ class _GitHubCommitList(RootModel[tuple[_GitHubCommitItem, ...]]):
 class GitHubCommitClient:
     """Read one path-specific commit from GitHub's public REST boundary."""
 
-    def __init__(self, transport: httpx.AsyncBaseTransport | None = None):
+    def __init__(
+        self,
+        transport: httpx.AsyncBaseTransport | None = None,
+        *,
+        token: str | None = None,
+    ):
         self.transport = transport
+        self._token = token
 
     async def latest(
         self,
@@ -76,7 +82,13 @@ class GitHubCommitClient:
                     "Accept": "application/vnd.github+json",
                     "User-Agent": "FreeNodes-source-audit",
                     "X-GitHub-Api-Version": "2026-03-10",
+                    **(
+                        {"Authorization": f"Bearer {self._token}"}
+                        if self._token
+                        else {}
+                    ),
                 },
+                follow_redirects=False,
             ) as client:
                 response = await client.get(
                     site.commits_api_url,

@@ -26,6 +26,7 @@ from freenodes.application import Application
 from freenodes.capability import CapabilityPolicy
 from freenodes.config import FrozenModel, load_config
 from freenodes.discovery import DiscoveryOutcome
+from freenodes.github import GitHubCommitClient, GitHubSourceClient
 from freenodes.llm import OPENROUTER_CREDENTIAL_ENV, OpenRouterFallback
 from freenodes.mihomo import MihomoValidator, acquire_pinned_mihomo
 from freenodes.probe import MihomoProbeSession
@@ -290,6 +291,7 @@ async def run(command: Command) -> int:
         return 0
     config = load_config()
 
+    github_token = os.getenv("GH_TOKEN")
     application = Application(
         config.sources,
         config.discovery,
@@ -297,6 +299,9 @@ async def run(command: Command) -> int:
         openrouter=config.openrouter,
         publication=config.publication,
         repository=config.repository,
+        github_factory=lambda web: GitHubSourceClient(
+            web, commits=GitHubCommitClient(token=github_token)
+        ),
         llm=OpenRouterFallback(
             config.openrouter,
             credential=os.getenv(OPENROUTER_CREDENTIAL_ENV),

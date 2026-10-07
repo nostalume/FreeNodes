@@ -12,7 +12,7 @@ from freenodes.discovery import DiscoverySuccess
 from freenodes.latency_pilot import ComparisonReport, compare
 from freenodes.nodes import SourceArtifact
 from freenodes.publication import PublicationError
-from freenodes.verification import PublicVerificationReceipt
+from freenodes.verification import PublicVerificationError, PublicVerificationReceipt
 from tests.support import ConsumerValidator, make_application, snapshot
 
 
@@ -26,6 +26,8 @@ from tests.support import ConsumerValidator, make_application, snapshot
         "control",
         "consumer",
         "cdn",
+        "cdn_lag",
+        "direct",
         "stale",
         "foreign",
     ),
@@ -98,12 +100,22 @@ async def test_private_runner_comparison_fails_closed_and_redacts_report(
             )
 
     async def observe():
+        if defect == "direct":
+            raise PublicVerificationError("direct public entries failed verification")
         generation = (now - timedelta(days=3) if defect == "stale" else now).isoformat()
         return PublicVerificationReceipt(
             direct="current",
-            cdn="degraded" if defect == "cdn" else "current",
+            cdn="degraded"
+            if defect == "cdn"
+            else "lagging"
+            if defect == "cdn_lag"
+            else "current",
             direct_generation=generation,
-            cdn_generation=None if defect == "cdn" else generation,
+            cdn_generation=None
+            if defect == "cdn"
+            else (now - timedelta(hours=4)).isoformat()
+            if defect == "cdn_lag"
+            else generation,
         )
 
     monkeypatch.setattr("freenodes.application.GitHubSourceClient.discover", discover)
@@ -122,7 +134,11 @@ async def test_private_runner_comparison_fails_closed_and_redacts_report(
         observe_public=observe,
     )
 
-    assert report.status == ("passed" if defect is None else "failed")
+    nonblocking = (None, "cdn", "cdn_lag")
+    assert report.status == ("passed" if defect in nonblocking else "failed")
+    if defect in ("cdn", "cdn_lag"):
+        assert report.public.cdn == ("degraded" if defect == "cdn" else "lagging")
+        assert report.checks["direct_current"] is True
     assert report.checks["public_snapshot_unchanged"] is True
     for name, content in before.items():
         assert (tmp_path / name).read_bytes() == content
@@ -134,13 +150,13 @@ async def test_private_runner_comparison_fails_closed_and_redacts_report(
         "coverage": "coverage_target_met",
         "latency": "latency_improved",
         "deadline": "rank_pool_complete",
-        "cdn": "public_current",
         "stale": "publication_fresh",
         "control": "execution_complete",
         "consumer": "execution_complete",
         "foreign": "execution_complete",
+        "direct": "execution_complete",
     }
-    if defect is not None:
+    if defect not in nonblocking:
         assert report.checks[failed_check[defect]] is False
     if defect not in ("control", "consumer", "foreign"):
         assert calls == [(6, True)]

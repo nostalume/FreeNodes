@@ -7,7 +7,7 @@ Live node choice still runs in Clash Verge from the user's network.
 
 ## Simple import URLs
 
-Use the direct URL first. jsDelivr is a fallback and may temporarily serve an older generation.
+Use the direct URL first. jsDelivr is a best-effort fallback: independently cached files may be older or belong to different generations. Prefer the direct standalone profile; CDN freshness or consistency is not guaranteed.
 
 | Client / format | Direct URL | CDN fallback |
 | --- | --- | --- |
@@ -49,6 +49,7 @@ configured sources
 ```
 
 Discovery uses OpenRouter’s `openrouter/free` route only when `OPENROUTER_API_KEY` is present. It is bounded to 30 requests per run and 3 per source. Missing credentials, rate limits, zero eligible results, inconclusive target controls, and consumer rejection do not replace the previous accepted snapshot.
+GitHub commit metadata uses optional `GH_TOKEN`, supplied by the publishing job's read-only GitHub token. It is sent only to `api.github.com`, not to raw artifact downloads or other adapters. Without it, local discovery remains unauthenticated and can hit shared-IP rate limits; authenticated failures do not trigger an anonymous retry.
 One source failure does not discard productive peers. Normal publication requires
 runner-relative capability evidence; `python main.py --audit-sources` performs the
 same bounded measurement without publishing.
@@ -82,7 +83,7 @@ The `youtube` extra installs `yt-dlp`, which is required by configured YouTube-b
 
 `--rank-latency` is a private validation pilot, not a publication option. It first probes until the normal capable-node limit is reached at a completed block, then tests at most one publication limit of additional candidates (currently 500). The existing 4000-candidate ceiling and 300-second probe budget remain unchanged. A completed extension selects up to 500 capable nodes using historical success and median successful-target delay within source/protocol round-robin, but only if coverage and source/protocol presence are preserved and median latency strictly improves. Otherwise, or on a deadline, it retains the exact first-capable selection; inconclusive controls reject the run. The private receipt records the shared observations, selection/fallback reason, elapsed measurement time, medians and source/protocol counts as `[before, after]`. Checks still stop once a node passes the unchanged 2-of-3 quorum, so delay samples can cover different targets; these runner-relative timings are not throughput or universal service-access guarantees. Live evidence must support rollout before enabling ranked publication.
 
-`python -m freenodes.latency_pilot` requires authenticated `gh` access and compares first-capable and ranked selections from one measurement of active GitHub sources; it does not activate reserves or publish subscriptions. Both reported durations and attempt counts describe that shared measurement, not an early-stop speed comparison. It consumer-validates both private bundles, checks coverage, latency, source/protocol presence and direct/CDN freshness, then writes only a redacted report to `.cache/latency-comparison/report.json` (which must not already exist). Degraded CDN observations identify the fetch/artifact/consumer boundary and error type without exposing profiles or raw exceptions. The runner uploads only that report. A failed gate exits nonzero; a single runner comparison is not a general performance guarantee.
+`python -m freenodes.latency_pilot` requires authenticated `gh` access and compares first-capable and ranked selections from one measurement of active GitHub sources; it does not activate reserves or publish subscriptions. Both reported durations and attempt counts describe that shared measurement, not an early-stop speed comparison. It consumer-validates both private bundles and requires coverage, latency, source/protocol presence and fresh verified direct entries, then writes only a redacted report to `.cache/latency-comparison/report.json` (which must not already exist). CDN lag or failure remains visible but does not block a valid direct-primary comparison. Degraded CDN observations identify the fetch/artifact/consumer boundary and error type without exposing profiles or raw exceptions. The runner uploads only that report. A failed required gate exits nonzero; a single runner comparison is not a general performance guarantee.
 
 Pushes and pull requests run the same locked formatting, lint, type, and test sequence used before scheduled publication. Publication preparation has no repository write permission; a separate job admits only receipt-owned paths and commits them, then a read-only job observes the public URLs. Failed checks, empty deterministic admission, consumer validation, receipt admission, commit, or direct remote observation stop that run. CDN lag or temporary CDN failure is reported without invalidating a current direct publication.
 

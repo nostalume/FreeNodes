@@ -194,3 +194,84 @@ async def test_commit_request_cancellation_propagates():
 
     with pytest.raises(asyncio.CancelledError):
         await client.discover(site())
+
+
+@pytest.mark.parametrize("token", (None, "", "metadata-secret"))
+async def test_token_is_optional_and_metadata_only(token):
+    requests = []
+
+    def metadata(request):
+        requests.append(request)
+        assert request.method == "GET" and request.url.host == "api.github.com"
+        assert request.headers.get("authorization") == (
+            f"Bearer {token}" if token else None
+        )
+        return commit_response(request)
+
+    web = StubWeb()
+    client = GitHubSourceClient(
+        web,
+        commits=GitHubCommitClient(httpx.MockTransport(metadata), token=token),
+        clock=lambda: NOW,
+    )
+    outcome = await client.discover(site())
+    assert outcome.kind == "success"
+    assert len(requests) == 1
+    assert web.request == (site().raw_url_at(SHA), 4 * 1024 * 1024)
+    assert "metadata-secret" not in outcome.model_dump_json()
+
+
+@pytest.mark.parametrize("status", (401, 403, 429, 302))
+async def test_auth_failure_or_redirect_never_retries_or_leaks_token(status):
+    calls = []
+
+    def metadata(request):
+        calls.append(request.url.host)
+        return httpx.Response(
+            status,
+            text="metadata-secret",
+            headers={"Location": "https://foreign.example/steal"},
+        )
+
+    web = StubWeb()
+    client = GitHubSourceClient(
+        web,
+        commits=GitHubCommitClient(
+            httpx.MockTransport(metadata), token="metadata-secret"
+        ),
+        clock=lambda: NOW,
+    )
+    outcome = await client.discover(site())
+    assert outcome.kind == "failure"
+    assert calls == ["api.github.com"]
+    assert web.request is None
+    assert "metadata-secret" not in outcome.model_dump_json()
+
+
+async def test_cli_injects_environment_token_into_metadata_adapter(monkeypatch, capsys):
+    import main as cli
+    from freenodes.config import AppConfig
+
+    monkeypatch.setenv("GH_TOKEN", "metadata-secret")
+    monkeypatch.setattr(cli, "load_config", lambda: AppConfig(sources=(site(),)))
+    client_type = GitHubCommitClient
+
+    def client(*, token):
+        def metadata(request):
+            assert request.headers["authorization"] == "Bearer metadata-secret"
+            return commit_response(request)
+
+        return client_type(httpx.MockTransport(metadata), token=token)
+
+    async def discover(application, *, target):
+        assert target == "candidate"
+        return [
+            await application.github_factory(StubWeb()).discover(
+                site(), observed_at=NOW
+            )
+        ]
+
+    monkeypatch.setattr(cli, "GitHubCommitClient", client)
+    monkeypatch.setattr(cli.Application, "run", discover)
+    assert await cli.run(cli.parse_args(["candidate"])) == 0
+    assert "metadata-secret" not in capsys.readouterr().out

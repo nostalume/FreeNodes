@@ -38,6 +38,7 @@ jobs:
 
       - name: Prepare verified profiles
         env:
+          GH_TOKEN: ${{ github.token }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: uv run --locked --extra youtube python main.py
 
