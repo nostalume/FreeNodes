@@ -1,72 +1,108 @@
 proxies:
-- name: NL · HTTP · kooker · 97F8B333
-  type: http
-  server: 84.17.47.146
-  port: 9002
-  skip-cert-verify: true
+- name: US · SS · kooker · 0E02C311
+  type: ss
+  server: 34.228.79.192
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: DE · VLESS · kooker · 9AC706B7
+  type: vless
+  server: 91.107.249.185
+  port: 6065
+  uuid: 9804f109-f750-4dec-9c3a-091982320501
+  encryption: mlkem768x25519plus.native.0rtt.bq1M9Mo7StSetydCuYnVBzGMeKNBRamRZfzcZEiulEY
+  http-opts:
+    headers:
+      Host:
+      - testspeed-foreign.tci.ir
+    path:
+    - /@TurboConfigs---@TurboConfigs---@TurboConfigs--@TurboConfigs---@TurboConfigs---@TurboConfigs---@TurboConfigs---@TurboConfigs---@TurboConfigs--@TurboConfigs---@TurboConfigs---@TurboConfigs---@TurboConfigs---@TurboConfigs---@TurboConfigs--@TurboConfigs---@TurboConfigs---@TurboConfigs---
+  network: http
+  udp: true
+  xudp: true
+- name: US · SS · kooker · F80B006C
+  type: ss
+  server: 54.221.120.243
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: DE · VLESS · kooker · 81ED12EC
+  type: vless
+  server: cgdk.rtfa.electrocitymarket.ru
+  port: 443
+  uuid: d2519b5e-495e-462e-9703-bbf68011d2f3
+  alpn:
+  - h2
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  network: xhttp
   tls: true
   udp: true
-- name: NL · HTTP · kooker · E3E25B81
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
+  xhttp-opts:
+    mode: stream-up
+  xudp: true
+  servername: cgdk.rtfa.electrocitymarket.ru
+- name: DE · SS · kooker · 84AADD21
+  type: ss
+  server: 18.196.88.40
+  port: 443
+  cipher: aes-256-cfb
+  udp: true
+  password: amazonskr05
+- name: FI · VLESS · kooker · F16BA5DF
+  type: vless
+  server: 146.75.119.82
+  port: 80
+  uuid: 1af4d6fe-f1fa-4cbb-af8d-d8ab46de13ed
+  encryption: none
+  network: ws
+  udp: true
+  ws-opts:
+    headers:
+      Host: rb24.ir
+      User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44
+        Safari/534.7
+    path: /ws/?ed=2048/@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1@VPNine1/?2048
+  xudp: true
+- name: FI · VLESS · kooker · D995EF53
+  type: vless
+  server: psf-3.weedly.top
+  port: 80
+  uuid: b0fae3b7-02de-4002-b8ca-b7159fe33841
+  encryption: none
+  network: ws
+  udp: true
+  ws-opts:
+    headers:
+      Host: machinemag.ir
+      User-Agent: Mozilla/5.0 (X11; Datanyze; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36
+    path: /
+  xudp: true
+- name: FI · VLESS · kooker · 2822DAF5
+  type: vless
+  server: 89.125.37.43
+  port: 443
+  reality-opts:
+    public-key: NoLIbCssob6T9HvprXBoNoYsZyDN650OViyAMePwp1c
+    short-id: 54cd1667f48828f9
+  uuid: 59acafe8-34a8-45a9-a91f-2f9512430850
+  client-fingerprint: safari
+  encryption: none
+  network: xhttp
   tls: true
   udp: true
-- name: NL · HTTP · kooker · DFA82CB5
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
+  xhttp-opts:
+    mode: auto
+    path: /api
+  xudp: true
+  servername: addons.mozilla.org
+- name: FR · SS · au1rxx-clash · 3EDE3A5E
+  type: ss
+  server: 13.36.241.80
+  port: 443
+  cipher: aes-256-cfb
   udp: true
-- name: NL · HTTP · kooker · E5953371
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · 6415793A
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: NL · HTTP · kooker · FA6562D1
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: RO · HTTP · kooker · 93748020
-  type: http
-  server: 193.176.84.35
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: RO · HTTP · kooker · E8241C3A
-  type: http
-  server: 193.176.84.30
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: RO · HTTP · kooker · 60C11C25
-  type: http
-  server: 193.176.84.17
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: RO · HTTP · kooker · 99C3404E
-  type: http
-  server: 193.176.84.33
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
+  password: amazonskr05

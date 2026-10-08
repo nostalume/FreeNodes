@@ -7,15 +7,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: NL · VLESS · cfmem · C3361DEB
+- name: NL · VLESS · cfmem · 65E1B98D
   type: vless
   server: s170.gogocs.xyz
   port: 443
   uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  network: tcp
   tls: true
   flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -32,22 +31,15 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: FR · SS · cfmem · E64DCA1A
-  type: ss
-  server: 13.36.178.160
-  port: 443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: amazonskr05
-- name: NL · VLESS · cfmem · 65E1B98D
+- name: NL · VLESS · cfmem · C3361DEB
   type: vless
   server: s170.gogocs.xyz
   port: 443
   uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  network: tcp
   tls: true
   flow: xtls-rprx-vision
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -76,16 +68,14 @@ proxies:
       Host: asia.csmaster.site
   skip-cert-verify: true
   udp: true
-- name: HK→GB · VMESS · cfmem · 8DAEC115
+- name: HK→JP · VMESS · cfmem · AFF27A81
   type: vmess
-  server: v36.hdacd.com
-  port: 30836
+  server: v6.hdacd.com
+  port: 30806
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
+  network: tcp
 - name: SG · VLESS · cfmem · 96109A86
   type: vless
   server: asia.csmaster.site
@@ -99,105 +89,29 @@ proxies:
       Host: asia.csmaster.site
   skip-cert-verify: true
   udp: true
-- name: HK→IE · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: SG · VLESS · cfmem · AB24ED26
+- name: US→DE · VLESS · cfmem · 2AFDB5BA
   type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
+  server: eu02.123450908.xyz
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
   network: ws
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: asia.csmaster.site
-- name: HK→DE · VMESS · cfmem · BF708C20
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
   tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US→JP · VLESS · cfmem · 2844BCF5
-  type: vless
-  server: jeffsubs.com
-  port: 443
-  uuid: 3d841cdf-f91e-4f3b-a315-c18edcbd2606
-  network: ws
-  servername: jeffsubs.com
-  tls: true
-  client-fingerprint: chrome
   ws-opts:
-    path: /nnuyws
+    path: /rain1226
     headers:
-      Host: jeffsubs.com
+      Host: eu02.123450908.xyz
   skip-cert-verify: true
   udp: true
-- name: HK→JP · VMESS · cfmem · AFF27A81
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · 452C67FD
+- name: US→DE · VLESS · cfmem · 76607415
   type: vless
-  server: s4ws.ragingbull.de5.net
-  port: 2083
-  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
+  server: eu02.123450908.xyz
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
   network: ws
-  servername: s4ws.ragingbull.de5.net
-  tls: true
-  client-fingerprint: chrome
   ws-opts:
-    path: /wsrb7k2m
+    path: /rain1226
     headers:
-      Host: s4ws.ragingbull.de5.net
-  skip-cert-verify: true
-  udp: true
-- name: HK→DE · VMESS · cfmem · FE3B9D81
-  type: vmess
-  server: v33.hdacd.com
-  port: 30833
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US · VLESS · cfmem · 31EA7524
-  type: vless
-  server: s4ws.ragingbull.de5.net
-  port: 2083
-  uuid: f49d04d6-aaa7-4013-b323-bc35b78230db
-  network: ws
-  tls: true
-  servername: s4ws.ragingbull.de5.net
-  client-fingerprint: chrome
-  ws-opts:
-    path: /wsrb7k2m
-    headers:
-      Host: s4ws.ragingbull.de5.net
-- name: HK→US · VMESS · cfmem · 4B8A6FCA
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
+      Host: eu02.123450908.xyz
 - name: SG · VLESS · cfmem · CB82D557
   type: vless
   server: asia.csmaster.site
@@ -211,88 +125,15 @@ proxies:
     path: /
     headers:
       Host: asia.csmaster.site
-- name: HK→US · VMESS · cfmem · 76966289
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: US→JP · VLESS · cfmem · 3A4F145F
+- name: SG · VLESS · cfmem · AB24ED26
   type: vless
-  server: jeffsubs.com
+  server: asia.csmaster.site
   port: 443
-  uuid: 3d841cdf-f91e-4f3b-a315-c18edcbd2606
+  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
   network: ws
   tls: true
-  servername: jeffsubs.com
   client-fingerprint: chrome
   ws-opts:
-    path: /nnuyws
+    path: /
     headers:
-      Host: jeffsubs.com
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→IE · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK · VMESS · cfmem · 50EF27ED
-  type: vmess
-  server: v10.hdacd.com
-  port: 30807
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK · VMESS · cfmem · A363B456
-  type: vmess
-  server: v10.hdacd.com
-  port: 30807
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
+      Host: asia.csmaster.site
