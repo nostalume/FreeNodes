@@ -1,20 +1,57 @@
 proxies:
-- name: US · SS · cfmem · 85902692
+- name: US · SS · cfmem · CB5337AA
   type: ss
-  server: 18.208.223.39
+  server: 34.228.79.192
   port: 443
   cipher: aes-256-cfb
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: NL · VLESS · cfmem · 65E1B98D
+- name: US→DE · VLESS · cfmem · 76607415
   type: vless
-  server: s170.gogocs.xyz
+  server: eu02.123450908.xyz
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
+  network: ws
+  ws-opts:
+    path: /rain1226
+    headers:
+      Host: eu02.123450908.xyz
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
   port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  network: tcp
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
   tls: true
-  flow: xtls-rprx-vision
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: FR · SS · cfmem · 99841615
+  type: ss
+  server: 13.36.241.80
+  port: 443
+  cipher: aes-256-cfb
+  skip-cert-verify: true
+  udp: true
+  password: amazonskr05
+- name: SG · VLESS · cfmem · 96109A86
+  type: vless
+  server: asia.csmaster.site
+  port: 443
+  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
+  network: ws
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    headers:
+      Host: asia.csmaster.site
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -31,29 +68,6 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: NL · VLESS · cfmem · C3361DEB
-  type: vless
-  server: s170.gogocs.xyz
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
 - name: SG · VLESS · cfmem · 6F3A18BE
   type: vless
   server: asia.csmaster.site
@@ -76,19 +90,6 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: SG · VLESS · cfmem · 96109A86
-  type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
-  network: ws
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    headers:
-      Host: asia.csmaster.site
-  skip-cert-verify: true
-  udp: true
 - name: US→DE · VLESS · cfmem · 2AFDB5BA
   type: vless
   server: eu02.123450908.xyz
@@ -102,16 +103,56 @@ proxies:
       Host: eu02.123450908.xyz
   skip-cert-verify: true
   udp: true
-- name: US→DE · VLESS · cfmem · 76607415
+- name: HK→JP · VMESS · cfmem · 4284FBBE
+  type: vmess
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: SG · VLESS · cfmem · AB24ED26
   type: vless
-  server: eu02.123450908.xyz
-  port: 2052
-  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
+  server: asia.csmaster.site
+  port: 443
+  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
   network: ws
+  tls: true
+  client-fingerprint: chrome
   ws-opts:
-    path: /rain1226
+    path: /
     headers:
-      Host: eu02.123450908.xyz
+      Host: asia.csmaster.site
+- name: US · VLESS · cfmem · 9CA591E2
+  type: vless
+  server: x.m-90.xyz
+  port: 443
+  uuid: 489f1717-d3c7-4940-ad68-bdbdbab857f4
+  network: ws
+  tls: true
+  servername: x.m-90.xyz
+  client-fingerprint: chrome
+  ws-opts:
+    path: t.me/TEAMNETGRATISCOL
+    headers:
+      Host: x.m-90.xyz
+- name: US · VLESS · cfmem · 6AD0E3ED
+  type: vless
+  server: x.m-90.xyz
+  port: 443
+  uuid: 489f1717-d3c7-4940-ad68-bdbdbab857f4
+  network: ws
+  servername: x.m-90.xyz
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: t.me/TEAMNETGRATISCOL
+    headers:
+      Host: x.m-90.xyz
+  skip-cert-verify: true
+  udp: true
 - name: SG · VLESS · cfmem · CB82D557
   type: vless
   server: asia.csmaster.site
@@ -120,18 +161,6 @@ proxies:
   network: ws
   tls: true
   servername: asia.csmaster.site
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: asia.csmaster.site
-- name: SG · VLESS · cfmem · AB24ED26
-  type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
-  network: ws
-  tls: true
   client-fingerprint: chrome
   ws-opts:
     path: /
