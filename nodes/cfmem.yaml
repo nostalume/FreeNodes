@@ -1,24 +1,31 @@
 proxies:
-- name: US · SS · cfmem · CB5337AA
+- name: US · SS · cfmem · 85902692
   type: ss
-  server: 34.228.79.192
+  server: 18.208.223.39
   port: 443
   cipher: aes-256-cfb
   skip-cert-verify: true
   udp: true
   password: amazonskr05
-- name: SG · VLESS · cfmem · 6F3A18BE
+- name: GB · TROJAN · cfmem · 6BA588AE
+  type: trojan
+  server: gb.tronsg.com
+  port: 443
+  sni: gb.tronsg.com
+  skip-cert-verify: true
+  udp: true
+  password: Trojan@82164024
+- name: US→DE · VLESS · cfmem · 2AFDB5BA
   type: vless
-  server: asia.csmaster.site
-  port: 8443
-  uuid: 799b1006-3255-4e36-8ea0-64fe24d2bfa7
+  server: eu02.123450908.xyz
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
   network: ws
-  servername: asia.csmaster.site
-  tls: true
-  client-fingerprint: chrome
+  tls: false
   ws-opts:
+    path: /rain1226
     headers:
-      Host: asia.csmaster.site
+      Host: eu02.123450908.xyz
   skip-cert-verify: true
   udp: true
 - name: US · VMESS · cfmem · 81382C3E
@@ -35,27 +42,23 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: FR · SS · cfmem · 99841615
-  type: ss
-  server: 13.36.241.80
+- name: GB · TROJAN · cfmem · 36ED7FD5
+  type: trojan
+  server: gb.tronsg.com
   port: 443
-  cipher: aes-256-cfb
-  skip-cert-verify: true
-  udp: true
-  password: amazonskr05
-- name: SG · VLESS · cfmem · 96109A86
-  type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
-  network: ws
   tls: true
-  client-fingerprint: chrome
+  servername: gb.tronsg.com
+  password: Trojan@82164024
+- name: US→DE · VLESS · cfmem · 76607415
+  type: vless
+  server: eu02.123450908.xyz
+  port: 2052
+  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
+  network: ws
   ws-opts:
+    path: /rain1226
     headers:
-      Host: asia.csmaster.site
-  skip-cert-verify: true
-  udp: true
+      Host: eu02.123450908.xyz
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -72,27 +75,39 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: US→DE · VLESS · cfmem · 2AFDB5BA
+- name: DE · VLESS · cfmem · 02D7F45F
   type: vless
-  server: eu02.123450908.xyz
-  port: 2052
-  uuid: 5744e593-1cc8-48fa-b8ca-57cd494fe35b
-  network: ws
-  tls: false
-  ws-opts:
-    path: /rain1226
-    headers:
-      Host: eu02.123450908.xyz
-  skip-cert-verify: true
-  udp: true
-- name: HK→US · VMESS · cfmem · 76966289
+  server: 13.143.172.203
+  port: 443
+  uuid: 88aefb0c-cdbf-489f-9e6b-9be5b5fd5a11
+  network: tcp
+  tls: true
+- name: CN→PH · VMESS · cfmem · 51DB2E3E
   type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  server: silversbgfgov.vip44.wogbcnmnagfwgov.com
+  port: 11244
+  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
   alterId: 2
   cipher: auto
   network: tcp
+- name: DE · VLESS · cfmem · CA00322B
+  type: vless
+  server: 13.143.172.203
+  port: 443
+  uuid: 88aefb0c-cdbf-489f-9e6b-9be5b5fd5a11
+  tls: true
+  skip-cert-verify: true
+  udp: true
+- name: CN→PH · VMESS · cfmem · 25402DED
+  type: vmess
+  server: silversbgfgov.vip44.wogbcnmnagfwgov.com
+  port: 11244
+  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VLESS · cfmem · 6AD0E3ED
   type: vless
   server: x.m-90.xyz
@@ -108,203 +123,16 @@ proxies:
       Host: x.m-90.xyz
   skip-cert-verify: true
   udp: true
-- name: HK→JP · VMESS · cfmem · AFF27A81
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: DE · VLESS · cfmem · 02D7F45F
+- name: US · VLESS · cfmem · 9CA591E2
   type: vless
-  server: 13.143.172.203
+  server: x.m-90.xyz
   port: 443
-  uuid: 88aefb0c-cdbf-489f-9e6b-9be5b5fd5a11
-  network: tcp
-  tls: true
-- name: HK→JP · VMESS · cfmem · 4284FBBE
-  type: vmess
-  server: v6.hdacd.com
-  port: 30806
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · VLESS · cfmem · 022826AF
-  type: vless
-  server: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  port: 443
-  uuid: 0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
+  uuid: 489f1717-d3c7-4940-ad68-bdbdbab857f4
   network: ws
   tls: true
-  servername: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws/0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-    headers:
-      Host: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-- name: HK→US · VMESS · cfmem · 4B8A6FCA
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · VLESS · cfmem · 76BAE33E
-  type: vless
-  server: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  port: 443
-  uuid: 0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  network: ws
-  servername: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws/0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-    headers:
-      Host: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  skip-cert-verify: true
-  udp: true
-- name: HK→IE · VMESS · cfmem · CEDC84C1
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: DE · VLESS · cfmem · CA00322B
-  type: vless
-  server: 13.143.172.203
-  port: 443
-  uuid: 88aefb0c-cdbf-489f-9e6b-9be5b5fd5a11
-  tls: true
-  skip-cert-verify: true
-  udp: true
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→FR · VMESS · cfmem · 05D691A6
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: SG · VLESS · cfmem · CB82D557
-  type: vless
-  server: asia.csmaster.site
-  port: 8443
-  uuid: 799b1006-3255-4e36-8ea0-64fe24d2bfa7
-  network: ws
-  tls: true
-  servername: asia.csmaster.site
+  servername: x.m-90.xyz
   client-fingerprint: chrome
   ws-opts:
-    path: /
+    path: t.me/TEAMNETGRATISCOL
     headers:
-      Host: asia.csmaster.site
-- name: HK→IE · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→FR · VMESS · cfmem · 4153EE35
-  type: vmess
-  server: v35.hdacd.com
-  port: 30835
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→GB · VMESS · cfmem · BA924DCE
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: SG · VLESS · cfmem · AB24ED26
-  type: vless
-  server: asia.csmaster.site
-  port: 443
-  uuid: a853e120-3570-462b-aec1-e8f3d4f92d24
-  network: ws
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: asia.csmaster.site
-- name: US · VMESS · cfmem · 7831679B
-  type: vmess
-  server: or3.sfacg.uk
-  port: 2083
-  uuid: ac251237-576f-40c8-a543-554960c958b1
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: cdn.sfacg.uk
-  ws-opts:
-    path: /or3
-    headers:
-      Host: or3.sfacg.uk
-- name: CN→PH · VMESS · cfmem · 25402DED
-  type: vmess
-  server: silversbgfgov.vip44.wogbcnmnagfwgov.com
-  port: 11244
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: CN→PH · VMESS · cfmem · 51DB2E3E
-  type: vmess
-  server: silversbgfgov.vip44.wogbcnmnagfwgov.com
-  port: 11244
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: CN→JP · VMESS · cfmem · C56EE917
-  type: vmess
-  server: silversbgfgov.vip31.wogbcnmnagfwgov.com
-  port: 11231
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: CN→JP · VMESS · cfmem · 36C6E5F9
-  type: vmess
-  server: silversbgfgov.vip31.wogbcnmnagfwgov.com
-  port: 11231
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
-  alterId: 2
-  cipher: auto
-  network: tcp
+      Host: x.m-90.xyz
