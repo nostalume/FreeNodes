@@ -1,42 +1,33 @@
 proxies:
-- name: US · HTTP · kooker · 0CE81BBC
-  type: http
-  server: 170.199.233.89
+- name: NL · VLESS · kooker · E637F78D
+  type: vless
+  server: alb1.keepverify.net
+  port: 8443
+  uuid: 595a6246-d7b0-48bc-a5f0-17068aec2e88
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: alb1.keepverify.net
+- name: NL · VLESS · kooker · 1F9308F8
+  type: vless
+  server: vodiwalkerpanel-production-3091.up.railway.app
   port: 443
-  skip-cert-verify: true
+  uuid: a34cd668-6600-1f5d-3aa8-1f428f6878bf
+  alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  network: ws
   tls: true
-- name: US · HTTP · kooker · 7BEE089C
-  type: http
-  server: 138.199.35.197
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  username: "null"
-  password: "null"
-- name: US · HTTP · kooker · 535DDB12
-  type: http
-  server: 154.26.192.123
-  port: 10988
-  tls: false
-  username: fQ67Dpe5dU
-  password: gs4BXwT6SW
-- name: ZZ · HTTP · kooker · E46BCF61
-  type: http
-  server: 149.36.50.157
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: NL · HTTP · kooker · 19482F16
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  username: "null"
-  password: "null"
-- name: ID · HTTP · kooker · 6738DC53
-  type: http
-  server: 178.248.73.58
-  port: 443
-  skip-cert-verify: true
-  tls: true
+  udp: true
+  ws-opts:
+    headers:
+      Host: vodiwalkerpanel-production-3091.up.railway.app
+      User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36
+    path: /ws/a34cd668-6600-1f5d-3aa8-1f428f6878bf
+  xudp: true
+  servername: vodiwalkerpanel-production-3091.up.railway.app
