@@ -16,57 +16,49 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-- name: ZZ · VLESS · yudou · 270A4409
-  type: vless
-  server: 31.59.210.37
+- name: ZZ · SS · yudou · 66CA6E71
+  type: ss
+  server: 95.169.3.45
+  port: 46009
+  cipher: chacha20-ietf-poly1305
+  skip-cert-verify: true
+  udp: true
+  password: '123456'
+- name: ZZ · TROJAN · yudou · 720FFE7F
+  type: trojan
+  server: www.calmlunch.com
   port: 443
-  reality-opts:
-    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
-    short-id: 6dbf4931096f9890
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+  network: ws
   tls: true
-  client-fingerprint: edge
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · ANYTLS · yudou · 98E9A899
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  sni: xjp18.2uuzhe.com
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · HYSTERIA2 · yudou · D58D8237
-  type: hysteria2
-  server: me17.msjia8844.site
-  port: 7443
-  sni: me17.msjia8844.site
-  skip-cert-verify: true
-  obfs: salamander
-  obfs-password: u3Soh9_Ui0UmcuY6vk0ug8Lq
-  udp: true
-  password: M8LP9DztTr3znqCkmf-r08CQLBLLFK1r
-- name: ZZ · VLESS · yudou · 4CBA7E41
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · yudou · 913DAE6B
   type: vless
-  server: 31.59.210.24
-  port: 2087
-  reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+  server: cf.130519.xyz
+  port: 443
+  uuid: 9784bb19-3833-43ad-83b0-27ef8fc04ef2
+  network: ws
   tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
+  servername: 20664.pages.dev
+  client-fingerprint: random
+  ws-opts:
+    path: /?ed=2048
+    headers:
+      Host: 20664.pages.dev
+- name: ZZ · VMESS · yudou · CCF626F1
+  type: vmess
+  server: cn42.vatilon.cc
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: cn42.vatilon.cc
 - name: ZZ · ANYTLS · yudou · 73FBEBA3
   type: anytls
   server: 684616s4.df6h451rh.xin
@@ -79,20 +71,143 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 9sK2mP8xQ7vL3nZ6
-- name: ZZ · VLESS · yudou · DC83B7CF
+- name: ZZ · HYSTERIA2 · yudou · 81B16BCA
+  type: hysteria2
+  server: 104.165.205.21
+  port: 9443
+  sni: onecloudstream.com
+  skip-cert-verify: true
+  udp: true
+  password: e3c3b722-1264-4cdc-a97c-b0a1bb73cd67
+- name: ZZ · SS · yudou · 93543A73
+  type: ss
+  server: 95.169.3.45
+  port: 46005
+  cipher: chacha20-ietf-poly1305
+  skip-cert-verify: true
+  udp: true
+  password: '123456'
+- name: ZZ · TROJAN · yudou · 8C0E2B25
+  type: trojan
+  server: rb1211-3.vatilon.cc
+  port: 10003
+  sni: rb1211-3.vatilon.cc
+  skip-cert-verify: true
+  udp: true
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · VLESS · yudou · 9D849912
   type: vless
-  server: 31.59.210.24
+  server: 172.67.79.160
   port: 2087
-  reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+  uuid: a4a951b9-901d-4db8-8a7d-6df82c4b5c23
+  network: ws
+  servername: cvhpyn.pages.dev
   tls: true
-  client-fingerprint: edge
-  grpc-opts:
-    grpc-service-name: astracat
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: cvhpyn.pages.dev
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 7E38BBF5
+  type: vmess
+  server: sg2.australiacaregroup.site
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: ZZ · ANYTLS · yudou · E1D934A3
+  type: anytls
+  server: 56481.df6h451rh.xin
+  port: 443
+  sni: images.ctfassets.net
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: 6725d134ee80
+- name: ZZ · SS · yudou · 0015F18A
+  type: ss
+  server: 95.169.3.45
+  port: 46010
+  cipher: chacha20-ietf-poly1305
+  skip-cert-verify: true
+  udp: true
+  password: '123456'
+- name: ZZ · TROJAN · yudou · 9FAC6DFD
+  type: trojan
+  server: xjp111-3.vatilon.cc
+  port: 10003
+  network: tcp
+  tls: true
+  servername: xjp111-3.vatilon.cc
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · VLESS · yudou · F20B923B
+  type: vless
+  server: 45.131.210.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  network: ws
+  servername: vms.lifetime05.workers.dev
+  tls: false
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime05.workers.dev
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · 98E9A899
+  type: anytls
+  server: svip.skycon808.com
+  port: 60005
+  sni: xjp18.2uuzhe.com
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 13f0acfa-38c1-4e82-a758-583aa31740df
+- name: US · VLESS · clashmeta · 71983E55
+  type: vless
+  server: 172.67.210.250
+  port: 8080
+  uuid: f85183cf-af02-4656-b1e9-3a61dced201f
+  network: ws
+  ws-opts:
+    path: /vl/uyXT65o0H9U3hDBrVjJ9E?ed=2560
+    headers:
+      Host: freeworld.aliaicode47649.workers.dev
+- name: ZZ · SS · yudou · F3BB04C5
+  type: ss
+  server: 95.169.3.45
+  port: 46007
+  cipher: chacha20-ietf-poly1305
+  skip-cert-verify: true
+  udp: true
+  password: '123456'
+- name: ZZ · TROJAN · yudou · C10E2BE2
+  type: trojan
+  server: jp123.vatilon.cc
+  port: 10003
+  network: tcp
+  tls: true
+  servername: jp123.vatilon.cc
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · VLESS · yudou · 239988E9
+  type: vless
+  server: cf.130519.xyz
+  port: 443
+  uuid: 9784bb19-3833-43ad-83b0-27ef8fc04ef2
+  network: ws
+  servername: 20664.pages.dev
+  tls: true
+  client-fingerprint: random
+  ws-opts:
+    path: /?ed=2048
+    headers:
+      Host: 20664.pages.dev
   skip-cert-verify: true
   udp: true
 - name: ZZ · ANYTLS · yudou · 71F658C9
@@ -107,234 +222,75 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 6725d134ee80
-- name: ZZ · VLESS · yudou · 036BBB8E
-  type: vless
-  server: 31.59.210.26
-  port: 2088
-  reality-opts:
-    public-key: Eq3c19Y0WGB1APWMADQB-oxCvZFSVFAQxG5L6b8EkUg
-    short-id: b1ad165f903c62fe
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
+- name: ZZ · SS · yudou · 523CFE6B
+  type: ss
+  server: 95.169.3.45
+  port: 46008
+  cipher: chacha20-ietf-poly1305
   skip-cert-verify: true
   udp: true
-- name: ZZ · ANYTLS · yudou · E1D934A3
+  password: '123456'
+- name: ZZ · TROJAN · yudou · 329122BB
+  type: trojan
+  server: xjp111-3.vatilon.cc
+  port: 10003
+  sni: xjp111-3.vatilon.cc
+  skip-cert-verify: true
+  udp: true
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: DE · VLESS · clashmeta · E6D97BFF
+  type: vless
+  server: cf.3666888.xyz
+  port: 443
+  uuid: 9784bb19-3833-43ad-83b0-27ef8fc04ef2
+  network: ws
+  tls: true
+  servername: 20664.pages.dev
+  client-fingerprint: random
+  ws-opts:
+    path: /?ed=2048
+    headers:
+      Host: 20664.pages.dev
+- name: ZZ · VLESS · yudou · 186D4D7B
+  type: vless
+  server: cf.3666888.xyz
+  port: 443
+  uuid: 9784bb19-3833-43ad-83b0-27ef8fc04ef2
+  network: ws
+  servername: 20664.pages.dev
+  tls: true
+  client-fingerprint: random
+  ws-opts:
+    path: /?ed=2048
+    headers:
+      Host: 20664.pages.dev
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · 91CBA4DD
   type: anytls
-  server: 56481.df6h451rh.xin
-  port: 443
-  sni: images.ctfassets.net
-  alpn:
-  - http/1.1
+  server: cn42.vatilon.cc
+  port: 10005
   skip-cert-verify: true
   tls: true
   udp: true
   client-fingerprint: chrome
-  password: 6725d134ee80
-- name: ZZ · VLESS · yudou · CF7187A2
-  type: vless
-  server: 31.59.210.37
-  port: 443
-  reality-opts:
-    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
-    short-id: 6dbf4931096f9890
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · SS · yudou · A726A5F7
+  type: ss
+  server: 45.129.2.107
+  port: 40126
+  cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
-- name: ZZ · ANYTLS · yudou · D83B99C7
-  type: anytls
-  server: l3hl4mwo.zf-mix.9999231.xyz
-  port: 1001
-  sni: tw01.9999231.xyz
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
-- name: ZZ · VLESS · yudou · A61A63A6
-  type: vless
-  server: 157.228.128.59
-  port: 443
-  reality-opts:
-    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
-    short-id: 06e00e7c
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  servername: addons.mozilla.org
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: randomized
+  password: a2c044fe22258a18
+- name: ZZ · TROJAN · yudou · 0FC3FC77
+  type: trojan
+  server: jp123.vatilon.cc
+  port: 10003
+  sni: jp123.vatilon.cc
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 2683C975
-  type: vless
-  server: 31.59.210.37
-  port: 443
-  reality-opts:
-    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
-    short-id: 6dbf4931096f9890
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: safari
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 25FCA76C
-  type: vless
-  server: 31.59.210.24
-  port: 2087
-  reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: safari
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 196DBD6C
-  type: vless
-  server: 62.105.220.106
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  network: tcp
-  tls: true
-  servername: u695098u7dae9c0cs220.gogocs.xyz
-  flow: xtls-rprx-vision
-- name: ZZ · VLESS · yudou · A80EC523
-  type: vless
-  server: 62.105.220.106
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  servername: u695098u7dae9c0cs220.gogocs.xyz
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · B1DDD004
-  type: vless
-  server: 31.59.210.24
-  port: 2087
-  reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: ios
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 4EEAA5D2
-  type: vless
-  server: 47.80.19.173
-  port: 2053
-  reality-opts:
-    public-key: DfFU5OG93GxB1x25Dl2BTkxKsBTFF4Su4PXYPbYvmms
-    short-id: 3c4041d3
-  uuid: 319d5ffb-57e8-4bbd-ac0c-5d55d0c253de
-  servername: gateway.icloud.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 819FFEC4
-  type: vless
-  server: 177.1.187.251
-  port: 443
-  reality-opts:
-    public-key: 0-or5ogGhYbBgsVSrSC2Fhxyp2BN97Y9pqIdg61Qd08
-    short-id: 4be4110078ebed4a
-  uuid: 318c935d-c195-41d3-99ad-9bbcfdab3386
-  servername: de2.srv.vbuste.ru
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: randomized
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 15C008E5
-  type: vless
-  server: 8.47.69.0
-  port: 2053
-  uuid: 9d672694-c146-422e-b3b5-3717a38a0fcc
-  network: ws
-  tls: true
-  servername: vless.api-music-fa.com
-  ws-opts:
-    path: /api/voip/updates/static/fr2035
-    headers:
-      Host: fr.api-music-fa.com
-- name: ZZ · VLESS · yudou · CCE2289C
-  type: vless
-  server: 8.47.69.0
-  port: 2053
-  uuid: 9d672694-c146-422e-b3b5-3717a38a0fcc
-  network: ws
-  servername: vless.api-music-fa.com
-  tls: true
-  ws-opts:
-    path: /api/voip/updates/static/fr2035
-    headers:
-      Host: fr.api-music-fa.com
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 4EDBC049
-  type: vless
-  server: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  port: 443
-  uuid: 0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  network: ws
-  tls: true
-  servername: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  ws-opts:
-    path: /ws/0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-    headers:
-      Host: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-- name: ZZ · VLESS · yudou · 3C4CF377
-  type: vless
-  server: de2.srv.vbuste.ru
-  port: 443
-  reality-opts:
-    public-key: 0-or5ogGhYbBgsVSrSC2Fhxyp2BN97Y9pqIdg61Qd08
-    short-id: 4be4110078ebed4a
-  uuid: 318c935d-c195-41d3-99ad-9bbcfdab3386
-  servername: de2.srv.vbuste.ru
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: randomized
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 1FDA120C
-  type: vless
-  server: 157.228.128.59
-  port: 443
-  reality-opts:
-    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
-    short-id: 06e00e7c
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  servername: addons.mozilla.org
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
 - name: ZZ · VLESS · yudou · 922CAFC1
   type: vless
   server: 157.228.160.166
@@ -349,6 +305,15 @@ proxies:
   client-fingerprint: randomized
   skip-cert-verify: true
   udp: true
+- name: ZZ · ANYTLS · yudou · 53E77284
+  type: anytls
+  server: rb1211-3.vatilon.cc
+  port: 10005
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
 - name: ZZ · VLESS · yudou · 3EEE0DA0
   type: vless
   server: dey.lnmarketplace.net
@@ -366,38 +331,15 @@ proxies:
     mode: stream-one
   skip-cert-verify: true
   udp: true
-- name: ZZ · VLESS · yudou · 47C52F3E
-  type: vless
-  server: 2.28.142.170
-  port: 443
-  reality-opts:
-    public-key: IqFTx4k5VQydmffvavaOHDXBtdgDxX26A6NtsVvDfhw
-    short-id: d485c3d5248d6b51
-  uuid: f774f037-6320-42e3-a97b-6d4a1f018dd5
-  encryption: mlkem768x25519plus.native.0rtt.Y0-j5e-CpehUKzhEeat1dTYevroKyHV4g9HML3ujmlQ
-  network: xhttp
-  servername: germanytest.tulnaro.ir
-  tls: true
-  client-fingerprint: chrome
-  xhttp-opts:
-    path: /
-    host: germanytest.tulnaro.ir
-    mode: auto
+- name: ZZ · ANYTLS · yudou · 37136B56
+  type: anytls
+  server: jp121.vatilon.cc
+  port: 10005
   skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 4A24D44F
-  type: vless
-  server: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  port: 443
-  uuid: 0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  network: ws
-  servername: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
   tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /ws/0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  skip-cert-verify: true
   udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
 - name: ZZ · VLESS · yudou · 6817377E
   type: vless
   server: dey.lnmarketplace.net
@@ -413,5 +355,166 @@ proxies:
     path: /kavir
     host: dey.lnmarketplace.net
     mode: stream-one
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · 274BD6AC
+  type: anytls
+  server: jp123.vatilon.cc
+  port: 10005
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · VLESS · yudou · 4EEAA5D2
+  type: vless
+  server: 47.80.19.173
+  port: 2053
+  reality-opts:
+    public-key: DfFU5OG93GxB1x25Dl2BTkxKsBTFF4Su4PXYPbYvmms
+    short-id: 3c4041d3
+  uuid: 319d5ffb-57e8-4bbd-ac0c-5d55d0c253de
+  servername: gateway.icloud.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · DD692031
+  type: anytls
+  server: us.australiacaregroup.site
+  port: 10005
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: US · VLESS · clashmeta · BFE009AB
+  type: vless
+  server: 172.67.79.160
+  port: 2087
+  uuid: a4a951b9-901d-4db8-8a7d-6df82c4b5c23
+  network: ws
+  tls: true
+  servername: cvhpyn.pages.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: cvhpyn.pages.dev
+- name: ZZ · VLESS · yudou · 0D442E7D
+  type: vless
+  server: 172.67.210.250
+  port: 8080
+  uuid: f85183cf-af02-4656-b1e9-3a61dced201f
+  network: ws
+  tls: false
+  ws-opts:
+    path: /vl/uyXT65o0H9U3hDBrVjJ9E?ed=2560
+    headers:
+      Host: freeworld.aliaicode47649.workers.dev
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · F4B432E2
+  type: anytls
+  server: nv50244o.zf-mix.9999231.xyz
+  port: 1043
+  sni: pe-wy.9999231.xyz
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
+- name: ZZ · VLESS · yudou · 1481F451
+  type: vless
+  server: xjp111-3.vatilon.cc
+  port: 10002
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  servername: xjp111-3.vatilon.cc
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · 5F7D77BD
+  type: anytls
+  server: q7mtpgxo.zf-mix.9999231.xyz
+  port: 1019
+  sni: pl-house.9999231.xyz
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
+- name: ZZ · VLESS · yudou · 2B7C6E3E
+  type: vless
+  server: 45.131.210.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  network: ws
+  servername: vms.lifetime05.workers.dev
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime05.workers.dev
+- name: ZZ · ANYTLS · yudou · A161C6C5
+  type: anytls
+  server: q7mtpgxo.zf-mix.9999231.xyz
+  port: 1019
+  sni: pl-house.9999231.xyz
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
+- name: ZZ · VLESS · yudou · 13175947
+  type: vless
+  server: xjp111-3.vatilon.cc
+  port: 10002
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  network: tcp
+  tls: true
+  servername: xjp111-3.vatilon.cc
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 19DE3A01
+  type: vless
+  server: 2.26.231.218
+  port: 2063
+  reality-opts:
+    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
+  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+  servername: rusbid.de
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · clashmeta · 4CBA7E41
+  type: vless
+  server: 31.59.210.24
+  port: 2087
+  reality-opts:
+    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
+    short-id: a11023050f134216
+  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
+  network: grpc
+  servername: www.yandex.ru
+  tls: true
+  client-fingerprint: firefox
+  grpc-opts:
+    grpc-service-name: astracat
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · clashmeta · 2683C975
+  type: vless
+  server: 31.59.210.37
+  port: 443
+  reality-opts:
+    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
+    short-id: 6dbf4931096f9890
+  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
+  network: grpc
+  servername: www.yandex.ru
+  tls: true
+  client-fingerprint: safari
+  grpc-opts:
+    grpc-service-name: astracat
   skip-cert-verify: true
   udp: true
