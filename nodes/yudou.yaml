@@ -1,13 +1,13 @@
 proxies:
-- name: ZZ · ANYTLS · yudou · 607D1B67
+- name: ZZ · ANYTLS · yudou · 91CBA4DD
   type: anytls
-  server: anytls2.864106.xyz
-  port: 19000
-  sni: anytls2.864106.xyz
+  server: cn42.vatilon.cc
+  port: 10005
   skip-cert-verify: true
   tls: true
   udp: true
-  password: github.com/Alvin9999-newpac/fanqiang
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
 - name: ZZ · HYSTERIA2 · yudou · FD3FDF5A
   type: hysteria2
   server: 77.74.123.107
@@ -16,14 +16,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z
-- name: ZZ · TROJAN · au1rxx-clash · 329122BB
-  type: trojan
-  server: xjp111-3.vatilon.cc
-  port: 10003
-  sni: xjp111-3.vatilon.cc
-  skip-cert-verify: true
-  udp: true
-  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
 - name: ZZ · TROJAN · yudou · 9FAC6DFD
   type: trojan
   server: xjp111-3.vatilon.cc
@@ -32,23 +24,76 @@ proxies:
   tls: true
   servername: xjp111-3.vatilon.cc
   password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-- name: ZZ · VLESS · yudou · 13175947
+- name: ZZ · VLESS · yudou · 3EEE0DA0
   type: vless
-  server: xjp111-3.vatilon.cc
-  port: 10002
-  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-  network: tcp
+  server: dey.lnmarketplace.net
+  port: 443
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  network: xhttp
+  servername: dey.lnmarketplace.net
   tls: true
-  servername: xjp111-3.vatilon.cc
-  client-fingerprint: chrome
-- name: ZZ · VMESS · yudou · B1548A54
+  client-fingerprint: firefox
+  alpn:
+  - h2
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · CA6D05C9
   type: vmess
-  server: us.australiacaregroup.site
+  server: jp-x2.vatilon.cc
   port: 10001
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
   alterId: 0
   cipher: auto
   network: tcp
+- name: ZZ · ANYTLS · yudou · 53E77284
+  type: anytls
+  server: rb1211-3.vatilon.cc
+  port: 10005
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · TROJAN · yudou · 720FFE7F
+  type: trojan
+  server: www.calmlunch.com
+  port: 443
+  network: ws
+  tls: true
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · yudou · 6817377E
+  type: vless
+  server: dey.lnmarketplace.net
+  port: 443
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  network: xhttp
+  servername: dey.lnmarketplace.net
+  tls: true
+  client-fingerprint: chrome
+  alpn:
+  - h2
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 5EF3946D
+  type: vmess
+  server: jp-x2.vatilon.cc
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · ANYTLS · yudou · 9AEDD84B
   type: anytls
   server: jp-x2.vatilon.cc
@@ -58,16 +103,55 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-- name: ZZ · HYSTERIA2 · yudou · D58D8237
-  type: hysteria2
-  server: me17.msjia8844.site
-  port: 7443
-  sni: me17.msjia8844.site
+- name: ZZ · TROJAN · yudou · BD79D0E5
+  type: trojan
+  server: rb1211-5.vatilon.cc
+  port: 10003
+  network: tcp
+  tls: true
+  servername: rb1211-5.vatilon.cc
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · VLESS · yudou · 24B17879
+  type: vless
+  server: 31.59.210.25
+  port: 2087
+  reality-opts:
+    public-key: KDBhxT2YMtMjDEC9VdoDEISdCwxd6KFrSE8uyUaHcTY
+    short-id: ed435c242097fd05
+  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
+  network: grpc
+  servername: www.yandex.ru
+  tls: true
+  client-fingerprint: firefox
+  grpc-opts:
+    grpc-service-name: astracat
   skip-cert-verify: true
-  obfs: salamander
-  obfs-password: u3Soh9_Ui0UmcuY6vk0ug8Lq
   udp: true
-  password: M8LP9DztTr3znqCkmf-r08CQLBLLFK1r
+- name: ZZ · VMESS · yudou · B1548A54
+  type: vmess
+  server: us.australiacaregroup.site
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: ZZ · ANYTLS · yudou · 37136B56
+  type: anytls
+  server: jp121.vatilon.cc
+  port: 10005
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · TROJAN · yudou · 10435FAB
+  type: trojan
+  server: rb1211-5.vatilon.cc
+  port: 10003
+  sni: rb1211-5.vatilon.cc
+  skip-cert-verify: true
+  udp: true
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
 - name: ZZ · VLESS · yudou · 180D8B29
   type: vless
   server: 31.59.210.37
@@ -94,39 +178,20 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: ZZ · ANYTLS · yudou · 37136B56
-  type: anytls
-  server: jp121.vatilon.cc
-  port: 10005
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-- name: ZZ · VLESS · yudou · 2683C975
+- name: RU · VLESS · clashmeta · 036BBB8E
   type: vless
-  server: 31.59.210.37
-  port: 443
+  server: 31.59.210.26
+  port: 2088
   reality-opts:
-    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
-    short-id: 6dbf4931096f9890
+    public-key: Eq3c19Y0WGB1APWMADQB-oxCvZFSVFAQxG5L6b8EkUg
+    short-id: b1ad165f903c62fe
   uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
   network: grpc
   servername: www.yandex.ru
   tls: true
-  client-fingerprint: safari
+  client-fingerprint: firefox
   grpc-opts:
     grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VMESS · yudou · A644D382
-  type: vmess
-  server: sy2.australiacaregroup.site
-  port: 10001
-  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-  alterId: 0
-  cipher: auto
-  tls: false
   skip-cert-verify: true
   udp: true
 - name: ZZ · ANYTLS · yudou · 274BD6AC
@@ -138,33 +203,31 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-- name: ZZ · VLESS · yudou · 25FCA76C
+- name: ZZ · VLESS · yudou · 1FDA120C
   type: vless
-  server: 31.59.210.24
-  port: 2087
+  server: 157.228.128.59
+  port: 443
   reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
+    short-id: 06e00e7c
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  servername: addons.mozilla.org
   tls: true
-  client-fingerprint: safari
-  grpc-opts:
-    grpc-service-name: astracat
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · B9BCCF7E
+- name: ZZ · VMESS · yudou · 24585934
   type: vmess
-  server: sy2.australiacaregroup.site
-  port: 10001
+  server: gz1.polymarket.party
+  port: 20201
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
   alterId: 0
   cipher: auto
   network: tcp
-- name: ZZ · ANYTLS · yudou · 91CBA4DD
+- name: ZZ · ANYTLS · yudou · DD692031
   type: anytls
-  server: cn42.vatilon.cc
+  server: us.australiacaregroup.site
   port: 10005
   skip-cert-verify: true
   tls: true
@@ -185,58 +248,23 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · 397F44AC
+- name: ZZ · VMESS · yudou · B9BCCF7E
   type: vmess
-  server: gz1.polymarket.party
-  port: 36011
+  server: sy2.australiacaregroup.site
+  port: 10001
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
   alterId: 0
   cipher: auto
   network: tcp
-- name: ZZ · ANYTLS · yudou · DD692031
+- name: ZZ · ANYTLS · yudou · 607D1B67
   type: anytls
-  server: us.australiacaregroup.site
-  port: 10005
+  server: anytls2.864106.xyz
+  port: 19000
+  sni: anytls2.864106.xyz
   skip-cert-verify: true
   tls: true
   udp: true
-  client-fingerprint: chrome
-  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-- name: ZZ · VLESS · yudou · 24B17879
-  type: vless
-  server: 31.59.210.25
-  port: 2087
-  reality-opts:
-    public-key: KDBhxT2YMtMjDEC9VdoDEISdCwxd6KFrSE8uyUaHcTY
-    short-id: ed435c242097fd05
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VMESS · yudou · 76506EA6
-  type: vmess
-  server: sh.polymarket.party
-  port: 20401
-  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · ANYTLS · yudou · 53E77284
-  type: anytls
-  server: rb1211-3.vatilon.cc
-  port: 10005
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  password: github.com/Alvin9999-newpac/fanqiang
 - name: ZZ · VLESS · yudou · 53623D19
   type: vless
   server: milo.rubinaz.xyz
@@ -245,14 +273,16 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · 24585934
+- name: ZZ · VMESS · yudou · A644D382
   type: vmess
-  server: gz1.polymarket.party
-  port: 20201
+  server: sy2.australiacaregroup.site
+  port: 10001
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
   alterId: 0
   cipher: auto
-  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · ANYTLS · yudou · 98E9A899
   type: anytls
   server: svip.skycon808.com
@@ -262,51 +292,19 @@ proxies:
   tls: true
   udp: true
   password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · VLESS · yudou · 036BBB8E
+- name: ZZ · VLESS · yudou · 52BD7FA6
   type: vless
-  server: 31.59.210.26
-  port: 2088
-  reality-opts:
-    public-key: Eq3c19Y0WGB1APWMADQB-oxCvZFSVFAQxG5L6b8EkUg
-    short-id: b1ad165f903c62fe
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VMESS · yudou · 78674867
-  type: vmess
-  server: sh.polymarket.party
-  port: 20401
-  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: ZZ · ANYTLS · yudou · D83B99C7
-  type: anytls
-  server: l3hl4mwo.zf-mix.9999231.xyz
-  port: 1001
-  sni: tw01.9999231.xyz
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
-- name: ZZ · VLESS · yudou · 4EDBC049
-  type: vless
-  server: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
+  server: 34.35.186.228
   port: 443
-  uuid: 0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  network: ws
+  reality-opts:
+    public-key: bSN0cv0VMxmYZsNsMkkLndOTHZu74C1htJ2M71QMaVE
+    short-id: 89b3a20484eb43ec
+  uuid: 8d65c8a7-4876-4556-bb6a-feccfb46ee81
+  servername: www.cloudflare.com
   tls: true
-  servername: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  ws-opts:
-    path: /ws/0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-    headers:
-      Host: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VMESS · yudou · 2B525A11
   type: vmess
   server: gz1.polymarket.party
@@ -317,6 +315,18 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: ZZ · VLESS · clashmeta · 15C008E5
+  type: vless
+  server: 8.47.69.0
+  port: 2053
+  uuid: 9d672694-c146-422e-b3b5-3717a38a0fcc
+  network: ws
+  tls: true
+  servername: vless.api-music-fa.com
+  ws-opts:
+    path: /api/voip/updates/static/fr2035
+    headers:
+      Host: fr.api-music-fa.com
 - name: ZZ · ANYTLS · yudou · 5F7D77BD
   type: anytls
   server: q7mtpgxo.zf-mix.9999231.xyz
@@ -326,26 +336,19 @@ proxies:
   tls: true
   udp: true
   password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
-- name: ZZ · VLESS · yudou · 270A4409
+- name: ZZ · VLESS · yudou · 11965BAD
   type: vless
-  server: 31.59.210.37
-  port: 443
-  reality-opts:
-    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
-    short-id: 6dbf4931096f9890
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+  server: sh.polymarket.party
+  port: 23202
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  network: tcp
   tls: true
-  client-fingerprint: edge
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VMESS · yudou · 1ED13D46
+  servername: jp2.australiacaregroup.site
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · 76506EA6
   type: vmess
-  server: gz1.polymarket.party
-  port: 36011
+  server: sh.polymarket.party
+  port: 20401
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
   alterId: 0
   cipher: auto
@@ -362,44 +365,96 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: a7c5d30b-ce9b-4e34-b5cb-66f8308790ef
-- name: ZZ · VLESS · yudou · DC83B7CF
+- name: ZZ · VLESS · yudou · 922CAFC1
   type: vless
-  server: 31.59.210.24
-  port: 2087
+  server: 157.228.160.166
+  port: 443
   reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
+    short-id: 3cef317b
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  servername: addons.mozilla.org
   tls: true
-  client-fingerprint: edge
-  grpc-opts:
-    grpc-service-name: astracat
+  flow: xtls-rprx-vision
+  client-fingerprint: randomized
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · AEB8A22D
+- name: ZZ · VMESS · yudou · 397F44AC
   type: vmess
-  server: gz1.australiacaregroup.site
-  port: 12301
+  server: gz1.polymarket.party
+  port: 36011
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
   alterId: 0
   cipher: auto
   network: tcp
-- name: ZZ · VLESS · yudou · B1DDD004
+- name: ZZ · VLESS · clashmeta · CCE2289C
   type: vless
-  server: 31.59.210.24
-  port: 2087
-  reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
+  server: 8.47.69.0
+  port: 2053
+  uuid: 9d672694-c146-422e-b3b5-3717a38a0fcc
+  network: ws
+  servername: vless.api-music-fa.com
   tls: true
-  client-fingerprint: ios
-  grpc-opts:
-    grpc-service-name: astracat
+  ws-opts:
+    path: /api/voip/updates/static/fr2035
+    headers:
+      Host: fr.api-music-fa.com
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · ANYTLS · yudou · D4D9A606
+  type: anytls
+  server: rb1211-5.vatilon.cc
+  port: 10005
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+- name: ZZ · VLESS · yudou · 225D2185
+  type: vless
+  server: gz1.polymarket.party
+  port: 50002
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  network: tcp
+  tls: true
+  servername: tyo1.australiacaregroup.site
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · 1ED13D46
+  type: vmess
+  server: gz1.polymarket.party
+  port: 36011
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VLESS · yudou · 0684BAC5
+  type: vless
+  server: gz1.polymarket.party
+  port: 23202
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  servername: jp2.australiacaregroup.site
+  tls: true
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · D414B0FA
+  type: vmess
+  server: gz2.vatilon.cc
+  port: 23201
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: ZZ · VMESS · yudou · 4799448E
+  type: vmess
+  server: gz2.vatilon.cc
+  port: 23201
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
 - name: ZZ · VMESS · yudou · E4A6CF15
@@ -415,22 +470,14 @@ proxies:
     path: /vmess
     headers:
       Host: us4.australiacaregroup.site
-- name: ZZ · VLESS · yudou · 4CBA7E41
-  type: vless
-  server: 31.59.210.24
-  port: 2087
-  reality-opts:
-    public-key: W2OLbQ682PLJ9yHQ21Q0nPJk9U8RuL5YnlP-U1fdQzI
-    short-id: a11023050f134216
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
+- name: ZZ · VMESS · yudou · 92600159
+  type: vmess
+  server: gz2.vatilon.cc
+  port: 36021
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
 - name: ZZ · VMESS · yudou · 3F1DDFAA
   type: vmess
   server: gz1.polymarket.party
@@ -446,190 +493,127 @@ proxies:
     headers:
       Host: us4.australiacaregroup.site
   udp: true
-- name: ZZ · VLESS · yudou · CF7187A2
-  type: vless
-  server: 31.59.210.37
-  port: 443
-  reality-opts:
-    public-key: 5k0dtOSzmshCubdYeKppsUdHU4i2ghaB9uSJSzGjHW4
-    short-id: 6dbf4931096f9890
-  uuid: 5413edfb-08d6-4fba-b51c-809c04feb127
-  network: grpc
-  servername: www.yandex.ru
-  tls: true
-  client-fingerprint: firefox
-  grpc-opts:
-    grpc-service-name: astracat
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 1FDA120C
-  type: vless
-  server: 157.228.128.59
-  port: 443
-  reality-opts:
-    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
-    short-id: 06e00e7c
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  servername: addons.mozilla.org
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 4A24D44F
-  type: vless
-  server: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  port: 443
-  uuid: 0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  network: ws
-  servername: 86153507-1976-48f1-ac86-e8ab274470a8.fly.dev
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /ws/0b3c3f4f-843a-5b0a-98fe-132c88fbefc0
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · CCE2289C
-  type: vless
-  server: 8.47.69.0
-  port: 2053
-  uuid: 9d672694-c146-422e-b3b5-3717a38a0fcc
-  network: ws
-  servername: vless.api-music-fa.com
-  tls: true
-  ws-opts:
-    path: /api/voip/updates/static/fr2035
-    headers:
-      Host: fr.api-music-fa.com
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 52BD7FA6
-  type: vless
-  server: 34.35.186.228
-  port: 443
-  reality-opts:
-    public-key: bSN0cv0VMxmYZsNsMkkLndOTHZu74C1htJ2M71QMaVE
-    short-id: 89b3a20484eb43ec
-  uuid: 8d65c8a7-4876-4556-bb6a-feccfb46ee81
-  servername: www.cloudflare.com
-  tls: true
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 6817377E
-  type: vless
-  server: dey.lnmarketplace.net
-  port: 443
-  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
-  network: xhttp
-  servername: dey.lnmarketplace.net
-  tls: true
-  client-fingerprint: chrome
-  alpn:
-  - h2
-  xhttp-opts:
-    path: /kavir
-    host: dey.lnmarketplace.net
-    mode: stream-one
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 15C008E5
-  type: vless
-  server: 8.47.69.0
-  port: 2053
-  uuid: 9d672694-c146-422e-b3b5-3717a38a0fcc
-  network: ws
-  tls: true
-  servername: vless.api-music-fa.com
-  ws-opts:
-    path: /api/voip/updates/static/fr2035
-    headers:
-      Host: fr.api-music-fa.com
-- name: ZZ · VLESS · yudou · 3EEE0DA0
-  type: vless
-  server: dey.lnmarketplace.net
-  port: 443
-  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
-  network: xhttp
-  servername: dey.lnmarketplace.net
-  tls: true
-  client-fingerprint: firefox
-  alpn:
-  - h2
-  xhttp-opts:
-    path: /kavir
-    host: dey.lnmarketplace.net
-    mode: stream-one
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 922CAFC1
-  type: vless
-  server: 157.228.160.166
-  port: 443
-  reality-opts:
-    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
-    short-id: 3cef317b
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  servername: addons.mozilla.org
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: randomized
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · A61A63A6
-  type: vless
-  server: 157.228.128.59
-  port: 443
-  reality-opts:
-    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
-    short-id: 06e00e7c
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  servername: addons.mozilla.org
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: randomized
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 063A1279
-  type: vless
-  server: de2.srv.vbuste.ru
-  port: 443
-  reality-opts:
-    public-key: 0-or5ogGhYbBgsVSrSC2Fhxyp2BN97Y9pqIdg61Qd08
-    short-id: 4be4110078ebed4a
-  uuid: 318c935d-c195-41d3-99ad-9bbcfdab3386
-  servername: de2.srv.vbuste.ru
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 3023DCA9
-  type: vless
-  server: jp123.vatilon.cc
-  port: 10002
-  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
-  network: tcp
-  tls: true
-  servername: jp123.vatilon.cc
-  client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · 1781FE0F
-  type: vless
-  server: s1244.csgfw.top
-  port: 10829
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  servername: u695098ueb8953b4s861.gogocs.xyz
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VLESS · yudou · 11965BAD
-  type: vless
+- name: ZZ · VMESS · yudou · 78674867
+  type: vmess
   server: sh.polymarket.party
-  port: 23202
+  port: 20401
   uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
   network: tcp
+- name: ZZ · VMESS · yudou · ACB27460
+  type: vmess
+  server: rb1211-5.vatilon.cc
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 5972EE00
+  type: vmess
+  server: my1.australiacaregroup.site
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
   tls: true
-  servername: jp2.australiacaregroup.site
-  client-fingerprint: chrome
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: my1.australiacaregroup.site
+  udp: true
+- name: ZZ · VLESS · clashmeta · A61A63A6
+  type: vless
+  server: 157.228.128.59
+  port: 443
+  reality-opts:
+    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
+    short-id: 06e00e7c
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  servername: addons.mozilla.org
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: randomized
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 1431A9C2
+  type: vmess
+  server: my1.australiacaregroup.site
+  port: 10001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /vmess
+    headers:
+      Host: my1.australiacaregroup.site
+- name: ZZ · VMESS · yudou · 5A366C20
+  type: vmess
+  server: gz1.australiacaregroup.site
+  port: 3101
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 415986DA
+  type: vmess
+  server: gz1.polymarket.party
+  port: 50001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: ZZ · VMESS · yudou · B8CBA4F4
+  type: vmess
+  server: gz1.australiacaregroup.site
+  port: 3101
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: ZZ · VMESS · yudou · 6DA76285
+  type: vmess
+  server: gz1.australiacaregroup.site
+  port: 3701
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 4ED89B84
+  type: vmess
+  server: gz1.polymarket.party
+  port: 36001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · C17E33FF
+  type: vmess
+  server: gz1.polymarket.party
+  port: 36001
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: ZZ · VMESS · yudou · 7E256313
+  type: vmess
+  server: gz2.vatilon.cc
+  port: 36021
+  uuid: aec8e5e3-bb81-4b22-8802-0b88c54997b3
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
