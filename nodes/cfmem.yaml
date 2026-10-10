@@ -1,11 +1,19 @@
 proxies:
-- name: US · TROJAN · cfmem · BF6F8DE1
+- name: US · TROJAN · cfmem · 3B165D2A
   type: trojan
-  server: pro-mako.rooster465.autos
+  server: alert-titmouse.rooster465.autos
   port: 443
   tls: true
-  servername: pro-mako.rooster465.autos
+  servername: alert-titmouse.rooster465.autos
   password: UX82473651
+- name: RU→NL · VLESS · cfmem · 26E07DB3
+  type: vless
+  server: nl.alpheratzz.org
+  port: 8443
+  uuid: 8de76932-518a-4ac8-ac92-be6b1f17ddd8
+  network: tcp
+  tls: true
+  flow: xtls-rprx-vision
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -20,12 +28,12 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · TROJAN · cfmem · 3B165D2A
+- name: US · TROJAN · cfmem · BF6F8DE1
   type: trojan
-  server: alert-titmouse.rooster465.autos
+  server: pro-mako.rooster465.autos
   port: 443
   tls: true
-  servername: alert-titmouse.rooster465.autos
+  servername: pro-mako.rooster465.autos
   password: UX82473651
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
@@ -50,6 +58,25 @@ proxies:
   tls: true
   servername: pure-kodiak.rooster465.autos
   password: UX82473651
+- name: US→GB · VMESS · cfmem · 74442EBC
+  type: vmess
+  server: https.http.www.net.com.ramseyv2.ir.
+  port: 80
+  uuid: 10029c03-5d2f-4185-aab2-cbf91eef7361
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /d3d3LmlyYW5ob3N0LmNvbQ==?ed=2560
+    headers:
+      Host: https.http.www.net.com.ramseyv2.ir.
+- name: SG · TROJAN · cfmem · 21981AF6
+  type: trojan
+  server: ace-liger.rooster465.autos
+  port: 443
+  tls: true
+  servername: ace-liger.rooster465.autos
+  password: UX82473651
 - name: US→GB · VMESS · cfmem · 0B718CE5
   type: vmess
   server: https.http.www.net.com.ramseyv2.ir.
@@ -65,25 +92,21 @@ proxies:
     headers:
       Host: https.http.www.net.com.ramseyv2.ir.
   udp: true
-- name: SG · TROJAN · cfmem · 21981AF6
+- name: SG · TROJAN · cfmem · FA65AE0A
   type: trojan
-  server: ace-liger.rooster465.autos
+  server: fond-mammoth.rooster465.autos
   port: 443
   tls: true
-  servername: ace-liger.rooster465.autos
+  servername: fond-mammoth.rooster465.autos
   password: UX82473651
-- name: US→GB · VMESS · cfmem · 74442EBC
+- name: HK→IE · VMESS · cfmem · 0B82D95D
   type: vmess
-  server: https.http.www.net.com.ramseyv2.ir.
-  port: 80
-  uuid: 10029c03-5d2f-4185-aab2-cbf91eef7361
-  alterId: 0
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
-  network: ws
-  ws-opts:
-    path: /d3d3LmlyYW5ob3N0LmNvbQ==?ed=2560
-    headers:
-      Host: https.http.www.net.com.ramseyv2.ir.
+  network: tcp
 - name: SG · TROJAN · cfmem · 3013835B
   type: trojan
   server: rested-seahorse.rooster465.autos
@@ -101,21 +124,6 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: GB · TROJAN · cfmem · 36ED7FD5
-  type: trojan
-  server: gb.tronsg.com
-  port: 443
-  tls: true
-  servername: gb.tronsg.com
-  password: Trojan@82164024
-- name: HK→IE · VMESS · cfmem · 0B82D95D
-  type: vmess
-  server: v4.hdacd.com
-  port: 30804
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
 - name: SG · TROJAN · cfmem · AD531C2A
   type: trojan
   server: musical-mouse.rooster465.autos
@@ -123,37 +131,11 @@ proxies:
   tls: true
   servername: musical-mouse.rooster465.autos
   password: UX82473651
-- name: US · VMESS · cfmem · 7627DFCC
+- name: KR · VMESS · cfmem · 710B0068
   type: vmess
-  server: p05.rghvf.sbs
-  port: 12330
-  uuid: 68adffea-4146-4f92-b2f9-955cd634c274
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
   alterId: 0
   cipher: auto
-  network: tcp
-  tls: true
-- name: GB · TROJAN · cfmem · 6BA588AE
-  type: trojan
-  server: gb.tronsg.com
-  port: 443
-  sni: gb.tronsg.com
-  skip-cert-verify: true
-  udp: true
-  password: Trojan@82164024
-- name: US · VMESS · cfmem · 0BABC920
-  type: vmess
-  server: p05.rghvf.sbs
-  port: 12330
-  uuid: 68adffea-4146-4f92-b2f9-955cd634c274
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  udp: true
-- name: SG · TROJAN · cfmem · FA65AE0A
-  type: trojan
-  server: fond-mammoth.rooster465.autos
-  port: 443
-  tls: true
-  servername: fond-mammoth.rooster465.autos
-  password: UX82473651
+  network: http
