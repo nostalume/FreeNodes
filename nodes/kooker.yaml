@@ -1,29 +1,22 @@
 proxies:
-- name: US · HTTP · kooker · 0CE81BBC
+- name: US · HTTP · kooker · 3EA5862C
   type: http
-  server: 170.199.233.89
+  server: 149.88.21.140
   port: 443
   skip-cert-verify: true
   tls: true
-- name: SG · HYSTERIA2 · kooker · 02A002A6
-  type: hysteria2
-  server: s3.huhiuh.space
-  port: 18642
-  skip-cert-verify: true
-  sni: www.bing.com
+- name: SE · VLESS · kooker · 15499170
+  type: vless
+  server: 104.245.243.2
+  port: 443
+  reality-opts:
+    public-key: R8Mogel1wypEIpcUXnGmG1cuzT9POghNhqJcw4-CLx0
+    short-id: ''
+  uuid: 8ff8938c-49b6-b22f-a934-b55e91154ca3
+  client-fingerprint: chrome
+  network: xhttp
+  tls: true
   udp: true
-  password: user317_windows:c70565e9-a99f-40ef-b96c-469a3949eed2
-  auth: user317_windows:c70565e9-a99f-40ef-b96c-469a3949eed2
-- name: NL · HTTP · kooker · FBC206CF
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-- name: ZZ · HTTP · kooker · 6CF73290
-  type: http
-  server: 149.36.51.129
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  password: None
+  xhttp-opts: {}
+  xudp: true
+  servername: cdn.steamstatic.com

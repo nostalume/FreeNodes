@@ -1,32 +1,4 @@
 proxies:
-- name: SG · TROJAN · cfmem · FA65AE0A
-  type: trojan
-  server: fond-mammoth.rooster465.autos
-  port: 443
-  tls: true
-  servername: fond-mammoth.rooster465.autos
-  password: UX82473651
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: SG · TROJAN · cfmem · AD531C2A
-  type: trojan
-  server: musical-mouse.rooster465.autos
-  port: 443
-  tls: true
-  servername: musical-mouse.rooster465.autos
-  password: UX82473651
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -43,17 +15,20 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: KR · VMESS · cfmem · FA3ACF5E
+- name: US · VMESS · cfmem · 81382C3E
   type: vmess
-  server: 43.108.103.167
-  port: 123
-  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
   alterId: 0
   cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: http
-  udp: true
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
 - name: KR · VMESS · cfmem · 710B0068
   type: vmess
   server: 43.108.103.167
@@ -62,21 +37,21 @@ proxies:
   alterId: 0
   cipher: auto
   network: http
-- name: HK→GB · VMESS · cfmem · BA924DCE
+- name: HK→US · VMESS · cfmem · 4B8A6FCA
   type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
+  server: v29.hdacd.com
+  port: 30829
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
   tls: false
   skip-cert-verify: true
   udp: true
+- name: HK→US · VMESS · cfmem · 76966289
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
