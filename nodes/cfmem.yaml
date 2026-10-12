@@ -29,143 +29,39 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 19D97513
-  type: vless
-  server: whuiy.xyz
-  port: 443
-  uuid: c64992bd-54aa-4d3d-8527-42da7d7e520a
-  network: ws
-  tls: true
-  servername: whuiy.xyz
-  client-fingerprint: chrome
-  ws-opts:
-    path: /vless-cdn
-    headers:
-      Host: whuiy.xyz
-- name: DE→PL · VLESS · cfmem · 26AAFC0D
-  type: vless
-  server: z5n1.vpnpolar.online
-  port: 443
-  uuid: 49e4b91a-bd15-4e54-9b51-41a3380afb51
-  network: ws
-  servername: z5n1.vpnpolar.online
-  tls: true
-  ws-opts:
-    path: /beeline
-    headers:
-      Host: z5n1.vpnpolar.online
-  skip-cert-verify: true
-  udp: true
-- name: FR · VLESS · cfmem · 2E37B1FE
-  type: vless
-  server: f4.vimeostream.online
-  port: 11443
-  uuid: c6db98c5-9959-425e-9340-300779fc4e4b
-  network: ws
-  servername: f4.vimeostream.online
-  tls: true
-  client-fingerprint: firefox
-  ws-opts:
-    path: /api/v2/stream/ws
-    headers:
-      Host: f4.vimeostream.online
-  skip-cert-verify: true
-  udp: true
-- name: US · VLESS · cfmem · 42FB1311
-  type: vless
-  server: whuiy.xyz
-  port: 443
-  uuid: c64992bd-54aa-4d3d-8527-42da7d7e520a
-  network: ws
-  servername: whuiy.xyz
-  tls: true
-  client-fingerprint: chrome
-  ws-opts:
-    path: /vless-cdn
-    headers:
-      Host: whuiy.xyz
-  skip-cert-verify: true
-  udp: true
-- name: TW · VMESS · cfmem · 3C8B1809
+- name: HK · VMESS · cfmem · 50EF27ED
   type: vmess
-  server: 654168416355441.d6f54hd1j.cc
-  port: 443
-  uuid: ecdc303d-bcbf-4129-bc02-dd67703f7081
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /
-- name: DE→PL · VLESS · cfmem · 6B037F53
-  type: vless
-  server: z5n1.vpnpolar.online
-  port: 443
-  uuid: 49e4b91a-bd15-4e54-9b51-41a3380afb51
-  network: ws
-  tls: true
-  servername: z5n1.vpnpolar.online
-  ws-opts:
-    path: /beeline
-    headers:
-      Host: z5n1.vpnpolar.online
-- name: FR · VLESS · cfmem · AF72BE46
-  type: vless
-  server: f4.vimeostream.online
-  port: 11443
-  uuid: c6db98c5-9959-425e-9340-300779fc4e4b
-  network: ws
-  tls: true
-  servername: f4.vimeostream.online
-  client-fingerprint: firefox
-  ws-opts:
-    path: /api/v2/stream/ws
-    headers:
-      Host: f4.vimeostream.online
-- name: TW · VMESS · cfmem · 4F3A39E4
-  type: vmess
-  server: 654168416355441.d6f54hd1j.cc
-  port: 443
-  uuid: ecdc303d-bcbf-4129-bc02-dd67703f7081
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  udp: true
-- name: CN · VMESS · cfmem · 514668A1
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: CN · VMESS · cfmem · 7385ED0E
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: CN→US · VMESS · cfmem · 90F4AEC8
-  type: vmess
-  server: silversbgfgov.vip38.wogbcnmnagfwgov.com
-  port: 11238
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
+  server: v10.hdacd.com
+  port: 30807
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
   tls: false
   skip-cert-verify: true
   udp: true
-- name: CN→US · VMESS · cfmem · B62A7343
+- name: HK→GB · VMESS · cfmem · BA924DCE
   type: vmess
-  server: silversbgfgov.vip38.wogbcnmnagfwgov.com
-  port: 11238
-  uuid: 605956ee-544d-308e-8b90-51e67c6ea8da
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
   network: tcp
+- name: HK · VMESS · cfmem · A363B456
+  type: vmess
+  server: v10.hdacd.com
+  port: 30807
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
