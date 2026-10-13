@@ -1,4 +1,40 @@
 proxies:
+- name: US · VLESS · cfmem · 7BCA4E20
+  type: vless
+  server: tg.juntham.cn
+  port: 443
+  uuid: da8aa4cc-4f76-4248-a289-41f25713b6e2
+  network: ws
+  tls: true
+  ws-opts:
+    path: /
+- name: HK · VMESS · cfmem · A363B456
+  type: vmess
+  server: v10.hdacd.com
+  port: 30807
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: US · VLESS · cfmem · B67A9FF9
+  type: vless
+  server: tg.juntham.cn
+  port: 443
+  uuid: da8aa4cc-4f76-4248-a289-41f25713b6e2
+  network: ws
+  tls: true
+  skip-cert-verify: true
+  udp: true
+- name: HK · VMESS · cfmem · 50EF27ED
+  type: vmess
+  server: v10.hdacd.com
+  port: 30807
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -29,28 +65,10 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: HK · VMESS · cfmem · 50EF27ED
-  type: vmess
-  server: v10.hdacd.com
-  port: 30807
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: HK→GB · VMESS · cfmem · BA924DCE
   type: vmess
   server: v36.hdacd.com
   port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  network: tcp
-- name: HK · VMESS · cfmem · A363B456
-  type: vmess
-  server: v10.hdacd.com
-  port: 30807
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
@@ -65,3 +83,33 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: RU · VMESS · cfmem · AC6261E1
+  type: vmess
+  server: renderer-stream-2-114.mirra.now
+  port: 443
+  uuid: 8ffa41d4-e6b5-4af5-a8a9-69e26bec75f5
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: renderer-stream-2-114.mirra.now
+  network: ws
+  ws-opts:
+    path: /api/v1/gpu-stream/socket
+    headers:
+      Host: renderer-stream-2-114.mirra.now
+  udp: true
+- name: RU · VMESS · cfmem · 7EB00D5A
+  type: vmess
+  server: renderer-stream-2-114.mirra.now
+  port: 443
+  uuid: 8ffa41d4-e6b5-4af5-a8a9-69e26bec75f5
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: renderer-stream-2-114.mirra.now
+  ws-opts:
+    path: /api/v1/gpu-stream/socket
+    headers:
+      Host: renderer-stream-2-114.mirra.now
