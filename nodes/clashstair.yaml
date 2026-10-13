@@ -1,11 +1,4 @@
 proxies:
-- name: DE · SOCKS5 · clashstair · 94E1C783
-  type: socks5
-  server: 31.77.19.92
-  port: 443
-  udp: true
-  username: Og==
-  password: Og==
 - name: US · VLESS · clashstair · C795B65F
   type: vless
   server: 104.17.44.17
@@ -21,21 +14,22 @@ proxies:
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
   udp: true
-- name: HK · VMESS · clashstair · 6DC5D4CE
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
+- name: NL · VLESS · clashstair · F9FA242A
+  type: vless
+  server: 157.228.150.34
+  port: 443
+  reality-opts:
+    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
+    short-id: 3cef317b
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
   skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /arki?ed=2048
-    headers:
-      Host: 47.244.120.197
+  servername: addons.mozilla.org
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
 - name: DE · VLESS · clashstair · EAEEFE03
   type: vless
   server: 31.59.210.26
@@ -52,6 +46,22 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: astracat
+  udp: true
+- name: FI · VLESS · clashstair · 98C4686D
+  type: vless
+  server: 157.228.128.59
+  port: 443
+  reality-opts:
+    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
+    short-id: 06e00e7c
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: addons.mozilla.org
+  client-fingerprint: chrome
+  network: tcp
   udp: true
 - name: PL · VLESS · clashstair · B7F8C5CD
   type: vless
@@ -86,113 +96,14 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: PL · VLESS · clashstair · 067F3E58
+- name: FR · VLESS · clashmeta · F3CCCBB4
   type: vless
-  server: 87.242.127.113
-  port: 4510
-  reality-opts:
-    public-key: hkvjyE8WMKHvdGfMta7PAIGz6HAv2WiXvWvAQmsE_DM
-    short-id: 2d0c188798bae174
-  uuid: c3db7657-88ce-42a6-b998-1e0364b277ac
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: 9c99da.usecache.net
-  client-fingerprint: random
-  network: tcp
-  udp: true
-- name: SE · VLESS · clashstair · 17CFC348
-  type: vless
-  server: se1.h1cloud.net
-  port: 26100
-  reality-opts:
-    public-key: 1uuvuG2Jl_o6yoVvOYm3hEboArh2Znu7zCy4Tqj36TI
-    short-id: 8045087bda646f1b
-  uuid: 68c3d665-b2b5-4ffb-9f37-9f3d8c47324d
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.icloud.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: DE · VLESS · clashstair · 871B01C4
-  type: vless
-  server: 179.254.166.40
-  port: 443
-  reality-opts:
-    public-key: 0-or5ogGhYbBgsVSrSC2Fhxyp2BN97Y9pqIdg61Qd08
-    short-id: 4be4110078ebed4a
-  uuid: 318c935d-c195-41d3-99ad-9bbcfdab3386
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: de2.srv.vbuste.ru
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: FI · VLESS · clashstair · 695788EE
-  type: vless
-  server: fi-p1.h1cloud.net
-  port: 25633
-  reality-opts:
-    public-key: YLIRYJ8UkT0nSSgxJr7YckNuXnokVyEs2G6thNyx1GE
-    short-id: 200811f031ae7463
-  uuid: ec572cf0-1337-4c51-b4ec-ff2f538c1f4c
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.icloud.com
-  client-fingerprint: random
-  network: tcp
-  udp: true
-- name: NL · VLESS · clashstair · F9FA242A
-  type: vless
-  server: 157.228.150.34
-  port: 443
-  reality-opts:
-    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
-    short-id: 3cef317b
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: NL · VLESS · clashstair · 15CB7836
-  type: vless
-  server: 157.228.160.166
-  port: 443
-  reality-opts:
-    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
-    short-id: 3cef317b
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: randomized
-  network: tcp
-  udp: true
-- name: FI · VLESS · clashstair · 98C4686D
-  type: vless
-  server: 157.228.128.59
-  port: 443
-  reality-opts:
-    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
-    short-id: 06e00e7c
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
+  server: 104.17.44.17
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
+  servername: hhlfy.twiladaphne.ndjp.net
+  ws-opts:
+    path: /sg-melbi
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net

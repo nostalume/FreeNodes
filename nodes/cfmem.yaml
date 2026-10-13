@@ -7,20 +7,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: Trojan@82164024
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
+- name: TR · VLESS · cfmem · 9CB21C59
+  type: vless
+  server: googol.wookshop.ir
+  port: 17915
+  uuid: 439628ee-ef8e-4a3e-ba0f-091b7376dcb8
   tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -36,4 +30,49 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+  udp: true
+- name: TR · VLESS · cfmem · 5E9E8F16
+  type: vless
+  server: googol.wookshop.ir
+  port: 17915
+  uuid: 439628ee-ef8e-4a3e-ba0f-091b7376dcb8
+  network: tcp
+  tls: true
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: RU · VMESS · cfmem · 7EB00D5A
+  type: vmess
+  server: renderer-stream-2-114.mirra.now
+  port: 443
+  uuid: 8ffa41d4-e6b5-4af5-a8a9-69e26bec75f5
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: renderer-stream-2-114.mirra.now
+  ws-opts:
+    path: /api/v1/gpu-stream/socket
+    headers:
+      Host: renderer-stream-2-114.mirra.now
+- name: CN · VMESS · cfmem · 514668A1
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
   udp: true
