@@ -7,14 +7,13 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: Trojan@82164024
-- name: TR · VLESS · cfmem · 9CB21C59
+- name: TR · VLESS · cfmem · 5E9E8F16
   type: vless
   server: googol.wookshop.ir
   port: 17915
   uuid: 439628ee-ef8e-4a3e-ba0f-091b7376dcb8
+  network: tcp
   tls: true
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -31,13 +30,14 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: TR · VLESS · cfmem · 5E9E8F16
+- name: TR · VLESS · cfmem · 9CB21C59
   type: vless
   server: googol.wookshop.ir
   port: 17915
   uuid: 439628ee-ef8e-4a3e-ba0f-091b7376dcb8
-  network: tcp
   tls: true
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -66,13 +66,38 @@ proxies:
     path: /api/v1/gpu-stream/socket
     headers:
       Host: renderer-stream-2-114.mirra.now
-- name: CN · VMESS · cfmem · 514668A1
+- name: RU · VMESS · cfmem · AC6261E1
   type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  server: renderer-stream-2-114.mirra.now
+  port: 443
+  uuid: 8ffa41d4-e6b5-4af5-a8a9-69e26bec75f5
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: renderer-stream-2-114.mirra.now
+  network: ws
+  ws-opts:
+    path: /api/v1/gpu-stream/socket
+    headers:
+      Host: renderer-stream-2-114.mirra.now
+  udp: true
+- name: KR · VMESS · cfmem · 710B0068
+  type: vmess
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  alterId: 0
+  cipher: auto
+  network: http
+- name: KR · VMESS · cfmem · FA3ACF5E
+  type: vmess
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
   alterId: 0
   cipher: auto
   tls: false
   skip-cert-verify: true
+  network: http
   udp: true
