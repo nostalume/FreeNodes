@@ -1,36 +1,4 @@
 proxies:
-- name: NL · VLESS · clashstair · F9FA242A
-  type: vless
-  server: 157.228.150.34
-  port: 443
-  reality-opts:
-    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
-    short-id: 3cef317b
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: FI · VLESS · clashstair · 98C4686D
-  type: vless
-  server: 157.228.128.59
-  port: 443
-  reality-opts:
-    public-key: QnxkyscHouhaLDJHT47beyenVd4LHi62yfJIeRV01Ws
-    short-id: 06e00e7c
-  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: addons.mozilla.org
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: FI · VLESS · clashstair · F7EDCD3D
   type: vless
   server: 36a466g.fi1.h1clayd.click
@@ -48,6 +16,65 @@ proxies:
   grpc-opts:
     grpc-service-name: 0adb9638509b
   udp: true
+- name: HK · VMESS · clashstair · F6F15A05
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
+- name: NL · VLESS · clashstair · F9FA242A
+  type: vless
+  server: 157.228.150.34
+  port: 443
+  reality-opts:
+    public-key: NOw-idkk3OCn-N0IRS93leujH4ik-E749O2T5BYJQ0M
+    short-id: 3cef317b
+  uuid: df53b6c2-8005-475c-9eb9-74e1be785dc8
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: addons.mozilla.org
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: HK · VMESS · clashstair · 72C37219
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
+- name: DE · VLESS · clashstair · 108DA4D4
+  type: vless
+  server: 177.1.187.139
+  port: 1984
+  reality-opts:
+    public-key: ikKnBJfcuPy1U0O3Cb71zv_G1liM5QcAYhR10A0Ech0
+    short-id: 0f00666a
+  uuid: d9eb02da-a469-44a7-a393-ba1c5fbbc8c4
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: ruori.ai
+  client-fingerprint: random
+  network: tcp
+  udp: true
 - name: HK · VLESS · clashstair · 058A8089
   type: vless
   server: 152.233.71.81
@@ -64,6 +91,21 @@ proxies:
   client-fingerprint: random
   network: tcp
   udp: true
+- name: FI · VLESS · clashstair · 695788EE
+  type: vless
+  server: fi-p1.h1cloud.net
+  port: 25633
+  reality-opts:
+    public-key: YLIRYJ8UkT0nSSgxJr7YckNuXnokVyEs2G6thNyx1GE
+    short-id: 200811f031ae7463
+  uuid: ec572cf0-1337-4c51-b4ec-ff2f538c1f4c
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: www.icloud.com
+  client-fingerprint: random
+  network: tcp
+  udp: true
 - name: LK · VLESS · clashstair · D6941A1F
   type: vless
   server: free.sahanwickramasinghe.me
@@ -74,21 +116,6 @@ proxies:
     path: /
     headers:
       Host: free.sahanwickramasinghe.me
-- name: ZZ · VLESS · clashstair · 4CDE1D50
-  type: vless
-  server: 47.238.210.5
-  port: 13779
-  reality-opts:
-    public-key: llTyp52oRXnJmQ3I9UUrmlwbMA79B-wLCRHCu-8dLGg
-    short-id: af1bdd293097b664
-  uuid: 928e6cce-8ced-4243-9a48-a6642edd09b0
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: tesla.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: LK · VLESS · clashstair · 0F4081C7
   type: vless
   server: free.sahanwickramasinghe.me
@@ -103,18 +130,18 @@ proxies:
     headers:
       Host: free.sahanwickramasinghe.me
   udp: true
-- name: FI · VLESS · clashstair · 695788EE
+- name: ZZ · VLESS · clashstair · 4CDE1D50
   type: vless
-  server: fi-p1.h1cloud.net
-  port: 25633
+  server: 47.238.210.5
+  port: 13779
   reality-opts:
-    public-key: YLIRYJ8UkT0nSSgxJr7YckNuXnokVyEs2G6thNyx1GE
-    short-id: 200811f031ae7463
-  uuid: ec572cf0-1337-4c51-b4ec-ff2f538c1f4c
+    public-key: llTyp52oRXnJmQ3I9UUrmlwbMA79B-wLCRHCu-8dLGg
+    short-id: af1bdd293097b664
+  uuid: 928e6cce-8ced-4243-9a48-a6642edd09b0
   tls: true
   tfo: false
   skip-cert-verify: false
-  servername: www.icloud.com
-  client-fingerprint: random
+  servername: tesla.com
+  client-fingerprint: chrome
   network: tcp
   udp: true
