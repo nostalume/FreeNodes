@@ -1,12 +1,51 @@
 proxies:
-- name: JP · TROJAN · cfmem · 8E073DFF
+- name: CA · TROJAN · cfmem · 7FD2FBF8
   type: trojan
-  server: jp.tronsg.com
+  server: ca.tronsg.com
   port: 443
-  sni: jp.tronsg.com
+  sni: ca.tronsg.com
   skip-cert-verify: true
   udp: true
   password: Trojan@82164024
+- name: DE→LK · VLESS · cfmem · 433B20A6
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+- name: US · VMESS · cfmem · 9A6922CB
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: guanwang.awsno.com
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+  udp: true
+- name: DE→LK · VLESS · cfmem · D4C201F5
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  network: ws
+  tls: false
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -21,43 +60,39 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 3B28F552
+- name: US · VLESS · cfmem · 834116A0
   type: vless
-  server: nl.demka.live
+  server: s880.gogocs.xyz
   port: 443
-  uuid: 6230dfe2-7de5-4d4b-990f-73ac7f53e987
+  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  tls: true
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  udp: true
+- name: KR · VMESS · cfmem · FA3ACF5E
+  type: vmess
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: http
+  udp: true
+- name: US · VLESS · cfmem · 68D8976E
+  type: vless
+  server: s880.gogocs.xyz
+  port: 443
+  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
   network: tcp
   tls: true
   flow: xtls-rprx-vision
-- name: DE→LK · VLESS · cfmem · 433B20A6
-  type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: free.sahanwickramasinghe.me
-- name: DE→LK · VLESS · cfmem · D4C201F5
-  type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
-  network: ws
-  tls: false
-  ws-opts:
-    path: /
-    headers:
-      Host: free.sahanwickramasinghe.me
-  skip-cert-verify: true
-  udp: true
-- name: US · VLESS · cfmem · E2EF0916
-  type: vless
-  server: nl.demka.live
-  port: 443
-  uuid: 6230dfe2-7de5-4d4b-990f-73ac7f53e987
-  tls: true
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  udp: true
+- name: KR · VMESS · cfmem · 710B0068
+  type: vmess
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  alterId: 0
+  cipher: auto
+  network: http
