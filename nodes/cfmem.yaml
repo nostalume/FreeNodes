@@ -7,16 +7,14 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: Trojan@82164024
-- name: DE→LK · VLESS · cfmem · 433B20A6
+- name: US · VLESS · cfmem · 68D8976E
   type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: free.sahanwickramasinghe.me
+  server: s880.gogocs.xyz
+  port: 443
+  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  network: tcp
+  tls: true
+  flow: xtls-rprx-vision
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -32,6 +30,51 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+  udp: true
+- name: CA · TROJAN · cfmem · EBE2A844
+  type: trojan
+  server: ca.tronsg.com
+  port: 443
+  tls: true
+  servername: ca.tronsg.com
+  password: Trojan@82164024
+- name: US · VLESS · cfmem · 834116A0
+  type: vless
+  server: s880.gogocs.xyz
+  port: 443
+  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  tls: true
+  flow: xtls-rprx-vision
+  skip-cert-verify: true
+  udp: true
+- name: KR · VMESS · cfmem · 710B0068
+  type: vmess
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  alterId: 0
+  cipher: auto
+  network: http
+- name: DE→LK · VLESS · cfmem · 433B20A6
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+- name: KR · VMESS · cfmem · FA3ACF5E
+  type: vmess
+  server: 43.108.103.167
+  port: 123
+  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: http
   udp: true
 - name: DE→LK · VLESS · cfmem · D4C201F5
   type: vless
@@ -60,39 +103,62 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 834116A0
+- name: US · VLESS · cfmem · B04C4896
   type: vless
-  server: s880.gogocs.xyz
+  server: e8439083-5b1f-4a9a-8003-9c143de96941.fly.dev
   port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  uuid: a8a4a3c1-1ae9-e9d2-4984-31561b113e87
+  network: ws
+  servername: e8439083-5b1f-4a9a-8003-9c143de96941.fly.dev
   tls: true
-  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws/a8a4a3c1-1ae9-e9d2-4984-31561b113e87
+    headers:
+      Host: e8439083-5b1f-4a9a-8003-9c143de96941.fly.dev
   skip-cert-verify: true
   udp: true
-- name: KR · VMESS · cfmem · FA3ACF5E
+- name: HK→FR · VMESS · cfmem · 05D691A6
   type: vmess
-  server: 43.108.103.167
-  port: 123
-  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
-  alterId: 0
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK · VMESS · cfmem · 76966289
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→GB · VMESS · cfmem · BA924DCE
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→GB · VMESS · cfmem · 8DAEC115
+  type: vmess
+  server: v36.hdacd.com
+  port: 30836
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
   tls: false
   skip-cert-verify: true
-  network: http
   udp: true
-- name: US · VLESS · cfmem · 68D8976E
-  type: vless
-  server: s880.gogocs.xyz
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  network: tcp
-  tls: true
-  flow: xtls-rprx-vision
-- name: KR · VMESS · cfmem · 710B0068
+- name: HK · VMESS · cfmem · 4B8A6FCA
   type: vmess
-  server: 43.108.103.167
-  port: 123
-  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
-  alterId: 0
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
   cipher: auto
-  network: http
+  tls: false
+  skip-cert-verify: true
+  udp: true
