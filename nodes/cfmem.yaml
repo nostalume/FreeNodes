@@ -1,20 +1,22 @@
 proxies:
-- name: CA · TROJAN · cfmem · EBE2A844
+- name: CA · TROJAN · cfmem · 7FD2FBF8
   type: trojan
   server: ca.tronsg.com
   port: 443
-  tls: true
-  servername: ca.tronsg.com
-  password: Trojan@82164024
-- name: US · VLESS · cfmem · 834116A0
-  type: vless
-  server: s880.gogocs.xyz
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  tls: true
-  flow: xtls-rprx-vision
+  sni: ca.tronsg.com
   skip-cert-verify: true
   udp: true
+  password: Trojan@82164024
+- name: DE→LK · VLESS · cfmem · 433B20A6
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -31,14 +33,26 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: US · VLESS · cfmem · 68D8976E
-  type: vless
-  server: s880.gogocs.xyz
+- name: CA · TROJAN · cfmem · EBE2A844
+  type: trojan
+  server: ca.tronsg.com
   port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  network: tcp
   tls: true
-  flow: xtls-rprx-vision
+  servername: ca.tronsg.com
+  password: Trojan@82164024
+- name: DE→LK · VLESS · cfmem · D4C201F5
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  network: ws
+  tls: false
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -53,37 +67,35 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: DE→LK · VLESS · cfmem · D4C201F5
+- name: US · VLESS · cfmem · B04C4896
   type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  server: e8439083-5b1f-4a9a-8003-9c143de96941.fly.dev
+  port: 443
+  uuid: a8a4a3c1-1ae9-e9d2-4984-31561b113e87
   network: ws
-  tls: false
+  servername: e8439083-5b1f-4a9a-8003-9c143de96941.fly.dev
+  tls: true
+  client-fingerprint: chrome
   ws-opts:
-    path: /
+    path: /ws/a8a4a3c1-1ae9-e9d2-4984-31561b113e87
     headers:
-      Host: free.sahanwickramasinghe.me
+      Host: e8439083-5b1f-4a9a-8003-9c143de96941.fly.dev
   skip-cert-verify: true
   udp: true
-- name: HK→GB · VMESS · cfmem · BA924DCE
+- name: HK→JP · VMESS · cfmem · AFF27A81
   type: vmess
-  server: v36.hdacd.com
-  port: 30836
+  server: v6.hdacd.com
+  port: 30806
   uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
   alterId: 2
   cipher: auto
   network: tcp
-- name: DE→LK · VLESS · cfmem · 433B20A6
+- name: AT · VLESS · cfmem · 624A90F0
   type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: free.sahanwickramasinghe.me
+  server: 138.124.90.177
+  port: 10443
+  uuid: 3a0e4040-67cc-43e0-a9fb-98e15ddb0526
+  network: tcp
 - name: HK→FR · VMESS · cfmem · 05D691A6
   type: vmess
   server: v35.hdacd.com
@@ -92,42 +104,121 @@ proxies:
   alterId: 2
   cipher: auto
   network: tcp
-- name: HK · VMESS · cfmem · 4B8A6FCA
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK→GB · VMESS · cfmem · 8DAEC115
-  type: vmess
-  server: v36.hdacd.com
-  port: 30836
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: HK · VMESS · cfmem · 76966289
-  type: vmess
-  server: v29.hdacd.com
-  port: 30829
-  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
-  alterId: 2
-  cipher: auto
+- name: US · VLESS · cfmem · CCEF2EBF
+  type: vless
+  server: 193.233.130.119
+  port: 10443
+  uuid: 16f78e38-8df9-4658-93e8-e49feababf5b
   network: tcp
-- name: KR · VMESS · cfmem · FA3ACF5E
+- name: HK→JP · VMESS · cfmem · 4284FBBE
   type: vmess
-  server: 43.108.103.167
-  port: 123
-  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
+  server: v6.hdacd.com
+  port: 30806
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: AT · VLESS · cfmem · 211093A9
+  type: vless
+  server: 138.124.90.177
+  port: 10443
+  uuid: 3a0e4040-67cc-43e0-a9fb-98e15ddb0526
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: TW · VMESS · cfmem · 8E883063
+  type: vmess
+  server: fujrdt.d6f54hd1j.cc
+  port: 443
+  uuid: d877dc6f-7323-4b47-a7dd-14228cbae854
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: fujrdt.d6f54hd1j.cc
+  ws-opts:
+    path: /
+    headers:
+      Host: fujrdt.d6f54hd1j.cc
+- name: PL · VLESS · cfmem · FD8F9454
+  type: vless
+  server: 45.137.43.168
+  port: 10443
+  uuid: b4cc503a-c352-4775-85ad-fc982086884a
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: CN · VMESS · cfmem · 514668A1
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
   alterId: 0
   cipher: auto
   tls: false
   skip-cert-verify: true
-  network: http
+  udp: true
+- name: DE→LK · VLESS · cfmem · 93D8D4CD
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 8443
+  uuid: c136a12c-4260-48a7-a1e6-fbda83a11045
+  network: ws
+  servername: free.sahanwickramasinghe.me
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+  skip-cert-verify: true
+  udp: true
+- name: HK→FR · VMESS · cfmem · 4153EE35
+  type: vmess
+  server: v35.hdacd.com
+  port: 30835
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: DE→LK · VLESS · cfmem · 0A59E1C0
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 8443
+  uuid: c136a12c-4260-48a7-a1e6-fbda83a11045
+  network: ws
+  tls: true
+  servername: free.sahanwickramasinghe.me
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+- name: CN · VMESS · cfmem · 7385ED0E
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: TW · VMESS · cfmem · 1C605400
+  type: vmess
+  server: fujrdt.d6f54hd1j.cc
+  port: 443
+  uuid: d877dc6f-7323-4b47-a7dd-14228cbae854
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  servername: fujrdt.d6f54hd1j.cc
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: fujrdt.d6f54hd1j.cc
   udp: true
