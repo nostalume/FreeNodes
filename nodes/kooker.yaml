@@ -1,12 +1,10 @@
 proxies:
-- name: NL · HTTP · kooker · 6415793A
+- name: KR · HTTP · kooker · 2F5D313D
   type: http
-  server: 84.17.47.148
-  port: 9002
+  server: 172.64.68.89
+  port: 443
   skip-cert-verify: true
   tls: true
-  udp: true
-  password: None
 - name: FR · HYSTERIA · kooker · 3730D1B0
   type: hysteria
   server: 62.210.70.191
@@ -19,70 +17,54 @@ proxies:
   sni: bing.com
   up: 11 Mbps
   auth-str: dongtaiwang.com
-- name: AU · HYSTERIA2 · kooker · 85191657
+- name: US · HYSTERIA2 · kooker · C17BB8F2
   type: hysteria2
-  server: 192.9.175.191
-  port: 20000
-  obfs: salamander
-  obfs-password: a34f3990b69f44bfa0d32385
-  ports: 20000-30000
-  skip-cert-verify: true
-  sni: rmgyvpn.rest
-  password: a34f3990b69f44bfa0d32385
-  auth: a34f3990b69f44bfa0d32385
-- name: CA · SS · kooker · 533D7777
-  type: ss
-  server: 15.175.213.130
+  server: 179.255.104.98
   port: 443
-  cipher: aes-256-cfb
-  password: amazonskr05
-- name: NL · HTTP · kooker · FEA813FE
-  type: http
-  server: 84.17.47.125
-  port: 9002
   skip-cert-verify: true
+  sni: dl1.yuanshicheng.com
+  udp: true
+  password: lh92eQnxIpeg2odHHDg0SrcczqwS4e8Y
+  auth: lh92eQnxIpeg2odHHDg0SrcczqwS4e8Y
+- name: PL · VLESS · kooker · ADE1508E
+  type: vless
+  server: 45.198.0.24
+  port: 443
+  reality-opts:
+    public-key: nFJCJ2tvxLdLrc9G-O1laW8KDir5SDnaOTmYndVaOGQ
+    short-id: 7a3f9e2b1c8d4f6a
+  uuid: e5544327-834c-455a-9db5-2454c788fa17
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
   tls: true
   udp: true
-  password: None
-- name: NL · HTTP · kooker · 97F8B333
-  type: http
-  server: 84.17.47.146
-  port: 9002
+  xudp: true
+  servername: pl.ru-msk.club
+- name: AU · HYSTERIA2 · kooker · EA6330EE
+  type: hysteria2
+  server: 152.67.115.203
+  port: 443
+  obfs: salamander
+  obfs-password: 850a3fb1cd33a28f12d837578ae1a2e7
   skip-cert-verify: true
+  sni: www.bing.com
+  password: 633bc3be486b646190661ac2387c150a
+  auth: 633bc3be486b646190661ac2387c150a
+- name: RU · VLESS · kooker · 610ADCB8
+  type: vless
+  server: 37.143.15.206
+  port: 443
+  reality-opts:
+    public-key: OCRYYq4e92sQ-wWFRX6WX9pdvuFBWOqybLhpSiv3nFA
+    short-id: '111111'
+  uuid: 4599572f-bcfa-461e-bc73-d80e1ea65aa6
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
   tls: true
   udp: true
-- name: NL · HTTP · kooker · E5953371
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · DFA82CB5
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · E3E25B81
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · kooker · FA6562D1
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: SG · HTTP · kooker · 9CAFE99C
-  type: http
-  server: 13.212.55.110
-  port: 2080
-  skip-cert-verify: true
-  username: '1234'
-  password: '1234'
+  xudp: true
+  servername: 5post-gate.x5.ru

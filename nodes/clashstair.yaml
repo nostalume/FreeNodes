@@ -13,22 +13,18 @@ proxies:
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
   udp: true
-- name: HK · VLESS · clashstair · D7E0FD7E
-  type: vless
-  server: 152.233.71.81
-  port: 443
-  reality-opts:
-    public-key: 6VMgXXhZdJCiOG05EyK_zTHh00kpFGrZJeZIEPgqhjY
-    short-id: 1c3e8241a8743df9
-  uuid: 741809be-e44e-000b-b411-bf66f0ae3860
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: brointelengence.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
+- name: HK · VMESS · clashstair · F6F15A05
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
 - name: DE · VLESS · clashstair · E3C640DC
   type: vless
   server: 77.221.157.213
@@ -37,6 +33,21 @@ proxies:
   network: tcp
   servername: 77.221.157.213
   client-fingerprint: chrome
+- name: HK · VMESS · clashstair · 72C37219
+  type: vmess
+  server: 47.244.120.197
+  port: 23026
+  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
 - name: HK · VLESS · clashstair · 058A8089
   type: vless
   server: 152.233.71.81
@@ -53,6 +64,47 @@ proxies:
   client-fingerprint: random
   network: tcp
   udp: true
+- name: HK · VMESS · clashstair · 24461230
+  type: vmess
+  server: 47.244.120.197
+  port: 36703
+  uuid: 45b83519-9c4f-4052-a11b-02e017b636d4
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /arki
+    headers:
+      Host: 47.244.120.197
+- name: HK · VLESS · clashstair · D7E0FD7E
+  type: vless
+  server: 152.233.71.81
+  port: 443
+  reality-opts:
+    public-key: 6VMgXXhZdJCiOG05EyK_zTHh00kpFGrZJeZIEPgqhjY
+    short-id: 1c3e8241a8743df9
+  uuid: 741809be-e44e-000b-b411-bf66f0ae3860
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: brointelengence.com
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: HK · VMESS · clashstair · 43D1E837
+  type: vmess
+  server: 47.244.120.197
+  port: 36703
+  uuid: 45b83519-9c4f-4052-a11b-02e017b636d4
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /arki
 - name: NL · VLESS · clashstair · 4F2DA0A4
   type: vless
   server: 31.59.140.189
@@ -69,16 +121,21 @@ proxies:
   client-fingerprint: random
   network: tcp
   udp: true
-- name: LK · VLESS · clashstair · D6941A1F
+- name: SE · VLESS · clashstair · 17CFC348
   type: vless
-  server: free.sahanwickramasinghe.me
-  port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: free.sahanwickramasinghe.me
+  server: se1.h1cloud.net
+  port: 26100
+  reality-opts:
+    public-key: 1uuvuG2Jl_o6yoVvOYm3hEboArh2Znu7zCy4Tqj36TI
+    short-id: 8045087bda646f1b
+  uuid: 68c3d665-b2b5-4ffb-9f37-9f3d8c47324d
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: www.icloud.com
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
 - name: LK · VLESS · clashstair · 0F4081C7
   type: vless
   server: free.sahanwickramasinghe.me
@@ -92,6 +149,44 @@ proxies:
     path: /
     headers:
       Host: free.sahanwickramasinghe.me
+  udp: true
+- name: LK · VLESS · clashstair · D6941A1F
+  type: vless
+  server: free.sahanwickramasinghe.me
+  port: 80
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: free.sahanwickramasinghe.me
+- name: DE · VLESS · clashstair · C73C8051
+  type: vless
+  server: 77.221.157.213
+  port: 10443
+  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
+  tls: false
+  tfo: false
+  skip-cert-verify: false
+  servername: 77.221.157.213
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: SG · VLESS · clashstair · 6C40AA0C
+  type: vless
+  server: 147.93.173.45
+  port: 10444
+  reality-opts:
+    public-key: 0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo
+    short-id: 8debcf36f1cc69ff
+  uuid: 75c5f51b-d548-4eab-a26e-aa10fc3dbc7b
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: video.yandex.ru
+  client-fingerprint: safari
+  network: tcp
   udp: true
 - name: FI · VLESS · clashstair · F7EDCD3D
   type: vless
@@ -110,18 +205,6 @@ proxies:
   grpc-opts:
     grpc-service-name: 0adb9638509b
   udp: true
-- name: DE · VLESS · clashstair · C73C8051
-  type: vless
-  server: 77.221.157.213
-  port: 10443
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  servername: 77.221.157.213
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: ZZ · VLESS · clashstair · 4CDE1D50
   type: vless
   server: 47.238.210.5
@@ -135,21 +218,5 @@ proxies:
   skip-cert-verify: false
   servername: tesla.com
   client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: SG · VLESS · clashstair · 6C40AA0C
-  type: vless
-  server: 147.93.173.45
-  port: 10444
-  reality-opts:
-    public-key: 0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo
-    short-id: 8debcf36f1cc69ff
-  uuid: 75c5f51b-d548-4eab-a26e-aa10fc3dbc7b
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: video.yandex.ru
-  client-fingerprint: safari
   network: tcp
   udp: true
