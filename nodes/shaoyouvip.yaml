@@ -1,169 +1,154 @@
 proxies:
-- name: HK · ANYTLS · shaoyouvip · E4CE23A5
-  type: anytls
-  server: 56481.df6h451rh.xin
-  port: 443
-  skip-cert-verify: true
-  sni: images.ctfassets.net
-  udp: true
-  password: 0324fbc29561
-- name: US · HTTP · shaoyouvip · 3CDF624C
+- name: US · HTTP · shaoyouvip · 2DF868DA
   type: http
-  server: 138.199.35.215
-  port: 9002
+  server: 154.47.25.78
+  port: 9443
   skip-cert-verify: true
   tls: true
   udp: true
-  username: "null"
-  password: "null"
-- name: US · HYSTERIA2 · kooker · C17BB8F2
-  type: hysteria2
-  server: 179.255.104.98
-  port: 443
+- name: US · SOCKS5 · shaoyouvip · 49D2C83E
+  type: socks5
+  server: 20.121.252.238
+  port: 3000
   skip-cert-verify: true
-  sni: dl1.yuanshicheng.com
   udp: true
-  password: lh92eQnxIpeg2odHHDg0SrcczqwS4e8Y
-  auth: lh92eQnxIpeg2odHHDg0SrcczqwS4e8Y
-- name: FR · HYSTERIA · shaoyouvip · ADEF3F46
-  type: hysteria
-  server: 62.210.70.191
-  port: 24667
-  alpn:
-  - h3
-  down: 55 Mbps
-  protocol: udp
-  skip-cert-verify: true
-  sni: bing.com
-  up: 11 Mbps
-  udp: true
-  auth-str: dongtaiwang.com
-- name: BR · HYSTERIA2 · shaoyouvip · D5C7877B
-  type: hysteria2
-  server: 137.131.171.249
-  port: 20000
-  obfs: salamander
-  obfs-password: CyG0RFxMjzs41uQD4OLuHQ==
-  ports: 20000-30000
-  skip-cert-verify: true
-  sni: rmgyvpn.rest
-  udp: true
-  password: CyG0RFxMjzs41uQD4OLuHQ==
-  auth: CyG0RFxMjzs41uQD4OLuHQ==
-- name: IN · TROJAN · shaoyouvip · 0A98FE67
+  username: ''
+  password: ''
+- name: US · TROJAN · shaoyouvip · 006AB893
   type: trojan
-  server: in.tronsg.com
-  port: 443
+  server: 66.23.203.21
+  port: 59689
+  client-fingerprint: chrome
   skip-cert-verify: true
-  sni: in.tronsg.com
   udp: true
   network: tcp
-  password: Trojan@82164024
-- name: DE · VLESS · shaoyouvip · 9BBC2B1C
+  password: ae7eb4dwyaz25pxwgq59
+- name: SG · VLESS · shaoyouvip · 081D713A
   type: vless
-  server: 103.160.59.198
+  server: 172.64.150.43
   port: 443
   uuid: 495c7195-85b8-498a-bf20-2ea9ce9175b5
-  client-fingerprint: chrome
+  client-fingerprint: unsafe
+  encryption: none
   network: ws
   tls: true
   udp: true
   ws-opts:
     headers:
       Host: snip.edgeoneai.cc.cd
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+      User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36
     path: /
   xudp: true
   packet-encoding: xudp
   servername: snip.edgeoneai.cc.cd
-- name: US · HTTP · shaoyouvip · 02FC4C8E
+- name: US · HTTP · shaoyouvip · 0B1BA9BE
   type: http
-  server: 38.247.141.135
+  server: 68.235.56.59
   port: 443
   skip-cert-verify: true
   tls: true
   udp: true
-- name: AU · HYSTERIA2 · shaoyouvip · B4ACEAE0
-  type: hysteria2
-  server: 192.9.175.191
-  port: 20000
-  obfs: salamander
-  obfs-password: a34f3990b69f44bfa0d32385
-  ports: 20000-30000
-  skip-cert-verify: true
-  sni: rmgyvpn.rest
-  udp: true
-  password: a34f3990b69f44bfa0d32385
-  auth: a34f3990b69f44bfa0d32385
-- name: PL · VLESS · shaoyouvip · 295EF9E0
+- name: NL · VLESS · shaoyouvip · 890A6F08
   type: vless
-  server: 45.198.0.24
-  port: 443
-  reality-opts:
-    public-key: nFJCJ2tvxLdLrc9G-O1laW8KDir5SDnaOTmYndVaOGQ
-    short-id: 7a3f9e2b1c8d4f6a
-  uuid: e5544327-834c-455a-9db5-2454c788fa17
-  client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
+  server: g--p.soreanapanel.com
+  port: 25566
+  uuid: 938bee33-7319-4c39-99bf-1128fab04c7d
+  encryption: mlkem768x25519plus.native.0rtt.T-gHfXonmN4GiwBIHvADVc8uAEQyff099ST33D7IzA0
+  http-opts:
+    headers:
+      Host:
+      - b--g.bntabriz.ir
+    path:
+    - /
+  network: http
   udp: true
   xudp: true
   packet-encoding: xudp
-  servername: pl.ru-msk.club
-- name: US · HTTP · shaoyouvip · 24119D76
+- name: US · HTTP · shaoyouvip · FB72D1A2
   type: http
-  server: 149.22.88.65
+  server: 121.127.34.82
   port: 443
   skip-cert-verify: true
   tls: true
   udp: true
-- name: RU · VLESS · shaoyouvip · CA175A42
+- name: BG · VLESS · shaoyouvip · 52B7206F
   type: vless
-  server: 37.143.15.206
-  port: 443
-  reality-opts:
-    public-key: OCRYYq4e92sQ-wWFRX6WX9pdvuFBWOqybLhpSiv3nFA
-    short-id: '111111'
-  uuid: 4599572f-bcfa-461e-bc73-d80e1ea65aa6
-  client-fingerprint: chrome
-  encryption: none
-  flow: xtls-rprx-vision
-  network: tcp
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 5post-gate.x5.ru
-- name: US · HTTP · shaoyouvip · EC8C216E
-  type: http
-  server: 149.88.21.129
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: ZZ · VLESS · shaoyouvip · 59EE2C1C
-  type: vless
-  server: 37.32.46.68
-  port: 443
-  uuid: f9e47c0e-f2ce-46dc-aa01-7fb43181ca71
+  server: 78.159.246.179
+  port: 8443
+  uuid: 2c634977-584e-4e1f-b501-1b70c77a6743
   alpn:
   - h2
   - http/1.1
-  client-fingerprint: chrome
-  encryption: mlkem768x25519plus.random.0rtt.100-111-1111.75-0-111.50-0-3333.gtnKnyKWb08bvS7m-Mk7nK3NeNCBwG0VJGIHSitzhw8
-  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+  encryption: none
   network: xhttp
   tls: true
   udp: true
   xhttp-opts:
-    mode: packet-up
-    path: /
+    host: randomquaint.net
+    mode: auto
+    path: /api/v1/upload
+    reuse-settings:
+      c-max-reuse-times: 64-128
+      h-keep-alive-period: 0
+      h-max-request-times: '0'
+      h-max-reusable-secs: '0'
+      max-concurrency: 16-32
+      max-connections: '0'
+    session-length: '0'
+    x-padding-bytes: 100-1000
+    x-padding-obfs-mode: false
   xudp: true
   packet-encoding: xudp
-  servername: franc2.kevindebroineh.ir
+  servername: randomquaint.net
+- name: US · HTTP · shaoyouvip · 049B7BE2
+  type: http
+  server: 198.44.135.27
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: RU · VLESS · shaoyouvip · 2C200388
+  type: vless
+  server: 78.159.246.179
+  port: 2053
+  uuid: 95a608b6-bff1-4e10-bb61-0a39f221bb7d
+  alpn:
+  - h2
+  - http/1.1
+  client-fingerprint: firefox
+  network: xhttp
+  tls: true
+  udp: true
+  xhttp-opts:
+    host: randomquaint.net
+    mode: auto
+    path: /api/v1/upload
+  servername: randomquaint.net
+- name: US · HTTP · shaoyouvip · 1DD0DAD3
+  type: http
+  server: 149.88.21.140
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: FI · VLESS · shaoyouvip · 76D1FDBA
+  type: vless
+  server: 31.76.227.60
+  port: 443
+  reality-opts:
+    public-key: CcMEJ-JOS4clB3gXbc6wXgzkiJQbyNpKY90I8B6AqyU
+    short-id: 4c188683e2c14a3c
+  uuid: 05c8eabe-96af-4db2-bb2f-a24fa84344ba
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  packet-encoding: xudp
+  servername: assets-mi-29.spbstudentlife.com
 - name: CA · HTTP · shaoyouvip · 29AEDDFB
   type: http
   server: 206.223.161.47
@@ -171,20 +156,73 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: FR · HTTP · shaoyouvip · 697533B9
-  type: http
-  server: 82.65.162.76
+- name: PL · VLESS · shaoyouvip · 9E8DB396
+  type: vless
+  server: 195.137.226.11
   port: 443
-  skip-cert-verify: true
+  uuid: 54d67aa6-fe54-4b8e-b3b6-62b7e043eb35
+  alpn:
+  - h2
+  - http/1.1
+  - h3
+  client-fingerprint: chrome
+  encryption: none
+  network: xhttp
   tls: true
   udp: true
-- name: NL · HTTP · shaoyouvip · 97F8B333
+  xhttp-opts:
+    host: mobile.zandix.ir
+    mode: auto
+    path: /
+  xudp: true
+  packet-encoding: xudp
+  servername: mobile.zandix.ir
+- name: US · HTTP · shaoyouvip · 2349CF19
   type: http
-  server: 84.17.47.146
+  server: 138.199.35.215
   port: 9002
   skip-cert-verify: true
   tls: true
   udp: true
+  password: None
+- name: US · HTTP · shaoyouvip · BB586FBA
+  type: http
+  server: 138.199.35.198
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: CA · HTTP · shaoyouvip · CB79DF1D
+  type: http
+  server: 198.44.157.19
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · HTTP · shaoyouvip · E738C458
+  type: http
+  server: 138.199.35.217
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · HTTP · shaoyouvip · F2163696
+  type: http
+  server: 148.135.10.80
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: GB · HTTP · shaoyouvip · 65382AC6
+  type: http
+  server: 37.120.233.18
+  port: 443
+  skip-cert-verify: true
+  sub_tag: R002-260618
+  tls: true
+  udp: true
+  password: None
 - name: NL · HTTP · shaoyouvip · E3E25B81
   type: http
   server: 84.17.47.149
@@ -192,9 +230,9 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: NL · HTTP · shaoyouvip · BE349430
+- name: NL · HTTP · shaoyouvip · 97F8B333
   type: http
-  server: 84.17.47.147
+  server: 84.17.47.146
   port: 9002
   skip-cert-verify: true
   tls: true
@@ -207,17 +245,41 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: NL · HTTP · shaoyouvip · E5953371
+- name: US · HTTP · freeclashnode · 30C7D2C1
   type: http
-  server: 84.17.47.125
-  port: 9002
+  server: 38.95.111.226
+  port: 9443
   skip-cert-verify: true
   tls: true
   udp: true
-- name: DE · HTTP · shaoyouvip · AF9352A5
+  username: ''
+  password: ''
+- name: GB · HTTP · shaoyouvip · 07A2C336
   type: http
-  server: 87.249.132.97
+  server: 37.120.233.50
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: GB · HTTP · shaoyouvip · 9AE6AA3F
+  type: http
+  server: 37.120.233.34
   port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · shaoyouvip · 3AEA8A7D
+  type: http
+  server: 149.36.51.161
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · shaoyouvip · 546865AA
+  type: http
+  server: 149.36.51.129
+  port: 443
   skip-cert-verify: true
   tls: true
   udp: true
@@ -228,13 +290,15 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: DE · HTTP · shaoyouvip · 37CEBBFC
+- name: BE · HTTP · shaoyouvip · 25500D05
   type: http
-  server: 193.233.75.115
+  server: 146.70.176.242
   port: 443
   skip-cert-verify: true
+  sub_tag: R002-260618
   tls: true
   udp: true
+  password: None
 - name: FR · HTTP · shaoyouvip · 73D3FE02
   type: http
   server: 213.139.9.142
@@ -242,23 +306,9 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: IE · HTTP · shaoyouvip · 89106406
+- name: FR · HTTP · shaoyouvip · 388E90A3
   type: http
-  server: 149.88.96.12
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · shaoyouvip · CDE7EC9D
-  type: http
-  server: 161.129.60.66
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: CZ · HTTP · shaoyouvip · E80E48EC
-  type: http
-  server: 185.216.35.130
+  server: 82.64.255.151
   port: 443
   skip-cert-verify: true
   tls: true
@@ -270,9 +320,58 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: SE · HTTP · shaoyouvip · CF12C3BC
+- name: GB · HTTP · shaoyouvip · ECED1723
   type: http
-  server: 146.70.242.146
+  server: 37.120.233.50
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: NL · HTTP · shaoyouvip · 8DD92425
+  type: http
+  server: 152.53.107.196
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: EE · HTTP · shaoyouvip · 2DBB6161
+  type: http
+  server: 95.153.31.66
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: DK · HTTP · shaoyouvip · 8042FD1E
+  type: http
+  server: 185.245.84.50
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: EE · HTTP · shaoyouvip · 9600AAEF
+  type: http
+  server: 95.153.32.2
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: CZ · HTTP · shaoyouvip · E80E48EC
+  type: http
+  server: 185.216.35.130
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: EE · HTTP · shaoyouvip · E11FB738
+  type: http
+  server: 95.153.32.2
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: LU · HTTP · shaoyouvip · F948F662
+  type: http
+  server: 185.221.132.242
   port: 443
   skip-cert-verify: true
   tls: true
@@ -280,6 +379,27 @@ proxies:
 - name: ES · HTTP · shaoyouvip · CDFB23BF
   type: http
   server: 130.195.250.18
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: FR · HTTP · shaoyouvip · D090CF3D
+  type: http
+  server: 87.98.174.157
+  port: 6103
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: FR · HTTP · shaoyouvip · 31C2777D
+  type: http
+  server: 149.102.245.65
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: HR · HTTP · shaoyouvip · 34AB6255
+  type: http
+  server: 154.47.29.161
   port: 443
   skip-cert-verify: true
   tls: true
@@ -292,292 +412,9 @@ proxies:
   tls: true
   udp: true
   password: None
-- name: SE · HTTP · shaoyouvip · EF5AB0CF
+- name: LV · HTTP · shaoyouvip · E72DF487
   type: http
-  server: 217.210.129.243
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: RO · HTTP · shaoyouvip · DF26F392
-  type: http
-  server: 135.136.1.2
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: BG · HTTP · shaoyouvip · BDC3CF27
-  type: http
-  server: 185.94.192.210
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: EE · HTTP · shaoyouvip · 6A6F4797
-  type: http
-  server: chalo-ru.nexorcdn.com
-  port: 36774
-  skip-cert-verify: true
-  sni: chalo-ru.nexorcdn.com
-  tls: true
-  udp: true
-  username: ef37886e2aacd6fa622e3de3810299c2
-  password: 9jkvAVV-9ufV6IGd
-- name: PT · HTTP · shaoyouvip · DB561BBA
-  type: http
-  server: 149.22.86.14
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · 7BEBA4C1
-  type: http
-  server: 138.199.35.210
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: ''
-  password: ''
-- name: US · HTTP · shaoyouvip · 22235EB7
-  type: http
-  server: 138.199.35.206
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · E10BAAB0
-  type: http
-  server: 138.199.35.216
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: ''
-  password: ''
-- name: US · HTTP · shaoyouvip · 06E3B211
-  type: http
-  server: 138.199.35.201
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · D7B8B457
-  type: http
-  server: 138.199.35.211
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · 3410B963
-  type: http
-  server: 138.199.35.202
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · 0C0D5402
-  type: http
-  server: 172.64.68.89
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · 5D2FEE6D
-  type: http
-  server: 138.199.35.214
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: US · HTTP · shaoyouvip · E95BDF2B
-  type: http
-  server: 129.212.181.253
-  port: 8443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · 43D72336
-  type: http
-  server: 64.98.50.100
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · E496C3B7
-  type: http
-  server: 68.235.56.51
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · FB72D1A2
-  type: http
-  server: 121.127.34.82
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: US · HTTP · shaoyouvip · 48C3DD3E
-  type: http
-  server: 209.148.53.153
-  port: 8090
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: ''
-  password: ''
-- name: FR · HTTP · shaoyouvip · 67B59DAD
-  type: http
-  server: 103.82.101.44
-  port: 443
-  skip-cert-verify: true
-  sni: f3a61d8406d537345747f99f8a281007-3f754ed5da1bba09.apache-iv.com
-  tls: true
-  udp: true
-- name: NL · HTTP · shaoyouvip · A1920F80
-  type: http
-  server: 84.17.47.126
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: NL · HTTP · shaoyouvip · BBCB8F86
-  type: http
-  server: 84.17.47.147
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · 2C17DF2C
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: BE · HTTP · shaoyouvip · E9F1F93E
-  type: http
-  server: 146.70.123.98
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DK · HTTP · shaoyouvip · 8042FD1E
-  type: http
-  server: 185.245.84.50
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · EBD954EE
-  type: http
-  server: 185.232.70.11
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: FR · HTTP · shaoyouvip · E2A944FA
-  type: http
-  server: 51.210.167.149
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · B27A80F2
-  type: http
-  server: 149.36.50.1
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · 5774B13A
-  type: http
-  server: 158.173.154.2
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · D697056F
-  type: http
-  server: 213.177.229.161
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: CH · HTTP · shaoyouvip · 0DDAB58E
-  type: http
-  server: 149.88.27.46
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: CH · HTTP · shaoyouvip · 4D25A9A0
-  type: http
-  server: 37.120.213.210
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: None
-- name: FR · HTTP · shaoyouvip · D090CF3D
-  type: http
-  server: 87.98.174.157
-  port: 6103
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: AT · HTTP · shaoyouvip · 33E2F0C5
-  type: http
-  server: 146.70.244.2
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: FR · HTTP · shaoyouvip · 9B0B5C13
-  type: http
-  server: 31.32.19.111
-  port: 8081
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: SE · HTTP · shaoyouvip · FE5DD750
-  type: http
-  server: 149.50.216.65
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: SE · HTTP · shaoyouvip · E8E14617
-  type: http
-  server: 79.142.77.63
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: FI · HTTP · shaoyouvip · B7F800B3
-  type: http
-  server: 198.105.124.180
-  port: 8443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: CH · HTTP · shaoyouvip · 7E8B3370
-  type: http
-  server: 31.7.62.50
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: ES · HTTP · shaoyouvip · 342FBA48
-  type: http
-  server: 130.195.250.34
+  server: 185.219.159.15
   port: 443
   skip-cert-verify: true
   tls: true
@@ -589,40 +426,154 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-- name: LV · HTTP · shaoyouvip · ED5CD87D
+- name: US · HTTP · shaoyouvip · A442A292
   type: http
-  server: 109.248.147.66
+  server: 193.239.236.134
   port: 443
   skip-cert-verify: true
   tls: true
   udp: true
-  username: ''
-  password: ''
-- name: US · HTTP · shaoyouvip · 4AD7C07B
+- name: US · HTTP · shaoyouvip · 663EAC67
   type: http
-  server: 45.63.38.134
+  server: 12.221.146.147
   port: 443
   skip-cert-verify: true
   tls: true
   udp: true
-- name: PL · HTTP · shaoyouvip · 851F67E3
+- name: US · HTTP · shaoyouvip · 258ACB4E
   type: http
-  server: 151.115.54.133
+  server: 12.202.180.118
   port: 443
   skip-cert-verify: true
   tls: true
   udp: true
-- name: RO · HTTP · shaoyouvip · 9CD104EB
+- name: US · HTTP · shaoyouvip · 43ED60EB
   type: http
-  server: 193.176.84.34
+  server: 198.44.138.27
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · HTTP · shaoyouvip · 4CF451BF
+  type: http
+  server: 12.202.180.10
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · HTTP · shaoyouvip · 6E0E81B7
+  type: http
+  server: 44.217.145.28
+  port: 8443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: CA · HTTP · shaoyouvip · 67AFE6AA
+  type: http
+  server: 198.44.157.27
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: CA · HTTP · shaoyouvip · 46441061
+  type: http
+  server: 35.183.131.26
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: US · HTTP · shaoyouvip · 1DB97B7B
+  type: http
+  server: 167.88.60.242
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: CA · HTTP · shaoyouvip · 877E6AFB
+  type: http
+  server: 23.169.224.34
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: GB · HTTP · shaoyouvip · DA60B000
+  type: http
+  server: 84.17.50.129
+  port: 9443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: GB · HTTP · shaoyouvip · B54D9744
+  type: http
+  server: 212.102.63.61
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: GB · HTTP · shaoyouvip · 21734C25
+  type: http
+  server: 212.102.63.1
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: BE · HTTP · shaoyouvip · 067F9500
+  type: http
+  server: 146.70.123.98
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: IE · HTTP · shaoyouvip · CF28EA7B
+  type: http
+  server: 149.88.96.1
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: GB · HTTP · shaoyouvip · 1171B3FE
+  type: http
+  server: 185.164.138.156
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: DE · HTTP · shaoyouvip · F11D8199
+  type: http
+  server: 87.249.132.97
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: DE · HTTP · shaoyouvip · 4B4570F2
+  type: http
+  server: 149.36.50.129
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: None
+- name: DE · HTTP · shaoyouvip · AC79FDBA
+  type: http
+  server: 158.173.154.3
   port: 9002
   skip-cert-verify: true
   tls: true
   udp: true
-- name: RO · HTTP · shaoyouvip · 454C8381
+- name: DE · HTTP · shaoyouvip · 98D604F8
   type: http
-  server: 193.176.84.40
-  port: 9002
+  server: 152.233.20.206
+  port: 443
+  skip-cert-verify: true
+  tls: true
+  udp: true
+- name: IE · HTTP · shaoyouvip · 4F969FF9
+  type: http
+  server: 149.88.96.12
+  port: 443
   skip-cert-verify: true
   tls: true
   udp: true
