@@ -1,23 +1,32 @@
 proxies:
-- name: PL · TROJAN · cfmem · 500ACE37
-  type: trojan
-  server: 201.10.90.81
-  port: 443
-  sni: HL-FREEDOM-2.UNDEF.NETWORK
-  skip-cert-verify: true
-  udp: true
-  password: u93yPGuY2zgIsisJZKS2QzJzg
-- name: DE · VLESS · cfmem · BD5A2B6B
+- name: DE · VLESS · cfmem · CCCAD6A2
   type: vless
   server: 77.221.157.213
-  port: 14430
+  port: 10443
   uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
+  network: tcp
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
   network: ws
-  servername: 77.221.157.213
+  tls: true
+  servername: guanwang.awsno.com
   ws-opts:
-    path: /vless
+    path: /hls/cctv5phd.m3u8
     headers:
-      Host: 77.221.157.213
+      Host: guanwang.awsno.com
+- name: DE · VLESS · cfmem · 4D248D06
+  type: vless
+  server: 77.221.157.213
+  port: 10443
+  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -34,55 +43,27 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: DE · VLESS · cfmem · 4D248D06
+- name: DE · VLESS · cfmem · BD5A2B6B
   type: vless
   server: 77.221.157.213
-  port: 10443
+  port: 14430
   uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · VMESS · cfmem · 81382C3E
+  network: ws
+  servername: 77.221.157.213
+  ws-opts:
+    path: /vless
+    headers:
+      Host: 77.221.157.213
+- name: CN · VMESS · cfmem · F55010A8
   type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  server: 120.48.133.162
+  port: 10086
+  uuid: 2b910c43-51e3-4b15-9be8-b658106ba35e
   alterId: 0
   cipher: auto
   network: ws
-  tls: true
-  servername: guanwang.awsno.com
   ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: NL · VLESS · cfmem · 93CE6987
-  type: vless
-  server: nl5.hap-plus.ru
-  port: 8443
-  uuid: 05d7a479-a099-40cf-aecf-41aa934767b0
-  network: ws
-  tls: true
-  servername: nl5.hap-plus.ru
-  client-fingerprint: chrome
-  ws-opts:
-    path: /api/v1/events
-    headers:
-      Host: nl5.hap-plus.ru
-- name: JP · VMESS · cfmem · 4D094DE2
-  type: vmess
-  server: oc.imfun.fun
-  port: 18112
-  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: DE · VLESS · cfmem · CCCAD6A2
-  type: vless
-  server: 77.221.157.213
-  port: 10443
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  network: tcp
+    path: /
 - name: DE · VLESS · cfmem · 3B001617
   type: vless
   server: 77.221.157.213
@@ -97,6 +78,19 @@ proxies:
       Host: 77.221.157.213
   skip-cert-verify: true
   udp: true
+- name: NL · VLESS · cfmem · 93CE6987
+  type: vless
+  server: nl5.hap-plus.ru
+  port: 8443
+  uuid: 05d7a479-a099-40cf-aecf-41aa934767b0
+  network: ws
+  tls: true
+  servername: nl5.hap-plus.ru
+  client-fingerprint: chrome
+  ws-opts:
+    path: /api/v1/events
+    headers:
+      Host: nl5.hap-plus.ru
 - name: NL · VLESS · cfmem · 476126DD
   type: vless
   server: nl5.hap-plus.ru

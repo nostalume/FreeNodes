@@ -1,24 +1,4 @@
 proxies:
-- name: ZZ · VLESS · clashstair · D81EEDEE
-  type: vless
-  server: 104.21.70.21
-  port: 8080
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
-  network: ws
-  ws-opts:
-    path: /fp
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: HK · VMESS · clashstair · 43D1E837
-  type: vmess
-  server: 47.244.120.197
-  port: 36703
-  uuid: 45b83519-9c4f-4052-a11b-02e017b636d4
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /arki
 - name: US · VLESS · clashstair · 70E0F275
   type: vless
   server: 104.21.70.21
@@ -33,29 +13,6 @@ proxies:
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
   udp: true
-- name: HK · VMESS · clashstair · 72C37219
-  type: vmess
-  server: 47.244.120.197
-  port: 23026
-  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /arki
-    headers:
-      Host: 47.244.120.197
-- name: DE · VLESS · clashstair · E3C640DC
-  type: vless
-  server: 77.221.157.213
-  port: 10443
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  network: tcp
-  servername: 77.221.157.213
-  client-fingerprint: chrome
 - name: HK · VMESS · clashstair · 24461230
   type: vmess
   server: 47.244.120.197
@@ -83,45 +40,6 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: HK · VMESS · clashstair · F6F15A05
-  type: vmess
-  server: 47.244.120.197
-  port: 23026
-  uuid: b9de1bc9-baa7-41ac-86f7-ccd59695cb21
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /arki
-    headers:
-      Host: 47.244.120.197
-- name: FI · VLESS · clashstair · F7EDCD3D
-  type: vless
-  server: 36a466g.fi1.h1clayd.click
-  port: 443
-  reality-opts:
-    public-key: pAgrBKJCmuSJHIzYkEJTqsOBOVBK_DMtEqFPo-PaTkg
-    short-id: b3c9d0c6bdd114a6
-  uuid: 9a0e84f8-4b58-477f-99da-5fac5a2e58e8
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: 36a466g.fi1.h1clayd.click
-  client-fingerprint: random
-  network: grpc
-  grpc-opts:
-    grpc-service-name: 0adb9638509b
-  udp: true
-- name: ZZ · VMESS · clashstair · 035202A3
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /arki
 - name: NL · VLESS · clashstair · 4F2DA0A4
   type: vless
   server: 31.59.140.189
@@ -138,21 +56,6 @@ proxies:
   client-fingerprint: random
   network: tcp
   udp: true
-- name: ZZ · VMESS · clashstair · E364931F
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /arki
-    headers:
-      Host: 47.244.120.197
 - name: HK · VLESS · clashstair · 058A8089
   type: vless
   server: 152.233.71.81
@@ -185,16 +88,6 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: US · VLESS · clashstair · 4873D5E1
-  type: vless
-  server: www.epicgames.com
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: openapi.next-ai.us.ci
 - name: FI · VLESS · clashstair · 941012EA
   type: vless
   server: 109.172.54.135
@@ -212,34 +105,50 @@ proxies:
   grpc-opts:
     grpc-service-name: GunService
   udp: true
-- name: SE · VLESS · clashstair · 17CFC348
+- name: HU · VLESS · clashstair · 06C3B00E
   type: vless
-  server: se1.h1cloud.net
-  port: 26100
+  server: hu1.aiage.work
+  port: 443
   reality-opts:
-    public-key: 1uuvuG2Jl_o6yoVvOYm3hEboArh2Znu7zCy4Tqj36TI
-    short-id: 8045087bda646f1b
-  uuid: 68c3d665-b2b5-4ffb-9f37-9f3d8c47324d
+    public-key: mPzNFHO4pZMzFviRkIhRd7xDUz4dMHyI-flZLOrgDVg
+    short-id: f8379ce795f2e5ed
+  uuid: 6338c01a-310e-42c3-bf4f-2a20e161054b
   tls: true
   tfo: false
+  flow: xtls-rprx-vision
   skip-cert-verify: false
-  servername: www.icloud.com
-  client-fingerprint: chrome
+  servername: hu1.aiage.work
+  client-fingerprint: firefox
   network: tcp
   udp: true
-- name: LK · VLESS · clashstair · 0F4081C7
+- name: BR · VLESS · clashstair · 41B20DB9
   type: vless
-  server: free.sahanwickramasinghe.me
+  server: platform117.golnamakcert.top
   port: 80
-  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
+  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
   tls: false
   tfo: false
   skip-cert-verify: false
   network: ws
   ws-opts:
-    path: /
+    path: /platform117
     headers:
-      Host: free.sahanwickramasinghe.me
+      Host: platform117.halalkhor.info
+  udp: true
+- name: BR · VLESS · clashstair · FC9FD3CB
+  type: vless
+  server: platform113.golnamakcert.top
+  port: 80
+  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
+  tls: false
+  tfo: false
+  skip-cert-verify: false
+  servername: platform113.halalkhor.info
+  network: ws
+  ws-opts:
+    path: /platform113
+    headers:
+      Host: platform113.halalkhor.info
   udp: true
 - name: SG · VLESS · clashstair · 6C40AA0C
   type: vless
@@ -272,6 +181,14 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
+- name: DE · VLESS · clashstair · E3C640DC
+  type: vless
+  server: 77.221.157.213
+  port: 10443
+  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
+  network: tcp
+  servername: 77.221.157.213
+  client-fingerprint: chrome
 - name: LK · VLESS · clashstair · D6941A1F
   type: vless
   server: free.sahanwickramasinghe.me
@@ -282,71 +199,11 @@ proxies:
     path: /
     headers:
       Host: free.sahanwickramasinghe.me
-- name: ZZ · VLESS · clashstair · 4CDE1D50
+- name: LK · VLESS · clashstair · 0F4081C7
   type: vless
-  server: 47.238.210.5
-  port: 13779
-  reality-opts:
-    public-key: llTyp52oRXnJmQ3I9UUrmlwbMA79B-wLCRHCu-8dLGg
-    short-id: af1bdd293097b664
-  uuid: 928e6cce-8ced-4243-9a48-a6642edd09b0
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: tesla.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: HU · VLESS · clashstair · 06C3B00E
-  type: vless
-  server: hu1.aiage.work
-  port: 443
-  reality-opts:
-    public-key: mPzNFHO4pZMzFviRkIhRd7xDUz4dMHyI-flZLOrgDVg
-    short-id: f8379ce795f2e5ed
-  uuid: 6338c01a-310e-42c3-bf4f-2a20e161054b
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: hu1.aiage.work
-  client-fingerprint: firefox
-  network: tcp
-  udp: true
-- name: BR · VLESS · clashstair · FC9FD3CB
-  type: vless
-  server: platform113.golnamakcert.top
+  server: free.sahanwickramasinghe.me
   port: 80
-  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  servername: platform113.halalkhor.info
-  network: ws
-  ws-opts:
-    path: /platform113
-    headers:
-      Host: platform113.halalkhor.info
-  udp: true
-- name: BR · VLESS · clashstair · 41B20DB9
-  type: vless
-  server: platform117.golnamakcert.top
-  port: 80
-  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /platform117
-    headers:
-      Host: platform117.halalkhor.info
-  udp: true
-- name: US · VLESS · clashstair · A5FE5172
-  type: vless
-  server: www.epicgames.com
-  port: 2095
-  uuid: 86c50e3a-5b87-49dd-bd20-03c7f2735e40
+  uuid: fcdb24e3-5e66-4c45-b89e-ac9441f4dcda
   tls: false
   tfo: false
   skip-cert-verify: false
@@ -354,5 +211,48 @@ proxies:
   ws-opts:
     path: /
     headers:
-      Host: openapi.next-ai.us.ci
+      Host: free.sahanwickramasinghe.me
   udp: true
+- name: BY · VLESS · clashstair · 103E3B84
+  type: vless
+  server: 95.128.71.79
+  port: 14430
+  uuid: 8cef7621-c6f0-486e-b51d-59c30c5b0b25
+  tls: false
+  tfo: false
+  skip-cert-verify: false
+  servername: 95.128.71.79
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /vless
+    headers:
+      Host: 95.128.71.79
+  udp: true
+- name: FI · VLESS · clashstair · F7EDCD3D
+  type: vless
+  server: 36a466g.fi1.h1clayd.click
+  port: 443
+  reality-opts:
+    public-key: pAgrBKJCmuSJHIzYkEJTqsOBOVBK_DMtEqFPo-PaTkg
+    short-id: b3c9d0c6bdd114a6
+  uuid: 9a0e84f8-4b58-477f-99da-5fac5a2e58e8
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: 36a466g.fi1.h1clayd.click
+  client-fingerprint: random
+  network: grpc
+  grpc-opts:
+    grpc-service-name: 0adb9638509b
+  udp: true
+- name: ZZ · VLESS · clashmeta · D81EEDEE
+  type: vless
+  server: 104.21.70.21
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
+  ws-opts:
+    path: /fp
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
