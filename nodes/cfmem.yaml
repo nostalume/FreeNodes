@@ -1,10 +1,4 @@
 proxies:
-- name: DE · VLESS · cfmem · CCCAD6A2
-  type: vless
-  server: 77.221.157.213
-  port: 10443
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  network: tcp
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -19,25 +13,14 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: DE · VLESS · cfmem · 4D248D06
-  type: vless
-  server: 77.221.157.213
-  port: 10443
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  tls: false
+- name: PL · TROJAN · cfmem · 917A10A4
+  type: trojan
+  server: 78.17.171.62
+  port: 443
+  sni: FREETOPLAY-2.TETRIS-GAME.WORLD
   skip-cert-verify: true
   udp: true
-- name: DE · VLESS · cfmem · BD5A2B6B
-  type: vless
-  server: 77.221.157.213
-  port: 14430
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  network: ws
-  servername: 77.221.157.213
-  ws-opts:
-    path: /vless
-    headers:
-      Host: 77.221.157.213
+  password: u93yPGuY2zgIsisJZKS2QzJzg
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -54,17 +37,39 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: DE · VLESS · cfmem · 3B001617
-  type: vless
-  server: 77.221.157.213
-  port: 14430
-  uuid: 1d006ad5-1de1-4520-a5f4-875dae1b0a5d
-  network: ws
-  servername: 77.221.157.213
+- name: HK→US · VMESS · cfmem · 0B82D95D
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: CN→US · VMESS · cfmem · 4B8A6FCA
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
   tls: false
-  ws-opts:
-    path: /vless
-    headers:
-      Host: 77.221.157.213
+  skip-cert-verify: true
+  udp: true
+- name: CN→US · VMESS · cfmem · 76966289
+  type: vmess
+  server: v29.hdacd.com
+  port: 30829
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  network: tcp
+- name: HK→US · VMESS · cfmem · CEDC84C1
+  type: vmess
+  server: v4.hdacd.com
+  port: 30804
+  uuid: cbb3f877-d1fb-344c-87a9-d153bffd5484
+  alterId: 2
+  cipher: auto
+  tls: false
   skip-cert-verify: true
   udp: true
