@@ -1,4 +1,49 @@
 proxies:
+- name: PL · TROJAN · cfmem · 917A10A4
+  type: trojan
+  server: 78.17.171.62
+  port: 443
+  sni: FREETOPLAY-2.TETRIS-GAME.WORLD
+  skip-cert-verify: true
+  udp: true
+  password: u93yPGuY2zgIsisJZKS2QzJzg
+- name: FR · VLESS · cfmem · EA3D98A0
+  type: vless
+  server: farancenew.mamadhpbot.ir
+  port: 8080
+  uuid: 732ec777-bf4a-4fee-835a-25d6a8b58563
+  network: ws
+  tls: false
+  ws-opts:
+    path: /real
+    headers:
+      Host: farancenew.mamadhpbot.ir
+  skip-cert-verify: true
+  udp: true
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: FR · VLESS · cfmem · 2AC709CF
+  type: vless
+  server: farancenew.mamadhpbot.ir
+  port: 8080
+  uuid: 732ec777-bf4a-4fee-835a-25d6a8b58563
+  network: ws
+  ws-opts:
+    path: /real
+    headers:
+      Host: farancenew.mamadhpbot.ir
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -15,25 +60,31 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
+- name: RU→DE · VLESS · cfmem · 98C974F0
+  type: vless
+  server: z1q3pv4g78.rucdncomp.pro
   port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
+  uuid: c720cb74-4c84-4fce-b8ae-637dbaa16199
   network: ws
   tls: true
-  servername: guanwang.awsno.com
+  servername: z1q3pv4g78.rucdncomp.pro
+  client-fingerprint: firefox
   ws-opts:
-    path: /hls/cctv5phd.m3u8
+    path: /useraction/events/b892639b7195/
     headers:
-      Host: guanwang.awsno.com
-- name: JP · VMESS · cfmem · 4D094DE2
-  type: vmess
-  server: oc.imfun.fun
-  port: 18112
-  uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
-  alterId: 0
-  cipher: auto
-  network: tcp
+      Host: z1q3pv4g78.rucdncomp.pro
+- name: RU→DE · VLESS · cfmem · D6FF77AB
+  type: vless
+  server: z1q3pv4g78.rucdncomp.pro
+  port: 443
+  uuid: c720cb74-4c84-4fce-b8ae-637dbaa16199
+  network: ws
+  servername: z1q3pv4g78.rucdncomp.pro
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /useraction/events/b892639b7195/
+    headers:
+      Host: z1q3pv4g78.rucdncomp.pro
+  skip-cert-verify: true
+  udp: true
