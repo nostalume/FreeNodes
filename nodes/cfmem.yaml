@@ -1,26 +1,4 @@
 proxies:
-- name: PL · TROJAN · cfmem · 917A10A4
-  type: trojan
-  server: 78.17.171.62
-  port: 443
-  sni: FREETOPLAY-2.TETRIS-GAME.WORLD
-  skip-cert-verify: true
-  udp: true
-  password: u93yPGuY2zgIsisJZKS2QzJzg
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -37,13 +15,25 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: JP · VMESS · cfmem · BE213168
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: JP · VMESS · cfmem · 4D094DE2
   type: vmess
   server: oc.imfun.fun
   port: 18112
   uuid: ad45f8f6-0f0a-4cc4-b907-c4582407dc94
   alterId: 0
   cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
+  network: tcp
