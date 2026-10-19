@@ -1,12 +1,11 @@
 proxies:
-- name: PL · TROJAN · cfmem · 917A10A4
+- name: US · TROJAN · cfmem · 25424D1E
   type: trojan
-  server: 78.17.171.62
+  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
   port: 443
-  sni: FREETOPLAY-2.TETRIS-GAME.WORLD
-  skip-cert-verify: true
-  udp: true
-  password: u93yPGuY2zgIsisJZKS2QzJzg
+  tls: true
+  servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
+  password: f0eb8c92ce8946aaba856569cff1a16b
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -31,6 +30,13 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: f0eb8c92ce8946aaba856569cff1a16b
+- name: DE · TROJAN · cfmem · D23F213E
+  type: trojan
+  server: de7.dedushka.top
+  port: 443
+  tls: true
+  servername: de7.dedushka.top
+  password: 4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -45,65 +51,3 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · TROJAN · cfmem · 25424D1E
-  type: trojan
-  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  port: 443
-  tls: true
-  servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  password: f0eb8c92ce8946aaba856569cff1a16b
-- name: KR · VMESS · cfmem · 9E8CD6BB
-  type: vmess
-  server: chuncheon02.zgjok.com
-  port: 443
-  uuid: d1a1cb91-0f1f-41eb-a307-631bba00f1bb
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  servername: chuncheon02.zgjok.com
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: chuncheon02.zgjok.com
-  udp: true
-- name: DE · TROJAN · cfmem · D23F213E
-  type: trojan
-  server: de7.dedushka.top
-  port: 443
-  tls: true
-  servername: de7.dedushka.top
-  password: 4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA
-- name: CN · VMESS · cfmem · 8807D88D
-  type: vmess
-  server: 39.108.113.127
-  port: 10086
-  uuid: 4fc543d5-23ce-4556-ae2b-01685edd4397
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  udp: true
-- name: CN · VMESS · cfmem · 5A29E025
-  type: vmess
-  server: 120.48.133.162
-  port: 10086
-  uuid: 4fc543d5-23ce-4556-ae2b-01685edd4397
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  udp: true
-- name: CN · VMESS · cfmem · A0E4FCF7
-  type: vmess
-  server: 120.48.133.162
-  port: 10086
-  uuid: 4fc543d5-23ce-4556-ae2b-01685edd4397
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /
