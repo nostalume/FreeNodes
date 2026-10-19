@@ -1,11 +1,12 @@
 proxies:
-- name: US · TROJAN · cfmem · 25424D1E
+- name: DE · TROJAN · cfmem · 4C958501
   type: trojan
-  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
+  server: de7.dedushka.top
   port: 443
-  tls: true
-  servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  password: f0eb8c92ce8946aaba856569cff1a16b
+  sni: de7.dedushka.top
+  skip-cert-verify: true
+  udp: true
+  password: 4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -22,14 +23,6 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: US · TROJAN · cfmem · C1930DBD
-  type: trojan
-  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  port: 443
-  sni: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  skip-cert-verify: true
-  udp: true
-  password: f0eb8c92ce8946aaba856569cff1a16b
 - name: DE · TROJAN · cfmem · D23F213E
   type: trojan
   server: de7.dedushka.top
@@ -51,3 +44,24 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: CN · VMESS · cfmem · A0E4FCF7
+  type: vmess
+  server: 120.48.133.162
+  port: 10086
+  uuid: 4fc543d5-23ce-4556-ae2b-01685edd4397
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /
+- name: CN · VMESS · cfmem · 5A29E025
+  type: vmess
+  server: 120.48.133.162
+  port: 10086
+  uuid: 4fc543d5-23ce-4556-ae2b-01685edd4397
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  udp: true

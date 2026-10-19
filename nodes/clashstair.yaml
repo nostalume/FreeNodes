@@ -4,6 +4,13 @@ proxies:
   server: 47.87.97.94
   port: 1080
   udp: true
+- name: US · SS · clashstair · 890991D2
+  type: ss
+  server: 104.36.66.212
+  port: 443
+  cipher: aes-256-gcm
+  udp: true
+  password: bwLa2026x9KpQzRt7Nv
 - name: CA · VLESS · clashstair · 70E0F275
   type: vless
   server: 104.21.70.21
@@ -18,76 +25,23 @@ proxies:
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
   udp: true
-- name: HK · VMESS · clashstair · CCDD983A
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /arki
-    headers:
-      Host: 47.244.120.197
-- name: HK · SOCKS5 · clashstair · CCA16B3F
+- name: KR · SOCKS5 · clashstair · F740BE2D
   type: socks5
-  server: 47.238.126.208
+  server: 14.36.232.55
   port: 1080
   udp: true
   username: Og==
   password: Og==
-- name: FI · VLESS · clashstair · DA34B1AD
+- name: CA · VLESS · clashstair · D81EEDEE
   type: vless
-  server: 31.77.199.147
-  port: 4443
-  reality-opts:
-    public-key: GvkQwcZWiXQBLzEhTVfQkyPpdgo6Opc3RtLsED9sA0A
-    short-id: 7da2eae792187ab9
-  uuid: 20dd9433-389e-4573-ba7b-689619cf13da
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: false
-  servername: images.unsplash.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
-- name: HK · VMESS · clashstair · D2A58D91
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
+  server: 104.21.70.21
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
   ws-opts:
-    path: /arki
-- name: ZZ · SOCKS5 · clashstair · FAE60B9B
-  type: socks5
-  server: 47.238.126.208
-  port: 1080
-  udp: true
-  username: Og
-  password: Og
-- name: SG · VLESS · clashstair · 84908918
-  type: vless
-  server: 45.132.75.213
-  port: 2053
-  reality-opts:
-    public-key: TpWeZocgNOygOhMo0l7oJawPu7STkn9D-SOa0UppcyY
-    short-id: cd7e85995ae2afc9
-  uuid: f46182d1-e13b-47d3-97e2-fa5426a93e7c
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.cloudflare.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
+    path: /fp
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
 - name: DE · VLESS · clashstair · F5616F22
   type: vless
   server: ge-s-1.pythonmakemigreat.wiki
@@ -104,21 +58,6 @@ proxies:
   client-fingerprint: chrome
   network: raw
   udp: true
-- name: HK · VLESS · clashstair · 4CDE1D50
-  type: vless
-  server: 47.238.210.5
-  port: 13779
-  reality-opts:
-    public-key: llTyp52oRXnJmQ3I9UUrmlwbMA79B-wLCRHCu-8dLGg
-    short-id: af1bdd293097b664
-  uuid: 928e6cce-8ced-4243-9a48-a6642edd09b0
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: tesla.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: JP · VLESS · clashstair · 3D30EC24
   type: vless
   server: platform106.golnamakcert.top
@@ -133,13 +72,51 @@ proxies:
     headers:
       Host: platform106.halalkhor.info
   udp: true
-- name: FR · VLESS · clashmeta · D81EEDEE
+- name: FI · VLESS · clashstair · DA34B1AD
   type: vless
-  server: 104.21.70.21
-  port: 8080
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
-  network: ws
-  ws-opts:
-    path: /fp
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
+  server: 31.77.199.147
+  port: 4443
+  reality-opts:
+    public-key: GvkQwcZWiXQBLzEhTVfQkyPpdgo6Opc3RtLsED9sA0A
+    short-id: 7da2eae792187ab9
+  uuid: 20dd9433-389e-4573-ba7b-689619cf13da
+  tls: true
+  tfo: false
+  flow: xtls-rprx-vision
+  skip-cert-verify: false
+  servername: images.unsplash.com
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: SG · VLESS · clashstair · 84908918
+  type: vless
+  server: 45.132.75.213
+  port: 2053
+  reality-opts:
+    public-key: TpWeZocgNOygOhMo0l7oJawPu7STkn9D-SOa0UppcyY
+    short-id: cd7e85995ae2afc9
+  uuid: f46182d1-e13b-47d3-97e2-fa5426a93e7c
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: www.cloudflare.com
+  client-fingerprint: chrome
+  network: tcp
+  udp: true
+- name: FI · VLESS · clashstair · 941012EA
+  type: vless
+  server: 109.172.54.135
+  port: 8444
+  reality-opts:
+    public-key: FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0
+    short-id: ''
+  uuid: f55e9aba-7b14-4f6f-b59a-d5b3d45c9309
+  tls: true
+  tfo: false
+  skip-cert-verify: false
+  servername: github.com
+  client-fingerprint: chrome
+  network: grpc
+  grpc-opts:
+    grpc-service-name: GunService
+  udp: true
