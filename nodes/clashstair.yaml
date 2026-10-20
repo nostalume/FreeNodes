@@ -20,21 +20,27 @@ proxies:
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
   udp: true
-- name: ZZ · VMESS · clashstair · CCDD983A
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
+- name: TH · SOCKS5 · clashstair · 443D8137
+  type: socks5
+  server: 47.87.97.94
+  port: 1080
   udp: true
+  username: Og==
+  password: Og==
+- name: JP · VLESS · clashstair · 3D30EC24
+  type: vless
+  server: platform106.golnamakcert.top
+  port: 80
+  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
   tls: false
-  skip-cert-verify: true
+  tfo: false
+  skip-cert-verify: false
   network: ws
   ws-opts:
-    path: /arki
+    path: /platform106
     headers:
-      Host: 47.244.120.197
+      Host: platform106.halalkhor.info
+  udp: true
 - name: DE · VLESS · clashstair · F5616F22
   type: vless
   server: ge-s-1.pythonmakemigreat.wiki
@@ -51,48 +57,7 @@ proxies:
   client-fingerprint: chrome
   network: raw
   udp: true
-- name: ZZ · VMESS · clashstair · D2A58D91
-  type: vmess
-  server: 47.244.120.197
-  port: 44867
-  uuid: 845e6b08-2919-4290-ade0-5dc7dcea59ca
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /arki
-- name: FI · VLESS · clashstair · 941012EA
-  type: vless
-  server: 109.172.54.135
-  port: 8444
-  reality-opts:
-    public-key: FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0
-    short-id: ''
-  uuid: f55e9aba-7b14-4f6f-b59a-d5b3d45c9309
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: github.com
-  client-fingerprint: chrome
-  network: grpc
-  grpc-opts:
-    grpc-service-name: GunService
-  udp: true
-- name: JP · VLESS · clashstair · 3D30EC24
-  type: vless
-  server: platform106.golnamakcert.top
-  port: 80
-  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
-  tls: false
-  tfo: false
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /platform106
-    headers:
-      Host: platform106.halalkhor.info
-  udp: true
-- name: HK · VLESS · clashstair · 4CDE1D50
+- name: ZZ · VLESS · clashstair · 4CDE1D50
   type: vless
   server: 47.238.210.5
   port: 13779
@@ -107,54 +72,58 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: US · VLESS · clashstair · D69FE5FC
+- name: JP · VLESS · clashstair · F9C520F6
   type: vless
-  server: ge-s-1.pythonmakemigreat.wiki
-  port: 443
+  server: platform106.golnamakcert.top
+  port: 80
+  uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
+  network: ws
+  ws-opts:
+    path: /platform106
+    headers:
+      Host: platform106.halalkhor.info
+- name: SG · VLESS · clashstair · F07CDFCA
+  type: vless
+  server: 178.94.25.73
+  port: 10443
+  uuid: 2dacc738-5720-4824-b8bc-e3db57596ba7
+  tls: false
+  tfo: false
+  skip-cert-verify: false
+  servername: 178.94.25.73
+  network: tcp
+  udp: true
+- name: SG · VLESS · clashstair · BF7652B6
+  type: vless
+  server: 162.128.44.254
+  port: 36000
   reality-opts:
-    public-key: 5fkwwCKZzMsE6Eb_b3iqluu-1AWIfnYl-p0N3EL9Al8
-    short-id: 2c9a2790ad5900b2
-  uuid: f8d52ece-fad4-478d-875d-df6eed3befa7
+    public-key: X_RnxIw_MpC_qCMcsgM3CDcPx2y6LGVl7UMms0IxOkI
+    short-id: 8cd87cd0dcc86b9f
+  uuid: b2332eff-b231-4c10-8552-5dfad84f5521
   tls: true
   tfo: false
   flow: xtls-rprx-vision
   skip-cert-verify: false
-  servername: ge-s-1.pythonmakemigreat.wiki
+  servername: www.apple.com
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: JP · VLESS · clashstair · B856E4C3
+- name: SG · VLESS · clashstair · B358B89E
   type: vless
-  server: 141.11.138.132
-  port: 443
+  server: jklo.personalitytoday.com
+  port: 55069
   reality-opts:
-    public-key: Kb511WMVMJe1nImN8kCi9PdPQSGu3aZCrffMOvzv43A
-    short-id: f9ca9286d0ff8920
-  uuid: b47cc98c-54f4-4ab2-acb9-b493a04ccc6b
+    public-key: YQ3pqAAbm2RcACEkU8K0nol3-B-driJbXISk-rb-A0E
+    short-id: 98a763b0b27e284b
+  uuid: b2332eff-b231-4c10-8552-5dfad84f5521
   tls: true
   tfo: false
   flow: xtls-rprx-vision
   skip-cert-verify: false
-  servername: www.cloudflare.com
+  servername: www.apple.com
   client-fingerprint: chrome
   network: tcp
-  udp: true
-- name: SE · VLESS · clashstair · C6FA563E
-  type: vless
-  server: se1.h1cloud.net
-  port: 26128
-  reality-opts:
-    public-key: sACiHit5lNtPRK_eFP6jT8dMPUZ4kQRsfPj_LL5p7Uk
-    short-id: 13ac4d3bdadf1ea1
-  uuid: 68c3d665-b2b5-4ffb-9f37-9f3d8c47324d
-  tls: true
-  tfo: false
-  skip-cert-verify: false
-  servername: www.icloud.com
-  client-fingerprint: random
-  network: grpc
-  grpc-opts:
-    grpc-service-name: df50147201bf
   udp: true
 - name: FR · VLESS · clashmeta · D81EEDEE
   type: vless

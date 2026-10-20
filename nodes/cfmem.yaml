@@ -1,50 +1,17 @@
 proxies:
-- name: US · TROJAN · cfmem · 25424D1E
-  type: trojan
-  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  port: 443
-  tls: true
-  servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  password: f0eb8c92ce8946aaba856569cff1a16b
-- name: NL · VLESS · cfmem · EF50B955
+- name: US · VLESS · cfmem · 5D513F4F
   type: vless
-  server: 31.57.185.220
+  server: cfnode-11ivy8.pages.dev
   port: 443
-  uuid: 2e2e204a-7e61-48fb-8182-5955821e8da0
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
+  uuid: 2ea2719c-23e1-4cde-b192-c8652d55d9e5
   network: ws
   tls: true
-  servername: guanwang.awsno.com
+  servername: cfnode-11ivy8.pages.dev
+  client-fingerprint: chrome
   ws-opts:
-    path: /hls/cctv5phd.m3u8
+    path: /ws
     headers:
-      Host: guanwang.awsno.com
-- name: US · TROJAN · cfmem · C1930DBD
-  type: trojan
-  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  port: 443
-  sni: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  skip-cert-verify: true
-  udp: true
-  password: f0eb8c92ce8946aaba856569cff1a16b
-- name: NL · VLESS · cfmem · A6512BCE
-  type: vless
-  server: 31.57.185.220
-  port: 443
-  uuid: 2e2e204a-7e61-48fb-8182-5955821e8da0
-  network: ws
-  ws-opts:
-    path: /
+      Host: cfnode-11ivy8.pages.dev
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -61,21 +28,35 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: DE · TROJAN · cfmem · D23F213E
-  type: trojan
-  server: de7.dedushka.top
+- name: US · VLESS · cfmem · 48222AF3
+  type: vless
+  server: cfnode-11ivy8.pages.dev
   port: 443
+  uuid: 2ea2719c-23e1-4cde-b192-c8652d55d9e5
+  network: ws
+  servername: cfnode-11ivy8.pages.dev
   tls: true
-  servername: de7.dedushka.top
-  password: 4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA
-- name: CN · VMESS · cfmem · CF03F2D9
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ws
+    headers:
+      Host: cfnode-11ivy8.pages.dev
+  skip-cert-verify: true
+  udp: true
+- name: US · VMESS · cfmem · 81382C3E
   type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
   cipher: auto
-  network: tcp
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
 - name: CN · VMESS · cfmem · 6E57C2EB
   type: vmess
   server: 112.132.215.108
@@ -86,11 +67,3 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: DE · TROJAN · cfmem · 4C958501
-  type: trojan
-  server: de7.dedushka.top
-  port: 443
-  sni: de7.dedushka.top
-  skip-cert-verify: true
-  udp: true
-  password: 4_VfP9fKaM-3LpSVvoZuc_WUzLoCdHaA
