@@ -13,13 +13,12 @@ proxy-groups:
 - name: 🚀 Auto
   type: url-test
   use:
-  - au1rxx-clash
-  - au1rxx-v2ray
   - cfmem
   - clashmeta
   - clashstair
   - freeclashnode
   - kooker
+  - radikal
   - shaoyouvip
   - ts-sf-clash
   - ts-sf-v2ray
@@ -37,13 +36,12 @@ proxy-groups:
   - 🚀 Auto
   - DIRECT
   use:
-  - au1rxx-clash
-  - au1rxx-v2ray
   - cfmem
   - clashmeta
   - clashstair
   - freeclashnode
   - kooker
+  - radikal
   - shaoyouvip
   - ts-sf-clash
   - ts-sf-v2ray
@@ -80,16 +78,6 @@ rules:
 - GEOIP,CN,🇨🇳 Mainland China,no-resolve
 - MATCH,🌍 Proxy
 proxy-providers:
-  au1rxx-clash:
-    type: http
-    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/au1rxx-clash.yaml
-    path: ./proxy_providers/au1rxx-clash.yaml
-    interval: 3600
-  au1rxx-v2ray:
-    type: http
-    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/au1rxx-v2ray.yaml
-    path: ./proxy_providers/au1rxx-v2ray.yaml
-    interval: 3600
   cfmem:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/cfmem.yaml
@@ -114,6 +102,11 @@ proxy-providers:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/kooker.yaml
     path: ./proxy_providers/kooker.yaml
+    interval: 3600
+  radikal:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/radikal.yaml
+    path: ./proxy_providers/radikal.yaml
     interval: 3600
   shaoyouvip:
     type: http
