@@ -1,17 +1,50 @@
 proxies:
-- name: US · VLESS · cfmem · 48222AF3
+- name: DE · VLESS · cfmem · D7E8BAB6
   type: vless
-  server: cfnode-11ivy8.pages.dev
+  server: edge10.cyrionflare.com
+  port: 2052
+  uuid: 1a8ecc41-6e62-431b-8eca-87c2fa4dc286
+  tls: false
+  skip-cert-verify: true
+  udp: true
+- name: DE · VMESS · cfmem · FA95577E
+  type: vmess
+  server: turknew.net-flowa.com
+  port: 80
+  uuid: cd96479e-9c39-4a7f-ba0c-806a83af19ca
+  alterId: 0
+  cipher: auto
+  network: http
+- name: DE · VLESS · cfmem · 7FF3E827
+  type: vless
+  server: edge10.cyrionflare.com
+  port: 2052
+  uuid: 1a8ecc41-6e62-431b-8eca-87c2fa4dc286
+  network: tcp
+- name: DE · VMESS · cfmem · 484A7181
+  type: vmess
+  server: turknew.net-flowa.com
+  port: 80
+  uuid: cd96479e-9c39-4a7f-ba0c-806a83af19ca
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: http
+  udp: true
+- name: US→SG · VLESS · cfmem · 82527A6C
+  type: vless
+  server: vpn.cintaku.qzz.io
   port: 443
-  uuid: 2ea2719c-23e1-4cde-b192-c8652d55d9e5
+  uuid: fc7d2cfe-f5ef-40c8-a848-a0bdc11f6349
   network: ws
-  servername: cfnode-11ivy8.pages.dev
+  servername: vpn.cintaku.qzz.io
   tls: true
-  client-fingerprint: chrome
+  client-fingerprint: unsafe
   ws-opts:
-    path: /ws
+    path: /vlessws
     headers:
-      Host: cfnode-11ivy8.pages.dev
+      Host: vpn.cintaku.qzz.io
   skip-cert-verify: true
   udp: true
 - name: US · VMESS · cfmem · 81382C3E
@@ -28,19 +61,19 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: US · VLESS · cfmem · 5D513F4F
+- name: US→SG · VLESS · cfmem · CB39753B
   type: vless
-  server: cfnode-11ivy8.pages.dev
+  server: vpn.cintaku.qzz.io
   port: 443
-  uuid: 2ea2719c-23e1-4cde-b192-c8652d55d9e5
+  uuid: fc7d2cfe-f5ef-40c8-a848-a0bdc11f6349
   network: ws
   tls: true
-  servername: cfnode-11ivy8.pages.dev
-  client-fingerprint: chrome
+  servername: vpn.cintaku.qzz.io
+  client-fingerprint: unsafe
   ws-opts:
-    path: /ws
+    path: /vlessws
     headers:
-      Host: cfnode-11ivy8.pages.dev
+      Host: vpn.cintaku.qzz.io
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -56,65 +89,4 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-  udp: true
-- name: DE · VLESS · cfmem · 7FF3E827
-  type: vless
-  server: edge10.cyrionflare.com
-  port: 2052
-  uuid: 1a8ecc41-6e62-431b-8eca-87c2fa4dc286
-  network: tcp
-- name: DE · VMESS · cfmem · FA95577E
-  type: vmess
-  server: turknew.net-flowa.com
-  port: 80
-  uuid: cd96479e-9c39-4a7f-ba0c-806a83af19ca
-  alterId: 0
-  cipher: auto
-  network: http
-- name: US→SG · VLESS · cfmem · CB39753B
-  type: vless
-  server: vpn.cintaku.qzz.io
-  port: 443
-  uuid: fc7d2cfe-f5ef-40c8-a848-a0bdc11f6349
-  network: ws
-  tls: true
-  servername: vpn.cintaku.qzz.io
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /vlessws
-    headers:
-      Host: vpn.cintaku.qzz.io
-- name: DE · VMESS · cfmem · 484A7181
-  type: vmess
-  server: turknew.net-flowa.com
-  port: 80
-  uuid: cd96479e-9c39-4a7f-ba0c-806a83af19ca
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: http
-  udp: true
-- name: DE · VLESS · cfmem · D7E8BAB6
-  type: vless
-  server: edge10.cyrionflare.com
-  port: 2052
-  uuid: 1a8ecc41-6e62-431b-8eca-87c2fa4dc286
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US→SG · VLESS · cfmem · 82527A6C
-  type: vless
-  server: vpn.cintaku.qzz.io
-  port: 443
-  uuid: fc7d2cfe-f5ef-40c8-a848-a0bdc11f6349
-  network: ws
-  servername: vpn.cintaku.qzz.io
-  tls: true
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /vlessws
-    headers:
-      Host: vpn.cintaku.qzz.io
-  skip-cert-verify: true
   udp: true
