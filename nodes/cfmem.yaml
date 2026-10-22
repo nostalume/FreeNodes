@@ -1,20 +1,12 @@
 proxies:
-- name: IT · SS · cfmem · 74F6E3D8
+- name: IT · SS · cfmem · F0B24A95
   type: ss
-  server: 202.50.253.45
+  server: 202.50.253.99
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: PL · TROJAN · cfmem · 2EAAB293
-  type: trojan
-  server: 78.17.171.137
-  port: 443
-  sni: 2.HI-L.IM
-  skip-cert-verify: true
-  udp: true
-  password: u93yPGuY2zgIsisJZKS2QzJzg
 - name: US · VLESS · cfmem · FF7703CA
   type: vless
   server: 208.84.100.209
@@ -23,6 +15,37 @@ proxies:
   network: ws
   ws-opts:
     path: /
+- name: US · VMESS · cfmem · 81382C3E
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: IT · SS · cfmem · 74F6E3D8
+  type: ss
+  server: 202.50.253.45
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · VLESS · cfmem · 986823EE
+  type: vless
+  server: 208.84.100.209
+  port: 8080
+  uuid: 36c3dcc2-17b6-4478-b8a7-3978e6d5afe9
+  network: ws
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -39,37 +62,14 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: IT · SS · cfmem · F0B24A95
+- name: IT · SS · cfmem · 36D09EFF
   type: ss
-  server: 202.50.253.99
+  server: 202.50.253.18
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · cfmem · 986823EE
-  type: vless
-  server: 208.84.100.209
-  port: 8080
-  uuid: 36c3dcc2-17b6-4478-b8a7-3978e6d5afe9
-  network: ws
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · VMESS · cfmem · 81382C3E
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
 - name: JP · SS · cfmem · 8CF68FA4
   type: ss
   server: 154.36.158.197
@@ -78,11 +78,3 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: BeaUf9c0AEWH40Pu
-- name: CN · VMESS · cfmem · 27130FE8
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  network: tcp
