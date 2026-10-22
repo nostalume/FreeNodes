@@ -1,7 +1,7 @@
 proxies:
-- name: IT · SS · cfmem · F0B24A95
+- name: IT · SS · cfmem · 36D09EFF
   type: ss
-  server: 202.50.253.99
+  server: 202.50.253.18
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
@@ -15,20 +15,22 @@ proxies:
   network: ws
   ws-opts:
     path: /
-- name: US · VMESS · cfmem · 81382C3E
+- name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
   port: 443
   uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
   alterId: 0
   cipher: auto
-  network: ws
   tls: true
+  skip-cert-verify: true
   servername: guanwang.awsno.com
+  network: ws
   ws-opts:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+  udp: true
 - name: IT · SS · cfmem · 74F6E3D8
   type: ss
   server: 202.50.253.45
@@ -46,30 +48,36 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
-- name: US · VMESS · cfmem · 9A6922CB
+- name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
   port: 443
   uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
   alterId: 0
   cipher: auto
-  tls: true
-  skip-cert-verify: true
-  servername: guanwang.awsno.com
   network: ws
+  tls: true
+  servername: guanwang.awsno.com
   ws-opts:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-  udp: true
-- name: IT · SS · cfmem · 36D09EFF
+- name: IT · SS · cfmem · F0B24A95
   type: ss
-  server: 202.50.253.18
+  server: 202.50.253.99
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: CN · VMESS · cfmem · 27130FE8
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 64
+  cipher: auto
+  network: tcp
 - name: JP · SS · cfmem · 8CF68FA4
   type: ss
   server: 154.36.158.197
@@ -78,3 +86,11 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: BeaUf9c0AEWH40Pu
+- name: CN · VMESS · cfmem · 7385ED0E
+  type: vmess
+  server: 112.132.215.108
+  port: 50002
+  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
+  alterId: 0
+  cipher: auto
+  network: tcp
