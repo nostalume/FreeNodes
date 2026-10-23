@@ -1,42 +1,36 @@
 proxies:
-- name: IT · SS · cfmem · 74F6E3D8
+- name: IT · SS · cfmem · F0B24A95
   type: ss
-  server: 202.50.253.45
+  server: 202.50.253.99
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: HK · ANYTLS · clashmeta · F23D6CD0
+- name: HK · ANYTLS · clashmeta · B8986B29
   type: anytls
   server: 654968169.df6h451rh.xin
   port: 443
-  sni: images.ctfassets.net
   skip-cert-verify: true
   tls: true
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: ZZ · ANYTLS · yudou · 1D0DA258
+- name: ZZ · ANYTLS · yudou · FB600E64
   type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  sni: 127.0.0.1
+  server: 684616s4.df6h451rh.xin
+  port: 443
+  sni: px.ads.linkedin.com
+  alpn:
+  - http/1.1
   skip-cert-verify: true
   tls: true
   udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · SS · yudou · BD9FED02
+  client-fingerprint: chrome
+  password: 0324fbc29561
+- name: ZZ · SS · yudou · 9CB40E37
   type: ss
-  server: 202.50.253.36
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: IT · SS · cfmem · E97041E6
-  type: ss
-  server: 202.50.253.81
+  server: 202.50.253.27
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
@@ -53,20 +47,25 @@ proxies:
   ports: 20000-30000
   udp: true
   password: C0DD7bgChaltqnh/T2az6ijM
-- name: ZZ · VLESS · yudou · 2DA61B9B
+- name: ZZ · VLESS · yudou · A4C78ADC
   type: vless
-  server: 38.22.88.248
-  port: 27509
-  reality-opts:
-    public-key: nseaofwmjSciWUI2ZOXft9lUJutKvKEDUc-aSpE3e1M
-    short-id: 6ba85179e30d4fc2
-  uuid: 29d23018-3265-494c-b9fe-e320b619b1e2
-  servername: www.suffolk.edu
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
+  server: 208.84.100.209
+  port: 8080
+  uuid: 36c3dcc2-17b6-4478-b8a7-3978e6d5afe9
+  network: ws
+  tls: false
+  ws-opts:
+    path: /
   skip-cert-verify: true
   udp: true
+- name: IT · SS · cfmem · FDCF8305
+  type: ss
+  server: 202.50.253.63
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
 - name: ZZ · VMESS · yudou · E8FAD51D
   type: vmess
   server: mix2.998998.best
@@ -80,27 +79,26 @@ proxies:
     path: /rthiugoyretdsuigg
     headers:
       Host: server10.9966338.xyz
-- name: IT · SS · cfmem · 36D09EFF
+- name: ZZ · ANYTLS · yudou · D2B40F46
+  type: anytls
+  server: 654968169.df6h451rh.xin
+  port: 443
+  sni: 127.0.0.1
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 0324fbc29561
+- name: IT · SS · cfmem · 03C0E21F
   type: ss
-  server: 202.50.253.18
+  server: 202.50.253.54
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · ANYTLS · yudou · 49982245
-  type: anytls
-  server: svip.skycon808.com
-  port: 47531
-  sni: tw15.swiftrelay.cc
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
-- name: ZZ · SS · yudou · 9CB40E37
+- name: ZZ · SS · yudou · BD9FED02
   type: ss
-  server: 202.50.253.27
+  server: 202.50.253.36
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
@@ -114,58 +112,6 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · yudou · A4C78ADC
-  type: vless
-  server: 208.84.100.209
-  port: 8080
-  uuid: 36c3dcc2-17b6-4478-b8a7-3978e6d5afe9
-  network: ws
-  tls: false
-  ws-opts:
-    path: /
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · VMESS · yudou · 3D109D93
-  type: vmess
-  server: mix2.998998.best
-  port: 443
-  uuid: 5504eaa8-1395-402f-8e0e-75ecd762e627
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /rthiugoyretdsuigg
-    headers:
-      Host: server10.9966338.xyz
-  udp: true
-- name: IT · SS · cfmem · 03C0E21F
-  type: ss
-  server: 202.50.253.54
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · ANYTLS · yudou · 71885D23
-  type: anytls
-  server: svip.skycon808.com
-  port: 47531
-  sni: tw15.swiftrelay.cc
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
-- name: HK · ANYTLS · clashmeta · B8986B29
-  type: anytls
-  server: 654968169.df6h451rh.xin
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
 - name: ZZ · VLESS · yudou · 9B2C837B
   type: vless
   server: 38.145.220.58
@@ -180,9 +126,9 @@ proxies:
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: IT · SS · cfmem · FDCF8305
+- name: IT · SS · cfmem · CF4E10A3
   type: ss
-  server: 202.50.253.63
+  server: 202.50.253.90
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
@@ -203,6 +149,70 @@ proxies:
     headers:
       Host: server40.9966338.xyz
   udp: true
+- name: IT · SS · cfmem · 74F6E3D8
+  type: ss
+  server: 202.50.253.45
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · ANYTLS · yudou · 26612226
+  type: anytls
+  server: 56481.df6h451rh.xin
+  port: 443
+  sni: images.ctfassets.net
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: 0324fbc29561
+- name: IT · SS · cfmem · 36D09EFF
+  type: ss
+  server: 202.50.253.18
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · ANYTLS · clashmeta · B8E1238C
+  type: anytls
+  server: 56481.df6h451rh.xin
+  port: 443
+  sni: images.ctfassets.net
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 0324fbc29561
+- name: ZZ · VLESS · yudou · 2DA61B9B
+  type: vless
+  server: 38.22.88.248
+  port: 27509
+  reality-opts:
+    public-key: nseaofwmjSciWUI2ZOXft9lUJutKvKEDUc-aSpE3e1M
+    short-id: 6ba85179e30d4fc2
+  uuid: 29d23018-3265-494c-b9fe-e320b619b1e2
+  servername: www.suffolk.edu
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · 3D109D93
+  type: vmess
+  server: mix2.998998.best
+  port: 443
+  uuid: 5504eaa8-1395-402f-8e0e-75ecd762e627
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /rthiugoyretdsuigg
+    headers:
+      Host: server10.9966338.xyz
+  udp: true
 - name: AU · HYSTERIA2 · clashmeta · 5C2E0557
   type: hysteria2
   server: 158.178.137.129
@@ -214,23 +224,15 @@ proxies:
   ports: 20000-30000
   udp: true
   password: b42d90fa667942aebc734d60
-- name: ZZ · ANYTLS · yudou · 93E6CC66
+- name: ZZ · ANYTLS · yudou · 71885D23
   type: anytls
   server: svip.skycon808.com
-  port: 60005
+  port: 47531
+  sni: tw15.swiftrelay.cc
   skip-cert-verify: true
   tls: true
   udp: true
-  client-fingerprint: chrome
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: IT · SS · cfmem · CF4E10A3
-  type: ss
-  server: 202.50.253.90
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
 - name: ZZ · VLESS · yudou · 8A4CA81C
   type: vless
   server: 177.3.208.65
@@ -256,54 +258,9 @@ proxies:
     path: /aiaiai
     headers:
       Host: server40.9966338.xyz
-- name: ZZ · ANYTLS · yudou · D2B40F46
+- name: HK · ANYTLS · clashmeta · F23D6CD0
   type: anytls
   server: 654968169.df6h451rh.xin
-  port: 443
-  sni: 127.0.0.1
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 0324fbc29561
-- name: ZZ · VLESS · yudou · 12F74069
-  type: vless
-  server: funagfrdfs.alixxplay.com
-  port: 30892
-  reality-opts:
-    public-key: YinI5MijeZpRatg6QNDvP0qXEif-6VHC6gV5yoji4i4
-    short-id: 3d31326f95
-  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
-  servername: us1p1.xn--ghq880n3na965a.com
-  tls: true
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-  skip-cert-verify: true
-  udp: true
-- name: ZZ · ANYTLS · yudou · 26612226
-  type: anytls
-  server: 56481.df6h451rh.xin
-  port: 443
-  sni: images.ctfassets.net
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: ZZ · ANYTLS · yudou · FB600E64
-  type: anytls
-  server: 684616s4.df6h451rh.xin
-  port: 443
-  sni: px.ads.linkedin.com
-  alpn:
-  - http/1.1
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: ZZ · ANYTLS · yudou · CF92AA3B
-  type: anytls
-  server: 98416548.df6h451rh.xin
   port: 443
   sni: images.ctfassets.net
   skip-cert-verify: true
@@ -322,18 +279,34 @@ proxies:
   ports: 20000-30000
   udp: true
   password: a34f3990b69f44bfa0d32385
-- name: TW · ANYTLS · clashmeta · C34E8A34
+- name: AU · ANYTLS · clashmeta · 93E6CC66
   type: anytls
-  server: er8u54dh.df6h451rh.xin
-  port: 443
-  sni: px.ads.linkedin.com
-  alpn:
-  - http/1.1
+  server: svip.skycon808.com
+  port: 60005
   skip-cert-verify: true
   tls: true
   udp: true
   client-fingerprint: chrome
-  password: 0324fbc29561
+  password: 13f0acfa-38c1-4e82-a758-583aa31740df
+- name: KR · ANYTLS · clashmeta · 49982245
+  type: anytls
+  server: svip.skycon808.com
+  port: 47531
+  sni: tw15.swiftrelay.cc
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
+- name: US · ANYTLS · clashmeta · 1D0DA258
+  type: anytls
+  server: svip.skycon808.com
+  port: 60005
+  sni: 127.0.0.1
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 13f0acfa-38c1-4e82-a758-583aa31740df
 - name: HK · ANYTLS · clashmeta · 61665A01
   type: anytls
   server: 56481.df6h451rh.xin
@@ -346,12 +319,15 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: US · ANYTLS · clashmeta · B8E1238C
+- name: TW · ANYTLS · clashmeta · C34E8A34
   type: anytls
-  server: 56481.df6h451rh.xin
+  server: er8u54dh.df6h451rh.xin
   port: 443
-  sni: images.ctfassets.net
+  sni: px.ads.linkedin.com
+  alpn:
+  - http/1.1
   skip-cert-verify: true
   tls: true
   udp: true
+  client-fingerprint: chrome
   password: 0324fbc29561
