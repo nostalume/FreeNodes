@@ -1,20 +1,18 @@
 proxies:
-- name: US · SS · cfmem · 74F6E3D8
+- name: IT · SS · cfmem · 61AEB8A9
   type: ss
-  server: 202.50.253.45
+  server: 202.50.253.72
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · cfmem · 20F4A3DF
+- name: US · VLESS · cfmem · 8DE7F531
   type: vless
   server: 23.160.56.99
   port: 2087
   uuid: f1e7eafa-0d6f-441e-8565-29f34171aef2
-  tls: false
-  skip-cert-verify: true
-  udp: true
+  network: tcp
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -31,20 +29,22 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: US · SS · cfmem · 36D09EFF
+- name: US · SS · cfmem · FDCF8305
   type: ss
-  server: 202.50.253.18
+  server: 202.50.253.63
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · cfmem · 8DE7F531
+- name: US · VLESS · cfmem · 20F4A3DF
   type: vless
   server: 23.160.56.99
   port: 2087
   uuid: f1e7eafa-0d6f-441e-8565-29f34171aef2
-  network: tcp
+  tls: false
+  skip-cert-verify: true
+  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -90,9 +90,9 @@ proxies:
   alterId: 64
   cipher: auto
   network: tcp
-- name: IT · SS · cfmem · F0B24A95
+- name: IT · SS · cfmem · E97041E6
   type: ss
-  server: 202.50.253.99
+  server: 202.50.253.81
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
@@ -111,6 +111,25 @@ proxies:
     path: /
     headers:
       Host: hw3.divarkhaghazi.com.
+- name: US · VMESS · cfmem · AF1D9BDE
+  type: vmess
+  server: node8.liudonghoe.com
+  port: 443
+  uuid: 47050e4e-965d-41ca-976d-73c1f11e6905
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /hoe8
+- name: IT · SS · cfmem · F0B24A95
+  type: ss
+  server: 202.50.253.99
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
 - name: CN · VMESS · cfmem · 6E57C2EB
   type: vmess
   server: 112.132.215.108
@@ -121,6 +140,22 @@ proxies:
   tls: false
   skip-cert-verify: true
   udp: true
+- name: US · SS · cfmem · 36D09EFF
+  type: ss
+  server: 202.50.253.18
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · SS · cfmem · 74F6E3D8
+  type: ss
+  server: 202.50.253.45
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
 - name: IT · SS · cfmem · CF4E10A3
   type: ss
   server: 202.50.253.90
@@ -129,71 +164,3 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: CN · VMESS · cfmem · 8F13145C
-  type: vmess
-  server: 120.48.133.162
-  port: 10086
-  uuid: a01e5d56-464f-45b9-b600-164db4700162
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /
-- name: US · SS · cfmem · FDCF8305
-  type: ss
-  server: 202.50.253.63
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: CN · VMESS · cfmem · 43438EAD
-  type: vmess
-  server: 120.48.133.162
-  port: 10086
-  uuid: a01e5d56-464f-45b9-b600-164db4700162
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  udp: true
-- name: IT · SS · cfmem · 61AEB8A9
-  type: ss
-  server: 202.50.253.72
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · cfmem · 9B6CAF02
-  type: vmess
-  server: node8.liudonghoe.com
-  port: 443
-  uuid: 47050e4e-965d-41ca-976d-73c1f11e6905
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /hoe8
-  udp: true
-- name: IT · SS · cfmem · E97041E6
-  type: ss
-  server: 202.50.253.81
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: CN · VMESS · cfmem · 355BF2A1
-  type: vmess
-  server: 120.48.133.162
-  port: 10086
-  uuid: a01e5d56-464f-45b9-b600-164db4700162
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /
