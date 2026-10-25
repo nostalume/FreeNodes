@@ -1,17 +1,17 @@
 proxies:
-- name: US · SS · cfmem · FDCF8305
+- name: IT · SS · cfmem · F0B24A95
   type: ss
-  server: 202.50.253.63
+  server: 202.50.253.99
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: HK · ANYTLS · clashmeta · 61665A01
+- name: TW · ANYTLS · clashmeta · FB600E64
   type: anytls
-  server: 56481.df6h451rh.xin
+  server: 684616s4.df6h451rh.xin
   port: 443
-  sni: images.ctfassets.net
+  sni: px.ads.linkedin.com
   alpn:
   - http/1.1
   skip-cert-verify: true
@@ -19,77 +19,6 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: ZZ · ANYTLS · yudou · F23D6CD0
-  type: anytls
-  server: 654968169.df6h451rh.xin
-  port: 443
-  sni: images.ctfassets.net
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: IT · SS · cfmem · 61AEB8A9
-  type: ss
-  server: 202.50.253.72
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VMESS · yudou · F9D48602
-  type: vmess
-  server: 172.67.187.145
-  port: 80
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /ws
-    headers:
-      Host: vmess.lbw666.dpdns.org
-  udp: true
-- name: ZZ · ANYTLS · yudou · 98E9A899
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  sni: xjp18.2uuzhe.com
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: US · SS · cfmem · 03C0E21F
-  type: ss
-  server: 202.50.253.54
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VMESS · yudou · EE0D3034
-  type: vmess
-  server: 172.67.187.145
-  port: 80
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /ws
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: US · ANYTLS · clashmeta · 71885D23
-  type: anytls
-  server: svip.skycon808.com
-  port: 47531
-  sni: tw15.swiftrelay.cc
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
 - name: ZZ · ANYTLS · yudou · B8986B29
   type: anytls
   server: 654968169.df6h451rh.xin
@@ -111,32 +40,30 @@ proxies:
     path: /vless-tr
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · BC25F6E3
+- name: ZZ · VMESS · yudou · 44F8766C
   type: vmess
   server: 104.17.136.198
   port: 443
   uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
   alterId: 0
   cipher: auto
-  tls: true
-  skip-cert-verify: true
   network: ws
+  tls: true
   ws-opts:
     path: /ws
     headers:
       Host: vmess.lbw666.dpdns.org
-  udp: true
-- name: IT · SS · cfmem · F0B24A95
+- name: IT · SS · cfmem · E97041E6
   type: ss
-  server: 202.50.253.99
+  server: 202.50.253.81
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · ANYTLS · yudou · 26612226
+- name: ZZ · ANYTLS · yudou · F23D6CD0
   type: anytls
-  server: 56481.df6h451rh.xin
+  server: 654968169.df6h451rh.xin
   port: 443
   sni: images.ctfassets.net
   skip-cert-verify: true
@@ -144,6 +71,52 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
+- name: ZZ · VLESS · yudou · 520B86E4
+  type: vless
+  server: 213.152.165.203
+  port: 2091
+  reality-opts:
+    public-key: 1N6AW5YuEwBoYcZK5KuugDzBHsa0NKZMT8QI-EmyL0k
+    short-id: 08a4b1f473932632
+  uuid: 76b6a658-ce80-4500-b24d-404c94639ac6
+  servername: www.apple.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · VMESS · yudou · F9D48602
+  type: vmess
+  server: 172.67.187.145
+  port: 80
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
+  udp: true
+- name: IT · SS · cfmem · CF4E10A3
+  type: ss
+  server: 202.50.253.90
+  port: 19999
+  cipher: aes-256-gcm
+  skip-cert-verify: true
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · ANYTLS · yudou · 98E9A899
+  type: anytls
+  server: svip.skycon808.com
+  port: 60005
+  sni: xjp18.2uuzhe.com
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 13f0acfa-38c1-4e82-a758-583aa31740df
 - name: ZZ · VLESS · yudou · 3EEE0DA0
   type: vless
   server: dey.lnmarketplace.net
@@ -161,27 +134,6 @@ proxies:
     mode: stream-one
   skip-cert-verify: true
   udp: true
-- name: IT · SS · cfmem · E97041E6
-  type: ss
-  server: 202.50.253.81
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VMESS · yudou · 44F8766C
-  type: vmess
-  server: 104.17.136.198
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /ws
-    headers:
-      Host: vmess.lbw666.dpdns.org
 - name: US · ANYTLS · clashmeta · B8E1238C
   type: anytls
   server: 56481.df6h451rh.xin
@@ -191,6 +143,31 @@ proxies:
   tls: true
   udp: true
   password: 0324fbc29561
+- name: ZZ · ANYTLS · yudou · 49982245
+  type: anytls
+  server: svip.skycon808.com
+  port: 47531
+  sni: tw15.swiftrelay.cc
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
+- name: ZZ · VLESS · yudou · 537016D1
+  type: vless
+  server: 31.59.143.242
+  port: 34451
+  uuid: f259a2e5-fd8d-4db9-a3ac-6b26322cffa9
+  network: xhttp
+  servername: pl-cfe6b10b7f.shamanapp.online
+  tls: true
+  client-fingerprint: firefox
+  xhttp-opts:
+    path: /ShamanXHTTP2026
+    host: pl-cfe6b10b7f.shamanapp.online
+    mode: auto
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · ANYTLS · yudou · C34E8A34
   type: anytls
   server: er8u54dh.df6h451rh.xin
@@ -203,86 +180,23 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: US · SS · cfmem · 74F6E3D8
-  type: ss
-  server: 202.50.253.45
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · yudou · 520B86E4
+- name: ZZ · VLESS · yudou · 4D6AC261
   type: vless
-  server: 213.152.165.203
-  port: 2091
+  server: 138.124.79.6
+  port: 443
   reality-opts:
-    public-key: 1N6AW5YuEwBoYcZK5KuugDzBHsa0NKZMT8QI-EmyL0k
-    short-id: 08a4b1f473932632
-  uuid: 76b6a658-ce80-4500-b24d-404c94639ac6
-  servername: www.apple.com
+    public-key: ydN3DRKjNC6q7JI_Zegj3hhvdHussmralsnSQGQVdws
+    short-id: 25f4a40b9fdd9780
+  uuid: ee18d188-14cc-417e-beb1-70e4add6d023
+  servername: node-nl-1.nztpro.com
   tls: true
   flow: xtls-rprx-vision
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: ZZ · VMESS · yudou · A2329D4B
-  type: vmess
-  server: us16-4.998998.best
-  port: 443
-  uuid: 5504eaa8-1395-402f-8e0e-75ecd762e627
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /efrsdioy98wert
-    headers:
-      Host: server1.9966338.xyz
-  udp: true
-- name: ZZ · ANYTLS · yudou · 49982245
+- name: ZZ · ANYTLS · yudou · 26612226
   type: anytls
-  server: svip.skycon808.com
-  port: 47531
-  sni: tw15.swiftrelay.cc
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
-- name: US · SS · cfmem · 36D09EFF
-  type: ss
-  server: 202.50.253.18
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VMESS · yudou · 33C693B0
-  type: vmess
-  server: us16-4.998998.best
-  port: 443
-  uuid: 5504eaa8-1395-402f-8e0e-75ecd762e627
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /efrsdioy98wert
-    headers:
-      Host: server1.9966338.xyz
-- name: US · ANYTLS · clashmeta · 1D0DA258
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  sni: 127.0.0.1
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · ANYTLS · yudou · CF92AA3B
-  type: anytls
-  server: 98416548.df6h451rh.xin
+  server: 56481.df6h451rh.xin
   port: 443
   sni: images.ctfassets.net
   skip-cert-verify: true
@@ -290,28 +204,11 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: ZZ · VMESS · yudou · 3D109D93
-  type: vmess
-  server: mix2.998998.best
-  port: 443
-  uuid: 5504eaa8-1395-402f-8e0e-75ecd762e627
-  alterId: 0
-  cipher: auto
-  tls: true
-  skip-cert-verify: true
-  network: ws
-  ws-opts:
-    path: /rthiugoyretdsuigg
-    headers:
-      Host: server10.9966338.xyz
-  udp: true
-- name: TW · ANYTLS · clashmeta · FB600E64
+- name: ZZ · ANYTLS · yudou · CF92AA3B
   type: anytls
-  server: 684616s4.df6h451rh.xin
+  server: 98416548.df6h451rh.xin
   port: 443
-  sni: px.ads.linkedin.com
-  alpn:
-  - http/1.1
+  sni: images.ctfassets.net
   skip-cert-verify: true
   tls: true
   udp: true
@@ -326,14 +223,26 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: HK · ANYTLS · clashmeta · D2B40F46
+- name: US · ANYTLS · clashmeta · 1D0DA258
   type: anytls
-  server: 654968169.df6h451rh.xin
-  port: 443
+  server: svip.skycon808.com
+  port: 60005
   sni: 127.0.0.1
   skip-cert-verify: true
   tls: true
   udp: true
+  password: 13f0acfa-38c1-4e82-a758-583aa31740df
+- name: HK · ANYTLS · clashmeta · 61665A01
+  type: anytls
+  server: 56481.df6h451rh.xin
+  port: 443
+  sni: images.ctfassets.net
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
   password: 0324fbc29561
 - name: HK · ANYTLS · clashmeta · 297CD999
   type: anytls
@@ -344,3 +253,21 @@ proxies:
   tls: true
   udp: true
   password: 0324fbc29561
+- name: HK · ANYTLS · clashmeta · D2B40F46
+  type: anytls
+  server: 654968169.df6h451rh.xin
+  port: 443
+  sni: 127.0.0.1
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 0324fbc29561
+- name: US · ANYTLS · clashmeta · 71885D23
+  type: anytls
+  server: svip.skycon808.com
+  port: 47531
+  sni: tw15.swiftrelay.cc
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
