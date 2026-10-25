@@ -1,18 +1,12 @@
 proxies:
-- name: IT · SS · cfmem · 61AEB8A9
+- name: US · SS · cfmem · FDCF8305
   type: ss
-  server: 202.50.253.72
+  server: 202.50.253.63
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · cfmem · 8DE7F531
-  type: vless
-  server: 23.160.56.99
-  port: 2087
-  uuid: f1e7eafa-0d6f-441e-8565-29f34171aef2
-  network: tcp
 - name: US · VMESS · cfmem · 9A6922CB
   type: vmess
   server: guanwang.awsno.com
@@ -29,22 +23,14 @@ proxies:
     headers:
       Host: guanwang.awsno.com
   udp: true
-- name: US · SS · cfmem · FDCF8305
+- name: IT · SS · cfmem · 61AEB8A9
   type: ss
-  server: 202.50.253.63
+  server: 202.50.253.72
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · cfmem · 20F4A3DF
-  type: vless
-  server: 23.160.56.99
-  port: 2087
-  uuid: f1e7eafa-0d6f-441e-8565-29f34171aef2
-  tls: false
-  skip-cert-verify: true
-  udp: true
 - name: US · VMESS · cfmem · 81382C3E
   type: vmess
   server: guanwang.awsno.com
@@ -82,22 +68,6 @@ proxies:
       Host: hw3.divarkhaghazi.com.
   skip-cert-verify: true
   udp: true
-- name: CN · VMESS · cfmem · CF03F2D9
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  network: tcp
-- name: IT · SS · cfmem · E97041E6
-  type: ss
-  server: 202.50.253.81
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
 - name: FI · VLESS · cfmem · E3738BA5
   type: vless
   server: hw3.divarkhaghazi.com.
@@ -111,17 +81,6 @@ proxies:
     path: /
     headers:
       Host: hw3.divarkhaghazi.com.
-- name: US · VMESS · cfmem · AF1D9BDE
-  type: vmess
-  server: node8.liudonghoe.com
-  port: 443
-  uuid: 47050e4e-965d-41ca-976d-73c1f11e6905
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /hoe8
 - name: IT · SS · cfmem · F0B24A95
   type: ss
   server: 202.50.253.99
@@ -130,19 +89,9 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: CN · VMESS · cfmem · 6E57C2EB
-  type: vmess
-  server: 112.132.215.108
-  port: 50002
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
-  tls: false
-  skip-cert-verify: true
-  udp: true
-- name: US · SS · cfmem · 36D09EFF
+- name: IT · SS · cfmem · E97041E6
   type: ss
-  server: 202.50.253.18
+  server: 202.50.253.81
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
@@ -156,11 +105,84 @@ proxies:
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: IT · SS · cfmem · CF4E10A3
+- name: RU · VLESS · cfmem · 1BC85C8B
+  type: vless
+  server: santehdv.site
+  port: 443
+  uuid: 9ba53795-4356-40ab-8067-76ec2ae2a3d8
+  network: ws
+  tls: true
+  servername: santehdv.site
+  client-fingerprint: firefox
+  ws-opts:
+    path: /media/stream/qUWu2oaFgxAw
+    headers:
+      Host: santehdv.site
+- name: US · VMESS · cfmem · AF1D9BDE
+  type: vmess
+  server: node8.liudonghoe.com
+  port: 443
+  uuid: 47050e4e-965d-41ca-976d-73c1f11e6905
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /hoe8
+- name: US · SS · cfmem · 36D09EFF
   type: ss
-  server: 202.50.253.90
+  server: 202.50.253.18
   port: 19999
   cipher: aes-256-gcm
   skip-cert-verify: true
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: RU · VLESS · cfmem · 254C391B
+  type: vless
+  server: santehdv.site
+  port: 443
+  uuid: 9ba53795-4356-40ab-8067-76ec2ae2a3d8
+  network: ws
+  servername: santehdv.site
+  tls: true
+  client-fingerprint: firefox
+  ws-opts:
+    path: /media/stream/qUWu2oaFgxAw
+    headers:
+      Host: santehdv.site
+  skip-cert-verify: true
+  udp: true
+- name: US · VMESS · cfmem · 9B6CAF02
+  type: vmess
+  server: node8.liudonghoe.com
+  port: 443
+  uuid: 47050e4e-965d-41ca-976d-73c1f11e6905
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /hoe8
+  udp: true
+- name: HK · VMESS · cfmem · 1770A7F2
+  type: vmess
+  server: hkgb707.ifastcdncache.com
+  port: 60852
+  uuid: f8eca8df-a1a5-4918-a194-d34112a3673f
+  alterId: 2
+  cipher: auto
+  tls: false
+  skip-cert-verify: true
+  network: ws
+  udp: true
+- name: HK · VMESS · cfmem · AA8C203F
+  type: vmess
+  server: hkgb707.ifastcdncache.com
+  port: 60852
+  uuid: f8eca8df-a1a5-4918-a194-d34112a3673f
+  alterId: 2
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /
