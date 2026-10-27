@@ -1,23 +1,5 @@
 proxies:
-- name: US · SS · cfmem · 74F6E3D8
-  type: ss
-  server: 202.50.253.45
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: HK · ANYTLS · clashmeta · F23D6CD0
-  type: anytls
-  server: 654968169.df6h451rh.xin
-  port: 443
-  sni: images.ctfassets.net
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: ZZ · ANYTLS · yudou · 26612226
+- name: US · ANYTLS · clashmeta · B8E1238C
   type: anytls
   server: 56481.df6h451rh.xin
   port: 443
@@ -25,8 +7,55 @@ proxies:
   skip-cert-verify: true
   tls: true
   udp: true
-  client-fingerprint: chrome
   password: 0324fbc29561
+- name: US · VLESS · nodev2ray · 537016D1
+  type: vless
+  server: 31.59.143.242
+  port: 34451
+  uuid: f259a2e5-fd8d-4db9-a3ac-6b26322cffa9
+  network: xhttp
+  servername: pl-cfe6b10b7f.shamanapp.online
+  tls: true
+  client-fingerprint: firefox
+  xhttp-opts:
+    path: /ShamanXHTTP2026
+    host: pl-cfe6b10b7f.shamanapp.online
+    mode: auto
+  skip-cert-verify: true
+  udp: true
+- name: ZZ · HYSTERIA2 · yudou · B71515C2
+  type: hysteria2
+  server: 94.103.169.109
+  port: 4443
+  udp: true
+  tls: true
+  servername: de3.shvpn.ru
+  sni: de3.shvpn.ru
+  skip-cert-verify: false
+  password: c0242d1b-db7a-4dcf-95ff-e10a3ef1c1a3
+- name: ZZ · SS · yudou · B73E2384
+  type: ss
+  server: us.betterandbetter.cloud
+  port: 8443
+  cipher: chacha20-ietf-poly1305
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: BetterProxy2026!
+- name: JP · VLESS · nodev2ray · 5A3C8240
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 46105
+  reality-opts:
+    public-key: Lk5nwDxC2tr3J7hT8emhUUiMX8cHyKX9TiRj_EnAiik
+    short-id: 28f5c1f8f98a
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  servername: www.lamer.com.sg
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: safari
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · TROJAN · yudou · 6AF7EB0A
   type: trojan
   server: www.calmlunch.com
@@ -39,27 +68,49 @@ proxies:
     headers:
       Host: www.calmlunch.com
   password: humanity
-- name: ZZ · VLESS · yudou · 3FFD1F2D
+- name: SG · VLESS · nodev2ray · FED3288C
   type: vless
-  server: 77.90.61.135
-  port: 443
+  server: funagfrdfs.alixxplay.com
+  port: 35544
   reality-opts:
-    public-key: XlEzAhUOUC-hZA2Uk2sctG5WR9lPeAUAHGNQVu9oAVg
-    short-id: ce1dc482
-  uuid: 8815925b-c7b8-4f94-9c24-9dc864f63a29
-  servername: www.cloudflare.com
+    public-key: HrcXRHtsitc_AVlN-_8fZuRgaP-Mqa_9JJotI9OnkVc
+    short-id: 25c79e5856c7
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  servername: iosapps.itunes.apple.com
   tls: true
+  flow: xtls-rprx-vision
   client-fingerprint: chrome
   skip-cert-verify: true
   udp: true
-- name: US · SS · cfmem · CF4E10A3
-  type: ss
-  server: 202.50.253.90
-  port: 19999
-  cipher: aes-256-gcm
+- name: ZZ · VLESS · yudou · 2FF12D99
+  type: vless
+  server: 188.164.248.123
+  port: 8443
+  uuid: 7b102311-43fd-4e8f-877e-8090623c101d
+  network: ws
+  servername: vp21.cc.cd
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: vp21.cc.cd
   skip-cert-verify: true
   udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · VLESS · nodev2ray · 12F74069
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 30892
+  reality-opts:
+    public-key: YinI5MijeZpRatg6QNDvP0qXEif-6VHC6gV5yoji4i4
+    short-id: 3d31326f95
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  servername: us1p1.xn--ghq880n3na965a.com
+  tls: true
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  udp: true
 - name: ZZ · VMESS · yudou · EE0D3034
   type: vmess
   server: 172.67.187.145
@@ -72,45 +123,123 @@ proxies:
     path: /ws
     headers:
       Host: vmess.lbw666.dpdns.org
-- name: ZZ · ANYTLS · yudou · 98E9A899
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  sni: xjp18.2uuzhe.com
-  skip-cert-verify: true
-  tls: true
+- name: ZZ · HYSTERIA2 · yudou · 625DCAC9
+  type: hysteria2
+  server: 31.77.8.55
+  port: 4443
   udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: ZZ · TROJAN · yudou · 26355004
+  tls: true
+  servername: de5.shvpn.ru
+  sni: de5.shvpn.ru
+  skip-cert-verify: false
+  password: c0242d1b-db7a-4dcf-95ff-e10a3ef1c1a3
+- name: ZZ · SS · yudou · E2493A79
+  type: ss
+  server: 202.50.253.54
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · BE388769
   type: trojan
-  server: www.pleadcourt.org
+  server: 162.159.133.152
   port: 443
-  network: ws
+  udp: true
   tls: true
   servername: www.pleadcourt.org
+  sni: www.pleadcourt.org
+  skip-cert-verify: false
+  network: ws
   ws-opts:
     path: /assignment
   password: humanity
-- name: US · SS · cfmem · F0B24A95
+- name: HK · ANYTLS · clashmeta · 61665A01
+  type: anytls
+  server: 56481.df6h451rh.xin
+  port: 443
+  sni: images.ctfassets.net
+  alpn:
+  - http/1.1
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: 0324fbc29561
+- name: ZZ · VLESS · yudou · 0DC38CAA
+  type: vless
+  server: 172.64.153.153
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
+  network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: ccc.010304.xyz
+- name: ZZ · VMESS · yudou · BC25F6E3
+  type: vmess
+  server: 104.17.136.198
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  tls: true
+  skip-cert-verify: true
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
+  udp: true
+- name: ZZ · HYSTERIA2 · yudou · F531047D
+  type: hysteria2
+  server: nlll.obxodvpn.us
+  port: 4443
+  udp: true
+  tls: true
+  servername: nl1.obxodvpn.us
+  sni: nl1.obxodvpn.us
+  skip-cert-verify: false
+  password: 146d567c-6335-4e63-a8aa-7ec068642440
+- name: ZZ · SS · yudou · 9685D09E
   type: ss
-  server: 202.50.253.99
+  server: 202.50.253.90
   port: 19999
   cipher: aes-256-gcm
-  skip-cert-verify: true
   udp: true
+  tls: false
+  skip-cert-verify: false
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · yudou · 470E3165
-  type: vless
-  server: 213.152.165.201
-  port: 2094
-  reality-opts:
-    public-key: jHtC6ayzhkd_GVNF5TIGPu9iVpqUltBAQj1dpGJHwxs
-    short-id: 55986a94e2228791
-  uuid: 2ddcb519-ac96-48fe-8f91-4af4254c7d90
-  servername: www.apple.com
+- name: ZZ · TROJAN · yudou · 85EEF252
+  type: trojan
+  server: 85.31.102.163
+  port: 443
+  udp: true
   tls: true
-  flow: xtls-rprx-vision
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · yudou · 9D849912
+  type: vless
+  server: 172.67.79.160
+  port: 2087
+  uuid: a4a951b9-901d-4db8-8a7d-6df82c4b5c23
+  network: ws
+  servername: cvhpyn.pages.dev
+  tls: true
   client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: cvhpyn.pages.dev
   skip-cert-verify: true
   udp: true
 - name: ZZ · VMESS · yudou · F9D48602
@@ -128,60 +257,62 @@ proxies:
     headers:
       Host: vmess.lbw666.dpdns.org
   udp: true
-- name: TW · ANYTLS · clashmeta · FB600E64
+- name: ZZ · HYSTERIA2 · yudou · B4A243CD
+  type: hysteria2
+  server: de3.shvpn.ru
+  port: 4443
+  udp: true
+  tls: true
+  servername: de3.shvpn.ru
+  sni: de3.shvpn.ru
+  skip-cert-verify: false
+  password: c0242d1b-db7a-4dcf-95ff-e10a3ef1c1a3
+- name: HK · ANYTLS · clashmeta · 297CD999
   type: anytls
-  server: 684616s4.df6h451rh.xin
+  server: 654968169.df6h451rh.xin
   port: 443
-  sni: px.ads.linkedin.com
-  alpn:
-  - http/1.1
+  sni: images.ctfassets.net
   skip-cert-verify: true
   tls: true
   udp: true
-  client-fingerprint: chrome
   password: 0324fbc29561
-- name: ZZ · ANYTLS · yudou · 2971CE8B
-  type: anytls
-  server: er8u54dh.df6h451rh.xin
-  port: 443
-  sni: px.ads.linkedin.com
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: ZZ · SS · cfmem · E97041E6
+- name: ZZ · SS · yudou · 65756A1F
   type: ss
-  server: 202.50.253.81
+  server: 202.50.253.45
   port: 19999
   cipher: aes-256-gcm
-  skip-cert-verify: true
   udp: true
+  tls: false
+  skip-cert-verify: false
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VMESS · yudou · BC25F6E3
-  type: vmess
-  server: 104.17.136.198
+- name: ZZ · TROJAN · yudou · C4EFCC60
+  type: trojan
+  server: 104.16.72.41
   port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
+  udp: true
   tls: true
-  skip-cert-verify: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
   network: ws
   ws-opts:
-    path: /ws
+    path: /assignment
     headers:
-      Host: vmess.lbw666.dpdns.org
-  udp: true
-- name: ZZ · ANYTLS · yudou · F7588B82
-  type: anytls
-  server: er8u54dh.df6h451rh.xin
-  port: 443
-  sni: px.ads.linkedin.com
-  skip-cert-verify: true
+      Host: www.calmlunch.com
+  password: humanity
+- name: ZZ · VLESS · yudou · BFE009AB
+  type: vless
+  server: 172.67.79.160
+  port: 2087
+  uuid: a4a951b9-901d-4db8-8a7d-6df82c4b5c23
+  network: ws
   tls: true
-  udp: true
-  password: 0324fbc29561
+  servername: cvhpyn.pages.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: cvhpyn.pages.dev
 - name: ZZ · VMESS · yudou · 44F8766C
   type: vmess
   server: 104.17.136.198
@@ -195,23 +326,56 @@ proxies:
     path: /ws
     headers:
       Host: vmess.lbw666.dpdns.org
-- name: ZZ · ANYTLS · yudou · 1783D3BC
-  type: anytls
-  server: 654968169.df6h451rh.xin
-  port: 443
-  sni: 654968169.df6h451rh.xin
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 0324fbc29561
-- name: US · SS · cfmem · 61AEB8A9
+- name: ZZ · SS · yudou · 1C56E030
   type: ss
-  server: 202.50.253.72
+  server: 202.50.253.18
   port: 19999
   cipher: aes-256-gcm
-  skip-cert-verify: true
   udp: true
+  tls: false
+  skip-cert-verify: false
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · F3CA9A4E
+  type: trojan
+  server: 104.16.7.70
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · yudou · 4E40C20E
+  type: vless
+  server: 188.164.248.123
+  port: 8443
+  uuid: 7b102311-43fd-4e8f-877e-8090623c101d
+  network: ws
+  tls: true
+  servername: vp21.cc.cd
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: vp21.cc.cd
+- name: ZZ · VMESS · yudou · 330D3A69
+  type: vmess
+  server: 104.17.136.198
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
 - name: HK · ANYTLS · clashmeta · D2B40F46
   type: anytls
   server: 654968169.df6h451rh.xin
@@ -221,55 +385,442 @@ proxies:
   tls: true
   udp: true
   password: 0324fbc29561
-- name: HK · ANYTLS · clashmeta · 61665A01
+- name: ZZ · SS · yudou · 373D8F3F
+  type: ss
+  server: 202.50.253.81
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · 7138B7F8
+  type: trojan
+  server: 172.64.152.23
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+    headers:
+      Host: www.calmlunch.com
+  password: humanity
+- name: ZZ · VLESS · yudou · 49871BBD
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 35544
+  reality-opts:
+    public-key: HrcXRHtsitc_AVlN-_8fZuRgaP-Mqa_9JJotI9OnkVc
+    short-id: 25c79e5856c7
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: iosapps.itunes.apple.com
+  sni: iosapps.itunes.apple.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · FCB0AE0D
+  type: vmess
+  server: www.ubuntuupdates.com
+  port: 443
+  uuid: 83b09a64-1eaf-4c4d-89ed-866d4b6b8115
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.ubuntuupdates.com
+- name: ZZ · SS · yudou · 76DCD60C
+  type: ss
+  server: 202.50.253.63
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · C619A987
+  type: trojan
+  server: www.visa.com.sg
+  port: 8443
+  udp: true
+  tls: true
+  servername: au5.yang-1989.xyz
+  sni: au5.yang-1989.xyz
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /iw8i
+    headers:
+      Host: au5.yang-1989.xyz
+  password: 9d033eb1-22c7-4ae9-9d59-783e40c8eec3
+- name: ZZ · VLESS · yudou · 891E2D7E
+  type: vless
+  server: 193.160.141.8
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  uuid: 680e92ac-1688-49e0-af96-7327fbc30ce8
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: ozon.ru
+  sni: ozon.ru
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: ZZ · VMESS · yudou · 60D680DC
+  type: vmess
+  server: www.ubuntuupdates.com
+  port: 443
+  uuid: 83b09a64-1eaf-4c4d-89ed-866d4b6b8115
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.ubuntuupdates.com
+- name: HK · ANYTLS · clashmeta · 26612226
   type: anytls
   server: 56481.df6h451rh.xin
   port: 443
   sni: images.ctfassets.net
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  client-fingerprint: chrome
+  password: 0324fbc29561
+- name: ZZ · SS · yudou · 32A24B2A
+  type: ss
+  server: 202.50.253.27
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · 6AF83192
+  type: trojan
+  server: 162.159.36.20
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · yudou · 94E14609
+  type: vless
+  server: 193.160.141.8
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  uuid: 680e92ac-1688-49e0-af96-7327fbc30ce8
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: ozon.ru
+  sni: ozon.ru
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · FA0BA78D
+  type: vmess
+  server: or3.sfacg.uk
+  port: 2083
+  uuid: ac251237-576f-40c8-a543-554960c958b1
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /or3
+    headers:
+      Host: or3.sfacg.uk
+- name: ZZ · SS · yudou · 502C04D2
+  type: ss
+  server: 202.50.253.36
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · 10704E91
+  type: trojan
+  server: 165.215.250.14
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · yudou · 7C93E4D1
+  type: vless
+  server: 193.160.141.27
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  uuid: fd0a5c32-afc0-4d57-b95a-ca6ec8f93e87
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: abuse.ozon.ru
+  sni: abuse.ozon.ru
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: ZZ · SS · yudou · D4FD19F5
+  type: ss
+  server: 202.50.253.99
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: HK · ANYTLS · clashmeta · 1783D3BC
+  type: anytls
+  server: 654968169.df6h451rh.xin
+  port: 443
+  sni: 654968169.df6h451rh.xin
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 0324fbc29561
+- name: ZZ · TROJAN · yudou · FE580DA0
+  type: trojan
+  server: 104.18.12.149
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+    headers:
+      Host: www.calmlunch.com
+  password: humanity
+- name: ZZ · VLESS · yudou · 38732A4C
+  type: vless
+  server: 193.160.141.27
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  uuid: fd0a5c32-afc0-4d57-b95a-ca6ec8f93e87
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: abuse.ozon.ru
+  sni: abuse.ozon.ru
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · SS · yudou · 020A32A3
+  type: ss
+  server: 202.50.253.72
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · TROJAN · yudou · 9F5864E9
+  type: trojan
+  server: 165.215.250.14
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+    headers:
+      Host: www.calmlunch.com
+  password: humanity
+- name: ZZ · VLESS · yudou · 856C38CA
+  type: vless
+  server: 193.160.141.27
+  port: 443
+  reality-opts:
+    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
+  uuid: fd0a5c32-afc0-4d57-b95a-ca6ec8f93e87
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: abuse.ozon.ru
+  sni: abuse.ozon.ru
+  skip-cert-verify: false
+  client-fingerprint: ios
+- name: ZZ · VLESS · yudou · 6FF35D86
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 46105
+  reality-opts:
+    public-key: Lk5nwDxC2tr3J7hT8emhUUiMX8cHyKX9TiRj_EnAiik
+    short-id: 28f5c1f8f98a
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: www.lamer.com.sg
+  sni: www.lamer.com.sg
+  skip-cert-verify: false
+  client-fingerprint: safari
+- name: ZZ · VLESS · yudou · A8CC6090
+  type: vless
+  server: sg2-8sb.6121999.dpdns.org
+  port: 19825
+  reality-opts:
+    public-key: GvvkY8xYb9QjvwvzYq_uNC4tOGd0DCxRnz6770-xgkI
+    short-id: 6ba85179e30d4fc2
+  uuid: 2d1ad594-80a4-4bfb-87a6-038e39701f51
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: sg2-8sb.6121999.dpdns.org
+  sni: sg2-8sb.6121999.dpdns.org
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: TW · ANYTLS · clashmeta · F7588B82
+  type: anytls
+  server: er8u54dh.df6h451rh.xin
+  port: 443
+  sni: px.ads.linkedin.com
+  skip-cert-verify: true
+  tls: true
+  udp: true
+  password: 0324fbc29561
+- name: ZZ · VLESS · yudou · 5C678048
+  type: vless
+  server: dey.lnmarketplace.net
+  port: 443
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  udp: true
+  tls: true
+  servername: dey.lnmarketplace.net
+  sni: dey.lnmarketplace.net
+  skip-cert-verify: false
   alpn:
-  - http/1.1
-  skip-cert-verify: true
-  tls: true
+  - h2
+  network: xhttp
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
+- name: ZZ · VLESS · yudou · 7F4BE05C
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 55688
+  reality-opts:
+    public-key: KeV1nArisy7FO5DjqTSmn0hBnlNd38rzhbIMMpe-MBw
+    short-id: a46bb5972cf50671
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
   udp: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: AU · ANYTLS · clashmeta · 93E6CC66
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  skip-cert-verify: true
   tls: true
-  udp: true
+  servername: bilibili-vn.biliimg.com
+  sni: bilibili-vn.biliimg.com
+  skip-cert-verify: false
   client-fingerprint: chrome
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
-- name: US · ANYTLS · clashmeta · B8E1238C
-  type: anytls
-  server: 56481.df6h451rh.xin
+- name: ZZ · VLESS · yudou · 1530673D
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 54528
+  reality-opts:
+    public-key: 7GvJVbR6BRhtrc8-rcZvB8qTFUF1LPeM_MmoZ04mBxo
+    short-id: 54cca3c1c1c7
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: www.apple.com
+  sni: www.apple.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 844159EC
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 54528
+  reality-opts:
+    public-key: 7GvJVbR6BRhtrc8-rcZvB8qTFUF1LPeM_MmoZ04mBxo
+    short-id: 54cca3c1c1c7
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: www.apple.com
+  sni: www.apple.com
+  skip-cert-verify: false
+  client-fingerprint: ios
+- name: ZZ · VLESS · yudou · BEDDF160
+  type: vless
+  server: funagfrdfs.alixxplay.com
+  port: 30892
+  reality-opts:
+    public-key: YinI5MijeZpRatg6QNDvP0qXEif-6VHC6gV5yoji4i4
+    short-id: 3d31326f95
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: us1p1.xn--ghq880n3na965a.com
+  sni: us1p1.xn--ghq880n3na965a.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 560A8C15
+  type: vless
+  server: dey.lnmarketplace.net
   port: 443
-  sni: images.ctfassets.net
-  skip-cert-verify: true
-  tls: true
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
   udp: true
-  password: 0324fbc29561
-- name: US · ANYTLS · clashmeta · 71885D23
-  type: anytls
-  server: svip.skycon808.com
-  port: 47531
-  sni: tw15.swiftrelay.cc
-  skip-cert-verify: true
   tls: true
+  servername: dey.lnmarketplace.net
+  sni: dey.lnmarketplace.net
+  skip-cert-verify: false
+  alpn:
+  - h2
+  client-fingerprint: firefox
+  network: xhttp
+  xhttp-opts:
+    path: /kavir
+    host: dey.lnmarketplace.net
+    mode: stream-one
+- name: ZZ · VLESS · yudou · 15384F2F
+  type: vless
+  server: 104.18.42.98
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   udp: true
-  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
-- name: KR · ANYTLS · clashmeta · 49982245
-  type: anytls
-  server: svip.skycon808.com
-  port: 47531
-  sni: tw15.swiftrelay.cc
-  skip-cert-verify: true
   tls: true
-  udp: true
+  servername: jp3.yohototo.top
+  sni: jp3.yohototo.top
+  skip-cert-verify: false
   client-fingerprint: chrome
-  password: 87c6ad7b-e450-44a8-8088-bc2234d43de1
+  network: ws
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
 - name: HK · ANYTLS · clashmeta · B8986B29
   type: anytls
   server: 654968169.df6h451rh.xin
@@ -279,18 +830,22 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: HK · ANYTLS · clashmeta · 297CD999
-  type: anytls
-  server: 654968169.df6h451rh.xin
+- name: ZZ · VLESS · yudou · 94960C8F
+  type: vless
+  server: 104.18.42.98
   port: 443
-  sni: images.ctfassets.net
-  skip-cert-verify: true
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  network: ws
   tls: true
-  udp: true
-  password: 0324fbc29561
-- name: TW · ANYTLS · clashmeta · C34E8A34
+  servername: jp3.yohototo.top
+  client-fingerprint: chrome
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
+- name: TW · ANYTLS · clashmeta · FB600E64
   type: anytls
-  server: er8u54dh.df6h451rh.xin
+  server: 684616s4.df6h451rh.xin
   port: 443
   sni: px.ads.linkedin.com
   alpn:
@@ -300,20 +855,3 @@ proxies:
   udp: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: US · SS · clashmeta · FDCF8305
-  type: ss
-  server: 202.50.253.63
-  port: 19999
-  cipher: aes-256-gcm
-  skip-cert-verify: true
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · ANYTLS · clashmeta · 1D0DA258
-  type: anytls
-  server: svip.skycon808.com
-  port: 60005
-  sni: 127.0.0.1
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  password: 13f0acfa-38c1-4e82-a758-583aa31740df
