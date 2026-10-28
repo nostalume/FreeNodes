@@ -1,7 +1,17 @@
 proxies:
-- name: FR · HYSTERIA2 · kooker · A1FF9626
+- name: HK · ANYTLS · kooker · 3DE1DBF7
+  type: anytls
+  server: 56481.df6h451rh.xin
+  port: 443
+  alpn:
+  - http/1.1
+  client-fingerprint: chrome
+  skip-cert-verify: true
+  sni: images.ctfassets.net
+  password: 0324fbc29561
+- name: FR · HYSTERIA2 · kooker · FEB56A76
   type: hysteria2
-  server: 195.177.94.166
+  server: fr2-cl3.happy-glonaris.top
   port: 443
   down: ''
   fingerprint: ''
@@ -11,21 +21,113 @@ proxies:
   sni: fr2-cl3.happy-glonaris.top
   up: ''
   password: 4b1be712-774c-4b65-8491-a3339e124a70
-- name: NL · VLESS · kooker · BC0D0973
+- name: US · VLESS · kooker · A5ECCE24
   type: vless
-  server: 13.143.172.34
+  server: 155.117.232.61
   port: 443
   reality-opts:
-    public-key: cHJfClQkyUnSxMCi9kmfC8j5OpMrUpyvrjVboO50YXM
-    short-id: 4f135b9a6e5da9c5
-  uuid: fafc7c16-f890-45ee-a856-02df225172dd
+    public-key: aZDDxJRwRH2J4FPtoIr7DmOvpQPh9sbGbvV-NpVpfms
+    short-id: 336c2cff6e3717c4
+  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
+  client-fingerprint: chrome
+  encryption: none
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: node-usa.blok-signalon.top
+- name: US · VLESS · kooker · C66C8F80
+  type: vless
+  server: node-usa.blok-signalon.top
+  port: 443
+  reality-opts:
+    public-key: aZDDxJRwRH2J4FPtoIr7DmOvpQPh9sbGbvV-NpVpfms
+    short-id: 336c2cff6e3717c4
+  uuid: 4b1be712-774c-4b65-8491-a3339e124a70
+  client-fingerprint: chrome
+  flow: xtls-rprx-vision
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: node-usa.blok-signalon.top
+- name: FI · VLESS · kooker · F642065F
+  type: vless
+  server: 199.232.239.239
+  port: 443
+  uuid: 36805edb-1e85-4199-a59f-117010b70017
+  alpn:
+  - h2
+  client-fingerprint: firefox
+  encryption: none
+  fingerprint: cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e
+  network: ws
+  tls: true
+  udp: true
+  ws-opts:
+    headers:
+      Host: mpkoe7ypcibr80p102020123.global.ssl.fastly.net
+      User-Agent: Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36
+    path: /@CloudVPNchannel/@CloudVPNchannel/@CloudVPNchannel/@CloudVPNchannel/@CloudVPNchannel/@CloudVPNchannel
+    early-data-header-name: Sec-WebSocket-Protocol
+    max-early-data: 2056
+  xudp: true
+  servername: firefox.com
+- name: EE · VLESS · kooker · CDADCF0A
+  type: vless
+  server: 31.76.70.90
+  port: 443
+  uuid: abca037b-bee5-41cc-a888-0668e4c66176
   client-fingerprint: chrome
   encryption: none
   network: xhttp
   tls: true
   udp: true
   xhttp-opts:
-    mode: stream-up
-    path: /api/v1/stream
+    path: /conv4/stream/77dd2aeeb94331fbff325bb48850392b
   xudp: true
-  servername: yastatic.net
+  servername: 597dad6b.con.fernarchive.online
+- name: EE · VLESS · kooker · C0A25E05
+  type: vless
+  server: 79.182.39.232
+  port: 25895
+  reality-opts:
+    public-key: jOVKSP-bS9OkILJ8Epz8hadh6qhavCrOiJYeF0NCn0k
+    short-id: a73f0410d728c823
+  uuid: f90b7d43-69e2-4b46-a672-8029bc6796a2
+  client-fingerprint: chrome
+  encryption: none
+  network: tcp
+  tls: true
+  udp: true
+  xudp: true
+  servername: www.samsung.com
+- name: FI · VLESS · kooker · 4600708F
+  type: vless
+  server: 823bcb90.con.fernarchive.online
+  port: 443
+  uuid: abca037b-bee5-41cc-a888-0668e4c66176
+  client-fingerprint: chrome
+  network: xhttp
+  tls: true
+  udp: true
+  xhttp-opts:
+    mode: auto
+    path: /conv4/stream/77dd2aeeb94331fbff325bb48850392b
+  xudp: true
+  servername: 823bcb90.con.fernarchive.online
+- name: DE · VLESS · kooker · 74042C00
+  type: vless
+  server: 144.31.217.28
+  port: 443
+  uuid: abca037b-bee5-41cc-a888-0668e4c66176
+  client-fingerprint: chrome
+  encryption: none
+  network: xhttp
+  tls: true
+  udp: true
+  xhttp-opts:
+    path: /conv4/stream/77dd2aeeb94331fbff325bb48850392b
+  xudp: true
+  servername: 9187bd6f.con.fernarchive.online
