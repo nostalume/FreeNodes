@@ -1,49 +1,67 @@
 proxies:
-- name: CA · TROJAN · clashmeta · C96510B0
-  type: trojan
-  server: 216.152.147.79
-  port: 443
-  udp: true
-  tls: true
-  servername: blog.connectingpeoplewithgreatjobs.com
-  sni: blog.connectingpeoplewithgreatjobs.com
-  skip-cert-verify: false
-  password: 0ab6c98dae3b48e8b9c4a776b6c9c19a
-- name: US · VMESS · clashmeta · 169DE7CD
+- name: US · VLESS · clashmeta · 459BFB3F
+  type: vless
+  server: 169.128.83.4
+  port: 57259
+  uuid: a1962f23-f8f8-412d-f2ce-3361e7b72889
+  network: none
+- name: US · VMESS · clashmeta · 07673546
   type: vmess
-  server: rib9jxayoqjgn2kw.v.3dns.vip
-  port: 443
-  uuid: 9b31490d-190e-4ef1-af0a-7ccab3e7c3b5
+  server: 129.146.77.248
+  port: 39495
+  uuid: f836c736-87fc-4fde-aabc-00857ecdff3e
   alterId: 0
   cipher: auto
   network: ws
-  tls: true
-  servername: rib9jxayoqjgn2kw.v.3dns.vip
   ws-opts:
-    path: /ws-vmess
-- name: ZZ · VLESS · clashmeta · 63AA73BF
+    path: /cctv13.m3u8
+    headers:
+      Host: 129.146.77.248
+- name: US · VLESS · clashmeta · 4C36CFCD
   type: vless
-  server: 172.64.152.241
+  server: 169.128.83.4
+  port: 57259
+  uuid: a1962f23-f8f8-412d-f2ce-3361e7b72889
+  network: tcp
+- name: US · VMESS · clashmeta · E59E54F5
+  type: vmess
+  server: 129.146.77.248
+  port: 39495
+  uuid: f836c736-87fc-4fde-aabc-00857ecdff3e
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /cctv13.m3u8
+- name: FR · VLESS · clashmeta · 2414D4A7
+  type: vless
+  server: 104.18.0.181
+  port: 2082
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
+  servername: hhlfy.twiladaphne.ndjp.net
+  ws-opts:
+    path: /fp
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
+- name: US · TROJAN · clashmeta · 0C5AD01C
+  type: trojan
+  server: blog.findlocaljobnetworkandbuildcommunityconnections.com
   port: 443
-  uuid: d342d11e-d224-4463-b982-532309285094
-  udp: true
-  tls: true
-  servername: ccc.010304.xyz
-  sni: ccc.010304.xyz
-  skip-cert-verify: false
+  network: tcp
+  servername: blog.findlocaljobnetworkandbuildcommunityconnections.com
+  client-fingerprint: chrome
+  password: dba20dcb635e430fa4d3bfc303a149d2
+- name: FR · VLESS · clashmeta · 66E6E8C0
+  type: vless
+  server: 104.18.0.181
+  port: 2082
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
   ws-opts:
     path: /fp
     headers:
-      Host: ccc.010304.xyz
-- name: US · TROJAN · clashmeta · 927F36F6
-  type: trojan
-  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  port: 443
-  network: tcp
-  servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
-  client-fingerprint: chrome
-  password: f0eb8c92ce8946aaba856569cff1a16b
+      Host: hhlfy.twiladaphne.ndjp.net
 - name: US · VMESS · clashmeta · 57BD58A9
   type: vmess
   server: 169.197.142.22
@@ -60,16 +78,40 @@ proxies:
   servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
   client-fingerprint: chrome
   password: f0eb8c92ce8946aaba856569cff1a16b
-- name: FR · VLESS · clashmeta · 66E6E8C0
+- name: FR · VLESS · clashmeta · B04362CB
   type: vless
-  server: 104.18.0.181
+  server: 172.64.150.43
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
+  servername: 'hhlfy.twiladaphne.ndjp.net '
+  ws-opts:
+    path: /sg-melbi
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
+- name: FR · VLESS · clashmeta · 1371302B
+  type: vless
+  server: 172.64.150.28
   port: 2082
   uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
+  servername: hhlfy.twiladaphne.ndjp.net
   ws-opts:
     path: /fp
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
+- name: US · VMESS · clashmeta · 169DE7CD
+  type: vmess
+  server: rib9jxayoqjgn2kw.v.3dns.vip
+  port: 443
+  uuid: 9b31490d-190e-4ef1-af0a-7ccab3e7c3b5
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: rib9jxayoqjgn2kw.v.3dns.vip
+  ws-opts:
+    path: /ws-vmess
 - name: US · TROJAN · clashmeta · 57DC5B7E
   type: trojan
   server: blog.findlocaljobnetworkandbuildcommunityconnections.com
@@ -78,19 +120,44 @@ proxies:
   servername: blog.findlocaljobnetworkandbuildcommunityconnections.com
   client-fingerprint: chrome
   password: dba20dcb635e430fa4d3bfc303a149d2
-- name: FR · VLESS · clashmeta · 0BC64D8A
+- name: FR · VLESS · clashmeta · 2AAB2D70
   type: vless
-  server: chatgpt.com
-  port: 443
-  uuid: d342d11e-d224-4463-b982-532309285094
+  server: 104.17.44.17
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
-  tls: true
-  servername: ccc.010304.xyz
-  client-fingerprint: chrome
+  ws-opts:
+    path: /sg-melbi
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
+- name: FR · VLESS · clashmeta · 01A44686
+  type: vless
+  server: 104.18.35.86
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
+  ws-opts:
+    path: /sg-melbi
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
+- name: US · VMESS · clashmeta · 7C4E95E5
+  type: vmess
+  server: 84.17.41.2
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: tcp
+- name: FR · VLESS · clashmeta · 1A5670DF
+  type: vless
+  server: 104.19.95.153
+  port: 2082
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
   ws-opts:
     path: /
     headers:
-      Host: ccc.010304.xyz
+      Host: hhlfy.twiladaphne.ndjp.net
 - name: US · TROJAN · clashmeta · 33033CA1
   type: trojan
   server: www.findlocaljobnetworkandbuildcommunityconnections.com
@@ -99,15 +166,24 @@ proxies:
   servername: www.findlocaljobnetworkandbuildcommunityconnections.com
   client-fingerprint: chrome
   password: 242a3d8eee5e4ed1a6bfa4141d549a25
-- name: FR · VLESS · clashmeta · 023F875B
+- name: FR · VLESS · clashmeta · 1F508DB5
   type: vless
-  server: 104.18.35.86
+  server: 172.67.71.187
   port: 8080
   uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
-  servername: hhlfy.twiladaphne.ndjp.net
   ws-opts:
     path: /sg-melbi
+    headers:
+      Host: hhlfy.twiladaphne.ndjp.net
+- name: FR · VLESS · clashmeta · D81EEDEE
+  type: vless
+  server: 104.21.70.21
+  port: 8080
+  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  network: ws
+  ws-opts:
+    path: /fp
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
 - name: US · VMESS · clashmeta · 14575D53
@@ -124,169 +200,32 @@ proxies:
     path: /ws-vmess
     headers:
       Host: Rib9JXAYoqjGN2KW.v.3dns.vip
-- name: US · VMESS · clashmeta · 7C4E95E5
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: US · TROJAN · clashmeta · 0C5AD01C
+- name: US · TROJAN · clashmeta · 927F36F6
   type: trojan
-  server: blog.findlocaljobnetworkandbuildcommunityconnections.com
+  server: resources.findlocaljobnetworkandbuildcommunityconnections.com
   port: 443
   network: tcp
-  servername: blog.findlocaljobnetworkandbuildcommunityconnections.com
+  servername: resources.findlocaljobnetworkandbuildcommunityconnections.com
   client-fingerprint: chrome
-  password: dba20dcb635e430fa4d3bfc303a149d2
-- name: FR · VLESS · clashmeta · 18AF544C
+  password: f0eb8c92ce8946aaba856569cff1a16b
+- name: ZZ · VLESS · clashmeta · 63AA73BF
   type: vless
-  server: 172.64.146.66
+  server: 172.64.152.241
   port: 443
   uuid: d342d11e-d224-4463-b982-532309285094
-  network: ws
+  udp: true
   tls: true
   servername: ccc.010304.xyz
-  client-fingerprint: chrome
-  ws-opts:
-    path: /fp=chrome
-    headers:
-      Host: ccc.010304.xyz
-- name: FR · VLESS · clashmeta · 1F508DB5
-  type: vless
-  server: 172.67.71.187
-  port: 8080
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  sni: ccc.010304.xyz
+  skip-cert-verify: false
   network: ws
-  ws-opts:
-    path: /sg-melbi
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: FR · VLESS · clashmeta · 2414D4A7
-  type: vless
-  server: 104.18.0.181
-  port: 2082
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
-  network: ws
-  servername: hhlfy.twiladaphne.ndjp.net
   ws-opts:
     path: /fp
     headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: US · VMESS · clashmeta · E59E54F5
-  type: vmess
-  server: 129.146.77.248
-  port: 39495
-  uuid: f836c736-87fc-4fde-aabc-00857ecdff3e
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /cctv13.m3u8
-- name: FR · VLESS · clashmeta · 34016F9F
-  type: vless
-  server: 104.21.221.158
-  port: 443
-  uuid: d342d11e-d224-4463-b982-532309285094
-  network: ws
-  tls: true
-  servername: ccc.010304.xyz
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /fp=chrome
-    headers:
       Host: ccc.010304.xyz
-- name: FR · VLESS · clashmeta · 08EC136C
-  type: vless
-  server: cf.090227.xyz
-  port: 443
-  uuid: d342d11e-d224-4463-b982-532309285094
-  network: ws
-  tls: true
-  servername: ccc.010304.xyz
-  client-fingerprint: chrome
-  ws-opts:
-    path: /fp=chrome
-    headers:
-      Host: ccc.010304.xyz
-- name: US · VMESS · clashmeta · A5BF2604
+- name: US · VMESS · clashmeta · F0236635
   type: vmess
-  server: cf.0sm.com
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: vmess.lbw666.dpdns.org
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: FR · VLESS · clashmeta · 13599181
-  type: vless
-  server: 104.18.35.15
-  port: 443
-  uuid: d342d11e-d224-4463-b982-532309285094
-  network: ws
-  tls: true
-  servername: ccc.010304.xyz
-  client-fingerprint: chrome
-  ws-opts:
-    path: /fp=chrome
-    headers:
-      Host: ccc.010304.xyz
-- name: US · VMESS · clashmeta · 58ED37E6
-  type: vmess
-  server: 104.17.136.198
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: vmess.lbw666.dpdns.org
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: FR · VLESS · clashmeta · 1371302B
-  type: vless
-  server: 172.64.150.28
-  port: 2082
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
-  network: ws
-  servername: hhlfy.twiladaphne.ndjp.net
-  ws-opts:
-    path: /fp
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: US · VMESS · clashmeta · 07673546
-  type: vmess
-  server: 129.146.77.248
-  port: 39495
-  uuid: f836c736-87fc-4fde-aabc-00857ecdff3e
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /cctv13.m3u8
-    headers:
-      Host: 129.146.77.248
-- name: FR · VLESS · clashmeta · 2AAB2D70
-  type: vless
-  server: 104.17.44.17
-  port: 8080
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
-  network: ws
-  ws-opts:
-    path: /sg-melbi
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: CA · VMESS · clashmeta · D4FDDB5D
-  type: vmess
-  server: 23.162.200.198
+  server: 38.91.107.49
   port: 18000
   uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
   alterId: 0
@@ -307,9 +246,30 @@ proxies:
     path: /
     headers:
       Host: ccc.010304.xyz
-- name: FR · VLESS · clashmeta · 20B2D340
+- name: US · VMESS · clashmeta · 82174D74
+  type: vmess
+  server: 67.220.85.46
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: aes-128-gcm
+  network: tcp
+- name: FR · VLESS · clashmeta · 18AF544C
   type: vless
-  server: 188.114.97.6
+  server: 172.64.146.66
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
+  network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: chrome
+  ws-opts:
+    path: /fp=chrome
+    headers:
+      Host: ccc.010304.xyz
+- name: FR · VLESS · clashmeta · 023F875B
+  type: vless
+  server: 104.18.35.86
   port: 8080
   uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
@@ -318,17 +278,17 @@ proxies:
     path: /sg-melbi
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
-- name: CA · VMESS · clashmeta · 15C9EAEA
+- name: US · VMESS · clashmeta · 5E3EF424
   type: vmess
-  server: 134.195.196.211
+  server: 67.220.85.46
   port: 18000
   uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
   alterId: 0
   cipher: auto
-  network: raw
-- name: FR · VLESS · clashmeta · 2DA70CF6
+  network: tcp
+- name: FR · VLESS · clashmeta · 0BC64D8A
   type: vless
-  server: ccc.010304.xyz
+  server: chatgpt.com
   port: 443
   uuid: d342d11e-d224-4463-b982-532309285094
   network: ws
@@ -337,14 +297,37 @@ proxies:
   client-fingerprint: chrome
   ws-opts:
     path: /
-- name: CA · VMESS · clashmeta · 1F7F0BA5
+    headers:
+      Host: ccc.010304.xyz
+- name: US · VMESS · clashmeta · CC8FA481
   type: vmess
-  server: 23.162.200.198
+  server: 38.91.107.49
   port: 18000
   uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
   alterId: 0
   cipher: auto
   network: tcp
+- name: FR · VLESS · clashmeta · 13599181
+  type: vless
+  server: 104.18.35.15
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
+  network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: chrome
+  ws-opts:
+    path: /fp=chrome
+    headers:
+      Host: ccc.010304.xyz
+- name: US · TROJAN · clashmeta · 04CC0BB3
+  type: trojan
+  server: us001.zestapp778.com
+  port: 57277
+  network: tcp
+  servername: us001.zestapp778.com
+  client-fingerprint: chrome
+  password: 5t6i121em5lkmsmk
 - name: FR · VLESS · clashmeta · 2E0D86E0
   type: vless
   server: 104.17.154.123
@@ -358,17 +341,40 @@ proxies:
     path: /
     headers:
       Host: ccc.010304.xyz
-- name: FR · VLESS · clashmeta · B04362CB
+- name: CA · TROJAN · clashmeta · C96510B0
+  type: trojan
+  server: 216.152.147.79
+  port: 443
+  udp: true
+  tls: true
+  servername: blog.connectingpeoplewithgreatjobs.com
+  sni: blog.connectingpeoplewithgreatjobs.com
+  skip-cert-verify: false
+  password: 0ab6c98dae3b48e8b9c4a776b6c9c19a
+- name: FR · VLESS · clashmeta · 20B2D340
   type: vless
-  server: 172.64.150.43
+  server: 188.114.97.6
   port: 8080
   uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
   network: ws
-  servername: 'hhlfy.twiladaphne.ndjp.net '
+  servername: hhlfy.twiladaphne.ndjp.net
   ws-opts:
     path: /sg-melbi
     headers:
       Host: hhlfy.twiladaphne.ndjp.net
+- name: FR · VLESS · clashmeta · 34016F9F
+  type: vless
+  server: 104.21.221.158
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
+  network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /fp=chrome
+    headers:
+      Host: ccc.010304.xyz
 - name: ZZ · TROJAN · clashmeta · E94A9FA9
   type: trojan
   server: www.calmlunch.com
@@ -384,42 +390,19 @@ proxies:
     headers:
       Host: www.calmlunch.com
   password: humanity
-- name: FR · VLESS · clashmeta · 1A5670DF
+- name: FR · VLESS · clashmeta · 08EC136C
   type: vless
-  server: 104.19.95.153
-  port: 2082
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  server: cf.090227.xyz
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
   network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: chrome
   ws-opts:
-    path: /
+    path: /fp=chrome
     headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: US · VMESS · clashmeta · 82174D74
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: aes-128-gcm
-  network: tcp
-- name: FR · VLESS · clashmeta · 01A44686
-  type: vless
-  server: 104.18.35.86
-  port: 8080
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
-  network: ws
-  ws-opts:
-    path: /sg-melbi
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
-- name: US · VMESS · clashmeta · 5E3EF424
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
+      Host: ccc.010304.xyz
 - name: US · VMESS · clashmeta · 927C175B
   type: vmess
   server: 67.220.85.46
@@ -428,16 +411,17 @@ proxies:
   alterId: 0
   cipher: aes-128-gcm
   network: raw
-- name: FR · VLESS · clashmeta · D81EEDEE
+- name: FR · VLESS · clashmeta · 2DA70CF6
   type: vless
-  server: 104.21.70.21
-  port: 8080
-  uuid: e5cc16a6-ea42-46b2-82ae-ad2157e1641b
+  server: ccc.010304.xyz
+  port: 443
+  uuid: d342d11e-d224-4463-b982-532309285094
   network: ws
+  tls: true
+  servername: ccc.010304.xyz
+  client-fingerprint: chrome
   ws-opts:
-    path: /fp
-    headers:
-      Host: hhlfy.twiladaphne.ndjp.net
+    path: /
 - name: US · VLESS · clashmeta · 00BC6ABA
   type: vless
   server: 108.61.119.63
@@ -447,21 +431,14 @@ proxies:
   tls: true
   servername: us007.zestapp778.com
   client-fingerprint: firefox
-- name: ZZ · TROJAN · clashmeta · EFA68B27
-  type: trojan
-  server: 185.220.100.168
-  port: 443
-  udp: true
-  tls: true
-  servername: www.calmlunch.com
-  sni: www.calmlunch.com
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.calmlunch.com
-  password: humanity
+- name: CA · VMESS · clashmeta · 15C9EAEA
+  type: vmess
+  server: 134.195.196.211
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: raw
 - name: US · VLESS · clashmeta · 5EAF9B11
   type: vless
   server: 69.48.201.136
@@ -472,39 +449,14 @@ proxies:
     path: /usserver
     headers:
       Host: uspanel.unixzone.us
-- name: US · TROJAN · clashmeta · F363BC07
-  type: trojan
-  server: 172.66.0.172
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-  password: humanity
-- name: GB · VLESS · clashmeta · 0B1DF264
-  type: vless
-  server: connect.hondamotor.site
-  port: 10002
-  uuid: c6362720-0931-4b91-b187-d8ecf3149734
-  network: raw
-- name: US · VMESS · clashmeta · E5130CD8
+- name: CA · VMESS · clashmeta · 1F7F0BA5
   type: vmess
-  server: cf.877771.xyz
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  server: 23.162.200.198
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
   alterId: 0
   cipher: auto
-  network: ws
-  tls: true
-  servername: vmess.lbw666.dpdns.org
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
+  network: tcp
 - name: ZZ · VLESS · clashmeta · 3EAB887D
   type: vless
   server: hydra.yokkastars.com
@@ -522,46 +474,32 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: rex-eb0bf76b710ce763
-- name: US · TROJAN · clashmeta · 1825DF52
-  type: trojan
-  server: 104.19.46.152
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-  password: humanity
+- name: GB · VLESS · clashmeta · 0B1DF264
+  type: vless
+  server: connect.hondamotor.site
+  port: 10002
+  uuid: c6362720-0931-4b91-b187-d8ecf3149734
+  network: raw
+- name: CA · VMESS · clashmeta · D4FDDB5D
+  type: vmess
+  server: 23.162.200.198
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: raw
 - name: CA · VLESS · clashmeta · 16EABA18
   type: vless
   server: milo.networkforexir.site
   port: 8080
   uuid: 6bceb548-d9b6-461f-8e37-a5a7fbcdc2c8
   network: tcp
-- name: US · VMESS · clashmeta · CC8FA481
-  type: vmess
-  server: 38.91.107.49
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: DE · VLESS · clashmeta · 71D0BBC6
+- name: CA · VLESS · clashmeta · 067A77EE
   type: vless
-  server: 185.78.76.166
-  port: 443
-  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
-  network: ws
-  tls: true
-  servername: n.bitpulse.me
-  client-fingerprint: firefox
-  ws-opts:
-    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
-    headers:
-      Host: n.bitpulse.me
+  server: milo.rubinaz.xyz
+  port: 8080
+  uuid: 6bceb548-d9b6-461f-8e37-a5a7fbcdc2c8
+  network: raw
 - name: US · VMESS · clashmeta · 008FE297
   type: vmess
   server: 38.110.1.246
@@ -570,57 +508,6 @@ proxies:
   alterId: 0
   cipher: auto
   network: raw
-- name: US · TROJAN · clashmeta · FC92C6DD
-  type: trojan
-  server: 104.17.17.238
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-  password: humanity
-- name: CA · VLESS · clashmeta · 067A77EE
-  type: vless
-  server: milo.rubinaz.xyz
-  port: 8080
-  uuid: 6bceb548-d9b6-461f-8e37-a5a7fbcdc2c8
-  network: raw
-- name: US · VMESS · clashmeta · F0236635
-  type: vmess
-  server: 38.91.107.49
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: US · SS · clashmeta · 1C56E030
-  type: ss
-  server: 202.50.253.18
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · TROJAN · clashmeta · A6B07123
-  type: trojan
-  server: 172.67.203.46
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-    headers:
-      Host: www.cordweave.com
-  password: humanity
 - name: DE · VLESS · clashmeta · 72058235
   type: vless
   server: 185.78.76.166
@@ -637,41 +524,14 @@ proxies:
     path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
     headers:
       Host: n.bitpulse.me
-- name: US · TROJAN · clashmeta · B42A93CE
-  type: trojan
-  server: 104.18.72.213
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-  password: humanity
-- name: ZZ · VLESS · clashmeta · 61D18D9E
-  type: vless
-  server: 155.212.240.10
-  port: 443
-  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
-  network: ws
-  tls: true
-  servername: n.bitpulse.me
-  client-fingerprint: firefox
-  ws-opts:
-    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
-    headers:
-      Host: n.bitpulse.me
-- name: US · SS · clashmeta · 020A32A3
-  type: ss
-  server: 202.50.253.72
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · VMESS · clashmeta · 1CB9CE26
+  type: vmess
+  server: 67.220.95.3
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: tcp
 - name: US · TROJAN · clashmeta · 5253515C
   type: trojan
   server: 172.67.203.46
@@ -681,66 +541,6 @@ proxies:
   servername: www.cordweave.com
   sni: www.cordweave.com
   skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /assignment
-  password: humanity
-- name: US · VLESS · clashmeta · A6CFA4F3
-  type: vless
-  server: saas.sin.fan
-  port: 443
-  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
-  network: ws
-  tls: true
-  servername: n.bitpulse.me
-  client-fingerprint: firefox
-  ws-opts:
-    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
-    headers:
-      Host: n.bitpulse.me
-- name: CA · TROJAN · clashmeta · D423B938
-  type: trojan
-  server: 172.67.203.46
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  alpn:
-  - http/1.1
-  network: ws
-  ws-opts:
-    path: /assignment
-  password: humanity
-- name: US · VLESS · clashmeta · 4E56F4B1
-  type: vless
-  server: saas.sin.fan
-  port: 443
-  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
-  udp: true
-  tls: true
-  servername: n.bitpulse.me
-  sni: n.bitpulse.me
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: ws
-  ws-opts:
-    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
-    headers:
-      Host: n.bitpulse.me
-- name: CA · TROJAN · clashmeta · 95D4C79F
-  type: trojan
-  server: 172.67.203.46
-  port: 443
-  udp: true
-  tls: true
-  servername: www.cordweave.com
-  sni: www.cordweave.com
-  skip-cert-verify: false
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
   network: ws
   ws-opts:
     path: /assignment
@@ -761,32 +561,107 @@ proxies:
     path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
     headers:
       Host: n.bitpulse.me
-- name: ZZ · SS · clashmeta · 373D8F3F
-  type: ss
-  server: 202.50.253.81
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · SS · clashmeta · 32A24B2A
-  type: ss
-  server: 202.50.253.27
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · TROJAN · clashmeta · 04CC0BB3
+- name: CA · TROJAN · clashmeta · D423B938
   type: trojan
-  server: us001.zestapp778.com
-  port: 57277
-  network: tcp
-  servername: us001.zestapp778.com
+  server: 172.67.203.46
+  port: 443
+  udp: true
+  tls: true
+  servername: www.cordweave.com
+  sni: www.cordweave.com
+  skip-cert-verify: false
+  alpn:
+  - http/1.1
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: ZZ · VLESS · clashmeta · 61D18D9E
+  type: vless
+  server: 155.212.240.10
+  port: 443
+  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
+  network: ws
+  tls: true
+  servername: n.bitpulse.me
+  client-fingerprint: firefox
+  ws-opts:
+    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
+    headers:
+      Host: n.bitpulse.me
+- name: CA · TROJAN · clashmeta · 95D4C79F
+  type: trojan
+  server: 172.67.203.46
+  port: 443
+  udp: true
+  tls: true
+  servername: www.cordweave.com
+  sni: www.cordweave.com
+  skip-cert-verify: false
+  alpn:
+  - http/1.1
   client-fingerprint: chrome
-  password: 5t6i121em5lkmsmk
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: DE · VLESS · clashmeta · 71D0BBC6
+  type: vless
+  server: 185.78.76.166
+  port: 443
+  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
+  network: ws
+  tls: true
+  servername: n.bitpulse.me
+  client-fingerprint: firefox
+  ws-opts:
+    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
+    headers:
+      Host: n.bitpulse.me
+- name: US · VMESS · clashmeta · A5BF2604
+  type: vmess
+  server: cf.0sm.com
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: vmess.lbw666.dpdns.org
+  ws-opts:
+    path: /ws?ed=2048
+    headers:
+      Host: vmess.lbw666.dpdns.org
+- name: US · VLESS · clashmeta · 4E56F4B1
+  type: vless
+  server: saas.sin.fan
+  port: 443
+  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
+  udp: true
+  tls: true
+  servername: n.bitpulse.me
+  sni: n.bitpulse.me
+  skip-cert-verify: false
+  client-fingerprint: firefox
+  network: ws
+  ws-opts:
+    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
+    headers:
+      Host: n.bitpulse.me
+- name: US · VMESS · clashmeta · E5130CD8
+  type: vmess
+  server: cf.877771.xyz
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: vmess.lbw666.dpdns.org
+  ws-opts:
+    path: /ws?ed=2048
+    headers:
+      Host: vmess.lbw666.dpdns.org
 - name: IN · TROJAN · clashmeta · 09F66133
   type: trojan
   server: in002.zestapp778.com
@@ -795,11 +670,72 @@ proxies:
   servername: in002.zestapp778.com
   client-fingerprint: chrome
   password: 5t6i121em5lkmsmk
-- name: SG · VMESS · clashmeta · 1D07EA35
+- name: US · VLESS · clashmeta · A6CFA4F3
+  type: vless
+  server: saas.sin.fan
+  port: 443
+  uuid: f27b6f65-6e59-4f89-b929-afa397ca587f
+  network: ws
+  tls: true
+  servername: n.bitpulse.me
+  client-fingerprint: firefox
+  ws-opts:
+    path: /019bcbad-3813-7cce-8786-3ac0e418f128?ed=2560
+    headers:
+      Host: n.bitpulse.me
+- name: US · TROJAN · clashmeta · FC92C6DD
+  type: trojan
+  server: 104.17.17.238
+  port: 443
+  udp: true
+  tls: true
+  servername: www.cordweave.com
+  sni: www.cordweave.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+  password: humanity
+- name: US · VLESS · clashmeta · 49BCB85C
+  type: vless
+  server: 31.77.13.22
+  port: 2063
+  reality-opts:
+    public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
+  uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: rusbid.de
+  sni: rusbid.de
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: US · VMESS · clashmeta · 58ED37E6
   type: vmess
-  server: ww11.levikogjgfdd.ir
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  server: 104.17.136.198
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
   alterId: 0
   cipher: auto
-  network: raw
+  network: ws
+  tls: true
+  servername: vmess.lbw666.dpdns.org
+  ws-opts:
+    path: /ws?ed=2048
+    headers:
+      Host: vmess.lbw666.dpdns.org
+- name: ZZ · TROJAN · clashmeta · EFA68B27
+  type: trojan
+  server: 185.220.100.168
+  port: 443
+  udp: true
+  tls: true
+  servername: www.calmlunch.com
+  sni: www.calmlunch.com
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /assignment
+    headers:
+      Host: www.calmlunch.com
+  password: humanity
