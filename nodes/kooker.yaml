@@ -1,20 +1,47 @@
 proxies:
-- name: FI · HYSTERIA2 · kooker · F60D50A3
-  type: hysteria2
-  server: 217.60.73.56
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
+- name: FR · HYSTERIA · kooker · E6F23027
+  type: hysteria
+  server: 62.210.28.175
+  port: 24667
+  alpn:
+  - h3
+  down: 55 Mbps
+  protocol: udp
   skip-cert-verify: true
-  sni: forshynewh.duckdns.org
-  up: ''
-  password: 69e41e64-a832-471a-b740-94577ca85520
-- name: MY · SS · kooker · 138CF8D4
-  type: ss
-  server: xunlinknode.csdjhajkshdjkas.com
-  port: 40006
-  cipher: chacha20-ietf-poly1305
+  sni: bing.com
+  up: 11 Mbps
+  auth-str: dongtaiwang.com
+- name: US · TROJAN · kooker · BC409221
+  type: trojan
+  server: 169.197.140.218
+  port: 443
+  client-fingerprint: chrome
+  network: tcp
+  skip-cert-verify: false
+  sni: learn.discoverfreshgraduatejobsstartyourprofessionaljourney.com
   udp: true
-  password: 28789988-887e-4e41-83cd-27bbfb7999ad
+  password: 0ab6c98dae3b48e8b9c4a776b6c9c19a
+- name: US · VLESS · kooker · A9E30325
+  type: vless
+  server: 104.18.1.1
+  port: 2087
+  uuid: 4859c235-2530-4062-9a0b-ea859cbbf861
+  alpn:
+  - h3
+  - h2
+  - http/1.1
+  client-fingerprint: ios
+  encryption: none
+  network: ws
+  tls: true
+  udp: true
+  ws-opts:
+    early-data-header-name: Sec-WebSocket-Protocol
+    headers:
+      Host: 1.proxy2.us.ci.
+      User-Agent: Mozilla/5.0 (Linux; Android 6.0; CAM-L21 Build/HUAWEICAM-L21; wv) AppleWebKit/537.36 (KHTML, like Gecko)
+        Version/4.0 Chrome/62.0.3202.84 Mobile Safari/537.36
+    max-early-data: 2560
+    path: /
+  xudp: true
+  servername: 1.proxy2.us.ci.
