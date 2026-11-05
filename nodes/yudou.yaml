@@ -9,7 +9,30 @@ proxies:
   sni: pl2.nexfile.net
   skip-cert-verify: false
   password: a35c508f-4d5d-4531-842e-6e9d43c762c0
-- name: US · HYSTERIA2 · clashnode · C71542B4
+- name: ZZ · VLESS · yudou · EA13FEAF
+  type: vless
+  server: 177.177.215.45
+  port: 444
+  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
+  network: tcp
+  tls: true
+  servername: ams2.shtil.io
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · 9BF85584
+  type: vmess
+  server: 104.17.77.77
+  port: 8443
+  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  alterId: 0
+  cipher: none
+  network: ws
+  tls: true
+  ws-opts:
+    path: /lMnsZUN4/
+    headers:
+      Host: v2ray1.dozapp.xyz
+- name: ZZ · HYSTERIA2 · yudou · C71542B4
   type: hysteria2
   server: 13.143.189.147
   port: 4444
@@ -19,31 +42,6 @@ proxies:
   sni: pl2.nexfile.net
   skip-cert-verify: false
   password: a35c508f-4d5d-4531-842e-6e9d43c762c0
-- name: ZZ · VLESS · yudou · 6F62870D
-  type: vless
-  server: 177.177.215.45
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  flow: xtls-rprx-vision-udp443
-  udp: true
-  tls: true
-  servername: ams2.shtil.io
-  sni: ams2.shtil.io
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: ZZ · VMESS · yudou · A883DD0A
-  type: vmess
-  server: 172.67.167.78
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /lMnsZUN4/
-    headers:
-      Host: v2ray1.dozapp.xyz
 - name: ZZ · VLESS · yudou · D5E78C89
   type: vless
   server: 177.177.215.45
@@ -56,13 +54,13 @@ proxies:
   sni: ams2.shtil.io
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VMESS · yudou · 7CACCE0D
+- name: ZZ · VMESS · yudou · B0ABCFE6
   type: vmess
-  server: 104.17.77.77
+  server: 172.67.167.78
   port: 8443
   uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
   alterId: 0
-  cipher: none
+  cipher: auto
   udp: true
   tls: true
   skip-cert-verify: false
@@ -86,13 +84,13 @@ proxies:
   - h2
   - http/1.1
   client-fingerprint: firefox
-- name: ZZ · VMESS · yudou · B0ABCFE6
+- name: ZZ · VMESS · yudou · 7CACCE0D
   type: vmess
-  server: 172.67.167.78
+  server: 104.17.77.77
   port: 8443
   uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
   alterId: 0
-  cipher: auto
+  cipher: none
   udp: true
   tls: true
   skip-cert-verify: false
@@ -101,53 +99,18 @@ proxies:
     path: /lMnsZUN4/
     headers:
       Host: v2ray1.dozapp.xyz
-- name: ZZ · VLESS · yudou · 0C4E5F2B
+- name: ZZ · VLESS · yudou · 6F62870D
   type: vless
-  server: 31.76.7.233
-  port: 443
-  uuid: f8bdf363-ff05-4fe6-a013-a5605266657e
+  server: 177.177.215.45
+  port: 444
+  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
+  flow: xtls-rprx-vision-udp443
   udp: true
   tls: true
-  servername: e2865c20.con.rasterparcel.tech
-  sni: e2865c20.con.rasterparcel.tech
+  servername: ams2.shtil.io
+  sni: ams2.shtil.io
   skip-cert-verify: false
-  alpn:
-  - h2
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /conv4/stream/d34366ecdd31367d0fc76955c6b8d77c
-    mode: auto
-- name: ZZ · VMESS · yudou · A31636A1
-  type: vmess
-  server: 104.21.7.133
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: ZZ · VLESS · yudou · 6DCCD00D
-  type: vless
-  server: 5.253.28.240
-  port: 2443
-  reality-opts:
-    public-key: h85e28MxBgNyT9d9cNeOLVtWfHq6cT_1_oxZOTajtTg
-    short-id: 92c32de179e5d908
-  uuid: 5e679ccd-1586-4d5f-b87b-48251046cad8
-  udp: true
-  tls: true
-  servername: deepl.com
-  sni: deepl.com
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-service-name: rex-eb0bf76b710ce763
+  client-fingerprint: chrome
 - name: ZZ · VMESS · yudou · 1C95334E
   type: vmess
   server: 104.21.7.133
@@ -162,136 +125,29 @@ proxies:
     path: /ws?ed=2048
     headers:
       Host: vmess.lbw666.dpdns.org
-- name: ZZ · VLESS · yudou · 5FD60A0D
+- name: ZZ · VLESS · yudou · 6EB27602
   type: vless
-  server: 5.253.28.240
-  port: 2443
-  reality-opts:
-    public-key: h85e28MxBgNyT9d9cNeOLVtWfHq6cT_1_oxZOTajtTg
-    short-id: 92c32de179e5d908
-  uuid: 5e679ccd-1586-4d5f-b87b-48251046cad8
-  udp: true
+  server: ams2.shtil.io
+  port: 444
+  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
+  network: tcp
   tls: true
-  servername: deepl.com
-  sni: deepl.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-  network: grpc
-  grpc-opts:
-    grpc-service-name: rex-eb0bf76b710ce763
-- name: ZZ · VMESS · yudou · 9BF85584
+  servername: ams2.shtil.io
+  flow: xtls-rprx-vision
+  client-fingerprint: firefox
+- name: ZZ · VMESS · yudou · A883DD0A
   type: vmess
-  server: 104.17.77.77
+  server: 172.67.167.78
   port: 8443
   uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
   alterId: 0
-  cipher: none
+  cipher: auto
   network: ws
   tls: true
   ws-opts:
     path: /lMnsZUN4/
     headers:
       Host: v2ray1.dozapp.xyz
-- name: ZZ · VLESS · yudou · 600B6265
-  type: vless
-  server: hydra.yokkastars.com
-  port: 2443
-  reality-opts:
-    public-key: h85e28MxBgNyT9d9cNeOLVtWfHq6cT_1_oxZOTajtTg
-    short-id: 92c32de179e5d908
-  uuid: 5e679ccd-1586-4d5f-b87b-48251046cad8
-  udp: true
-  tls: true
-  servername: deepl.com
-  sni: deepl.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-  network: grpc
-  grpc-opts:
-    grpc-service-name: rex-eb0bf76b710ce763
-- name: ZZ · VMESS · yudou · 0EA9FA8A
-  type: vmess
-  server: cf.0sm.com
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: ZZ · VLESS · yudou · D9E048A2
-  type: vless
-  server: 5.253.28.240
-  port: 2443
-  reality-opts:
-    public-key: h85e28MxBgNyT9d9cNeOLVtWfHq6cT_1_oxZOTajtTg
-    short-id: 92c32de179e5d908
-  uuid: 5e679ccd-1586-4d5f-b87b-48251046cad8
-  udp: true
-  tls: true
-  servername: deepl.com
-  sni: deepl.com
-  skip-cert-verify: false
-  client-fingerprint: qq
-  network: grpc
-  grpc-opts:
-    grpc-service-name: rex-eb0bf76b710ce763
-- name: ZZ · VLESS · yudou · 3EAB887D
-  type: vless
-  server: hydra.yokkastars.com
-  port: 2443
-  reality-opts:
-    public-key: h85e28MxBgNyT9d9cNeOLVtWfHq6cT_1_oxZOTajtTg
-    short-id: 92c32de179e5d908
-  uuid: 5e679ccd-1586-4d5f-b87b-48251046cad8
-  udp: true
-  tls: true
-  servername: deepl.com
-  sni: deepl.com
-  skip-cert-verify: false
-  client-fingerprint: qq
-  network: grpc
-  grpc-opts:
-    grpc-service-name: rex-eb0bf76b710ce763
-- name: ZZ · VLESS · yudou · F7D0ED28
-  type: vless
-  server: cf-cname.xingpingcn.top
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  udp: true
-  tls: true
-  servername: 667a1552s552.fuhuovps.xyz
-  sni: 667a1552s552.fuhuovps.xyz
-  skip-cert-verify: false
-  alpn:
-  - h2
-  - http/1.1
-  network: xhttp
-  xhttp-opts:
-    path: cf440705b2633814141ae4c3fd2d4617
-    host: 667a1552s552.fuhuovps.xyz
-    mode: auto
-- name: ZZ · VLESS · yudou · 90F3E40C
-  type: vless
-  server: cf-cname.xingpingcn.top
-  port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
-  udp: true
-  tls: true
-  servername: 7fe50937s2316.fuhuovps.xyz
-  sni: 7fe50937s2316.fuhuovps.xyz
-  skip-cert-verify: false
-  alpn:
-  - h2
-  - http/1.1
-  network: xhttp
-  xhttp-opts:
-    path: b34b667489c867378f1544355647ecfa
-    host: 7fe50937s2316.fuhuovps.xyz
-    mode: auto
 - name: ZZ · VLESS · yudou · F71F8D20
   type: vless
   server: 134.255.211.36
@@ -307,6 +163,45 @@ proxies:
   sni: sg-sin.probe.geomyip.com
   skip-cert-verify: false
   client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · C0DA27A5
+  type: vless
+  server: 152.175.6.229
+  port: 31884
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+  udp: true
+  tls: true
+  servername: hk010.zestapp778.com
+  sni: hk010.zestapp778.com
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: ZZ · VLESS · yudou · 277336BF
+  type: vless
+  server: 156.252.229.11
+  port: 8443
+  reality-opts:
+    public-key: 7jPluypHwPilf_Mq7JOY96SwKkbK35WuIlN1HwGQ_0A
+    short-id: 974f7f8f
+  uuid: 3e21e3d3-6d26-4155-b851-764dd8e8c6b5
+  udp: true
+  tls: true
+  servername: play.googleapis.com
+  sni: play.googleapis.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 92239BA6
+  type: vless
+  server: 186.246.9.29
+  port: 443
+  reality-opts:
+    public-key: MPNMomAMn_lu9YMYjD2jAQWrI-rTM4hj9Jgg9d6qzTA
+    short-id: 50ad5564
+  uuid: b2847c3b-5278-4b06-9c66-bc919d2dfec7
+  udp: true
+  tls: true
+  servername: wordpress.com
+  sni: wordpress.com
+  skip-cert-verify: false
+  client-fingerprint: firefox
 - name: ZZ · VLESS · yudou · ECF493C2
   type: vless
   server: 152.175.6.229
@@ -316,51 +211,35 @@ proxies:
   tls: true
   servername: hk010.zestapp778.com
   client-fingerprint: firefox
-- name: ZZ · VLESS · yudou · 975FE5F4
+- name: ZZ · VLESS · yudou · 4E50B4F9
   type: vless
-  server: cf.090227.xyz
+  server: 147.45.108.45
   port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  reality-opts:
+    public-key: IuzAWh6UM62Txrnh_No9y5n6wmZecyR1ki8z5xor-0g
+  uuid: 1e2b9c0c-4f9b-56f5-a062-1c4f2d2aa200
+  flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: 618f4a11s220.fuhuovps.xyz
-  sni: 618f4a11s220.fuhuovps.xyz
+  servername: absolute-disaster.org
+  sni: absolute-disaster.org
   skip-cert-verify: false
-  alpn:
-  - h2
-  - http/1.1
-  network: xhttp
-  xhttp-opts:
-    path: 170597b58fb11912791231dc9d17bb44
-    host: 618f4a11s220.fuhuovps.xyz
-    mode: auto
-- name: ZZ · VLESS · yudou · 8517D337
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 300D81C0
   type: vless
-  server: www.codex2api.com
+  server: 201.51.4.89
   port: 443
-  uuid: 30e52776-55ac-3cb4-8d36-e2910f07e2c3
+  reality-opts:
+    public-key: LEziyH-E4k9hehGRJkVi1FadVObB_NZJy8U7oUCVWXU
+    short-id: b9120cd53ffd7bba
+  uuid: 7ad63b26-bf70-4872-8fab-ebaf73a1e19d
+  flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: f0c5bfd6s394.fuhuovps.xyz
-  sni: f0c5bfd6s394.fuhuovps.xyz
+  servername: cache-89.topp-con.xyz
+  sni: cache-89.topp-con.xyz
   skip-cert-verify: false
-  alpn:
-  - h2
-  - http/1.1
-  network: xhttp
-  xhttp-opts:
-    path: f00757d3fec0e7aca102e554fb32f21e
-    host: f0c5bfd6s394.fuhuovps.xyz
-    mode: auto
-- name: RU · SS · clashnode · 6395FEA2
-  type: ss
-  server: 46.17.46.27
-  port: 18443
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: cCMJgJTA3BA489YUYrFq7XHXSiSpWlLa
+  client-fingerprint: chrome
 - name: ZZ · VLESS · yudou · BDC98F06
   type: vless
   server: 43.163.112.174
@@ -376,98 +255,19 @@ proxies:
   sni: www.cloudflare.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · C0DA27A5
+- name: ZZ · VLESS · yudou · 1A4313BB
   type: vless
-  server: 152.175.6.229
-  port: 31884
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
-  udp: true
-  tls: true
-  servername: hk010.zestapp778.com
-  sni: hk010.zestapp778.com
-  skip-cert-verify: false
-  client-fingerprint: firefox
-- name: TW · VLESS · clashnode · 2B421FC9
-  type: vless
-  server: api.ferrin.uk
+  server: 172.64.152.19
   port: 443
-  uuid: 7d1a74fd-8a38-4a29-863f-5da53a9e557e
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   udp: true
   tls: true
-  servername: 7d1a74fd.ferrin.uk
-  sni: 7d1a74fd.ferrin.uk
+  servername: jp3.yohototo.top
+  sni: jp3.yohototo.top
   skip-cert-verify: false
-  alpn:
-  - h2
-  client-fingerprint: chrome
-  network: xhttp
-  xhttp-opts:
-    path: /es
-    mode: stream-one
-- name: NL · VLESS · clashnode · 277336BF
-  type: vless
-  server: 156.252.229.11
-  port: 8443
-  reality-opts:
-    public-key: 7jPluypHwPilf_Mq7JOY96SwKkbK35WuIlN1HwGQ_0A
-    short-id: 974f7f8f
-  uuid: 3e21e3d3-6d26-4155-b851-764dd8e8c6b5
-  udp: true
-  tls: true
-  servername: play.googleapis.com
-  sni: play.googleapis.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: US · VLESS · clashnode · 4E50B4F9
-  type: vless
-  server: 147.45.108.45
-  port: 443
-  reality-opts:
-    public-key: IuzAWh6UM62Txrnh_No9y5n6wmZecyR1ki8z5xor-0g
-  uuid: 1e2b9c0c-4f9b-56f5-a062-1c4f2d2aa200
-  flow: xtls-rprx-vision
-  udp: true
-  tls: true
-  servername: absolute-disaster.org
-  sni: absolute-disaster.org
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: RU · VLESS · clashnode · 005CC760
-  type: vless
-  server: 5.129.202.80
-  port: 443
-  reality-opts:
-    public-key: NY2bvH4IFKTstWkBWwyU5MmlzuKk0nU08cBoHlti2S8
-    short-id: 2ef2b10d5143d798
-  uuid: 7ad63b26-bf70-4872-8fab-ebaf73a1e19d
-  flow: xtls-rprx-vision
-  udp: true
-  tls: true
-  servername: mirror-50.topp-con.xyz
-  sni: mirror-50.topp-con.xyz
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: NL · VLESS · clashnode · AC2CB497
-  type: vless
-  server: 177.177.215.45
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  network: tcp
-  tls: true
-  servername: ams2.shtil.io
-  flow: xtls-rprx-vision-udp443
-  client-fingerprint: chrome
-- name: US · VLESS · clashnode · 92239BA6
-  type: vless
-  server: 186.246.9.29
-  port: 443
-  reality-opts:
-    public-key: MPNMomAMn_lu9YMYjD2jAQWrI-rTM4hj9Jgg9d6qzTA
-    short-id: 50ad5564
-  uuid: b2847c3b-5278-4b06-9c66-bc919d2dfec7
-  udp: true
-  tls: true
-  servername: wordpress.com
-  sni: wordpress.com
-  skip-cert-verify: false
-  client-fingerprint: firefox
+  client-fingerprint: unsafe
+  network: ws
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
