@@ -1,37 +1,4 @@
 proxies:
-- name: ZZ · HYSTERIA2 · yudou · 239B043F
-  type: hysteria2
-  server: 13.143.189.149
-  port: 4444
-  udp: true
-  tls: true
-  servername: pl2.nexfile.net
-  sni: pl2.nexfile.net
-  skip-cert-verify: false
-  password: a35c508f-4d5d-4531-842e-6e9d43c762c0
-- name: ZZ · VLESS · yudou · EA13FEAF
-  type: vless
-  server: 177.177.215.45
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  network: tcp
-  tls: true
-  servername: ams2.shtil.io
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-- name: ZZ · VMESS · yudou · 9BF85584
-  type: vmess
-  server: 104.17.77.77
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
-  alterId: 0
-  cipher: none
-  network: ws
-  tls: true
-  ws-opts:
-    path: /lMnsZUN4/
-    headers:
-      Host: v2ray1.dozapp.xyz
 - name: ZZ · HYSTERIA2 · yudou · C71542B4
   type: hysteria2
   server: 13.143.189.147
@@ -42,23 +9,34 @@ proxies:
   sni: pl2.nexfile.net
   skip-cert-verify: false
   password: a35c508f-4d5d-4531-842e-6e9d43c762c0
-- name: ZZ · VLESS · yudou · D5E78C89
-  type: vless
-  server: 177.177.215.45
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  flow: xtls-rprx-vision
+- name: ZZ · TROJAN · yudou · 81BCD16D
+  type: trojan
+  server: sclass-c1.catcat321.com
+  port: 20086
   udp: true
   tls: true
-  servername: ams2.shtil.io
-  sni: ams2.shtil.io
+  servername: hk.catxstar.com
+  sni: hk.catxstar.com
   skip-cert-verify: false
-  client-fingerprint: chrome
-- name: ZZ · VMESS · yudou · B0ABCFE6
+  password: d9064589-74af-432a-9390-5d8a9da281bf
+- name: ZZ · VLESS · yudou · AD376038
+  type: vless
+  server: 195.85.59.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime58.workers.dev
+- name: ZZ · VMESS · yudou · 1F3BA8FA
   type: vmess
-  server: 172.67.167.78
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  server: www.windowsmsidownloads.com
+  port: 443
+  uuid: 80be2deb-3b27-4775-9bd1-7f2a2b9c261b
   alterId: 0
   cipher: auto
   udp: true
@@ -66,88 +44,113 @@ proxies:
   skip-cert-verify: false
   network: ws
   ws-opts:
-    path: /lMnsZUN4/
+    path: /truth
     headers:
-      Host: v2ray1.dozapp.xyz
-- name: ZZ · VLESS · yudou · C54C9A9E
+      Host: www.windowsmsidownloads.com
+- name: ZZ · VLESS · yudou · 6002596B
   type: vless
-  server: ams2.shtil.io
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  flow: xtls-rprx-vision
+  server: 159.242.242.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime58.workers.dev
+- name: JP · VLESS · clashnode · 1DE91E67
+  type: vless
+  server: 195.85.59.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime58.workers.dev
+- name: ZZ · VMESS · yudou · 2F49A69B
+  type: vmess
+  server: www.windowsmsidownloads.com
+  port: 443
+  uuid: 80be2deb-3b27-4775-9bd1-7f2a2b9c261b
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.windowsmsidownloads.com
+- name: ZZ · VLESS · yudou · 8FAC6727
+  type: vless
+  server: 172.64.149.88
+  port: 443
+  uuid: d37a75db-76b6-4db8-b213-0d5b044d138d
   udp: true
   tls: true
-  servername: ams2.shtil.io
-  sni: ams2.shtil.io
+  servername: top-e4s.pages.dev
+  sni: top-e4s.pages.dev
+  skip-cert-verify: false
+  client-fingerprint: unsafe
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: top-e4s.pages.dev
+- name: JP · VLESS · clashnode · 32CC8E66
+  type: vless
+  server: 159.242.242.30
+  port: 8880
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: vms.lifetime58.workers.dev
+- name: ZZ · VMESS · yudou · 12E58F0A
+  type: vmess
+  server: www.windowsmsidownloads.com
+  port: 443
+  uuid: 80be2deb-3b27-4775-9bd1-7f2a2b9c261b
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: www.windowsmsidownloads.com
+  ws-opts:
+    path: /truth
+- name: ZZ · VLESS · yudou · 2B421FC9
+  type: vless
+  server: api.ferrin.uk
+  port: 443
+  uuid: 7d1a74fd-8a38-4a29-863f-5da53a9e557e
+  udp: true
+  tls: true
+  servername: 7d1a74fd.ferrin.uk
+  sni: 7d1a74fd.ferrin.uk
   skip-cert-verify: false
   alpn:
   - h2
-  - http/1.1
-  client-fingerprint: firefox
-- name: ZZ · VMESS · yudou · 7CACCE0D
-  type: vmess
-  server: 104.17.77.77
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
-  alterId: 0
-  cipher: none
-  udp: true
-  tls: true
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /lMnsZUN4/
-    headers:
-      Host: v2ray1.dozapp.xyz
-- name: ZZ · VLESS · yudou · 6F62870D
-  type: vless
-  server: 177.177.215.45
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  flow: xtls-rprx-vision-udp443
-  udp: true
-  tls: true
-  servername: ams2.shtil.io
-  sni: ams2.shtil.io
-  skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VMESS · yudou · 1C95334E
+  network: xhttp
+  xhttp-opts:
+    path: /es
+    mode: stream-one
+- name: ZZ · VMESS · yudou · BCA4FD5D
   type: vmess
-  server: 104.21.7.133
+  server: wwww.speedtest.org
   port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: vmess.lbw666.dpdns.org
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: ZZ · VLESS · yudou · 6EB27602
-  type: vless
-  server: ams2.shtil.io
-  port: 444
-  uuid: 254f28cb-d0c1-41e9-a06b-f2155213ff04
-  network: tcp
-  tls: true
-  servername: ams2.shtil.io
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
-- name: ZZ · VMESS · yudou · A883DD0A
-  type: vmess
-  server: 172.67.167.78
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  uuid: 80be2deb-3b27-4775-9bd1-7f2a2b9c261b
   alterId: 0
   cipher: auto
   network: ws
   tls: true
   ws-opts:
-    path: /lMnsZUN4/
+    path: /truth
     headers:
-      Host: v2ray1.dozapp.xyz
+      Host: www.windowsmsidownloads.com
 - name: ZZ · VLESS · yudou · F71F8D20
   type: vless
   server: 134.255.211.36
@@ -163,54 +166,21 @@ proxies:
   sni: sg-sin.probe.geomyip.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · C0DA27A5
-  type: vless
-  server: 152.175.6.229
-  port: 31884
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
-  udp: true
-  tls: true
-  servername: hk010.zestapp778.com
-  sni: hk010.zestapp778.com
-  skip-cert-verify: false
-  client-fingerprint: firefox
-- name: ZZ · VLESS · yudou · 277336BF
-  type: vless
-  server: 156.252.229.11
-  port: 8443
-  reality-opts:
-    public-key: 7jPluypHwPilf_Mq7JOY96SwKkbK35WuIlN1HwGQ_0A
-    short-id: 974f7f8f
-  uuid: 3e21e3d3-6d26-4155-b851-764dd8e8c6b5
-  udp: true
-  tls: true
-  servername: play.googleapis.com
-  sni: play.googleapis.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · 92239BA6
-  type: vless
-  server: 186.246.9.29
+- name: ZZ · VMESS · yudou · 93576369
+  type: vmess
+  server: www.windowsmsidownloads.com
   port: 443
-  reality-opts:
-    public-key: MPNMomAMn_lu9YMYjD2jAQWrI-rTM4hj9Jgg9d6qzTA
-    short-id: 50ad5564
-  uuid: b2847c3b-5278-4b06-9c66-bc919d2dfec7
+  uuid: 80be2deb-3b27-4775-9bd1-7f2a2b9c261b
+  alterId: 0
+  cipher: auto
   udp: true
   tls: true
-  servername: wordpress.com
-  sni: wordpress.com
+  servername: www.windowsmsidownloads.com
+  sni: www.windowsmsidownloads.com
   skip-cert-verify: false
-  client-fingerprint: firefox
-- name: ZZ · VLESS · yudou · ECF493C2
-  type: vless
-  server: 152.175.6.229
-  port: 31884
-  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
-  network: tcp
-  tls: true
-  servername: hk010.zestapp778.com
-  client-fingerprint: firefox
+  network: ws
+  ws-opts:
+    path: /truth
 - name: ZZ · VLESS · yudou · 4E50B4F9
   type: vless
   server: 147.45.108.45
@@ -225,21 +195,34 @@ proxies:
   sni: absolute-disaster.org
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · 300D81C0
+- name: CA · VLESS · clashnode · 5AFB5CA5
   type: vless
-  server: 201.51.4.89
+  server: 172.64.149.88
   port: 443
-  reality-opts:
-    public-key: LEziyH-E4k9hehGRJkVi1FadVObB_NZJy8U7oUCVWXU
-    short-id: b9120cd53ffd7bba
-  uuid: 7ad63b26-bf70-4872-8fab-ebaf73a1e19d
-  flow: xtls-rprx-vision
+  uuid: d37a75db-76b6-4db8-b213-0d5b044d138d
+  network: ws
+  tls: true
+  servername: top-e4s.pages.dev
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /
+    headers:
+      Host: top-e4s.pages.dev
+- name: ZZ · VMESS · yudou · F39270CE
+  type: vmess
+  server: wwww.speedtest.org
+  port: 443
+  uuid: 80be2deb-3b27-4775-9bd1-7f2a2b9c261b
+  alterId: 0
+  cipher: auto
   udp: true
   tls: true
-  servername: cache-89.topp-con.xyz
-  sni: cache-89.topp-con.xyz
   skip-cert-verify: false
-  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.windowsmsidownloads.com
 - name: ZZ · VLESS · yudou · BDC98F06
   type: vless
   server: 43.163.112.174
@@ -255,19 +238,155 @@ proxies:
   sni: www.cloudflare.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · 1A4313BB
-  type: vless
-  server: 172.64.152.19
+- name: ZZ · VMESS · yudou · 470A116B
+  type: vmess
+  server: www.gptcloudai.com
   port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  uuid: e70a5b70-f63c-4450-af8b-94990cdf80c0
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: www.gptcloudai.com
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.gptcloudai.com
+- name: ZZ · VLESS · yudou · 16809EE8
+  type: vless
+  server: 172.64.149.88
+  port: 443
+  uuid: d37a75db-76b6-4db8-b213-0d5b044d138d
+  network: ws
+  tls: true
+  servername: top-e4s.pages.dev
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /
+    headers:
+      Host: top-e4s.pages.dev
+- name: ZZ · VMESS · yudou · 6001C855
+  type: vmess
+  server: www.gptcloudai.com
+  port: 443
+  uuid: e70a5b70-f63c-4450-af8b-94990cdf80c0
+  alterId: 0
+  cipher: auto
   udp: true
   tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
+  servername: www.gptcloudai.com
+  sni: www.gptcloudai.com
   skip-cert-verify: false
-  client-fingerprint: unsafe
   network: ws
   ws-opts:
-    path: /tyxyws
+    path: /truth
     headers:
-      Host: jp3.yohototo.top
+      Host: www.gptcloudai.com
+- name: ZZ · VLESS · yudou · 207C904D
+  type: vless
+  server: 129.153.71.28
+  port: 28863
+  uuid: b3a15df4-c8ad-4e98-b427-7a679aee2b18
+  network: ws
+  tls: true
+  servername: 8n9qi6t-owl.gevc9s4n60cc3wzcmwhjyezydpmbchocxp.workers.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /@Marisa_kristi
+    headers:
+      Host: 8n9qi6t-owl.gevc9s4n60cc3wzcmwhjyezydpmbchocxp.workers.dev
+- name: ZZ · VMESS · yudou · E87DF21D
+  type: vmess
+  server: www.gptcloudai.com
+  port: 443
+  uuid: e70a5b70-f63c-4450-af8b-94990cdf80c0
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /truth
+- name: ZZ · VLESS · yudou · 4236754F
+  type: vless
+  server: node.jaydentune.top
+  port: 443
+  uuid: 2af77824-f83d-4f50-9dd0-560bb6e7cd45
+  udp: true
+  tls: true
+  servername: node.jaydentune.top
+  sni: node.jaydentune.top
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /ray
+    headers:
+      Host: node.jaydentune.top
+- name: ZZ · VMESS · yudou · 54135D9D
+  type: vmess
+  server: www.gptcloudai.com
+  port: 443
+  uuid: e70a5b70-f63c-4450-af8b-94990cdf80c0
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /truth
+- name: ZZ · VMESS · yudou · FBF9E4D2
+  type: vmess
+  server: www.windowssearchtools.com
+  port: 443
+  uuid: ba1116e2-8c2f-4e3d-8e50-c954360cf970
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.windowssearchtools.com
+- name: ZZ · VMESS · yudou · CAEDA98E
+  type: vmess
+  server: www.windowssearchtools.com
+  port: 443
+  uuid: ba1116e2-8c2f-4e3d-8e50-c954360cf970
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /truth
+    headers:
+      Host: www.windowssearchtools.com
+- name: ZZ · VMESS · yudou · FA0BA78D
+  type: vmess
+  server: or3.sfacg.uk
+  port: 2083
+  uuid: ac251237-576f-40c8-a543-554960c958b1
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /or3
+    headers:
+      Host: or3.sfacg.uk
+- name: ZZ · VMESS · yudou · C7F12DDD
+  type: vmess
+  server: 104.27.0.1
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
