@@ -1,5 +1,5 @@
 proxies:
-- name: GB · VLESS · clashmeta · D8A0AAD0
+- name: GB · VLESS · clashmeta · ECF493C2
   type: vless
   server: 152.175.6.229
   port: 31884
@@ -7,7 +7,28 @@ proxies:
   network: tcp
   tls: true
   servername: hk010.zestapp778.com
-  client-fingerprint: chrome
+  client-fingerprint: firefox
+- name: HK · VLESS · clashmeta · BDCA783D
+  type: vless
+  server: 152.175.6.229
+  port: 31884
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+  network: tcp
+  tls: true
+  servername: hk010.zestapp778.com
+- name: CA · VMESS · clashmeta · 95D4B365
+  type: vmess
+  server: guanwang.awsno.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
 - name: CA · VMESS · clashmeta · 7926B3CF
   type: vmess
   server: www.shopify.com
@@ -18,19 +39,6 @@ proxies:
   network: ws
   tls: true
   servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: CA · VMESS · clashmeta · 95D4B365
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
   ws-opts:
     path: /hls/cctv5phd.m3u8
     headers:
