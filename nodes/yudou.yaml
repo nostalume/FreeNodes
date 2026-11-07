@@ -1,17 +1,76 @@
 proxies:
-- name: ZZ · VLESS · yudou · 16809EE8
+- name: ZZ · VLESS · yudou · 054E2A91
   type: vless
-  server: 172.64.149.88
+  server: at1.japancase.site
   port: 443
-  uuid: d37a75db-76b6-4db8-b213-0d5b044d138d
+  reality-opts:
+    public-key: zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg
+    short-id: 41ae8e266bc3346f
+  uuid: db80088c-32a1-4cb8-a907-0f3cb7844152
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: at1.japancase.site
+  sni: at1.japancase.site
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · EE1F514B
+  type: vless
+  server: 18.180.86.39
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   network: ws
   tls: true
-  servername: top-e4s.pages.dev
+  servername: jp3.yohototo.top
   client-fingerprint: unsafe
   ws-opts:
-    path: /
+    path: /tyxyws
     headers:
-      Host: top-e4s.pages.dev
+      Host: jp3.yohototo.top
+- name: ZZ · VLESS · yudou · 09BBF030
+  type: vless
+  server: 178.22.31.72
+  port: 443
+  reality-opts:
+    public-key: zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg
+    short-id: 41ae8e266bc3346f
+  uuid: db80088c-32a1-4cb8-a907-0f3cb7844152
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: at1.japancase.site
+  sni: at1.japancase.site
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: ZZ · VLESS · yudou · 6F8DE4C2
+  type: vless
+  server: xsru2.freeddns.org
+  port: 443
+  uuid: c90395e6-2140-47ad-a54d-9b166729d3ef
+  udp: true
+  tls: true
+  servername: xsru2.freeddns.org
+  sni: xsru2.freeddns.org
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /wsru
+    headers:
+      Host: xsru2.freeddns.org
+- name: ZZ · VLESS · yudou · 25AB7230
+  type: vless
+  server: xsru2.freeddns.org
+  port: 443
+  uuid: c90395e6-2140-47ad-a54d-9b166729d3ef
+  network: ws
+  tls: true
+  servername: xsru2.freeddns.org
+  client-fingerprint: chrome
+  ws-opts:
+    path: /wsru
+    headers:
+      Host: xsru2.freeddns.org
 - name: ZZ · VLESS · yudou · F71F8D20
   type: vless
   server: 134.255.211.36
@@ -27,148 +86,9 @@ proxies:
   sni: sg-sin.probe.geomyip.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · TROJAN · yudou · 6EF6AD56
-  type: trojan
-  server: sclass-00.catcat321.com
-  port: 20123
-  udp: true
-  tls: true
-  servername: hk.catxstar.com
-  sni: hk.catxstar.com
-  skip-cert-verify: false
-  password: d9064589-74af-432a-9390-5d8a9da281bf
-- name: CA · VLESS · clashmeta · 5AFB5CA5
+- name: ZZ · VLESS · yudou · F6DF897B
   type: vless
-  server: 172.64.149.88
-  port: 443
-  uuid: d37a75db-76b6-4db8-b213-0d5b044d138d
-  network: ws
-  tls: true
-  servername: top-e4s.pages.dev
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /
-    headers:
-      Host: top-e4s.pages.dev
-- name: CA · VLESS · clashmeta · 8FAC6727
-  type: vless
-  server: 172.64.149.88
-  port: 443
-  uuid: d37a75db-76b6-4db8-b213-0d5b044d138d
-  udp: true
-  tls: true
-  servername: top-e4s.pages.dev
-  sni: top-e4s.pages.dev
-  skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /
-    headers:
-      Host: top-e4s.pages.dev
-- name: ZZ · VMESS · yudou · DA7CF75C
-  type: vmess
-  server: cf.0sm.com
-  port: 443
-  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /ws?ed=2048
-    headers:
-      Host: vmess.lbw666.dpdns.org
-- name: ZZ · VLESS · yudou · 25AB7230
-  type: vless
-  server: xsru2.freeddns.org
-  port: 443
-  uuid: c90395e6-2140-47ad-a54d-9b166729d3ef
-  network: ws
-  tls: true
-  servername: xsru2.freeddns.org
-  client-fingerprint: chrome
-  ws-opts:
-    path: /wsru
-    headers:
-      Host: xsru2.freeddns.org
-- name: DE · VLESS · clashmeta · 94960C8F
-  type: vless
-  server: 104.18.42.98
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: chrome
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · 2A88D595
-  type: vless
-  server: 168.107.36.135
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  udp: true
-  tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
-  skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VMESS · yudou · 24AC2EBF
-  type: vmess
-  server: yg2.needss.top
-  port: 12007
-  uuid: d016aa1b-1a84-4119-b50e-e94cacfb1bb3
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /
-- name: ZZ · VMESS · yudou · 40896303
-  type: vmess
-  server: yg2.needss.top
-  port: 12007
-  uuid: d016aa1b-1a84-4119-b50e-e94cacfb1bb3
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /
-- name: US · TROJAN · clashmeta · 81BCD16D
-  type: trojan
-  server: sclass-c1.catcat321.com
-  port: 20086
-  udp: true
-  tls: true
-  servername: hk.catxstar.com
-  sni: hk.catxstar.com
-  skip-cert-verify: false
-  password: d9064589-74af-432a-9390-5d8a9da281bf
-- name: ZZ · SS · clashmeta · 020A32A3
-  type: ss
-  server: 202.50.253.72
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · yudou · 41D14263
-  type: vless
-  server: 103.218.173.218
+  server: 52.195.211.175
   port: 443
   uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   network: ws
@@ -179,9 +99,9 @@ proxies:
     path: /tyxyws
     headers:
       Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · 5B749AF9
+- name: ZZ · VLESS · yudou · 994EF580
   type: vless
-  server: 131.143.180.53
+  server: 18.180.86.39
   port: 443
   uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   udp: true
@@ -208,22 +128,49 @@ proxies:
     path: /tyxyws
     headers:
       Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · 6F8DE4C2
+- name: ZZ · VLESS · yudou · 5B749AF9
   type: vless
-  server: xsru2.freeddns.org
+  server: 131.143.180.53
   port: 443
-  uuid: c90395e6-2140-47ad-a54d-9b166729d3ef
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   udp: true
   tls: true
-  servername: xsru2.freeddns.org
-  sni: xsru2.freeddns.org
+  servername: jp3.yohototo.top
+  sni: jp3.yohototo.top
   skip-cert-verify: false
-  client-fingerprint: chrome
+  client-fingerprint: unsafe
   network: ws
   ws-opts:
-    path: /wsru
+    path: /tyxyws
     headers:
-      Host: xsru2.freeddns.org
+      Host: jp3.yohototo.top
+- name: GB · VLESS · clashmeta · C0DA27A5
+  type: vless
+  server: 152.175.6.229
+  port: 31884
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+  udp: true
+  tls: true
+  servername: hk010.zestapp778.com
+  sni: hk010.zestapp778.com
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: GB · VLESS · clashmeta · ECF493C2
+  type: vless
+  server: 152.175.6.229
+  port: 31884
+  uuid: e9a8144e-5237-488a-afb1-9ca3d8d54c80
+  network: tcp
+  tls: true
+  servername: hk010.zestapp778.com
+  client-fingerprint: firefox
+- name: ZZ · VLESS · yudou · 2DF4DEC7
+  type: vless
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
+  tls: true
 - name: SG · VLESS · clashmeta · BDC98F06
   type: vless
   server: 43.163.112.174
@@ -239,50 +186,24 @@ proxies:
   sni: www.cloudflare.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · SS · clashmeta · 1C56E030
-  type: ss
-  server: 202.50.253.18
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · yudou · 994EF580
+- name: ZZ · VLESS · yudou · 73713987
   type: vless
-  server: 18.180.86.39
+  server: at1.japancase.site
   port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  reality-opts:
+    public-key: zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg
+    short-id: 41ae8e266bc3346f
+  uuid: db80088c-32a1-4cb8-a907-0f3cb7844152
+  flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
+  servername: at1.japancase.site
+  sni: at1.japancase.site
   skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · B6F70CFA
+  client-fingerprint: edge
+- name: ZZ · VLESS · yudou · 907600AA
   type: vless
-  server: 52.195.211.175
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  udp: true
-  tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
-  skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VLESS · wzmwayne · 09BBF030
-  type: vless
-  server: 178.22.31.72
+  server: at1.japancase.site
   port: 443
   reality-opts:
     public-key: zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg
@@ -295,32 +216,6 @@ proxies:
   sni: at1.japancase.site
   skip-cert-verify: false
   client-fingerprint: firefox
-- name: ZZ · VLESS · yudou · EE1F514B
-  type: vless
-  server: 18.180.86.39
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · F6DF897B
-  type: vless
-  server: 52.195.211.175
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
 - name: ZZ · SS · clashmeta · 32A24B2A
   type: ss
   server: 202.50.253.27
@@ -339,18 +234,21 @@ proxies:
   tls: false
   skip-cert-verify: false
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · wzmwayne · 054E2A91
-  type: vless
-  server: at1.japancase.site
-  port: 443
-  reality-opts:
-    public-key: zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg
-    short-id: 41ae8e266bc3346f
-  uuid: db80088c-32a1-4cb8-a907-0f3cb7844152
-  flow: xtls-rprx-vision
+- name: ZZ · SS · clashmeta · 020A32A3
+  type: ss
+  server: 202.50.253.72
+  port: 19999
+  cipher: aes-256-gcm
   udp: true
-  tls: true
-  servername: at1.japancase.site
-  sni: at1.japancase.site
+  tls: false
   skip-cert-verify: false
-  client-fingerprint: chrome
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: ZZ · SS · clashmeta · 1C56E030
+  type: ss
+  server: 202.50.253.18
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
