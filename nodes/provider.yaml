@@ -14,6 +14,7 @@ proxy-groups:
   type: url-test
   use:
   - clashmeta
+  - clashnode
   - clashstair
   - freeclashnode
   - jichangx
@@ -38,6 +39,7 @@ proxy-groups:
   - DIRECT
   use:
   - clashmeta
+  - clashnode
   - clashstair
   - freeclashnode
   - jichangx
@@ -84,6 +86,11 @@ proxy-providers:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashmeta.yaml
     path: ./proxy_providers/clashmeta.yaml
+    interval: 3600
+  clashnode:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashnode.yaml
+    path: ./proxy_providers/clashnode.yaml
     interval: 3600
   clashstair:
     type: http
