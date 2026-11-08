@@ -1,58 +1,4 @@
 proxies:
-- name: CA · VMESS · clashnode · 7926B3CF
-  type: vmess
-  server: www.shopify.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: CA · VMESS · clashnode · FBAE35CE
-  type: vmess
-  server: 172.67.190.164
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: CA · VMESS · clashnode · 95D4B365
-  type: vmess
-  server: guanwang.awsno.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: DE→FR · VLESS · clashmeta · 098BE941
-  type: vless
-  server: 9.247.23.209
-  port: 443
-  reality-opts:
-    public-key: SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc
-  uuid: b9bfa54d-bc44-4592-a6d6-89a9665d286f
-  flow: xtls-rprx-vision
-  tls: true
-  servername: mother-earth.fyi
-  sni: mother-earth.fyi
-  skip-cert-verify: false
-  client-fingerprint: chrome
 - name: DE · VLESS · clashmeta · 0666541F
   type: vless
   server: 45.129.242.56
@@ -68,19 +14,6 @@ proxies:
   sni: www.cloudflare.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: RU · VLESS · clashmeta · 25AB7230
-  type: vless
-  server: xsru2.freeddns.org
-  port: 443
-  uuid: c90395e6-2140-47ad-a54d-9b166729d3ef
-  network: ws
-  tls: true
-  servername: xsru2.freeddns.org
-  client-fingerprint: chrome
-  ws-opts:
-    path: /wsru
-    headers:
-      Host: xsru2.freeddns.org
 - name: RU · VLESS · clashmeta · 6F8DE4C2
   type: vless
   server: xsru2.freeddns.org
@@ -97,35 +30,13 @@ proxies:
     path: /wsru
     headers:
       Host: xsru2.freeddns.org
-- name: KR · VLESS · clashmeta · 2A88D595
+- name: ZZ · VLESS · clashmeta · 2DF4DEC7
   type: vless
-  server: 168.107.36.135
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  udp: true
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
   tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
-  skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: KR · VLESS · clashmeta · 6C50BBC7
-  type: vless
-  server: 168.107.36.135
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
 - name: US · TROJAN · clashmeta · 55D397BD
   type: trojan
   server: 208.69.78.33

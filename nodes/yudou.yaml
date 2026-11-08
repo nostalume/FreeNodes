@@ -9,6 +9,15 @@ proxies:
   sni: nl1.obxodvpn.us
   skip-cert-verify: false
   password: 146d567c-6335-4e63-a8aa-7ec068642440
+- name: ZZ · SS · yudou · 2B7005F4
+  type: ss
+  server: 46.17.47.58
+  port: 18443
+  cipher: aes-256-gcm
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: cCMJgJTA3BA489YUYrFq7XHXSiSpWlLa
 - name: ZZ · TROJAN · yudou · D22CCE01
   type: trojan
   server: 104.18.0.1
@@ -41,6 +50,18 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: grpc-ru
+- name: ZZ · VMESS · yudou · B2F9AB8E
+  type: vmess
+  server: 104.21.7.133
+  port: 80
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
 - name: ZZ · HYSTERIA2 · yudou · B05F344C
   type: hysteria2
   server: 47.129.134.122
@@ -51,34 +72,6 @@ proxies:
   sni: sg-transit-2.nebulacloud.win
   skip-cert-verify: false
   password: tX2WVPT3RUHDK2iQQpc9FDxP
-- name: ZZ · VLESS · yudou · 8AAD79DC
-  type: vless
-  server: 131.143.180.53
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · 02E0709F
-  type: vless
-  server: dddz-1-x.473221.xyz
-  port: 34760
-  reality-opts:
-    public-key: FKkMWruW5ySd0t091irE_09B9o9AipV8ztZftd4Odwc
-    short-id: ab58b04c4a4407
-  uuid: 65ec84f5-0dd4-4582-8b4f-592e50b22116
-  flow: xtls-rprx-vision
-  udp: true
-  tls: true
-  servername: updates.cdn-apple.com
-  sni: updates.cdn-apple.com
-  skip-cert-verify: false
-  client-fingerprint: edge
 - name: ZZ · VLESS · yudou · 7C45CA35
   type: vless
   server: w.geogame.ir
@@ -90,19 +83,58 @@ proxies:
   sni: w.geogame.ir
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: RU · VLESS · clashmeta · 25AB7230
-  type: vless
-  server: xsru2.freeddns.org
+- name: ZZ · VMESS · yudou · 0EA9FA8A
+  type: vmess
+  server: cf.0sm.com
   port: 443
-  uuid: c90395e6-2140-47ad-a54d-9b166729d3ef
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
   network: ws
   tls: true
-  servername: xsru2.freeddns.org
-  client-fingerprint: chrome
   ws-opts:
-    path: /wsru
+    path: /ws?ed=2048
     headers:
-      Host: xsru2.freeddns.org
+      Host: vmess.lbw666.dpdns.org
+- name: ZZ · VLESS · yudou · 2F3E69B4
+  type: vless
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
+  tls: true
+  servername: w.geogame.ir
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · EE0ADBE3
+  type: vmess
+  server: 104.21.7.133
+  port: 80
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
+- name: ZZ · VLESS · yudou · CE895B57
+  type: vless
+  server: 92.243.66.79
+  port: 443
+  reality-opts:
+    public-key: siD4oj2gdtLLEphV6fUXb8ueIc2WHVn7msOUhNGPf2o
+    short-id: 8d03c10b6a874a9c
+  uuid: c5f59ef3-9540-49fa-bd1e-c6c2f79df49a
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: ru-mow.probe.geomyip.com
+  sni: ru-mow.probe.geomyip.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
 - name: RU · VLESS · clashmeta · 6F8DE4C2
   type: vless
   server: xsru2.freeddns.org
@@ -119,32 +151,10 @@ proxies:
     path: /wsru
     headers:
       Host: xsru2.freeddns.org
-- name: KR · VLESS · clashmeta · 2A88D595
+- name: ZZ · VLESS · clashmeta · 2DF4DEC7
   type: vless
-  server: 168.107.36.135
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  udp: true
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
   tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
-  skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: KR · VLESS · clashmeta · 6C50BBC7
-  type: vless
-  server: 168.107.36.135
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
