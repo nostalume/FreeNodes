@@ -23,6 +23,20 @@ proxies:
   sni: nl1.obxodvpn.us
   skip-cert-verify: false
   password: 146d567c-6335-4e63-a8aa-7ec068642440
+- name: ZZ · VLESS · yudou · AF69E40D
+  type: vless
+  server: 89.105.195.152
+  port: 443
+  uuid: 1653818d-532e-46be-b825-384107fb7c3a
+  udp: true
+  tls: true
+  servername: fetch.mediacorphub.org
+  sni: fetch.mediacorphub.org
+  skip-cert-verify: false
+  client-fingerprint: firefox
+  network: grpc
+  grpc-opts:
+    grpc-service-name: api.v1.FeedService
 - name: ZZ · VLESS · yudou · 68AC5FF3
   type: vless
   server: fetch.mediacorphub.org
@@ -39,33 +53,6 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: api.v1.FeedService
-- name: ZZ · VLESS · yudou · 8AAD79DC
-  type: vless
-  server: 131.143.180.53
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
-  network: ws
-  tls: true
-  servername: jp3.yohototo.top
-  client-fingerprint: unsafe
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: ZZ · VLESS · yudou · AF69E40D
-  type: vless
-  server: 89.105.195.152
-  port: 443
-  uuid: 1653818d-532e-46be-b825-384107fb7c3a
-  udp: true
-  tls: true
-  servername: fetch.mediacorphub.org
-  sni: fetch.mediacorphub.org
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-service-name: api.v1.FeedService
 - name: ZZ · VLESS · yudou · 5B749AF9
   type: vless
   server: 131.143.180.53
@@ -78,6 +65,19 @@ proxies:
   skip-cert-verify: false
   client-fingerprint: unsafe
   network: ws
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
+- name: ZZ · VLESS · yudou · 8AAD79DC
+  type: vless
+  server: 131.143.180.53
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  network: ws
+  tls: true
+  servername: jp3.yohototo.top
+  client-fingerprint: unsafe
   ws-opts:
     path: /tyxyws
     headers:
@@ -113,6 +113,21 @@ proxies:
   sni: www.apple.com
   skip-cert-verify: false
   client-fingerprint: chrome
+- name: ZZ · VLESS · clashmeta · 4947FDC2
+  type: vless
+  server: 179.43.166.190
+  port: 443
+  reality-opts:
+    public-key: 1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs
+    short-id: 428ef87fd47a3a32
+  uuid: 90157e25-cee1-4217-921e-91f300bc1a24
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: perevodchiki.su
+  sni: perevodchiki.su
+  skip-cert-verify: false
+  client-fingerprint: firefox
 - name: ZZ · VLESS · clashmeta · 0DBE01BF
   type: vless
   server: 216.106.191.201
@@ -120,6 +135,21 @@ proxies:
   reality-opts:
     public-key: suK-MYTtZhJ9IJgsxPLTHLQadNotDqYslQcd5BNV_EQ
     short-id: 6aa50b0cc8d23464
+  uuid: dbf3f074-3b18-43f3-b82a-debd8c879c69
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: www.apple.com
+  sni: www.apple.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · clashmeta · 489F21A9
+  type: vless
+  server: 185.246.155.91
+  port: 10103
+  reality-opts:
+    public-key: obQkp5VlQpnlt1hRLQ3VfHISYiiISZJyJZAMaIdjCko
+    short-id: 6859f5b59e55aa30
   uuid: dbf3f074-3b18-43f3-b82a-debd8c879c69
   flow: xtls-rprx-vision
   udp: true
@@ -158,18 +188,66 @@ proxies:
   sni: www.apple.com
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VLESS · clashmeta · 489F21A9
+- name: ZZ · VLESS · clashmeta · 7C45CA35
   type: vless
-  server: 185.246.155.91
-  port: 10103
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  udp: true
+  tls: true
+  servername: w.geogame.ir
+  sni: w.geogame.ir
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · clashmeta · 2F3E69B4
+  type: vless
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
+  tls: true
+  servername: w.geogame.ir
+  client-fingerprint: chrome
+- name: ZZ · VLESS · clashmeta · 2DF4DEC7
+  type: vless
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
+  tls: true
+- name: ZZ · VLESS · clashmeta · 71E527EA
+  type: vless
+  server: w.geogame.ir
+  port: 2053
+  uuid: fbda2834-b1e7-4148-afb9-deda31036a30
+  network: tcp
+  tls: true
+  servername: w.geogame.ir
+- name: ZZ · VLESS · clashmeta · 94207CA3
+  type: vless
+  server: 46.19.138.214
+  port: 443
   reality-opts:
-    public-key: obQkp5VlQpnlt1hRLQ3VfHISYiiISZJyJZAMaIdjCko
-    short-id: 6859f5b59e55aa30
-  uuid: dbf3f074-3b18-43f3-b82a-debd8c879c69
+    public-key: 1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs
+    short-id: 428ef87fd47a3a32
+  uuid: 90157e25-cee1-4217-921e-91f300bc1a24
   flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: www.apple.com
-  sni: www.apple.com
+  servername: perevodchiki.su
+  sni: perevodchiki.su
   skip-cert-verify: false
-  client-fingerprint: chrome
+  client-fingerprint: firefox
+- name: KR · VLESS · clashmeta · 6C50BBC7
+  type: vless
+  server: 168.107.36.135
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  network: ws
+  tls: true
+  servername: jp3.yohototo.top
+  client-fingerprint: unsafe
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
