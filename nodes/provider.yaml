@@ -13,11 +13,11 @@ proxy-groups:
 - name: 🚀 Auto
   type: url-test
   use:
+  - cfmem
   - clashmeta
   - clashnode
   - clashstair
   - datiya
-  - freeclashnode
   - kooker
   - nodev2ray
   - radikal
@@ -38,11 +38,11 @@ proxy-groups:
   - 🚀 Auto
   - DIRECT
   use:
+  - cfmem
   - clashmeta
   - clashnode
   - clashstair
   - datiya
-  - freeclashnode
   - kooker
   - nodev2ray
   - radikal
@@ -82,6 +82,11 @@ rules:
 - GEOIP,CN,🇨🇳 Mainland China,no-resolve
 - MATCH,🌍 Proxy
 proxy-providers:
+  cfmem:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/cfmem.yaml
+    path: ./proxy_providers/cfmem.yaml
+    interval: 3600
   clashmeta:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashmeta.yaml
@@ -101,11 +106,6 @@ proxy-providers:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/datiya.yaml
     path: ./proxy_providers/datiya.yaml
-    interval: 3600
-  freeclashnode:
-    type: http
-    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/freeclashnode.yaml
-    path: ./proxy_providers/freeclashnode.yaml
     interval: 3600
   kooker:
     type: http
