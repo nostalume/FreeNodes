@@ -1,4 +1,54 @@
 proxies:
+- name: ZZ · ANYTLS · yudou · 86DFF884
+  type: anytls
+  server: forwarded.frnhk.xyz
+  port: 2053
+  udp: true
+  tls: true
+  servername: my.gosthk.site
+  sni: my.gosthk.site
+  skip-cert-verify: false
+  password: 047e0e0c-1843-4f16-9812-ec2cc94f7a99
+- name: ZZ · TROJAN · yudou · 11BD7D90
+  type: trojan
+  server: sclass-b1.catcat321.com
+  port: 20028
+  udp: true
+  tls: true
+  servername: hk.catxstar.com
+  sni: hk.catxstar.com
+  skip-cert-verify: false
+  password: d7563108-615c-4338-a7bd-77f359869a4a
+- name: ZZ · VLESS · yudou · 9350C972
+  type: vless
+  server: lv3.nexfile.net
+  port: 4443
+  uuid: a35c508f-4d5d-4531-842e-6e9d43c762c0
+  udp: true
+  tls: true
+  servername: lv3.nexfile.net
+  sni: lv3.nexfile.net
+  skip-cert-verify: false
+  client-fingerprint: firefox
+  network: xhttp
+  xhttp-opts:
+    path: /api/v1/sync/
+    mode: auto
+- name: ZZ · VMESS · yudou · F419A337
+  type: vmess
+  server: 188.114.99.137
+  port: 8443
+  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  skip-cert-verify: false
+  network: ws
+  ws-opts:
+    path: /lMnsZUN4/
+    headers:
+      Host: v2ray1.dozapp.xyz
 - name: ZZ · TROJAN · yudou · 072FF8F3
   type: trojan
   server: sclass-b1.catcat321.com
@@ -40,31 +90,31 @@ proxies:
     path: /lMnsZUN4/
     headers:
       Host: v2ray1.dozapp.xyz
-- name: ZZ · TROJAN · yudou · 11BD7D90
+- name: ZZ · TROJAN · yudou · 1729A5F9
   type: trojan
   server: sclass-b1.catcat321.com
-  port: 20028
+  port: 20027
   udp: true
   tls: true
   servername: hk.catxstar.com
   sni: hk.catxstar.com
   skip-cert-verify: false
+  client-fingerprint: chrome
   password: d7563108-615c-4338-a7bd-77f359869a4a
-- name: ZZ · VLESS · yudou · 9350C972
+- name: ZZ · VLESS · yudou · 128A46E4
   type: vless
-  server: lv3.nexfile.net
-  port: 4443
-  uuid: a35c508f-4d5d-4531-842e-6e9d43c762c0
+  server: 196.196.148.85
+  port: 443
+  reality-opts:
+    public-key: l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs
+    short-id: 361d0dd59c70516f
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
   udp: true
   tls: true
-  servername: lv3.nexfile.net
-  sni: lv3.nexfile.net
+  servername: 5d0319t.nl7.h1clayd.click
+  sni: 5d0319t.nl7.h1clayd.click
   skip-cert-verify: false
   client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /api/v1/sync/
-    mode: auto
 - name: ZZ · VMESS · yudou · 1B5E927C
   type: vmess
   server: 188.114.99.137
@@ -88,74 +138,6 @@ proxies:
   sni: hk.catxstar.com
   skip-cert-verify: false
   password: d7563108-615c-4338-a7bd-77f359869a4a
-- name: ZZ · VLESS · yudou · 128A46E4
-  type: vless
-  server: 196.196.148.85
-  port: 443
-  reality-opts:
-    public-key: l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs
-    short-id: 361d0dd59c70516f
-  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
-  udp: true
-  tls: true
-  servername: 5d0319t.nl7.h1clayd.click
-  sni: 5d0319t.nl7.h1clayd.click
-  skip-cert-verify: false
-  client-fingerprint: firefox
-- name: ZZ · VMESS · yudou · F419A337
-  type: vmess
-  server: 188.114.99.137
-  port: 8443
-  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  skip-cert-verify: false
-  network: ws
-  ws-opts:
-    path: /lMnsZUN4/
-    headers:
-      Host: v2ray1.dozapp.xyz
-- name: ZZ · TROJAN · yudou · 1729A5F9
-  type: trojan
-  server: sclass-b1.catcat321.com
-  port: 20027
-  udp: true
-  tls: true
-  servername: hk.catxstar.com
-  sni: hk.catxstar.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-  password: d7563108-615c-4338-a7bd-77f359869a4a
-- name: ZZ · VLESS · yudou · 11ECD458
-  type: vless
-  server: 196.245.52.187
-  port: 443
-  reality-opts:
-    public-key: LsaTohbE6CqCH9UbYKwIybVXG3E5Wgz_X9czqas2LAI
-    short-id: 9acff4d98e2fbcc6
-  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
-  udp: true
-  tls: true
-  servername: 35295cx.us8.h1clayd.click
-  sni: 35295cx.us8.h1clayd.click
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /1812842934d4
-    mode: auto
-- name: ZZ · TROJAN · yudou · 31AC39AA
-  type: trojan
-  server: sclass-c2.catcat321.com
-  port: 20051
-  udp: true
-  tls: true
-  servername: hk.catxstar.com
-  sni: hk.catxstar.com
-  skip-cert-verify: false
-  password: d9064589-74af-432a-9390-5d8a9da281bf
 - name: ZZ · VLESS · yudou · 6DC44DC8
   type: vless
   server: 196.196.149.81
@@ -171,6 +153,36 @@ proxies:
   sni: 7aa271t.es1.h1clayd.click
   skip-cert-verify: false
   client-fingerprint: firefox
+- name: ZZ · VMESS · yudou · 22133E8E
+  type: vmess
+  server: 172.67.161.144
+  port: 8443
+  uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /lMnsZUN4/
+    headers:
+      Host: v2ray1.dozapp.xyz
+- name: ZZ · VLESS · yudou · B7214F7A
+  type: vless
+  server: 196.245.52.183
+  port: 443
+  reality-opts:
+    public-key: zbz--PMjcIC4Ggr3j-ibDf0fzXRTj0lM_HzjPJyMkVE
+    short-id: 50a749f0eccb628c
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
+  tls: true
+  servername: 15b171g.nl7.h1clayd.click
+  sni: 15b171g.nl7.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: firefox
+  network: grpc
+  grpc-opts:
+    grpc-service-name: 5b79e8a94241
 - name: NL · VLESS · clashmeta · 2B421FC9
   type: vless
   server: api.ferrin.uk
@@ -203,6 +215,54 @@ proxies:
   xhttp-opts:
     path: /media/e1c76c
     mode: auto
+- name: US · VLESS · clashmeta · 3B98434B
+  type: vless
+  server: 200.102.179.69
+  port: 443
+  uuid: 7592ca5c-b352-4562-8856-a9c936a3331b
+  udp: true
+  tls: true
+  servername: dmbdnpctq8hjxx.hat.onl
+  sni: dmbdnpctq8hjxx.hat.onl
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: xhttp
+  xhttp-opts:
+    path: /hls/014373eq/seg
+    host: dmbdnpctq8hjxx.hat.onl
+    mode: auto
+- name: US · VLESS · clashmeta · E4E1D3A4
+  type: vless
+  server: 200.102.179.69
+  port: 443
+  uuid: 7592ca5c-b352-4562-8856-a9c936a3331b
+  udp: true
+  tls: true
+  servername: dmbdnpctq8hjxx.hat.onl
+  sni: dmbdnpctq8hjxx.hat.onl
+  skip-cert-verify: false
+  client-fingerprint: firefox
+  network: xhttp
+  xhttp-opts:
+    path: /hls/014373eq/seg
+    host: dmbdnpctq8hjxx.hat.onl
+    mode: auto
+- name: US · VLESS · clashmeta · D89F3FA7
+  type: vless
+  server: 155.103.116.110
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  udp: true
+  tls: true
+  servername: jp3.yohototo.top
+  sni: jp3.yohototo.top
+  skip-cert-verify: false
+  client-fingerprint: unsafe
+  network: ws
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
 - name: ZZ · VLESS · clashmeta · EAC7ABB4
   type: vless
   server: 196.196.149.80
