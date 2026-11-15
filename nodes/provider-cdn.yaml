@@ -13,7 +13,6 @@ proxy-groups:
 - name: 🚀 Auto
   type: url-test
   use:
-  - cfmem
   - clashmeta
   - clashnode
   - clashstair
@@ -40,7 +39,6 @@ proxy-groups:
   - 🚀 Auto
   - DIRECT
   use:
-  - cfmem
   - clashmeta
   - clashnode
   - clashstair
@@ -86,11 +84,6 @@ rules:
 - GEOIP,CN,🇨🇳 Mainland China,no-resolve
 - MATCH,🌍 Proxy
 proxy-providers:
-  cfmem:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/cfmem.yaml
-    path: ./proxy_providers/cfmem.yaml
-    interval: 3600
   clashmeta:
     type: http
     url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/clashmeta.yaml
