@@ -22,6 +22,27 @@ _ALPHA2 = re.compile(r"(?<![A-Za-z])([A-Z]{2})(?![A-Za-z])")
 _ROUTE = re.compile(r"(?:->|→|➡️?)")
 _REGION_GROUPS = ("HK", "TW", "JP", "SG", "US")
 _PROBE_URL = "https://www.gstatic.com/generate_204"
+_AD_BLOCK_GROUP = "🚫 AdBlock"
+_AD_BLOCK_RULE = f"GEOSITE,category-ads-all,{_AD_BLOCK_GROUP}"
+# Domestic ad and telemetry hosts measured to fall through geosite
+# category-ads-all. Each entry was matched against the bundled geosite.dat, so
+# Baidu Union, Tencent GDT, and Baidu Analytics stay on the GEOSITE rule.
+_CN_AD_EXACT = (
+    "cm.bilibili.com",
+    "data.bilibili.com",
+    "live-trace.bilibili.com",
+)
+_CN_AD_SUFFIXES = (
+    "tanx.com",
+    "simba.taobao.com",
+    "mmstat.com",
+    "cnzz.com",
+    "miaozhen.com",
+)
+_CN_AD_RULES = (
+    *(f"DOMAIN,{domain},{_AD_BLOCK_GROUP}" for domain in _CN_AD_EXACT),
+    *(f"DOMAIN-SUFFIX,{suffix},{_AD_BLOCK_GROUP}" for suffix in _CN_AD_SUFFIXES),
+)
 
 
 def _admit_country(value: str) -> CountryAlpha2 | None:
@@ -329,6 +350,8 @@ def _policy_config(groups: list[dict[str, Any]]) -> dict[str, Any]:
             "GEOSITE,youtube,🎬 Media",
             "GEOSITE,netflix,🎬 Media",
             "GEOSITE,telegram,💬 Messaging",
+            _AD_BLOCK_RULE,
+            *_CN_AD_RULES,
             "GEOSITE,cn,🇨🇳 Mainland China",
             "GEOIP,CN,🇨🇳 Mainland China,no-resolve",
             "MATCH,🌍 Proxy",
@@ -355,6 +378,9 @@ def _policy_groups(
         *(group.payload() for group in regions),
         proxy.payload(),
         SelectGroup(name="🇨🇳 Mainland China", proxies=("DIRECT", "🌍 Proxy")).payload(),
+        SelectGroup(
+            name=_AD_BLOCK_GROUP, proxies=("REJECT", "DIRECT", "🌍 Proxy")
+        ).payload(),
         *(
             SelectGroup(
                 name=name, proxies=("🌍 Proxy", *region_names, "DIRECT")

@@ -254,6 +254,7 @@ def test_profiles_apply_ordered_user_overridable_routing_without_repeat_probes()
         "🚀 Auto",
         "🌍 Proxy",
         "🇨🇳 Mainland China",
+        "🚫 AdBlock",
         "🤖 AI",
         "🎬 Media",
         "💬 Messaging",
@@ -279,7 +280,50 @@ def test_profiles_apply_ordered_user_overridable_routing_without_repeat_probes()
         "GEOSITE,youtube,🎬 Media",
         "GEOSITE,netflix,🎬 Media",
         "GEOSITE,telegram,💬 Messaging",
+        "GEOSITE,category-ads-all,🚫 AdBlock",
+        "DOMAIN,cm.bilibili.com,🚫 AdBlock",
+        "DOMAIN,data.bilibili.com,🚫 AdBlock",
+        "DOMAIN,live-trace.bilibili.com,🚫 AdBlock",
+        "DOMAIN-SUFFIX,tanx.com,🚫 AdBlock",
+        "DOMAIN-SUFFIX,simba.taobao.com,🚫 AdBlock",
+        "DOMAIN-SUFFIX,mmstat.com,🚫 AdBlock",
+        "DOMAIN-SUFFIX,cnzz.com,🚫 AdBlock",
+        "DOMAIN-SUFFIX,miaozhen.com,🚫 AdBlock",
         "GEOSITE,cn,🇨🇳 Mainland China",
         "GEOIP,CN,🇨🇳 Mainland China,no-resolve",
         "MATCH,🌍 Proxy",
     ]
+
+
+def test_ad_rules_precede_domestic_routing_and_never_capture_playback_hosts():
+    rules = yaml.safe_load(
+        profiles.render_profiles(sample_catalog()).files["nodes/merged.yaml"]
+    )["rules"]
+    ad_indexes = [
+        index for index, rule in enumerate(rules) if rule.endswith("🚫 AdBlock")
+    ]
+    domestic_index = next(
+        index
+        for index, rule in enumerate(rules)
+        if rule == "GEOSITE,cn,🇨🇳 Mainland China"
+    )
+
+    assert ad_indexes and max(ad_indexes) < domestic_index
+
+    exact = {rule.split(",")[1] for rule in rules if rule.startswith("DOMAIN,")}
+    suffixes = {
+        rule.split(",")[1] for rule in rules if rule.startswith("DOMAIN-SUFFIX,")
+    }
+    playback_hosts = (
+        "api.bilibili.com",
+        "i0.hdslb.com",
+        "upos-sz-mirrorcos.bilivideo.com",
+        "live.bilibili.com",
+    )
+    captured = [
+        host
+        for host in playback_hosts
+        if host in exact or any(host.endswith(f".{suffix}") for suffix in suffixes)
+    ]
+
+    assert captured == []
