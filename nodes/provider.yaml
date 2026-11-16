@@ -13,12 +13,11 @@ proxy-groups:
 - name: 🚀 Auto
   type: url-test
   use:
-  - cfmem
   - clashmeta
-  - clashnode
   - clashstair
   - datiya
   - freeclashnode
+  - jichangx
   - kooker
   - nodev2ray
   - radikal
@@ -39,12 +38,11 @@ proxy-groups:
   - 🚀 Auto
   - DIRECT
   use:
-  - cfmem
   - clashmeta
-  - clashnode
   - clashstair
   - datiya
   - freeclashnode
+  - jichangx
   - kooker
   - nodev2ray
   - radikal
@@ -99,20 +97,10 @@ rules:
 - GEOIP,CN,🇨🇳 Mainland China,no-resolve
 - MATCH,🌍 Proxy
 proxy-providers:
-  cfmem:
-    type: http
-    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/cfmem.yaml
-    path: ./proxy_providers/cfmem.yaml
-    interval: 3600
   clashmeta:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashmeta.yaml
     path: ./proxy_providers/clashmeta.yaml
-    interval: 3600
-  clashnode:
-    type: http
-    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/clashnode.yaml
-    path: ./proxy_providers/clashnode.yaml
     interval: 3600
   clashstair:
     type: http
@@ -128,6 +116,11 @@ proxy-providers:
     type: http
     url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/freeclashnode.yaml
     path: ./proxy_providers/freeclashnode.yaml
+    interval: 3600
+  jichangx:
+    type: http
+    url: https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/jichangx.yaml
+    path: ./proxy_providers/jichangx.yaml
     interval: 3600
   kooker:
     type: http
