@@ -18,7 +18,6 @@ from freenodes.youtube import (
     classify_video_resources,
     extract_date_from_title,
     extract_external_links,
-    extract_password_from_text,
     select_video_resource,
 )
 
@@ -38,21 +37,6 @@ OBSERVED_ON = date(2026, 9, 2)
 )
 def test_title_date_grammar(title, expected):
     assert extract_date_from_title(title, OBSERVED_ON) == expected
-
-
-@pytest.mark.parametrize(
-    ("text", "expected"),
-    (
-        ("密码：6767\n其他内容", ["6767"]),
-        ("密码：1212", ["1212"]),
-        ("密码可能是5678或3344", ["3344", "5678"]),
-        ("今天是2026年6月22日，有203条节点", []),
-        ("Password: 5566", ["5566"]),
-        ("密码可能是1234或5678或9900", ["9900", "1234", "5678"]),
-    ),
-)
-def test_password_candidates_are_keyword_gated_and_pattern_ordered(text, expected):
-    assert extract_password_from_text(text) == expected
 
 
 @pytest.mark.parametrize(

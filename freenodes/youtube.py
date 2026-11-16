@@ -493,29 +493,6 @@ class YouTubeClient:
         return value[:500]
 
 
-def extract_password_from_text(text: str) -> list[str]:
-    """Extract keyword-adjacent four-digit candidates in pattern priority."""
-    candidates: list[str] = []
-    for line in text.splitlines():
-        if "密码" not in line and "password" not in line.lower():
-            continue
-        for match in re.finditer(r"\d{4}", line):
-            password = match.group()
-            if password not in candidates:
-                candidates.append(password)
-
-    def priority(password: str) -> int:
-        a, b, c, d = password
-        if a == b and c == d:
-            return 0
-        if a == c and b == d:
-            return 1
-        return 2
-
-    candidates.sort(key=priority)
-    return candidates
-
-
 def extract_external_links(description: str) -> list[str]:
     """Extract external links while preserving fragments and redirects."""
     links = re.findall(r'https?://[^\s<>"\')\]]+', description)

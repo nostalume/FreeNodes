@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import re
 from collections import Counter, defaultdict
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from datetime import UTC, date, datetime, timedelta
 from itertools import chain
 from typing import Annotated, Literal, TypeVar
@@ -299,37 +299,6 @@ class AdmittedCatalog(FrozenModel):
     @property
     def clash_count(self) -> int:
         return len(self.clash_nodes)
-
-
-def _keyword_matches(name: str, keyword: str) -> bool:
-    if keyword.isascii():
-        return (
-            re.search(
-                rf"(?<![A-Za-z0-9]){re.escape(keyword)}(?![A-Za-z0-9])",
-                name,
-                flags=re.IGNORECASE,
-            )
-            is not None
-        )
-    return keyword.casefold() in name.casefold()
-
-
-def detect_regions(
-    names: Sequence[str],
-    region_keywords: Mapping[str, Sequence[str]],
-) -> dict[str, list[str]]:
-    regions: dict[str, list[str]] = {}
-    for name in names:
-        label = next(
-            (
-                region
-                for region, keywords in region_keywords.items()
-                if any(_keyword_matches(name, keyword) for keyword in keywords)
-            ),
-            "🌍 其他",
-        )
-        regions.setdefault(label, []).append(name)
-    return {key: regions[key] for key in sorted(regions)}
 
 
 def _looks_like_yaml(artifact: SourceArtifact, content: str) -> bool:
