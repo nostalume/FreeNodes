@@ -173,18 +173,24 @@ class EntryPair(FrozenModel):
 
 class SubscriptionURLs(FrozenModel):
     identity: RepositoryIdentity = RepositoryIdentity()
+    revision: str | None = Field(default=None, pattern=r"^[0-9a-f]{40}$")
 
     @classmethod
-    def from_identity(cls, identity: RepositoryIdentity) -> SubscriptionURLs:
-        return cls(identity=identity)
+    def from_identity(
+        cls, identity: RepositoryIdentity, *, revision: str | None = None
+    ) -> SubscriptionURLs:
+        return cls(identity=identity, revision=revision)
 
     def _pair(self, direct_path: str, cdn_path: str | None = None) -> EntryPair:
+        # Raw caches /HEAD/ for 300s per path, so the five entries can describe
+        # different publications. A pinned revision is immutable and cannot mix.
         cdn_file = cdn_path or direct_path
+        ref = self.revision or "HEAD"
         return EntryPair(
             direct=(
                 f"https://raw.githubusercontent.com/{self.identity.owner}/"
                 f"{self.identity.name}"
-                f"/HEAD/{direct_path}"
+                f"/{quote(ref, safe='')}/{direct_path}"
             ),
             cdn=(
                 f"https://cdn.jsdelivr.net/gh/{self.identity.owner}/"

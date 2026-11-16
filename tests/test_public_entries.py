@@ -328,3 +328,31 @@ async def test_public_cancellation_is_not_relabelled_as_degraded():
             validate_standalone=lambda body: None,
             smoke_provider=lambda body: LOADED_PROVIDER,
         ).verify()
+
+
+async def test_verified_revision_pins_the_direct_channel_alone():
+    revision = "1" * 40
+    registry = SubscriptionURLs.from_identity(
+        RepositoryIdentity(owner="owner", name="repo"), revision=revision
+    )
+    content = bodies(registry)
+
+    assert registry.v2ray.direct == (
+        f"https://raw.githubusercontent.com/owner/repo/{revision}/nodes/v2ray.txt"
+    )
+    assert registry.provider.direct.endswith(f"/{revision}/nodes/provider.yaml")
+    assert registry.v2ray.cdn == (
+        "https://cdn.jsdelivr.net/gh/owner/repo/nodes/v2ray.txt"
+    )
+
+    async def fetch(url):
+        return content[url]
+
+    receipt = await PublicEntryVerifier(
+        registry,
+        fetch=fetch,
+        validate_standalone=lambda body: None,
+        smoke_provider=lambda body: LOADED_PROVIDER,
+    ).verify()
+
+    assert receipt.direct == "current"

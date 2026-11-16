@@ -144,4 +144,8 @@ jobs:
           enable-cache: true
 
       - name: Observe public import entries
+        env:
+          # Raw caches /HEAD/ per path for 300s, so entries can mix generations
+          # seconds after a publish. The published revision is immutable.
+          FREENODES_VERIFIED_REVISION: ${{ needs.commit.outputs.published_sha }}
         run: uv run --python 3.12 --locked python main.py --verify-public

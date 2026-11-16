@@ -321,7 +321,10 @@ async def run(command: Command) -> int:
     if command.kind == "verify_public":
         acquired = acquire_pinned_mihomo(Path(".cache") / "mihomo")
         receipt = await verify_remote_entries(
-            SubscriptionURLs.from_identity(config.repository),
+            SubscriptionURLs.from_identity(
+                config.repository,
+                revision=os.environ.get("FREENODES_VERIFIED_REVISION") or None,
+            ),
             acquired.executable,
         )
         print(
