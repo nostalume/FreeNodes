@@ -1015,53 +1015,33 @@ def publish_bundle(
         clash=bundle.clash_count,
         uri=bundle.uri_count,
     )
+    fields: dict[str, object] = {
+        "status": "accepted",
+        "created_at": observed_at.astimezone(UTC).isoformat(),
+        "base_revision": base_revision,
+        "selection_limit": selection_limit,
+        "admission": admission_summary.counts,
+        "counts": counts,
+        "rejection_codes": admission_summary.rejection_codes,
+        "sources": admission_summary.sources,
+        "files": digests,
+        "managed_files": managed_files,
+        "removed_files": tuple(obsolete),
+    }
     if capability is None:
         receipt_manifest: PublicationManifest = PublicationManifestV2(
-            schema=2,
-            status="accepted",
-            created_at=observed_at.astimezone(UTC).isoformat(),
-            base_revision=base_revision,
-            selection_limit=selection_limit,
-            admission=admission_summary.counts,
-            counts=counts,
-            rejection_codes=admission_summary.rejection_codes,
-            sources=admission_summary.sources,
-            files=digests,
-            managed_files=managed_files,
-            removed_files=tuple(obsolete),
+            schema=2, **fields
         )
     elif quality_history is None:
         receipt_manifest = PublicationManifestV4(
-            schema=4,
-            status="accepted",
-            created_at=observed_at.astimezone(UTC).isoformat(),
-            base_revision=base_revision,
-            selection_limit=selection_limit,
-            admission=admission_summary.counts,
-            counts=counts,
-            rejection_codes=admission_summary.rejection_codes,
-            sources=admission_summary.sources,
-            files=digests,
-            managed_files=managed_files,
-            removed_files=tuple(obsolete),
-            capability=capability,
+            schema=4, capability=capability, **fields
         )
     else:
         receipt_manifest = PublicationManifestV5(
             schema=5,
-            status="accepted",
-            created_at=observed_at.astimezone(UTC).isoformat(),
-            base_revision=base_revision,
-            selection_limit=selection_limit,
-            admission=admission_summary.counts,
-            counts=counts,
-            rejection_codes=admission_summary.rejection_codes,
-            sources=admission_summary.sources,
-            files=digests,
-            managed_files=managed_files,
-            removed_files=tuple(obsolete),
             capability=capability,
             quality_history=quality_history,
+            **fields,
         )
     receipt_bytes = (
         json.dumps(
