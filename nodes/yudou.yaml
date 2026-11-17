@@ -19,9 +19,27 @@ proxies:
   sni: bl1.nexfile.net
   skip-cert-verify: false
   password: a35c508f-4d5d-4531-842e-6e9d43c762c0
-- name: ZZ · VMESS · yudou · F419A337
+- name: ZZ · SS · yudou · 6099E947
+  type: ss
+  server: 47.254.169.3
+  port: 443
+  cipher: 2022-blake3-chacha20-poly1305
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: 8yO3ANWefuuGs1lRKXECQA1FEhxlWFV2ppQMcBaZo5Y=
+- name: ZZ · VLESS · yudou · A13E2BE6
+  type: vless
+  server: 194.60.228.97
+  port: 443
+  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
+  network: tcp
+  tls: true
+  servername: base.hosamobenl.co.uk
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · B0ABCFE6
   type: vmess
-  server: 188.114.99.137
+  server: 172.67.167.78
   port: 8443
   uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
   alterId: 0
@@ -34,33 +52,31 @@ proxies:
     path: /lMnsZUN4/
     headers:
       Host: v2ray1.dozapp.xyz
-- name: ZZ · SS · yudou · 6099E947
+- name: ZZ · SS · yudou · 71FEA959
   type: ss
-  server: 47.254.169.3
+  server: 47.254.143.251
   port: 443
   cipher: 2022-blake3-chacha20-poly1305
   udp: true
   tls: false
   skip-cert-verify: false
   password: 8yO3ANWefuuGs1lRKXECQA1FEhxlWFV2ppQMcBaZo5Y=
-- name: ZZ · VLESS · yudou · EF67C2EA
+- name: ZZ · VLESS · yudou · 7FF78616
   type: vless
-  server: 23.129.180.171
+  server: 194.60.228.97
   port: 443
-  reality-opts:
-    public-key: tKA5ivaRbvqJ9RcSgp1ZtcCNfHAAuhWfve3tjMXse2w
-    short-id: 678ce913b8266e
-  uuid: 8197b9b9-8945-460f-99c9-325ef8a8a7c3
-  flow: xtls-rprx-vision
+  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
   udp: true
   tls: true
-  servername: us5.gofizzin.com
-  sni: us5.gofizzin.com
+  servername: base.hosamobenl.co.uk
+  sni: base.hosamobenl.co.uk
   skip-cert-verify: false
-  client-fingerprint: firefox
-- name: ZZ · VMESS · yudou · B0ABCFE6
+  alpn:
+  - http/1.1
+  client-fingerprint: chrome
+- name: ZZ · VMESS · yudou · F419A337
   type: vmess
-  server: 172.67.167.78
+  server: 188.114.99.137
   port: 8443
   uuid: 60441548-b68e-43b2-8191-e3b884be4b3c
   alterId: 0
@@ -82,6 +98,23 @@ proxies:
   tls: false
   skip-cert-verify: false
   password: 8yO3ANWefuuGs1lRKXECQA1FEhxlWFV2ppQMcBaZo5Y=
+- name: ZZ · VLESS · yudou · 9EDDA7BC
+  type: vless
+  server: dey.lnmarketplace.net
+  port: 443
+  uuid: 3536e1fa-0850-44d1-b123-925ce12476cf
+  udp: true
+  tls: true
+  servername: dey.lnmarketplace.net
+  sni: dey.lnmarketplace.net
+  skip-cert-verify: false
+  alpn:
+  - h2
+  client-fingerprint: chrome
+  network: xhttp
+  xhttp-opts:
+    path: /kavir
+    mode: stream-one
 - name: ZZ · VMESS · yudou · 4E6DD698
   type: vmess
   server: 104.21.91.53
@@ -105,15 +138,20 @@ proxies:
   network: tcp
   tls: true
   servername: base.hosamobenl.co.uk
-- name: ZZ · VLESS · yudou · A13E2BE6
+- name: ZZ · VLESS · yudou · 830833CC
   type: vless
-  server: 194.60.228.97
+  server: 88.216.60.73
   port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  network: tcp
+  reality-opts:
+    public-key: drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ
+    short-id: a7c92e4b10d6f835
+  uuid: a30903dc-1bf0-4be5-8b1b-603a3a56211c
+  udp: true
   tls: true
-  servername: base.hosamobenl.co.uk
-  client-fingerprint: chrome
+  servername: ns-api-gw.galioncc.com
+  sni: ns-api-gw.galioncc.com
+  skip-cert-verify: false
+  client-fingerprint: firefox
 - name: ZZ · VLESS · yudou · 3640F99D
   type: vless
   server: 194.60.228.97
@@ -124,6 +162,20 @@ proxies:
   servername: base.hosamobenl.co.uk
   sni: base.hosamobenl.co.uk
   skip-cert-verify: false
+- name: ZZ · VLESS · yudou · FDE00657
+  type: vless
+  server: 88.216.60.73
+  port: 443
+  reality-opts:
+    public-key: drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ
+    short-id: a7c92e4b10d6f835
+  uuid: a30903dc-1bf0-4be5-8b1b-603a3a56211c
+  udp: true
+  tls: true
+  servername: ns-api-gw.galioncc.com
+  sni: ns-api-gw.galioncc.com
+  skip-cert-verify: false
+  client-fingerprint: ios
 - name: ZZ · VLESS · yudou · 23783D72
   type: vless
   server: 80.47.10.106
@@ -152,36 +204,38 @@ proxies:
   sni: net-io-api.galioncc.com
   skip-cert-verify: false
   client-fingerprint: firefox
-- name: ZZ · VLESS · yudou · CBC99262
+- name: ZZ · VLESS · yudou · FAC959AA
   type: vless
-  server: zfapi.zalolink.com
-  port: 43149
-  reality-opts:
-    public-key: cvong7paE8XIzzbKWgV5iUruP1pBqI2IhMuBHc8c0UE
-    short-id: 15aa0ad4
-  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
-  flow: xtls-rprx-vision
+  server: 45.88.176.223
+  port: 443
+  uuid: d73e3cdc-a80b-4e73-a11b-cc467d7a84f8
   udp: true
   tls: true
-  servername: psstatic.cdn.bcebos.com
-  sni: psstatic.cdn.bcebos.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · E33C255C
-  type: vless
-  server: zfapi.zalolink.com
-  port: 43149
-  reality-opts:
-    public-key: cvong7paE8XIzzbKWgV5iUruP1pBqI2IhMuBHc8c0UE
-    short-id: 15aa0ad4
-  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
-  flow: xtls-rprx-vision
-  udp: true
-  tls: true
-  servername: psstatic.cdn.bcebos.com
-  sni: psstatic.cdn.bcebos.com
+  servername: m.yourvibe.my
+  sni: m.yourvibe.my
   skip-cert-verify: false
   client-fingerprint: firefox
+  network: xhttp
+  xhttp-opts:
+    path: /media/e1c76c
+    mode: auto
+- name: ZZ · VLESS · yudou · 2B421FC9
+  type: vless
+  server: api.ferrin.uk
+  port: 443
+  uuid: 7d1a74fd-8a38-4a29-863f-5da53a9e557e
+  udp: true
+  tls: true
+  servername: 7d1a74fd.ferrin.uk
+  sni: 7d1a74fd.ferrin.uk
+  skip-cert-verify: false
+  alpn:
+  - h2
+  client-fingerprint: chrome
+  network: xhttp
+  xhttp-opts:
+    path: /es
+    mode: stream-one
 - name: ZZ · VLESS · yudou · 7639D8D3
   type: vless
   server: zfapi.zalolink.com
@@ -197,6 +251,117 @@ proxies:
   sni: m.media-amazon.com
   skip-cert-verify: false
   client-fingerprint: safari
+- name: ZZ · VLESS · yudou · C663FFFF
+  type: vless
+  server: f0d7aft.nl13.h1clayd.click
+  port: 443
+  reality-opts:
+    public-key: kkCGiCQCKnkozJR1KKCRNtmdBECmThCgI9VSv7iDcWI
+    short-id: 8956c57cb4c4f8d2
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
+  tls: true
+  servername: f0d7aft.nl13.h1clayd.click
+  sni: f0d7aft.nl13.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 3B090EC1
+  type: vless
+  server: 196.196.148.63
+  port: 443
+  reality-opts:
+    public-key: dtO7khFLUkpFDQOtNzo4Th4hJKLoPSY2VtD_9k4Hgiw
+    short-id: 7b2b1a14a6e0630d
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
+  tls: true
+  servername: fc82dfx.nl8.h1clayd.click
+  sni: fc82dfx.nl8.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: xhttp
+  xhttp-opts:
+    path: /0616f2d729aa
+    mode: auto
+- name: ZZ · VLESS · yudou · DF4CD620
+  type: vless
+  server: zfapi.zalolink.com
+  port: 30322
+  reality-opts:
+    public-key: 5gncThwqPFzLu23WO3mPTEhG7-KgVYlGVvveHjM2SUo
+    short-id: 6a60e7e382d6
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: psstatic.cdn.bcebos.com
+  sni: psstatic.cdn.bcebos.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 62962794
+  type: vless
+  server: zfapi.zalolink.com
+  port: 30322
+  reality-opts:
+    public-key: 5gncThwqPFzLu23WO3mPTEhG7-KgVYlGVvveHjM2SUo
+    short-id: 6a60e7e382d6
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: psstatic.cdn.bcebos.com
+  sni: psstatic.cdn.bcebos.com
+  skip-cert-verify: false
+  client-fingerprint: ios
+- name: ZZ · VLESS · yudou · 11ECD458
+  type: vless
+  server: 196.245.52.187
+  port: 443
+  reality-opts:
+    public-key: LsaTohbE6CqCH9UbYKwIybVXG3E5Wgz_X9czqas2LAI
+    short-id: 9acff4d98e2fbcc6
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
+  tls: true
+  servername: 35295cx.us8.h1clayd.click
+  sni: 35295cx.us8.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: firefox
+  network: xhttp
+  xhttp-opts:
+    path: /1812842934d4
+    mode: auto
+- name: ZZ · VLESS · yudou · D535ADBB
+  type: vless
+  server: zfapi.zalolink.com
+  port: 55688
+  reality-opts:
+    public-key: 6dqd0hqbC0bht9RtsYamvlYdMpxyUbk7uXw0xtO8DzQ
+    short-id: 865c1b2c
+  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: bilibili-vn.biliimg.com
+  sni: bilibili-vn.biliimg.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: ZZ · VLESS · yudou · 1A4313BB
+  type: vless
+  server: 172.64.152.19
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  udp: true
+  tls: true
+  servername: jp3.yohototo.top
+  sni: jp3.yohototo.top
+  skip-cert-verify: false
+  client-fingerprint: unsafe
+  network: ws
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
 - name: ZZ · VLESS · yudou · 93A5231C
   type: vless
   server: zfapi.zalolink.com
@@ -227,66 +392,48 @@ proxies:
   sni: 7aa271t.es1.h1clayd.click
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · 62962794
+- name: ZZ · VLESS · yudou · C6F5FBFB
   type: vless
-  server: zfapi.zalolink.com
-  port: 30322
-  reality-opts:
-    public-key: 5gncThwqPFzLu23WO3mPTEhG7-KgVYlGVvveHjM2SUo
-    short-id: 6a60e7e382d6
-  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
-  flow: xtls-rprx-vision
+  server: 103.219.195.65
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   udp: true
   tls: true
-  servername: psstatic.cdn.bcebos.com
-  sni: psstatic.cdn.bcebos.com
+  servername: jp3.yohototo.top
+  sni: jp3.yohototo.top
   skip-cert-verify: false
-  client-fingerprint: ios
-- name: ZZ · VLESS · yudou · 7FF78616
+  client-fingerprint: unsafe
+  network: ws
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
+- name: US · VLESS · clashmeta · 9C3B85F6
+  type: vless
+  server: 79.182.39.131
+  port: 443
+  reality-opts:
+    public-key: PD8Jdlg3xB9QY--jwQjp8PFPzCS8-Oryw6-HWBcHMFU
+    short-id: d3bd772514c87d28
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
+  tls: true
+  servername: 717252g.nl8.h1clayd.click
+  sni: 717252g.nl8.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: grpc
+  grpc-opts:
+    grpc-service-name: 204adda7e3da
+- name: ZZ · VLESS · clashmeta · FDF38AB2
   type: vless
   server: 194.60.228.97
   port: 443
   uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  udp: true
+  network: tcp
   tls: true
   servername: base.hosamobenl.co.uk
-  sni: base.hosamobenl.co.uk
-  skip-cert-verify: false
-  alpn:
-  - http/1.1
   client-fingerprint: chrome
-- name: NL · VLESS · clashnode · 2B421FC9
-  type: vless
-  server: api.ferrin.uk
-  port: 443
-  uuid: 7d1a74fd-8a38-4a29-863f-5da53a9e557e
-  udp: true
-  tls: true
-  servername: 7d1a74fd.ferrin.uk
-  sni: 7d1a74fd.ferrin.uk
-  skip-cert-verify: false
-  alpn:
-  - h2
-  client-fingerprint: chrome
-  network: xhttp
-  xhttp-opts:
-    path: /es
-    mode: stream-one
-- name: US · VLESS · clashnode · FAC959AA
-  type: vless
-  server: 45.88.176.223
-  port: 443
-  uuid: d73e3cdc-a80b-4e73-a11b-cc467d7a84f8
-  udp: true
-  tls: true
-  servername: m.yourvibe.my
-  sni: m.yourvibe.my
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /media/e1c76c
-    mode: auto
 - name: ZZ · VLESS · clashmeta · 5E359993
   type: vless
   server: 194.60.228.97
@@ -296,52 +443,6 @@ proxies:
   tls: true
   servername: base.hosamobenl.co.uk
   client-fingerprint: chrome
-- name: ZZ · VLESS · clashnode · 11ECD458
-  type: vless
-  server: 196.245.52.187
-  port: 443
-  reality-opts:
-    public-key: LsaTohbE6CqCH9UbYKwIybVXG3E5Wgz_X9czqas2LAI
-    short-id: 9acff4d98e2fbcc6
-  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
-  udp: true
-  tls: true
-  servername: 35295cx.us8.h1clayd.click
-  sni: 35295cx.us8.h1clayd.click
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: xhttp
-  xhttp-opts:
-    path: /1812842934d4
-    mode: auto
-- name: ZZ · VLESS · yudou · DF4CD620
-  type: vless
-  server: zfapi.zalolink.com
-  port: 30322
-  reality-opts:
-    public-key: 5gncThwqPFzLu23WO3mPTEhG7-KgVYlGVvveHjM2SUo
-    short-id: 6a60e7e382d6
-  uuid: 57beeeb0-03fc-4fc9-94da-7604488a7134
-  flow: xtls-rprx-vision
-  udp: true
-  tls: true
-  servername: psstatic.cdn.bcebos.com
-  sni: psstatic.cdn.bcebos.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: ZZ · VLESS · clashmeta · 04614A3E
-  type: vless
-  server: 207.65.189.9
-  port: 443
-  uuid: 57715fc4-f787-4e90-9eb2-53fa515fbf37
-  network: ws
-  tls: true
-  servername: spsudu.pages.dev
-  client-fingerprint: chrome
-  ws-opts:
-    path: /
-    headers:
-      Host: spsudu.pages.dev
 - name: US · VLESS · clashmeta · F400E166
   type: vless
   server: 162.35.101.177
@@ -376,12 +477,43 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: 204adda7e3da
-- name: ZZ · VLESS · clashmeta · FDF38AB2
+- name: ZZ · VLESS · clashmeta · EAC7ABB4
   type: vless
-  server: 194.60.228.97
+  server: 196.196.149.80
   port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  network: tcp
+  reality-opts:
+    public-key: ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE
+    short-id: 42426c882c5fcd41
+  uuid: 4201786b-d99b-4147-a5f0-20d47acddb81
+  flow: xtls-rprx-vision
+  udp: true
   tls: true
-  servername: base.hosamobenl.co.uk
+  servername: 7aa271t.es1.h1clayd.click
+  sni: 7aa271t.es1.h1clayd.click
+  skip-cert-verify: false
   client-fingerprint: chrome
+- name: ZZ · VLESS · clashmeta · 6DC44DC8
+  type: vless
+  server: 196.196.149.81
+  port: 443
+  reality-opts:
+    public-key: ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE
+    short-id: 42426c882c5fcd41
+  uuid: 4201786b-d99b-4147-a5f0-20d47acddb81
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: 7aa271t.es1.h1clayd.click
+  sni: 7aa271t.es1.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: US · TROJAN · clashmeta · 81BCD16D
+  type: trojan
+  server: sclass-c1.catcat321.com
+  port: 20086
+  udp: true
+  tls: true
+  servername: hk.catxstar.com
+  sni: hk.catxstar.com
+  skip-cert-verify: false
+  password: d9064589-74af-432a-9390-5d8a9da281bf
