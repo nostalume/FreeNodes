@@ -1,20 +1,11 @@
 proxies:
-- name: TW→US · ANYTLS · cfmem · 04111DD9
-  type: anytls
-  server: sdf65h46wr.df6h451rh.xin
-  port: 443
-  tls: true
-  servername: images.ctfassets.net
-  sni: images.ctfassets.net
-  skip-cert-verify: true
-  password: 0324fbc29561
-- name: DE · HYSTERIA · cfmem · AAB5A0E4
+- name: US · HYSTERIA · cfmem · F7D04C56
   type: hysteria
-  server: 5.83.129.90
-  port: 54177
+  server: 38.6.222.130
+  port: 11008
   tls: true
-  servername: apple.com
-  sni: apple.com
+  servername: bing.com
+  sni: bing.com
   skip-cert-verify: true
   alpn:
   - h3
@@ -22,41 +13,34 @@ proxies:
   down: '55'
   password: dongtaiwang.com
   auth-str: dongtaiwang.com
-- name: US · HYSTERIA2 · cfmem · 7C4AAFB9
-  type: hysteria2
-  server: starlink-ft.251313.xyz
-  port: 443
-  tls: true
-  servername: xship.top
-  sni: xship.top
-  skip-cert-verify: true
-  password: https://xship.2fa.cat
-- name: IT · SS · cfmem · FDF7AB8F
+- name: RU→US · SS · cfmem · 5C86A6C5
   type: ss
-  server: 202.50.253.27
-  port: 19999
+  server: 48.103.218.241
+  port: 18443
   cipher: aes-256-gcm
   tls: false
   skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: JP · TROJAN · cfmem · 053C91B9
+  password: Lpq5UPVHtQYiuB9jEUNc2WkeIYCUH9DE
+- name: CN · TROJAN · cfmem · 45B8EFB1
   type: trojan
-  server: sclass-b1.catcat321.com
-  port: 20051
+  server: sclass-01.catcat321.com
+  port: 20103
   tls: true
   servername: hk.catxstar.com
   sni: hk.catxstar.com
   skip-cert-verify: false
   password: d7563108-615c-4338-a7bd-77f359869a4a
-- name: US→DE · VLESS · cfmem · 86A002AE
+- name: US→DE · VLESS · cfmem · 4C2A8C08
   type: vless
   server: free-config-bot-development-33s35.lucity.app
   port: 443
   uuid: 474c5a2e-96eb-fa3f-6639-cbd2129c8027
-  network: ws
   tls: true
   servername: free-config-bot-development-33s35.lucity.app
+  sni: free-config-bot-development-33s35.lucity.app
+  skip-cert-verify: true
   client-fingerprint: firefox
+  network: ws
   ws-opts:
     path: /ws/474c5a2e-96eb-fa3f-6639-cbd2129c8027
     headers:
@@ -76,43 +60,20 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: IT · SS · cfmem · CEA25A54
-  type: ss
-  server: 202.50.253.36
-  port: 19999
-  cipher: aes-256-gcm
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US→DE · VLESS · cfmem · 4C2A8C08
-  type: vless
-  server: free-config-bot-development-33s35.lucity.app
-  port: 443
-  uuid: 474c5a2e-96eb-fa3f-6639-cbd2129c8027
+- name: FR · HYSTERIA · cfmem · F6695F57
+  type: hysteria
+  server: 62.210.124.132
+  port: 24667
   tls: true
-  servername: free-config-bot-development-33s35.lucity.app
-  sni: free-config-bot-development-33s35.lucity.app
+  servername: bing.com
+  sni: bing.com
   skip-cert-verify: true
-  client-fingerprint: firefox
-  network: ws
-  ws-opts:
-    path: /ws/474c5a2e-96eb-fa3f-6639-cbd2129c8027
-    headers:
-      Host: free-config-bot-development-33s35.lucity.app
-- name: US · VMESS · cfmem · FBAE35CE
-  type: vmess
-  server: 172.67.190.164
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  password: dongtaiwang.com
+  auth-str: dongtaiwang.com
 - name: SC→NL · VLESS · cfmem · 41A6F7C3
   type: vless
   server: 196.196.148.63
@@ -129,94 +90,6 @@ proxies:
   network: grpc
   grpc-opts:
     grpc-service-name: 204adda7e3da
-- name: ZZ · VMESS · cfmem · B7490C56
-  type: vmess
-  server: 172.64.145.93
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: SG · VLESS · cfmem · 8E3312C5
-  type: vless
-  server: 84.17.38.250
-  port: 443
-  uuid: 474c5a2e-96eb-fa3f-6639-cbd2129c8027
-  network: ws
-  tls: true
-  servername: free-config-bot-development-33s35.lucity.app
-  client-fingerprint: firefox
-  ws-opts:
-    path: /ws/474c5a2e-96eb-fa3f-6639-cbd2129c8027
-    headers:
-      Host: free-config-bot-development-33s35.lucity.app
-- name: US · VMESS · cfmem · CF30E399
-  type: vmess
-  server: 172.67.190.164
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  tls: true
-  servername: guanwang.awsno.com
-  sni: guanwang.awsno.com
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: SG · VLESS · cfmem · C9E3E571
-  type: vless
-  server: 84.17.38.250
-  port: 443
-  uuid: 474c5a2e-96eb-fa3f-6639-cbd2129c8027
-  tls: true
-  servername: free-config-bot-development-33s35.lucity.app
-  sni: free-config-bot-development-33s35.lucity.app
-  skip-cert-verify: true
-  client-fingerprint: firefox
-  network: ws
-  ws-opts:
-    path: /ws/474c5a2e-96eb-fa3f-6639-cbd2129c8027
-    headers:
-      Host: free-config-bot-development-33s35.lucity.app
-- name: US · VMESS · cfmem · F566E6C3
-  type: vmess
-  server: 104.18.42.163
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: US · VMESS · cfmem · 56887C0F
-  type: vmess
-  server: 104.18.42.163
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  tls: true
-  servername: guanwang.awsno.com
-  sni: guanwang.awsno.com
-  client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
 - name: US · VMESS · cfmem · 9AD75DFC
   type: vmess
   server: 188.114.99.137
@@ -233,9 +106,80 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
+- name: US→DE · VLESS · cfmem · 86A002AE
+  type: vless
+  server: free-config-bot-development-33s35.lucity.app
+  port: 443
+  uuid: 474c5a2e-96eb-fa3f-6639-cbd2129c8027
+  network: ws
+  tls: true
+  servername: free-config-bot-development-33s35.lucity.app
+  client-fingerprint: firefox
+  ws-opts:
+    path: /ws/474c5a2e-96eb-fa3f-6639-cbd2129c8027
+    headers:
+      Host: free-config-bot-development-33s35.lucity.app
 - name: US · VMESS · cfmem · 1C680DCA
   type: vmess
   server: 188.114.99.137
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: TW · VLESS · cfmem · C5F76D8E
+  type: vless
+  server: free.fugui.lol
+  port: 47396
+  reality-opts:
+    public-key: IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ
+    short-id: fa514b83
+  uuid: ead3595f-4020-4e76-a3ec-c248e1a2f2f7
+  flow: xtls-rprx-vision
+  tls: true
+  servername: swdist.apple.com
+  sni: swdist.apple.com
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: US · VMESS · cfmem · 56887C0F
+  type: vmess
+  server: 104.18.42.163
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  servername: guanwang.awsno.com
+  sni: guanwang.awsno.com
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: US · VMESS · cfmem · F566E6C3
+  type: vmess
+  server: 104.18.42.163
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: ZZ · VMESS · cfmem · B7490C56
+  type: vmess
+  server: 172.64.145.93
   port: 443
   uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
   alterId: 0
