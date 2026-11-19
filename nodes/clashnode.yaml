@@ -19,20 +19,6 @@ proxies:
   tls: false
   skip-cert-verify: false
   password: 8yO3ANWefuuGs1lRKXECQA1FEhxlWFV2ppQMcBaZo5Y=
-- name: ZZ · VLESS · clashnode · 830833CC
-  type: vless
-  server: 88.216.60.73
-  port: 443
-  reality-opts:
-    public-key: drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ
-    short-id: a7c92e4b10d6f835
-  uuid: a30903dc-1bf0-4be5-8b1b-603a3a56211c
-  udp: true
-  tls: true
-  servername: ns-api-gw.galioncc.com
-  sni: ns-api-gw.galioncc.com
-  skip-cert-verify: false
-  client-fingerprint: firefox
 - name: ZZ · VLESS · clashnode · FDE00657
   type: vless
   server: 88.216.60.73
@@ -47,6 +33,28 @@ proxies:
   sni: ns-api-gw.galioncc.com
   skip-cert-verify: false
   client-fingerprint: ios
+- name: US · VMESS · clashnode · 1E38B4A4
+  type: vmess
+  server: cf.090227.xyz
+  port: 443
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
+- name: DE · SS · clashnode · 6099E947
+  type: ss
+  server: 47.254.169.3
+  port: 443
+  cipher: 2022-blake3-chacha20-poly1305
+  udp: true
+  tls: false
+  skip-cert-verify: false
+  password: 8yO3ANWefuuGs1lRKXECQA1FEhxlWFV2ppQMcBaZo5Y=
 - name: PL · VLESS · clashnode · 23783D72
   type: vless
   server: 80.47.10.106
@@ -61,54 +69,48 @@ proxies:
   sni: pl8.galioncc.com
   skip-cert-verify: false
   client-fingerprint: firefox
-- name: ZZ · VLESS · clashnode · 5E359993
-  type: vless
-  server: 194.60.228.97
+- name: US · VMESS · clashnode · 20B83886
+  type: vmess
+  server: cf.090227.xyz
   port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  network: tcp
-  tls: true
-  servername: base.hosamobenl.co.uk
-  client-fingerprint: chrome
-- name: ZZ · VLESS · clashnode · F1FD201E
-  type: vless
-  server: 194.60.228.97
-  port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  network: tcp
-  tls: true
-  servername: base.hosamobenl.co.uk
-- name: ZZ · VLESS · clashnode · 7FF78616
-  type: vless
-  server: 194.60.228.97
-  port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
+  uuid: 0cf6d970-3f1d-4aae-a989-92a8f76ae3db
+  alterId: 0
+  cipher: auto
   udp: true
   tls: true
-  servername: base.hosamobenl.co.uk
-  sni: base.hosamobenl.co.uk
   skip-cert-verify: false
-  alpn:
-  - http/1.1
-  client-fingerprint: chrome
-- name: ZZ · VLESS · clashnode · FDF38AB2
+  network: ws
+  ws-opts:
+    path: /ws
+    headers:
+      Host: vmess.lbw666.dpdns.org
+- name: US · VLESS · clashnode · 67931868
   type: vless
-  server: 194.60.228.97
+  server: 172.67.156.147
   port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  network: tcp
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  network: ws
   tls: true
-  servername: base.hosamobenl.co.uk
+  servername: jp3.yohototo.top
   client-fingerprint: chrome
-- name: ZZ · VLESS · clashnode · A13E2BE6
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
+- name: ZZ · VLESS · clashnode · 830833CC
   type: vless
-  server: 194.60.228.97
+  server: 88.216.60.73
   port: 443
-  uuid: 667016ca-f02e-4b5f-bfc3-3d8ed81e9bec
-  network: tcp
+  reality-opts:
+    public-key: drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ
+    short-id: a7c92e4b10d6f835
+  uuid: a30903dc-1bf0-4be5-8b1b-603a3a56211c
+  udp: true
   tls: true
-  servername: base.hosamobenl.co.uk
-  client-fingerprint: chrome
+  servername: ns-api-gw.galioncc.com
+  sni: ns-api-gw.galioncc.com
+  skip-cert-verify: false
+  client-fingerprint: firefox
 - name: ZZ · VLESS · clashnode · DEAFA22B
   type: vless
   server: 196.199.122.2
@@ -124,15 +126,42 @@ proxies:
   sni: 7aa271t.es1.h1clayd.click
   skip-cert-verify: false
   client-fingerprint: chrome
-- name: US · VLESS · clashnode · 67931868
+- name: NL · VLESS · clashnode · C663FFFF
   type: vless
-  server: 172.67.156.147
+  server: f0d7aft.nl13.h1clayd.click
+  port: 443
+  reality-opts:
+    public-key: kkCGiCQCKnkozJR1KKCRNtmdBECmThCgI9VSv7iDcWI
+    short-id: 8956c57cb4c4f8d2
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
+  tls: true
+  servername: f0d7aft.nl13.h1clayd.click
+  sni: f0d7aft.nl13.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: chrome
+- name: DE · VLESS · clashnode · 94960C8F
+  type: vless
+  server: 104.18.42.98
   port: 443
   uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
   network: ws
   tls: true
   servername: jp3.yohototo.top
   client-fingerprint: chrome
+  ws-opts:
+    path: /tyxyws
+    headers:
+      Host: jp3.yohototo.top
+- name: SG · VLESS · clashnode · FB17A85F
+  type: vless
+  server: 43.170.8.95
+  port: 443
+  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+  network: ws
+  tls: true
+  servername: jp3.yohototo.top
+  client-fingerprint: unsafe
   ws-opts:
     path: /tyxyws
     headers:
@@ -202,43 +231,62 @@ proxies:
   sni: 5d0319t.nl7.h1clayd.click
   skip-cert-verify: false
   client-fingerprint: firefox
-- name: SG · TROJAN · clashmeta · 5376D13A
-  type: trojan
-  server: sclass-01.catcat321.com
-  port: 20103
+- name: ZZ · VLESS · clashmeta · 6DC44DC8
+  type: vless
+  server: 196.196.149.81
+  port: 443
+  reality-opts:
+    public-key: ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE
+    short-id: 42426c882c5fcd41
+  uuid: 4201786b-d99b-4147-a5f0-20d47acddb81
+  flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: hk.catxstar.com
-  sni: hk.catxstar.com
+  servername: 7aa271t.es1.h1clayd.click
+  sni: 7aa271t.es1.h1clayd.click
   skip-cert-verify: false
-  password: d7563108-615c-4338-a7bd-77f359869a4a
-- name: US · VMESS · clashmeta · CF30E399
-  type: vmess
-  server: 172.67.190.164
+  client-fingerprint: firefox
+- name: ZZ · VLESS · clashmeta · 18BB910A
+  type: vless
+  server: 196.245.52.187
   port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
+  reality-opts:
+    public-key: UoS8qZ74hP_ECcncCz55lzvlcVss3R7VA0WYZE0YQCY
+    short-id: ba2a3dce62b99092
+  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
+  udp: true
   tls: true
-  servername: guanwang.awsno.com
-  sni: guanwang.awsno.com
+  servername: 04535dt.us8.h1clayd.click
+  sni: 04535dt.us8.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: ZZ · VLESS · clashmeta · EAC7ABB4
+  type: vless
+  server: 196.196.149.80
+  port: 443
+  reality-opts:
+    public-key: ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE
+    short-id: 42426c882c5fcd41
+  uuid: 4201786b-d99b-4147-a5f0-20d47acddb81
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: 7aa271t.es1.h1clayd.click
+  sni: 7aa271t.es1.h1clayd.click
+  skip-cert-verify: false
   client-fingerprint: chrome
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: US · VMESS · clashmeta · FBAE35CE
-  type: vmess
-  server: 172.67.190.164
+- name: US · VLESS · clashmeta · 1C6CC7D9
+  type: vless
+  server: 196.196.149.80
   port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
+  reality-opts:
+    public-key: ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE
+    short-id: 42426c882c5fcd41
+  uuid: 4201786b-d99b-4147-a5f0-20d47acddb81
+  flow: xtls-rprx-vision
+  udp: true
   tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
+  servername: 7aa271t.es1.h1clayd.click
+  sni: 7aa271t.es1.h1clayd.click
+  skip-cert-verify: false
+  client-fingerprint: firefox
