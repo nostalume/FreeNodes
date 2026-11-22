@@ -1,829 +1,116 @@
 proxies:
-- name: FR · HTTP · clashmeta · 602EEC94
+- name: RO · HTTP · shaoyouvip · 39A7BAB8
   type: http
-  server: 172.64.69.89
-  port: 443
+  server: 135.136.1.2
+  port: 9443
   skip-cert-verify: true
+  sub_tag: K001-260618
   tls: true
   udp: true
-  username: "null"
-  password: "null"
-- name: DE · HTTP · shaoyouvip · 41E72FB4
-  type: http
-  server: 172.64.69.89
+  x-toolall-mihomo: true
+  username: ''
+  password: None
+- name: HK · HYSTERIA2 · shaoyouvip · 26123371
+  type: hysteria2
+  server: nb2hk.hikigo.com
   port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: FR · HYSTERIA · shaoyouvip · 23EB299B
-  type: hysteria
-  server: 62.210.124.132
-  port: 24667
   alpn:
   - h3
-  down: '55'
-  servername: bing.com
+  down: 200
+  obfs: salamander
+  obfs-password: o5qgnpl75wayhkn5
   skip-cert-verify: true
-  sni: bing.com
-  up: '11'
+  sni: nb2hk.hikigo.com
   udp: true
-  password: dongtaiwang.com
-  auth-str: dongtaiwang.com
-- name: US · HYSTERIA2 · shaoyouvip · AC142ACD
-  type: hysteria2
-  server: 104.233.178.178
-  port: 443
-  down: ''
-  fingerprint: ''
-  obfs: ''
-  obfs-password: ''
-  skip-cert-verify: true
-  sni: www.bing.com
-  up: ''
-  udp: true
-  password: fanvpn.net
-- name: US · SOCKS5 · shaoyouvip · F05861F5
+  up: 100
+  password: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  auth: 57beeeb0-03fc-4fc9-94da-7604488a7134
+- name: TH · SOCKS5 · shaoyouvip · 839A0F0E
   type: socks5
-  server: 66.253.2.69
+  server: 87.84.49.140
   port: 62000
   udp: true
-  username: u_rb1dba2
-  password: l1tlrdx52v
-- name: ZZ · VMESS · shaoyouvip · 0C44F657
-  type: vmess
-  server: 168.110.63.247
-  port: 8081
-  uuid: c3bde296-8e44-4b8c-a325-577d5b3cc7c8
-  alterId: 0
-  cipher: auto
+  username: ks878449260d
+  password: YlRoWvE0dL_cUqS94wPeKnA4
+- name: FR · VLESS · shaoyouvip · 5AA82C6F
+  type: vless
+  server: 185.133.35.86
+  port: 443
+  uuid: d795a9ec-5ed0-4309-ba6c-edc09b818669
   alpn:
-  - ''
-  network: ws
-  skip-cert-verify: false
-  tls: false
+  - h3
+  - h2
+  - http/1.1
+  client-fingerprint: chrome
+  encryption: none
+  network: xhttp
+  tls: true
   udp: true
-  ws-opts:
-    headers: {}
-    path: /vless
+  xhttp-opts:
+    host: mamafrance.baklajann.ru
+    mode: auto
+    path: /
+    reuse-settings:
+      c-max-reuse-times: '0'
+      h-keep-alive-period: 0
+      h-max-request-times: 600-900
+      h-max-reusable-secs: 1800-3000
+      max-concurrency: '0'
+      max-connections: '4'
   xudp: true
   packet-encoding: xudp
-- name: DE · HTTP · shaoyouvip · 50A95E4B
-  type: http
-  server: 172.64.68.89
+  servername: mamafrance.baklajann.ru
+- name: HK · HYSTERIA2 · shaoyouvip · 81D53221
+  type: hysteria2
+  server: 66hk.mateflora.com
   port: 443
+  alpn:
+  - h3
+  down: 200
+  obfs: salamander
+  obfs-password: aemx2gndpgrt1qau
   skip-cert-verify: true
-  sni: 172.64.68.89
-  tls: true
+  sni: 66hk.mateflora.com
   udp: true
-- name: MX · SOCKS5 · shaoyouvip · E3324ADE
-  type: socks5
-  server: 94.194.166.52
-  port: 42000
-  udp: true
-  username: userLRgK
-  password: KsPAxZGn
-- name: US · HTTP · shaoyouvip · 40E7482B
-  type: http
-  server: 38.95.111.226
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: MX · SOCKS5 · shaoyouvip · 047D6371
-  type: socks5
-  server: 72.57.228.87
-  port: 62000
-  skip-cert-verify: true
-  udp: true
-  username: UBXich0K
-  password: VvUAFi2E
-- name: US · HTTP · shaoyouvip · 1D866657
-  type: http
-  server: 138.199.35.211
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: JP · SOCKS5 · shaoyouvip · 2DD5B6A1
-  type: socks5
-  server: 103.248.150.50
-  port: 42000
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  udp: true
-  x-toolall-mihomo: true
-  username: paZFN3JA
-  password: EGJDy5Kg
-- name: IE · HTTP · shaoyouvip · 118F7AE0
-  type: http
-  server: 34.249.214.108
+  up: 100
+  password: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  auth: 57beeeb0-03fc-4fc9-94da-7604488a7134
+- name: SE · VLESS · shaoyouvip · B2843182
+  type: vless
+  server: 0ef47cx.se4.h1clayd.click
   port: 443
-  tls: true
-  skip-cert-verify: true
-  udp: true
-- name: TH · SOCKS5 · shaoyouvip · 8574E767
-  type: socks5
-  server: 103.14.164.30
-  port: 42000
-  sub_tag: R002-260618
-  udp: true
-  x-toolall-mihomo: true
-  username: route164JIa2CBPxfy
-  password: VAwyJQX0iKMJiyCw5UVK9wGH
-- name: NL · HTTP · shaoyouvip · 513A1027
-  type: http
-  server: 149.36.51.129
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: IT · SOCKS5 · shaoyouvip · 3449D658
-  type: socks5
-  server: 69.16.157.244
-  port: 1080
-  udp: true
-  username: ufCobhydz4Wd
-  password: JdFlrZhqHP
-- name: FR · HTTP · shaoyouvip · A25E0BF7
-  type: http
-  server: 51.159.225.196
-  port: 23856
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · 568DE594
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · 3653EC2C
-  type: http
-  server: 84.17.47.124
-  port: 9002
-  tls: true
-  skip-cert-verify: true
-  udp: true
-- name: FR · HTTP · shaoyouvip · 71CFF601
-  type: http
-  server: 51.159.225.197
-  port: 19362
-  tls: true
-  skip-cert-verify: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · 21992362
-  type: http
-  server: 149.36.50.1
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: LV · HTTP · shaoyouvip · 1B01E568
-  type: http
-  server: 185.219.159.16
-  port: 443
-  tls: true
-  skip-cert-verify: true
-  udp: true
-  password: None
-- name: FR · HTTP · shaoyouvip · D5A6DD9F
-  type: http
-  server: 149.102.245.65
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: HK · HTTP · shaoyouvip · FBF2EC9B
-  type: http
-  server: 38.76.140.254
-  port: 8443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: ES · HTTP · shaoyouvip · CDFB23BF
-  type: http
-  server: 130.195.250.18
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: GR · HTTP · shaoyouvip · 344C4358
-  type: http
-  server: 149.22.85.65
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: AL · HTTP · shaoyouvip · 7B5E7BD9
-  type: http
-  server: 87.120.103.242
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: CZ · HTTP · shaoyouvip · 3F6CC101
-  type: http
-  server: 185.216.35.66
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: US · HTTP · shaoyouvip · A50724F2
-  type: http
-  server: 172.64.68.89
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: US · HTTP · shaoyouvip · B99B96F9
-  type: http
-  server: 138.199.35.218
-  port: 9002
-  skip-cert-verify: true
-  sni: 138.199.35.218
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: US · HTTP · shaoyouvip · C5BD6E2B
-  type: http
-  server: 138.199.35.204
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: US · HTTP · shaoyouvip · 8F43C3C6
-  type: http
-  server: 138.199.35.218
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: US · HTTP · shaoyouvip · 3D132703
-  type: http
-  server: 129.153.93.183
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: US · HTTP · shaoyouvip · 1861389A
-  type: http
-  server: 138.199.35.218
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: US · HTTP · shaoyouvip · 78F03F58
-  type: http
-  server: 152.233.50.145
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: US · HTTP · shaoyouvip · 83A67C23
-  type: http
-  server: 149.34.248.65
-  port: 443
-  skip-cert-verify: true
-  sni: 149.34.248.65
-  tls: true
-  udp: true
-- name: CA · HTTP · shaoyouvip · 630F2985
-  type: http
-  server: 198.44.142.27
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: IE · HTTP · shaoyouvip · CB61923E
-  type: http
-  server: 18.200.158.139
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: DE · HTTP · shaoyouvip · 7A0CA289
-  type: http
-  server: 141.147.19.47
-  port: 12345
-  skip-cert-verify: true
-  udp: true
-  username: ''
-  password: ''
-- name: NL · HTTP · shaoyouvip · 25D458BE
-  type: http
-  server: 84.17.47.126
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · CFD27840
-  type: http
-  server: 84.17.47.147
-  port: 9002
-  skip-cert-verify: true
-  sni: 84.17.47.147
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · C74923B8
-  type: http
-  server: 84.17.47.147
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: NL · HTTP · shaoyouvip · 71650DCF
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  sni: 84.17.47.150
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: NL · HTTP · shaoyouvip · D292F702
-  type: http
-  server: 84.17.47.126
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: NL · HTTP · shaoyouvip · 362DF073
-  type: http
-  server: 84.17.47.125
-  port: 9002
-  skip-cert-verify: true
-  sni: 84.17.47.125
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: None
-- name: DE · HTTP · shaoyouvip · 67781AF8
-  type: http
-  server: 193.233.75.115
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · DE75E646
-  type: http
-  server: 84.17.47.150
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: NL · HTTP · shaoyouvip · 0BB8A25C
-  type: http
-  server: 84.17.47.148
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: BE · HTTP · shaoyouvip · 2E302BF0
-  type: http
-  server: 146.70.123.98
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: CH · HTTP · shaoyouvip · 271DB903
-  type: http
-  server: 31.7.62.50
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: IE · HTTP · shaoyouvip · 22E2B070
-  type: http
-  server: 149.88.96.12
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: LV · HTTP · shaoyouvip · F18AEDA5
-  type: http
-  server: 185.219.159.16
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-- name: DE · HTTP · shaoyouvip · CF5BF8D2
-  type: http
-  server: 158.173.154.2
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: DE · HTTP · shaoyouvip · 18762A66
-  type: http
-  server: 158.173.154.3
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: FR · HTTP · shaoyouvip · 81E2EEF4
-  type: http
-  server: 103.82.101.43
-  port: 443
-  skip-cert-verify: true
-  sni: 76d1d3ecadca44efa2339867d7dfc9a1-8e928736d0f8dbdc.apache-iv.com
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: DE · HTTP · shaoyouvip · 754EF510
-  type: http
-  server: 158.173.154.4
-  port: 9002
-  skip-cert-verify: true
-  sni: 158.173.154.4
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: DE · HTTP · shaoyouvip · 2FB4A814
-  type: http
-  server: 158.173.154.1
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: FR · HTTP · shaoyouvip · AF35413B
-  type: http
-  server: 103.82.101.44
-  port: 443
-  skip-cert-verify: true
-  sni: f3a61d8406d537345747f99f8a281007-3f754ed5da1bba09.apache-iv.com
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: DE · HTTP · shaoyouvip · A4016488
-  type: http
-  server: 158.173.154.5
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: DE · HTTP · shaoyouvip · A24E3002
-  type: http
-  server: 158.173.154.4
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: GB · HTTP · shaoyouvip · 17C7C781
-  type: http
-  server: 84.17.50.193
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: DE · HTTP · shaoyouvip · DF0F2D49
-  type: http
-  server: 158.173.154.3
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: DE · HTTP · shaoyouvip · 24C70EB9
-  type: http
-  server: 158.173.154.4
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: DE · HTTP · shaoyouvip · FEF62CF0
-  type: http
-  server: 158.173.154.2
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: FR · HTTP · shaoyouvip · 09CC17D6
-  type: http
-  server: 84.235.228.156
-  port: 443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: FR · HTTP · shaoyouvip · ADF097B6
-  type: http
-  server: 82.66.235.221
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: FR · HTTP · shaoyouvip · 719F96F6
-  type: http
-  server: 82.66.235.221
-  port: 443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: CZ · HTTP · shaoyouvip · E1EE2EF8
-  type: http
-  server: 152.233.16.174
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: EC · HTTP · shaoyouvip · 989536ED
-  type: http
-  server: 38.165.231.71
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: ''
-- name: DE · HTTP · shaoyouvip · B298B13E
-  type: http
-  server: 159.69.94.125
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: PL · HTTP · shaoyouvip · 6A02BE48
-  type: http
-  server: 151.115.54.133
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: DE · HTTP · shaoyouvip · 566F0572
-  type: http
-  server: 87.106.223.158
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: DK · HTTP · shaoyouvip · 53D9228F
-  type: http
-  server: 185.245.84.50
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: IS · HTTP · shaoyouvip · 5CD12DA3
-  type: http
-  server: 185.165.170.1
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: RO · HTTP · shaoyouvip · 4BB5C6B5
-  type: http
-  server: 193.176.84.26
-  port: 9002
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  udp: true
-- name: RO · HTTP · shaoyouvip · FA3B5B71
-  type: http
-  server: 193.176.84.26
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: BR · HTTP · shaoyouvip · 6569D25C
-  type: http
-  server: 134.65.17.77
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: RO · HTTP · shaoyouvip · E1F64BF4
-  type: http
-  server: 193.176.84.24
-  port: 9002
-  skip-cert-verify: true
-  sni: www.bing.com
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: RO · HTTP · shaoyouvip · B1EF6AD3
-  type: http
-  server: 193.176.84.18
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-- name: AL · HTTP · shaoyouvip · 93767B61
-  type: http
-  server: 87.120.103.226
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: IL · HTTP · shaoyouvip · 5281D65D
-  type: http
-  server: 62.90.77.30
-  port: 443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: IL · HTTP · shaoyouvip · EDDD3219
-  type: http
-  server: 62.90.77.30
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: "null"
-  password: "null"
-- name: CY · HTTP · shaoyouvip · 2F455C62
-  type: http
-  server: 213.207.130.34
-  port: 443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  username: ''
-  password: None
-- name: GE · HTTP · shaoyouvip · 5F7CE2D9
-  type: http
-  server: 195.54.178.210
-  port: 443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  x-toolall-mihomo: true
-  password: None
-- name: RU · HTTP · shaoyouvip · 172610AF
-  type: http
-  server: 46.29.166.134
-  port: 1446
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
+  reality-opts:
+    public-key: LZhuBYUqlo8epvzFF3tOPMZ_vjZPN1sraOYy2CKtcz4
+    short-id: 356cc54d885a4036
+  uuid: f15a2e25-6859-4bcc-b4c4-a14bb8ae0fbb
+  client-fingerprint: chrome
+  network: xhttp
+  tls: true
+  udp: true
+  xhttp-opts:
+    host: 0ef47cx.se4.h1clayd.click
+    mode: auto
+    path: /444de120fb2d
+  servername: 0ef47cx.se4.h1clayd.click
+- name: DE · HYSTERIA2 · shaoyouvip · AD44BA1B
+  type: hysteria2
+  server: a3dee.supertoolify.com
+  port: 4430
+  alpn:
+  - h3
+  down: 200
+  obfs: salamander
+  obfs-password: off3io88xwyc76g8
+  skip-cert-verify: true
+  sni: psstatic.cdn.bcebos.com
+  udp: true
+  up: 100
+  password: 57beeeb0-03fc-4fc9-94da-7604488a7134
+  auth: 57beeeb0-03fc-4fc9-94da-7604488a7134
+- name: ZZ · SS · clashstair · AC0AF0AE
+  type: ss
+  server: 202.50.253.27
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
