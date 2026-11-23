@@ -1,63 +1,139 @@
 proxies:
-- name: ZZ · SS · yudou · 1BF34FC1
-  type: ss
-  server: 48.103.218.77
-  port: 18443
-  cipher: aes-256-gcm
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: 5mKjXAGrliIAlYwWDeFzkCEMIgQdFQLe
-- name: ZZ · TROJAN · yudou · 5376D13A
-  type: trojan
-  server: sclass-01.catcat321.com
-  port: 20103
+- name: ZZ · VLESS · yudou · BB174F2C
+  type: vless
+  server: 176.98.176.60
+  port: 443
+  uuid: 7ad63b26-bf70-4872-8fab-ebaf73a1e19d
+  flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: hk.catxstar.com
-  sni: hk.catxstar.com
+  servername: mosaic.topp-con.xyz
+  sni: mosaic.topp-con.xyz
   skip-cert-verify: false
-  password: d7563108-615c-4338-a7bd-77f359869a4a
-- name: ZZ · VLESS · yudou · 47236A8F
+  alpn:
+  - h2
+  - http/1.1
+  client-fingerprint: firefox
+- name: ZZ · VLESS · yudou · D067216B
   type: vless
-  server: 172.64.154.113
-  port: 8443
-  uuid: 53bbdad4-2f4e-45db-8df4-fa491a6a7227
+  server: 156.243.244.19
+  port: 443
+  uuid: e062e0eb-6c21-47e3-8300-7eece5f8941d
+  network: tcp
+  tls: true
+  servername: jp.kbkkb.de5.net
+  flow: xtls-rprx-vision
+- name: ZZ · VLESS · yudou · 5972D7A4
+  type: vless
+  server: 156.243.244.19
+  port: 443
+  uuid: e062e0eb-6c21-47e3-8300-7eece5f8941d
+  flow: xtls-rprx-vision
   udp: true
   tls: true
-  servername: freeceshi6.frii.site
-  sni: freeceshi6.frii.site
+  servername: jp.kbkkb.de5.net
+  sni: jp.kbkkb.de5.net
   skip-cert-verify: false
+- name: ZZ · VLESS · yudou · 8243B90A
+  type: vless
+  server: 8.47.69.6
+  port: 2083
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  udp: true
+  tls: true
+  servername: newwk1.f1w.de5.net
+  sni: newwk1.f1w.de5.net
+  skip-cert-verify: false
+  client-fingerprint: firefox
   network: ws
   ws-opts:
-    path: /proxyip=ProxyIP.JP.CMLiussss.net
+    path: /
     headers:
-      Host: freeceshi6.frii.site
-- name: ZZ · VLESS · yudou · 262F842B
+      Host: newwk1.f1w.de5.net
+- name: ZZ · VLESS · yudou · 4C713627
   type: vless
-  server: 172.64.154.113
-  port: 8443
-  uuid: 53bbdad4-2f4e-45db-8df4-fa491a6a7227
+  server: 8.47.69.6
+  port: 2083
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
   network: ws
   tls: true
-  servername: freeceshi6.frii.site
+  servername: newwk1.f1w.de5.net
+  client-fingerprint: firefox
   ws-opts:
-    path: /proxyip=ProxyIP.JP.CMLiussss.net
+    path: /
     headers:
-      Host: freeceshi6.frii.site
-- name: ZZ · VLESS · yudou · C67B18A3
+      Host: newwk1.f1w.de5.net
+- name: ZZ · VLESS · yudou · BFE009AB
   type: vless
-  server: 48.102.173.24
-  port: 444
-  uuid: ef5a57c7-84d5-4f86-b99c-875a16da485f
+  server: 172.67.79.160
+  port: 2087
+  uuid: a4a951b9-901d-4db8-8a7d-6df82c4b5c23
   network: ws
   tls: true
-  servername: neplay603.gangtype.com
+  servername: cvhpyn.pages.dev
+  client-fingerprint: chrome
   ws-opts:
-    path: /stream/updates/a66d7902
+    path: /
     headers:
-      Host: neplay603.gangtype.com
-- name: ZZ · VLESS · yudou · DC8BDB84
+      Host: cvhpyn.pages.dev
+- name: ZZ · VLESS · yudou · BB1D0397
+  type: vless
+  server: 172.67.79.160
+  port: 2087
+  uuid: a4a951b9-901d-4db8-8a7d-6df82c4b5c23
+  udp: true
+  tls: true
+  servername: cvhpyn.pages.dev
+  sni: cvhpyn.pages.dev
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: cvhpyn.pages.dev
+- name: ZZ · VLESS · yudou · 168A28FD
+  type: vless
+  server: 176.98.176.60
+  port: 443
+  uuid: 7ad63b26-bf70-4872-8fab-ebaf73a1e19d
+  flow: xtls-rprx-vision
+  udp: true
+  tls: true
+  servername: mosaic.topp-con.xyz
+  sni: mosaic.topp-con.xyz
+  skip-cert-verify: false
+  client-fingerprint: firefox
+- name: ZZ · VLESS · yudou · B18ADB24
+  type: vless
+  server: 146.19.213.60
+  port: 443
+  uuid: bf14dc50-e9f2-49fd-8642-620446edeafb
+  network: ws
+  tls: true
+  servername: v6-95o.pages.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: v6-95o.pages.dev
+- name: ZZ · VLESS · yudou · 6884BD26
+  type: vless
+  server: 146.19.213.60
+  port: 443
+  uuid: bf14dc50-e9f2-49fd-8642-620446edeafb
+  udp: true
+  tls: true
+  servername: v6-95o.pages.dev
+  sni: v6-95o.pages.dev
+  skip-cert-verify: false
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: v6-95o.pages.dev
+- name: US · VLESS · clashmeta · DC8BDB84
   type: vless
   server: 48.102.173.24
   port: 444
@@ -72,66 +148,45 @@ proxies:
     path: /stream/updates/a66d7902
     headers:
       Host: neplay603.gangtype.com
-- name: ZZ · VLESS · yudou · D68D2783
+- name: US · VLESS · clashmeta · C67B18A3
   type: vless
-  server: free.fugui.lol
-  port: 19482
-  reality-opts:
-    public-key: IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ
-    short-id: fa514b83
-  uuid: ead3595f-4020-4e76-a3ec-c248e1a2f2f7
-  flow: xtls-rprx-vision
-  udp: true
+  server: 48.102.173.24
+  port: 444
+  uuid: ef5a57c7-84d5-4f86-b99c-875a16da485f
+  network: ws
   tls: true
-  servername: swdist.apple.com
-  sni: swdist.apple.com
-  skip-cert-verify: false
-  client-fingerprint: chrome
-- name: ZZ · VLESS · yudou · 5972D7A4
+  servername: neplay603.gangtype.com
+  ws-opts:
+    path: /stream/updates/a66d7902
+    headers:
+      Host: neplay603.gangtype.com
+- name: RU · VLESS · clashmeta · 1B565DA9
   type: vless
-  server: 156.243.244.19
+  server: 136.148.83.69
   port: 443
-  uuid: e062e0eb-6c21-47e3-8300-7eece5f8941d
-  flow: xtls-rprx-vision
-  udp: true
-  tls: true
-  servername: jp.kbkkb.de5.net
-  sni: jp.kbkkb.de5.net
-  skip-cert-verify: false
-- name: ZZ · VLESS · yudou · D067216B
-  type: vless
-  server: 156.243.244.19
-  port: 443
-  uuid: e062e0eb-6c21-47e3-8300-7eece5f8941d
+  uuid: 666821a2-5c3d-0001-a56f-5a3a562d7324
   network: tcp
   tls: true
-  servername: jp.kbkkb.de5.net
-  flow: xtls-rprx-vision
-- name: ZZ · SS · wzmwayne · E29FC4F4
-  type: ss
-  server: 192.6.83.24
-  port: 8388
-  cipher: chacha20-ietf-poly1305
-  udp: true
-  tls: false
-  skip-cert-verify: false
-  password: my8gGU2rn0qBviYEW6F6
-- name: NL · VLESS · clashmeta · 38D78FAD
+  servername: szqbx-ru-77dc.my-fade.cloud
+  client-fingerprint: qq
+- name: US · VLESS · clashmeta · 26A0A0CC
   type: vless
-  server: 94.183.164.176
+  server: 136.148.83.69
   port: 443
-  reality-opts:
-    public-key: _KeOS5u_irk1547CMVB3RdwQzz1SzrQZk-IV-btF7TU
-  uuid: 12776e55-6230-48b9-b069-1bb8a04b4237
-  udp: true
+  uuid: 666821a2-5c3d-0001-a56f-5a3a562d7324
+  network: tcp
   tls: true
-  servername: optim.tildacdn.pub
-  sni: optim.tildacdn.pub
-  skip-cert-verify: false
+  servername: szqbx-ru-77dc.my-fade.cloud
+  client-fingerprint: qq
+- name: GB · VLESS · clashmeta · 917F7CCF
+  type: vless
+  server: 136.148.83.69
+  port: 443
+  uuid: 666821a2-5c3d-0001-a56f-5a3a562d7324
+  network: tcp
+  tls: true
+  servername: szqbx-ru-77dc.my-fade.cloud
   client-fingerprint: chrome
-  network: grpc
-  grpc-opts:
-    grpc-service-name: ebl
 - name: RU · VLESS · clashmeta · 75E117C5
   type: vless
   server: 176.98.176.60
@@ -152,67 +207,21 @@ proxies:
   servername: mosaic.topp-con.xyz
   flow: xtls-rprx-vision
   client-fingerprint: firefox
-- name: US · VLESS · clashmeta · 97186144
-  type: vless
-  server: 104.18.153.10
-  port: 443
-  uuid: 4e4f1f70-5e56-4a76-bb9d-db087f4690c4
+- name: US · SS · clashmeta · 1BF34FC1
+  type: ss
+  server: 48.103.218.77
+  port: 18443
+  cipher: aes-256-gcm
   udp: true
-  tls: true
-  servername: jp3.yohototo.top
-  sni: jp3.yohototo.top
+  tls: false
   skip-cert-verify: false
-  client-fingerprint: unsafe
-  network: ws
-  ws-opts:
-    path: /tyxyws
-    headers:
-      Host: jp3.yohototo.top
-- name: US · VLESS · clashmeta · F400E166
+  password: 5mKjXAGrliIAlYwWDeFzkCEMIgQdFQLe
+- name: RU · VLESS · clashmeta · D015717D
   type: vless
-  server: 162.35.101.177
+  server: 136.148.83.69
   port: 443
-  reality-opts:
-    public-key: cO3wYHISTeorXcM8ffaDCDdqZ-olBQL-GyZqb-W7rTk
-    short-id: bd8f712209a9c283
-  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
-  udp: true
+  uuid: 666821a2-5c3d-0001-a56f-5a3a562d7324
+  network: tcp
   tls: true
-  servername: 0592efg.us8.h1clayd.click
-  sni: 0592efg.us8.h1clayd.click
-  skip-cert-verify: false
-  client-fingerprint: edge
-  network: grpc
-  grpc-opts:
-    grpc-service-name: 99f2107b03f8
-- name: ZZ · VLESS · clashmeta · B7214F7A
-  type: vless
-  server: 196.245.52.183
-  port: 443
-  reality-opts:
-    public-key: zbz--PMjcIC4Ggr3j-ibDf0fzXRTj0lM_HzjPJyMkVE
-    short-id: 50a749f0eccb628c
-  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
-  udp: true
-  tls: true
-  servername: 15b171g.nl7.h1clayd.click
-  sni: 15b171g.nl7.h1clayd.click
-  skip-cert-verify: false
-  client-fingerprint: firefox
-  network: grpc
-  grpc-opts:
-    grpc-service-name: 5b79e8a94241
-- name: ZZ · VLESS · clashmeta · 128A46E4
-  type: vless
-  server: 196.196.148.85
-  port: 443
-  reality-opts:
-    public-key: l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs
-    short-id: 361d0dd59c70516f
-  uuid: cda0862a-0f87-4be9-8ed8-1d0c9e382839
-  udp: true
-  tls: true
-  servername: 5d0319t.nl7.h1clayd.click
-  sni: 5d0319t.nl7.h1clayd.click
-  skip-cert-verify: false
-  client-fingerprint: firefox
+  servername: szqbx-ru-77dc.my-fade.cloud
+  client-fingerprint: qq
