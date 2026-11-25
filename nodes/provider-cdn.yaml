@@ -13,6 +13,7 @@ proxy-groups:
 - name: 🚀 Auto
   type: url-test
   use:
+  - cfmem
   - clashmeta
   - clashnode
   - clashstair
@@ -22,7 +23,6 @@ proxy-groups:
   - kooker
   - nodev2ray
   - radikal
-  - shaoyouvip
   - ts-sf-clash
   - ts-sf-v2ray
   - wzmwayne
@@ -39,6 +39,7 @@ proxy-groups:
   - 🚀 Auto
   - DIRECT
   use:
+  - cfmem
   - clashmeta
   - clashnode
   - clashstair
@@ -48,7 +49,6 @@ proxy-groups:
   - kooker
   - nodev2ray
   - radikal
-  - shaoyouvip
   - ts-sf-clash
   - ts-sf-v2ray
   - wzmwayne
@@ -99,6 +99,11 @@ rules:
 - GEOIP,CN,🇨🇳 Mainland China,no-resolve
 - MATCH,🌍 Proxy
 proxy-providers:
+  cfmem:
+    type: http
+    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/cfmem.yaml
+    path: ./proxy_providers/cfmem.yaml
+    interval: 3600
   clashmeta:
     type: http
     url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/clashmeta.yaml
@@ -143,11 +148,6 @@ proxy-providers:
     type: http
     url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/radikal.yaml
     path: ./proxy_providers/radikal.yaml
-    interval: 3600
-  shaoyouvip:
-    type: http
-    url: https://cdn.jsdelivr.net/gh/nostalume/FreeNodes/nodes/shaoyouvip.yaml
-    path: ./proxy_providers/shaoyouvip.yaml
     interval: 3600
   ts-sf-clash:
     type: http
