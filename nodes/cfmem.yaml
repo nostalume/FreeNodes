@@ -1,18 +1,18 @@
 proxies:
-- name: HK · ANYTLS · cfmem · A2D62B73
+- name: TW · ANYTLS · cfmem · 31C635EB
   type: anytls
-  server: 5641sdds.df6h451rh.xin
+  server: a54ge.df6h451rh.xin
   port: 443
   tls: true
-  servername: images.ctfassets.net
-  sni: images.ctfassets.net
+  servername: docs.microsoft.com
+  sni: docs.microsoft.com
   skip-cert-verify: true
   client-fingerprint: chrome
   password: 0324fbc29561
-- name: US · HYSTERIA · cfmem · 11CEB002
+- name: US · HYSTERIA · cfmem · 23DC2983
   type: hysteria
-  server: 38.6.222.131
-  port: 11008
+  server: 137.175.82.41
+  port: 20022
   tls: true
   servername: bing.com
   sni: bing.com
@@ -40,9 +40,55 @@ proxies:
   tls: false
   skip-cert-verify: false
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · cfmem · CF30E399
+- name: US · VMESS · cfmem · 1C680DCA
   type: vmess
-  server: 172.67.190.164
+  server: 188.114.99.137
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: HK · ANYTLS · cfmem · A2D62B73
+  type: anytls
+  server: 5641sdds.df6h451rh.xin
+  port: 443
+  tls: true
+  servername: images.ctfassets.net
+  sni: images.ctfassets.net
+  skip-cert-verify: true
+  client-fingerprint: chrome
+  password: 0324fbc29561
+- name: US · HYSTERIA · cfmem · A96DAA72
+  type: hysteria
+  server: 38.6.222.132
+  port: 11008
+  tls: true
+  servername: bing.com
+  sni: bing.com
+  skip-cert-verify: true
+  alpn:
+  - h3
+  up: '11'
+  down: '55'
+  password: dongtaiwang.com
+  auth-str: dongtaiwang.com
+- name: IT · SS · cfmem · 8C6907CE
+  type: ss
+  server: 202.50.253.99
+  port: 19999
+  cipher: aes-256-gcm
+  tls: false
+  skip-cert-verify: false
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · VMESS · cfmem · 56887C0F
+  type: vmess
+  server: 104.18.42.163
   port: 443
   uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
   alterId: 0
@@ -65,10 +111,10 @@ proxies:
   sni: docs.microsoft.com
   skip-cert-verify: true
   password: 2902c46c8493
-- name: US · HYSTERIA · cfmem · 23DC2983
+- name: US · HYSTERIA · cfmem · 11CEB002
   type: hysteria
-  server: 137.175.82.41
-  port: 20022
+  server: 38.6.222.131
+  port: 11008
   tls: true
   servername: bing.com
   sni: bing.com
@@ -79,9 +125,9 @@ proxies:
   down: '55'
   password: dongtaiwang.com
   auth-str: dongtaiwang.com
-- name: IT · SS · cfmem · 6E09DE62
+- name: IT · SS · cfmem · BFA4B9A1
   type: ss
-  server: 202.50.253.90
+  server: 202.50.253.45
   port: 19999
   cipher: aes-256-gcm
   tls: false
@@ -102,44 +148,6 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: TW · ANYTLS · cfmem · 31C635EB
-  type: anytls
-  server: a54ge.df6h451rh.xin
-  port: 443
-  tls: true
-  servername: docs.microsoft.com
-  sni: docs.microsoft.com
-  skip-cert-verify: true
-  client-fingerprint: chrome
-  password: 0324fbc29561
-- name: US · HYSTERIA · cfmem · A96DAA72
-  type: hysteria
-  server: 38.6.222.132
-  port: 11008
-  tls: true
-  servername: bing.com
-  sni: bing.com
-  skip-cert-verify: true
-  alpn:
-  - h3
-  up: '11'
-  down: '55'
-  password: dongtaiwang.com
-  auth-str: dongtaiwang.com
-- name: US · VMESS · cfmem · 1C680DCA
-  type: vmess
-  server: 188.114.99.137
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
 - name: FR · HYSTERIA · cfmem · F6695F57
   type: hysteria
   server: 62.210.124.132
@@ -154,14 +162,66 @@ proxies:
   down: '55'
   password: dongtaiwang.com
   auth-str: dongtaiwang.com
-- name: IT · SS · cfmem · 8C6907CE
+- name: IT · SS · cfmem · 6E09DE62
   type: ss
-  server: 202.50.253.99
+  server: 202.50.253.90
   port: 19999
   cipher: aes-256-gcm
   tls: false
   skip-cert-verify: false
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: US · VMESS · cfmem · F566E6C3
+  type: vmess
+  server: 104.18.42.163
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: DE · SS · cfmem · 222559BC
+  type: ss
+  server: 47.254.128.109
+  port: 443
+  cipher: 2022-blake3-chacha20-poly1305
+  tls: false
+  skip-cert-verify: false
+  password: 8yO3ANWefuuGs1lRKXECQA1FEhxlWFV2ppQMcBaZo5Y=
+- name: US · VMESS · cfmem · CF30E399
+  type: vmess
+  server: 172.67.190.164
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  tls: true
+  servername: guanwang.awsno.com
+  sni: guanwang.awsno.com
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: US · VMESS · cfmem · D5F58E7E
+  type: vmess
+  server: www.shopify.com
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
 - name: US · VMESS · cfmem · 4EC7078A
   type: vmess
   server: www.shopify.com
@@ -172,30 +232,6 @@ proxies:
   tls: true
   servername: guanwang.awsno.com
   sni: guanwang.awsno.com
-  network: ws
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: IT · SS · cfmem · BFA4B9A1
-  type: ss
-  server: 202.50.253.45
-  port: 19999
-  cipher: aes-256-gcm
-  tls: false
-  skip-cert-verify: false
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · cfmem · 56887C0F
-  type: vmess
-  server: 104.18.42.163
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  tls: true
-  servername: guanwang.awsno.com
-  sni: guanwang.awsno.com
-  client-fingerprint: chrome
   network: ws
   ws-opts:
     path: /hls/cctv5phd.m3u8
@@ -217,51 +253,23 @@ proxies:
     path: /hls/cctv5phd.m3u8
     headers:
       Host: guanwang.awsno.com
-- name: ZZ · VMESS · cfmem · B7490C56
-  type: vmess
-  server: 172.64.145.93
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: US · VMESS · cfmem · D5F58E7E
-  type: vmess
-  server: www.shopify.com
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
-- name: US · VMESS · cfmem · F566E6C3
-  type: vmess
-  server: 104.18.42.163
-  port: 443
-  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
-  alterId: 0
-  cipher: auto
-  network: ws
-  tls: true
-  servername: guanwang.awsno.com
-  ws-opts:
-    path: /hls/cctv5phd.m3u8
-    headers:
-      Host: guanwang.awsno.com
 - name: US · VMESS · cfmem · FBAE35CE
   type: vmess
   server: 172.67.190.164
+  port: 443
+  uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
+  alterId: 0
+  cipher: auto
+  network: ws
+  tls: true
+  servername: guanwang.awsno.com
+  ws-opts:
+    path: /hls/cctv5phd.m3u8
+    headers:
+      Host: guanwang.awsno.com
+- name: ZZ · VMESS · cfmem · B7490C56
+  type: vmess
+  server: 172.64.145.93
   port: 443
   uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
   alterId: 0

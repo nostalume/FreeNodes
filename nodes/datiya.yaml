@@ -1,45 +1,4 @@
 proxies:
-- name: HK · ANYTLS · datiya · 52788C3D
-  type: anytls
-  server: ibsdsf.df6h451rh.xin
-  port: 443
-  client-fingerprint: chrome
-  udp: true
-  sni: docs.microsoft.com
-  skip-cert-verify: true
-  password: 2902c46c8493
-- name: TW · ANYTLS · datiya · 0AED35A4
-  type: anytls
-  server: a54ge.df6h451rh.xin
-  port: 443
-  client-fingerprint: chrome
-  udp: true
-  sni: docs.microsoft.com
-  skip-cert-verify: true
-  password: 0324fbc29561
-- name: ZZ · SS · clashstair · 91037D35
-  type: ss
-  server: 202.50.253.63
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: KR · VLESS · datiya · CB0656B9
-  type: vless
-  server: 43.108.109.112
-  port: 443
-  reality-opts:
-    public-key: vrFq4-k-eiTSyRF3T3e7Fqmlv4XSKmByKYsw55zeX3w
-    short-id: b79a86e2b1a586a0
-  uuid: 4ded3111-b418-475a-93de-0360932508b2
-  tls: true
-  tfo: false
-  flow: xtls-rprx-vision
-  skip-cert-verify: true
-  servername: www.samsung.com
-  client-fingerprint: chrome
-  network: tcp
-  udp: true
 - name: HK · ANYTLS · datiya · 08868382
   type: anytls
   server: 5641sdds.df6h451rh.xin
@@ -49,22 +8,32 @@ proxies:
   sni: images.ctfassets.net
   skip-cert-verify: true
   password: 0324fbc29561
-- name: HK · VLESS · datiya · A06CF909
+- name: JP · VLESS · datiya · 2B4F476B
   type: vless
-  server: 116.213.43.43
-  port: 11107
-  reality-opts:
-    public-key: 6GRzkPbs12fKBdBBFzs5dmtmbSHCXMngUCBKLrXYm3U
-    short-id: e2ccd8eedcbee2ce
-  uuid: 08a37d1f-7bf1-4b5d-a2ec-5ced6a633d7f
+  server: 45.32.57.15
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
   tls: true
   tfo: false
-  flow: xtls-rprx-vision
   skip-cert-verify: true
-  servername: www.apple.com
+  servername: senflarelink-node-nwz76h.pages.dev
   client-fingerprint: chrome
-  network: tcp
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-nwz76h.pages.dev
+    v2ray-http-upgrade: false
   udp: true
+- name: HK · ANYTLS · datiya · 52788C3D
+  type: anytls
+  server: ibsdsf.df6h451rh.xin
+  port: 443
+  client-fingerprint: chrome
+  udp: true
+  sni: docs.microsoft.com
+  skip-cert-verify: true
+  password: 2902c46c8493
 - name: TW · VLESS · datiya · DAEBF7C7
   type: vless
   server: 116.213.43.43
@@ -81,21 +50,38 @@ proxies:
   client-fingerprint: chrome
   network: tcp
   udp: true
-- name: HK · VLESS · datiya · 28766BF3
+- name: CD · SS · clashstair · 91037D35
+  type: ss
+  server: 202.50.253.63
+  port: 19999
+  cipher: aes-256-gcm
+  udp: true
+  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
+- name: TW · ANYTLS · datiya · 0AED35A4
+  type: anytls
+  server: a54ge.df6h451rh.xin
+  port: 443
+  client-fingerprint: chrome
+  udp: true
+  sni: docs.microsoft.com
+  skip-cert-verify: true
+  password: 0324fbc29561
+- name: JP · VLESS · datiya · 2FD2BCAE
   type: vless
-  server: 116.213.43.43
-  port: 11103
-  reality-opts:
-    public-key: 5NNdXPMTBLP-xeDKFwcG-j6u-c4DhXIfnlHMqMJZ4n4
-    short-id: 9564e1a7a1cf8b3a
-  uuid: bb836d81-d0c5-4f01-a584-806cdf65e36a
+  server: 166.88.14.71
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
   tls: true
   tfo: false
-  flow: xtls-rprx-vision
   skip-cert-verify: true
-  servername: www.apple.com
+  servername: senflarelink-node-71i.pages.dev
   client-fingerprint: chrome
-  network: tcp
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-71i.pages.dev
+    v2ray-http-upgrade: false
   udp: true
 - name: ZZ · SS · clashstair · AC0AF0AE
   type: ss
@@ -104,35 +90,224 @@ proxies:
   cipher: aes-256-gcm
   udp: true
   password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · datiya · B129E766
+- name: KR · VLESS · datiya · 6D259AD2
   type: vless
-  server: 116.213.43.43
-  port: 11105
-  reality-opts:
-    public-key: ghxoNrFX488_gXprrfDt-03Lkxj3YFqS2q-DDw-m6yE
-    short-id: d9180a5730e950d2
-  uuid: 31d5b95e-aff2-4ffb-8160-b5ae941b46f6
+  server: 131.186.22.95
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
   tls: true
   tfo: false
-  flow: xtls-rprx-vision
   skip-cert-verify: true
-  servername: www.apple.com
+  servername: senflarelink-node-il65vh.pages.dev
   client-fingerprint: chrome
-  network: tcp
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-il65vh.pages.dev
+    v2ray-http-upgrade: false
   udp: true
-- name: JP · VLESS · datiya · F97FCAD1
+- name: HK · VLESS · datiya · 2BACBB0A
   type: vless
-  server: 116.213.43.43
-  port: 11101
-  reality-opts:
-    public-key: 2eUT-b2e2lghUKWM3qf8uI3_Dphg9whKrQ08o4S-bzw
-    short-id: 82f99830e7b834e2
-  uuid: ca69a29d-60ef-433a-91bc-27537be993c8
+  server: 151.158.0.83
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
   tls: true
   tfo: false
-  flow: xtls-rprx-vision
   skip-cert-verify: true
-  servername: www.apple.com
+  servername: senflarelink-node-6b9.pages.dev
   client-fingerprint: chrome
-  network: tcp
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-6b9.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: TW · VLESS · datiya · 297E12DC
+  type: vless
+  server: 154.40.61.186
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-wj1gsa.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-wj1gsa.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: SG · VLESS · datiya · 77E42BE0
+  type: vless
+  server: 43.134.187.97
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-2ott2x.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-2ott2x.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: SG · VLESS · datiya · A0707005
+  type: vless
+  server: 43.159.41.66
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-il65vh.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-il65vh.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: HK · VLESS · datiya · ACEA2AA0
+  type: vless
+  server: 206.237.18.145
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-m3bfbn.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-m3bfbn.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: KR · VLESS · datiya · FCECB63A
+  type: vless
+  server: 14.44.19.57
+  port: 12101
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-nwz76h.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-nwz76h.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: US · VLESS · datiya · 4008FB2F
+  type: vless
+  server: 179.255.137.204
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-xfcyh2.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-xfcyh2.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: US · VLESS · datiya · 983CCB61
+  type: vless
+  server: 179.255.132.42
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-71i.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-71i.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: TG · VLESS · datiya · DC258F03
+  type: vless
+  server: cloudflare.seeck.cn
+  port: 443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-xfcyh2.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-xfcyh2.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: HK · VLESS · datiya · 9847F156
+  type: vless
+  server: 185.206.171.66
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-7uv.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-7uv.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: DE · VLESS · datiya · 29BBC292
+  type: vless
+  server: 178.104.77.229
+  port: 8443
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-m3bfbn.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-m3bfbn.pages.dev
+    v2ray-http-upgrade: false
+  udp: true
+- name: SG · VLESS · datiya · 42F31964
+  type: vless
+  server: 13.140.95.76
+  port: 2087
+  uuid: b69cf773-da16-486e-afce-a45b94f998b3
+  tls: true
+  tfo: false
+  skip-cert-verify: true
+  servername: senflarelink-node-6b9.pages.dev
+  client-fingerprint: chrome
+  network: ws
+  ws-opts:
+    path: /
+    headers:
+      Host: senflarelink-node-6b9.pages.dev
+    v2ray-http-upgrade: false
   udp: true
