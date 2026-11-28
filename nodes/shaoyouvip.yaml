@@ -1,18 +1,4 @@
 proxies:
-- name: ZZ · SS · clashstair · D6F9F1E5
-  type: ss
-  server: 202.50.253.90
-  port: 19999
-  cipher: aes-256-gcm
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: BE · HTTP · shaoyouvip · E9F1F93E
-  type: http
-  server: 146.70.123.98
-  port: 443
-  tls: true
-  skip-cert-verify: true
-  udp: true
 - name: US · HYSTERIA · shaoyouvip · 388BD798
   type: hysteria
   server: 38.6.222.132
@@ -27,47 +13,33 @@ proxies:
   udp: true
   password: dongtaiwang.com
   auth-str: dongtaiwang.com
-- name: DE · HYSTERIA2 · shaoyouvip · 404BAA7A
+- name: DE · HYSTERIA2 · shaoyouvip · D3DF8550
   type: hysteria2
   server: uk-tube-01.stre4m.net
   port: 13337
-  servername: mother-earth.fyi
+  down: ''
+  fingerprint: ''
+  obfs: ''
+  obfs-password: ''
+  skip-cert-verify: true
+  sni: 127.0.0.1
+  up: ''
+  udp: true
+  password: 900c8c92-1979-4c7c-8f2f-63e87d53d8fe
+- name: KR · SOCKS5 · shaoyouvip · F09A8FB0
+  type: socks5
+  server: 59.11.209.162
+  port: 1080
+  skip-cert-verify: true
+  udp: true
+- name: DE · HYSTERIA2 · shaoyouvip · FA11C019
+  type: hysteria2
+  server: uk-tube-01.stre4m.net
+  port: 13337
+  alpn:
+  - h3
   skip-cert-verify: true
   sni: mother-earth.fyi
   udp: true
   password: 900c8c92-1979-4c7c-8f2f-63e87d53d8fe
-- name: TH · SOCKS5 · shaoyouvip · 41E12895
-  type: socks5
-  server: 87.84.49.140
-  port: 62000
-  skip-cert-verify: true
-  udp: true
-  username: ks878449260d
-  password: YlRoWvE0dL_cUqS94wPeKnA4
-- name: US · VMESS · shaoyouvip · 38C30C37
-  type: vmess
-  server: fctwi.xiaoyan.io
-  port: 16648
-  uuid: 967fbc94-fccd-46c2-9241-be92d4906186
-  alterId: 0
-  cipher: auto
-  network: ws
-  skip-cert-verify: true
-  tls: false
-  ws-opts:
-    headers:
-      Host: 86714acc4cc5924e812db1c117db832f.mobgslb.tbcache.com
-    path: /
-  udp: true
-- name: US · HYSTERIA · shaoyouvip · 1CA63EA3
-  type: hysteria
-  server: 198.200.57.142
-  port: 22335
-  alpn:
-  - h3
-  down: '55'
-  skip-cert-verify: true
-  up: '11'
-  x-toolall-mihomo: true
-  udp: true
-  auth-str: github.com/Alvin9999-newpac/fanqiang
+  auth: 900c8c92-1979-4c7c-8f2f-63e87d53d8fe
