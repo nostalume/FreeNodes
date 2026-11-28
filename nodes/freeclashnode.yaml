@@ -1,81 +1,166 @@
 proxies:
-- name: ZZ · HTTP · clashmeta · B6424E86
-  type: http
-  server: 138.199.35.219
-  port: 9002
-  skip-cert-verify: true
-  tls: true
+- name: ZZ · HYSTERIA2 · clashmeta · 5CB3A0BE
+  type: hysteria2
+  server: 128.254.186.190
+  port: 13337
   udp: true
-  username: ''
-  password: ''
-- name: ZZ · VLESS · freeclashnode · 5E37A15E
+  servername: mother-earth.fyi
+  sni: mother-earth.fyi
+  skip-cert-verify: false
+  password: 900c8c92-1979-4c7c-8f2f-63e87d53d8fe
+- name: ZZ · VLESS · clashnode · 0F2ED0C0
   type: vless
-  server: 213.176.92.168
-  port: 14430
-  uuid: ba52cc43-700d-4040-9444-29214c98e6e0
+  server: 154.197.64.252
+  port: 443
+  uuid: 08038e90-7fe9-49c9-bbdc-b7044d6bd348
   network: ws
-  servername: 213.176.92.168
-  ws-opts:
-    path: /vless
-    headers:
-      Host: 213.176.92.168
-- name: MX · SOCKS5 · clashmeta · 70E55AA5
-  type: socks5
-  server: 94.194.165.96
-  port: 62000
-  sub_tag: R002-260618
-  udp: true
-  username: QyVdo5ks
-  password: lcFa8dTH
-- name: US · VMESS · freeclashnode · 32B96FED
-  type: vmess
-  server: 23.150.152.65
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
   tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 3DE23DD7
-  type: ss
-  server: 137.184.89.151
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: FI · VLESS · freeclashnode · 0D59E81C
-  type: vless
-  server: 213.176.92.168
-  port: 14430
-  uuid: ba52cc43-700d-4040-9444-29214c98e6e0
-  network: ws
-  ws-opts:
-    path: /vless
-    headers:
-      Host: 213.176.92.168
-- name: US · TROJAN · clashmeta · 0F851A6A
-  type: trojan
-  server: 69.164.240.85
-  port: 50875
+  servername: worker3.notoj58234.workers.dev
   client-fingerprint: chrome
-  skip-cert-verify: true
-  sni: 69.164.240.85
-  sub_tag: M003-260806
-  udp: true
-  network: tcp
-  password: nwilryafgkyvuxauc8pz
-- name: US · VMESS · freeclashnode · D8C3E33A
+  ws-opts:
+    path: /
+    headers:
+      Host: worker3.notoj58234.workers.dev
+- name: US · VMESS · clashnode · BB3445BD
   type: vmess
-  server: 169.197.142.68
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
+  server: 129.146.143.80
+  port: 48111
+  uuid: d4603cc2-e0ee-4651-83f5-1db5b7168177
   alterId: 0
   cipher: auto
   network: tcp
+- name: FR · VLESS · clashnode · 3D4FC2AB
+  type: vless
+  server: 104.18.79.242
+  port: 443
+  uuid: bb2a729c-6185-4170-8769-6f5b9f64d5b8
+  network: ws
   tls: true
-  servername: xmfhlpy.com
+  servername: cloud-sync-3d1512-gw.maziarkish.workers.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /11290579a72cdb4e?ed=2560
+    headers:
+      Host: cloud-sync-3d1512-gw.maziarkish.workers.dev
+- name: CA · VLESS · clashmeta · E4C9C7ED
+  type: vless
+  server: 172.67.67.89
+  port: 443
+  uuid: 4859c235-2530-4062-9a0b-ea859cbbf861
+  udp: true
+  tls: true
+  servername: 1.proxy2.us.ci.
+  sni: 1.proxy2.us.ci.
+  skip-cert-verify: false
+  alpn:
+  - h3
+  - h2
+  - http/1.1
+  client-fingerprint: ios
+  network: ws
+  ws-opts:
+    path: /?ed=2560
+    headers:
+      Host: 1.proxy2.us.ci.
+- name: US · VMESS · clashnode · 49693D1E
+  type: vmess
+  server: 169.197.142.22
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: auto
+  network: raw
+- name: FR · VLESS · clashnode · 8E11E17A
+  type: vless
+  server: 154.197.64.252
+  port: 443
+  uuid: 2e87dd5b-ca5b-4d8b-9bf0-0ed9dfa43da2
+  network: ws
+  tls: true
+  servername: worker3.hiyere5918.workers.dev
+  client-fingerprint: firefox
+  ws-opts:
+    path: /
+    headers:
+      Host: worker3.hiyere5918.workers.dev
+- name: ZZ · HYSTERIA2 · clashmeta · 9096D6F1
+  type: hysteria2
+  server: 128.254.186.57
+  port: 13337
+  udp: true
+  servername: mother-earth.fyi
+  sni: mother-earth.fyi
+  skip-cert-verify: false
+  password: 900c8c92-1979-4c7c-8f2f-63e87d53d8fe
+- name: US · VMESS · clashnode · 5107CE1A
+  type: vmess
+  server: 67.220.95.3
+  port: 18000
+  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
+  alterId: 0
+  cipher: aes-128-gcm
+  network: tcp
+- name: FR · VLESS · clashnode · F114DD54
+  type: vless
+  server: 185.18.250.2
+  port: 443
+  uuid: 531f2275-df96-46a1-be70-e654f0ed402f
+  network: ws
+  tls: true
+  servername: worker3.hemip3575.workers.dev
+  client-fingerprint: firefox
+  ws-opts:
+    path: /
+    headers:
+      Host: worker3.hemip3575.workers.dev
+- name: FR · VLESS · clashnode · D6D0C9CC
+  type: vless
+  server: 185.18.250.2
+  port: 443
+  uuid: 10997f19-2951-4a9b-a26f-611a6bd72d02
+  network: ws
+  tls: true
+  servername: worker3.sicoro1729.workers.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: worker3.sicoro1729.workers.dev
+- name: CA · VLESS · clashmeta · 69409B8B
+  type: vless
+  server: 172.67.67.89
+  port: 443
+  uuid: 4859c235-2530-4062-9a0b-ea859cbbf861
+  network: ws
+  tls: true
+  servername: 1.proxy2.us.ci.
+  client-fingerprint: ios
+  ws-opts:
+    path: /?ed=2560
+    headers:
+      Host: 1.proxy2.us.ci.
+- name: FR · VLESS · clashnode · 7F675F6D
+  type: vless
+  server: 190.93.244.166
+  port: 2096
+  uuid: b2853d19-fada-44dc-8d44-967d1af122e0
+  network: ws
+  tls: true
+  servername: wqa3miojjr8fyozhiui--su3-ucg1gdx.pages.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /eyJqdW5rIjoiWmFzVk5rd2siLCJwcm90b2NvbCI6InZsIiwibW9kZSI6InByZWZpeCIsInBhbmVsSVBzIjpbIlsyYTAyOjg5ODoxNDY6NjQ6Ol0iXX0=
+    headers:
+      Host: wqa3miojjr8fyozhiui--su3-ucg1gdx.pages.dev
+- name: GB · HYSTERIA2 · clashmeta · 9DEA3019
+  type: hysteria2
+  server: uk-tube-01.stre4m.net
+  port: 13337
+  udp: true
+  servername: mother-earth.fyi
+  sni: mother-earth.fyi
+  skip-cert-verify: false
+  password: 900c8c92-1979-4c7c-8f2f-63e87d53d8fe
 - name: FR · VLESS · clashmeta · 243AB508
   type: vless
   server: 188.114.98.0
@@ -89,871 +174,57 @@ proxies:
     path: /proxyip=ProxyIP.JP.CMLiussss.net
     headers:
       Host: freeceshi6.frii.site
-- name: DE · VLESS · freeclashnode · 10B0251D
+- name: DE · VLESS · clashnode · 59098A54
   type: vless
-  server: 191.217.215.228
-  port: 2053
-  uuid: fbe22815-0718-4eae-816f-e91c67d15b54
-  network: tcp
-  tls: true
-  servername: 191.217.215.228
-  flow: xtls-rprx-vision
-  client-fingerprint: firefox
-- name: US · VMESS · clashmeta · 49693D1E
-  type: vmess
-  server: 169.197.142.22
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: US · VMESS · freeclashnode · B2D20BF3
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: US · HTTP · clashmeta · 4AC5D05F
-  type: http
-  server: 138.199.35.220
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: FR · VLESS · freeclashnode · 49854C86
-  type: vless
-  server: 138.124.70.41
-  port: 14430
-  uuid: 6cc745e3-4eb9-46c8-a4a1-85dee7b87edc
+  server: 57.129.41.216
+  port: 80
+  uuid: 3cfa0d9b-6279-4b73-8533-09ad84e49c80
   network: ws
   ws-opts:
-    path: /vless
+    path: /vless/
+- name: ZZ · VLESS · clashnode · 9F9B5A09
+  type: vless
+  server: ov-germany1.09vpn.com
+  port: 80
+  uuid: 7d90f043-ed7f-40c9-ac2f-352987904958
+  network: ws
+  servername: ov-germany1.09vpn.com
+  ws-opts:
+    path: /vless/
     headers:
-      Host: 138.124.70.41
-- name: US · SOCKS5 · clashmeta · 00DAD65C
-  type: socks5
-  server: 216.132.114.27
-  port: 62000
-  sub_tag: R002-260618
-  udp: true
-  username: JzufiJ62
-  password: 75bPoRcB
-- name: US · VMESS · freeclashnode · 5E3EF424
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: ZZ · SS · clashmeta · 6E6FC41E
-  type: ss
-  server: 149.40.57.134
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: S004-260618
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: ZZ · VLESS · freeclashnode · 04A75C4E
+      Host: ov-germany1.09vpn.com
+- name: US · VLESS · clashmeta · 4C713627
   type: vless
-  server: djj.zjlo.top
-  port: 23169
-  uuid: f67b1159-a61f-4ae4-9844-0701b716a290
-  network: tcp
+  server: 8.47.69.6
+  port: 2083
+  uuid: d342d11e-d424-4583-b36e-524ab1f0afa4
+  network: ws
   tls: true
-  servername: djj.zjlo.top
-  flow: xtls-rprx-vision
-  client-fingerprint: chrome
-- name: US · TROJAN · clashmeta · 275D69E2
-  type: trojan
-  server: 69.164.240.85
-  port: 50875
-  client-fingerprint: chrome
-  network: tcp
-  skip-cert-verify: true
-  sni: 69.164.240.85
-  sub_tag: C002-260622
-  udp: true
-  password: nwilryafgkyvuxauc8pz
-- name: CA · VMESS · freeclashnode · 15C9EAEA
-  type: vmess
-  server: 134.195.196.211
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: US · VLESS · clashmeta · 3F49A6A1
-  type: vless
-  server: 45.138.100.248
-  port: 10443
-  uuid: ae908ff5-f749-402c-af25-e6e9aef4d6bb
-  network: tcp
-  sub_tag: A001-260618
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 45.138.100.248
-- name: US · VLESS · freeclashnode · 6377BF11
-  type: vless
-  server: 45.138.100.248
-  port: 10443
-  uuid: ae908ff5-f749-402c-af25-e6e9aef4d6bb
-  network: tcp
-- name: US · VMESS · clashmeta · 167FE628
-  type: vmess
-  server: 169.197.142.22
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-  skip-cert-verify: false
-  sub_tag: C002-260622
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: US · VMESS · freeclashnode · FE224B4F
-  type: vmess
-  server: 38.128.66.241
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · HTTP · clashmeta · 2066BDD6
-  type: http
-  server: 138.199.35.199
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  password: None
-- name: PL · VLESS · freeclashnode · 24C96318
-  type: vless
-  server: 45.194.66.177
-  port: 443
-  uuid: 352a250d-080b-47b5-b7db-f9f8fa31c551
-  network: tcp
-  tls: true
-  servername: 31tawwo0.virtual-network.lol
-  flow: xtls-rprx-vision
+  servername: newwk1.f1w.de5.net
   client-fingerprint: firefox
-- name: ZZ · SOCKS5 · clashmeta · C0B3B312
-  type: socks5
-  server: 69.55.49.177
-  port: 38182
-  sub_tag: P002-260618
-  udp: true
-  password: None
-- name: US · VMESS · freeclashnode · 7289C913
-  type: vmess
-  server: 38.128.66.212
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 6D1AAF61
-  type: ss
-  server: 149.40.57.133
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VLESS · freeclashnode · 66A6EE94
-  type: vless
-  server: 45.9.190.245
-  port: 443
-  uuid: a5b1d16b-719b-4bd6-9d7b-fe6d84607da9
-  network: xhttp
-  tls: true
-  servername: fortuna.masynbazar.ru
-  client-fingerprint: firefox
-- name: US · VMESS · freeclashnode · CC08F4A5
-  type: vmess
-  server: 38.64.138.135
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · clashmeta · DD253BDE
-  type: vmess
-  server: 169.197.142.22
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: S004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: community.fastly.steamstatic.com
-- name: BY · VLESS · freeclashnode · 527C854F
-  type: vless
-  server: 185.66.68.201
-  port: 8080
-  uuid: 669b15b9-a618-47a6-ab0b-6210767ba6fd
-  network: xhttp
-- name: FR · HTTP · clashmeta · 0AA0AA38
-  type: http
-  server: 172.64.68.89
-  port: 443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: US · VMESS · freeclashnode · 92B71192
-  type: vmess
-  server: 38.64.138.187
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · SOCKS5 · clashmeta · 0A59D074
-  type: socks5
-  server: 191.7.129.133
-  port: 62000
-  sub_tag: R002-260618
-  udp: true
-  username: uwrgfkwg
-  password: 0mvrt5jb
-- name: US · VMESS · freeclashnode · F5E29EE8
-  type: vmess
-  server: 142.202.48.87
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · SS · clashmeta · 806A2A37
-  type: ss
-  server: 216.106.178.169
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · freeclashnode · 20C0D430
-  type: vmess
-  server: 167.88.63.39
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: VN · VLESS · clashmeta · 0E68768E
+  ws-opts:
+    path: /
+    headers:
+      Host: newwk1.f1w.de5.net
+- name: VN · VLESS · clashnode · B6266527
   type: vless
   server: 150.95.109.109
   port: 2086
   uuid: b83faafc-cbb7-4655-99d4-2c4c39a49d1b
-  encryption: none
   network: tcp
-  sub_tag: M003-260806
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: US · VMESS · freeclashnode · 5DA3B853
-  type: vmess
-  server: 172.111.36.253
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · clashmeta · 30D2A06A
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: bj1aa2zyjxyamyuk.v.3dns.vip
-- name: US · VMESS · freeclashnode · 61153A98
-  type: vmess
-  server: 38.91.100.69
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · HTTP · clashmeta · 342FEDCD
-  type: http
-  server: 138.199.35.217
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  password: None
-- name: US · VMESS · freeclashnode · 9CAD260A
-  type: vmess
-  server: 38.91.100.16
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: TH · SOCKS5 · clashmeta · D591C419
-  type: socks5
-  server: 87.84.49.206
-  port: 62000
-  skip-cert-verify: true
-  sub_tag: S001-260618
-  udp: true
-  username: ks878449260d
-  password: YlRoWvE0dL_cUqS94wPeKnA4
-- name: US · VMESS · freeclashnode · 79213C77
-  type: vmess
-  server: 172.111.38.246
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 34B27EEB
-  type: ss
-  server: 38.128.66.32
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · freeclashnode · C4DEDA82
-  type: vmess
-  server: 38.22.17.89
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: RU · VLESS · clashmeta · 877FE5F3
+- name: NL · VLESS · clashmeta · 873019F7
   type: vless
-  server: 136.148.83.70
+  server: 188.164.248.110
   port: 443
-  uuid: 00000000-0000-0001-0000-000000000000
-  network: tcp
+  uuid: 13134515-adc7-404b-8d2a-f9ad99e8dcbd
+  network: ws
   tls: true
-  servername: aszbk-ru-78dc.my-fade.cloud
-- name: US · VMESS · freeclashnode · 35598D53
-  type: vmess
-  server: 38.107.226.5
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · clashmeta · 7C4E95E5
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: US · VMESS · freeclashnode · 4EC4FADC
-  type: vmess
-  server: 172.111.36.126
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · HTTP · clashmeta · 2C5B09E8
-  type: http
-  server: 137.175.22.45
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: US · VMESS · freeclashnode · CB200BCF
-  type: vmess
-  server: 172.111.36.123
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: TH · SOCKS5 · clashmeta · B78C1C59
-  type: socks5
-  server: 109.66.136.234
-  port: 62000
-  sub_tag: R002-260618
-  udp: true
-  username: r3ZzP8WW
-  password: zdnivBaI
-- name: US · VMESS · freeclashnode · F495C8D0
-  type: vmess
-  server: 38.22.17.64
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · B3491EAE
-  type: ss
-  server: 138.199.42.68
-  port: 8080
-  cipher: rc4-md5
-  udp: true
-  password: 14fFPrbezE3HDZzsMOr6
-- name: US · VMESS · freeclashnode · 9ACC2DB2
-  type: vmess
-  server: 167.88.63.99
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: BY · VLESS · clashmeta · 4B7B3D2C
-  type: vless
-  server: 178.172.227.124
-  port: 10443
-  uuid: 1af36694-b548-4b18-89a0-bc076eab4ed7
-  network: tcp
-  servername: 178.172.227.124
-- name: US · VMESS · freeclashnode · 421AB7D0
-  type: vmess
-  server: 167.88.63.47
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · clashmeta · 5C9D0F2E
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  alpn:
-  - ''
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: M003-260806
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: None
-- name: US · VMESS · freeclashnode · 5D48CB26
-  type: vmess
-  server: 172.111.36.147
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · HTTP · clashmeta · 567047A4
-  type: http
-  server: 152.233.50.145
-  port: 9443
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: ''
-  password: ''
-- name: US · VMESS · freeclashnode · C3EEDEA7
-  type: vmess
-  server: 38.91.107.57
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: TH · SOCKS5 · clashmeta · DFD6508A
-  type: socks5
-  server: 192.204.15.138
-  port: 42000
-  sub_tag: R002-260618
-  udp: true
-  username: X3s3JteD
-  password: mpbK00Pl
-- name: US · VMESS · freeclashnode · 5D653644
-  type: vmess
-  server: 66.163.125.51
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 263395B1
-  type: ss
-  server: 37.19.198.244
-  port: 443
-  cipher: aes-128-gcm
-  sub_tag: A004-260618
-  udp: true
-  password: shadowsocks
-- name: US · VMESS · freeclashnode · 5581FB55
-  type: vmess
-  server: 162.251.62.31
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · freeclashnode · C3B6D1B9
-  type: vmess
-  server: 38.91.107.188
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · clashmeta · 1B7912CA
-  type: vmess
-  server: 84.17.41.2
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 84.17.41.2
-- name: US · VMESS · freeclashnode · 105292BF
-  type: vmess
-  server: 162.251.62.42
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · HTTP · clashmeta · 0C64150E
-  type: http
-  server: 198.44.135.19
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  username: ''
-  password: None
-- name: US · VMESS · freeclashnode · 0EBCFFF2
-  type: vmess
-  server: 67.220.74.197
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · SOCKS5 · clashmeta · AD775AF2
-  type: socks5
-  server: 87.84.49.140
-  port: 62000
-  sub_tag: R002-260618
-  udp: true
-  username: ks878449260d
-  password: YlRoWvE0dL_cUqS94wPeKnA4
-- name: US · VMESS · freeclashnode · A536A406
-  type: vmess
-  server: 38.91.106.182
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 719341A1
-  type: ss
-  server: 193.151.163.18
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: B007-260618
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · freeclashnode · 7FC0E8E4
-  type: vmess
-  server: 162.251.62.35
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · VMESS · clashmeta · 40EABEDA
-  type: vmess
-  server: 107.150.19.24
-  port: 54321
-  uuid: 2659ef8a-3456-48f8-95fe-08b82d3f4984
-  alterId: 0
-  cipher: auto
-  alpn:
-  - ''
-  http-opts:
+  servername: imanvipreserved.pages.dev
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
     headers:
-      Host:
-      - down-cdn.dingtalk.com
-    path:
-    - /x
-  network: http
-  skip-cert-verify: false
-  sub_tag: M003-260806
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: US · VMESS · freeclashnode · CF4C2E76
-  type: vmess
-  server: 216.106.182.225
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · HTTP · clashmeta · D83E9234
-  type: http
-  server: 149.88.21.129
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  password: None
-- name: US · VMESS · freeclashnode · EDD5E0C9
-  type: vmess
-  server: 38.91.107.84
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: VN · SOCKS5 · clashmeta · 1ED94F8D
-  type: socks5
-  server: 103.184.113.190
-  port: 62000
-  sub_tag: R002-260618
-  udp: true
-  username: qT46DZLv
-  password: jHsK2gqs
-- name: US · VMESS · freeclashnode · 987A63E5
-  type: vmess
-  server: 67.220.74.250
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · SS · clashmeta · C9148F53
-  type: ss
-  server: 193.151.160.18
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: C001-260618
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: US · VMESS · freeclashnode · 7E3A2138
-  type: vmess
-  server: 67.220.74.188
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: CA · VMESS · clashmeta · 77E26C93
-  type: vmess
-  server: 134.195.196.211
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: M003-260806
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: '@VPNine1'
-- name: KR · VMESS · freeclashnode · F8D2A36F
-  type: vmess
-  server: 140.238.2.250
-  port: 443
-  uuid: 41a7089a-040b-4538-8b8d-010902405bde
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: ZZ · HTTP · clashmeta · 42475C55
-  type: http
-  server: 12.202.180.10
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: NL · VMESS · freeclashnode · F387F3EF
-  type: vmess
-  server: 188.166.81.135
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 49D6FA05
-  type: ss
-  server: 167.88.63.99
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: NL · VMESS · freeclashnode · 5FF0A404
-  type: vmess
-  server: 209.38.42.238
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: CA · VMESS · clashmeta · 96A7A771
-  type: vmess
-  server: 134.195.196.211
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: M002-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: '@proxyvpn11'
-- name: GB · VMESS · freeclashnode · 7E7C6BFA
-  type: vmess
-  server: 142.202.51.42
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: GB · HTTP · clashmeta · 4066186A
-  type: http
-  server: 212.102.63.31
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: GB · VMESS · freeclashnode · 6606C834
-  type: vmess
-  server: 149.7.16.228
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 22A28303
-  type: ss
-  server: 38.22.17.214
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: DE · VMESS · freeclashnode · F9CDFBC6
-  type: vmess
-  server: 185.177.229.95
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
+      Host: imanvipreserved.pages.dev
 - name: CA · VMESS · clashmeta · DD3AA98C
   type: vmess
   server: 134.195.196.211
@@ -962,520 +233,47 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
-- name: DE · VMESS · freeclashnode · 328B8BAC
-  type: vmess
-  server: 193.108.117.61
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: FR · HTTP · clashmeta · 11547D29
-  type: http
-  server: 213.139.9.142
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: SG · VMESS · freeclashnode · 6391C867
-  type: vmess
-  server: 149.88.23.202
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: ZZ · SS · clashmeta · 47310F8C
-  type: ss
-  server: 38.91.107.19
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: DE · VMESS · freeclashnode · 45A4C049
-  type: vmess
-  server: 193.108.119.87
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: CA · VMESS · clashmeta · 96BEB55D
-  type: vmess
-  server: 134.195.196.211
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: 134.195.196.211
-- name: SG · VMESS · freeclashnode · AF5E7B11
-  type: vmess
-  server: ww11.levikogjgfdd.ir
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: NL · HTTP · clashmeta · 212DB84A
-  type: http
-  server: 103.97.88.154
+- name: FR · VLESS · clashmeta · 48F37D18
+  type: vless
+  server: 154.197.64.252
   port: 443
-  skip-cert-verify: true
-  sni: 4a8c2906c96058315dffbc2b0e7ff19b-98005bea43f9ac33.apache-iv.com
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: FR · VMESS · freeclashnode · 88DA8D54
-  type: vmess
-  server: 23.162.152.127
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 62B8A8ED
-  type: ss
-  server: 38.91.107.188
-  port: 19999
-  cipher: aes-256-gcm
-  sub_tag: M003-260806
-  udp: true
-  password: ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=
-- name: FR · VMESS · freeclashnode · 554F8634
-  type: vmess
-  server: 46.105.222.157
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: CA · VMESS · clashmeta · 07A77EE8
-  type: vmess
-  server: 23.162.200.198
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  skip-cert-verify: false
-  sub_tag: M002-260618
-  tls: false
-  udp: true
-  xudp: true
-  network: tcp
-  packet-encoding: xudp
-- name: FR · VMESS · freeclashnode · 32509FDB
-  type: vmess
-  server: 79.137.99.183
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · HTTP · clashmeta · 283AE220
-  type: http
-  server: 50.76.211.251
-  port: 8090
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: FR · VMESS · freeclashnode · 43DC4D33
-  type: vmess
-  server: 172.99.189.239
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: FR · VMESS · freeclashnode · 8A439CDD
-  type: vmess
-  server: 162.19.82.57
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · clashmeta · 927C175B
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: aes-128-gcm
-  network: raw
-- name: FR · VMESS · freeclashnode · 8ED24784
-  type: vmess
-  server: 46.105.222.155
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: NL · HTTP · clashmeta · 0AC2AE5C
-  type: http
-  server: 149.36.51.157
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: P002-260618
-  tls: true
-  udp: true
-  password: None
-- name: FR · VMESS · freeclashnode · 295D4F99
-  type: vmess
-  server: 46.105.222.156
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · SS · clashmeta · 0CCF6AEB
-  type: ss
-  server: 15.204.247.244
-  port: 443
-  cipher: aes-256-gcm
-  sub_tag: A004-260618
-  udp: true
-  password: pKEW8JPByTVTLtM
-- name: CA · VMESS · freeclashnode · D4FDDB5D
-  type: vmess
-  server: 23.162.200.198
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: US · VMESS · clashmeta · 94AA9A3F
-  type: vmess
-  server: 38.128.66.249
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: xmfhlpy.com
-- name: CH · VMESS · freeclashnode · C901FD7A
-  type: vmess
-  server: 186.190.215.4
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · HTTP · clashmeta · 3740E0B7
-  type: http
-  server: 161.129.60.66
-  port: 9443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: SE · VMESS · freeclashnode · 75D1CCDE
-  type: vmess
-  server: 138.199.55.230
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: AT · VMESS · freeclashnode · 3118A56F
-  type: vmess
-  server: 154.47.19.225
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · VMESS · clashmeta · A8D9F49B
-  type: vmess
-  server: 38.91.107.49
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-  skip-cert-verify: false
-  sub_tag: C002-260622
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: BR · VMESS · freeclashnode · 0C6D8FD4
-  type: vmess
-  server: 103.88.232.55
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: ZZ · HTTP · clashmeta · 1E78233E
-  type: http
-  server: 146.70.242.146
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: SG · VMESS · freeclashnode · A622A8DA
-  type: vmess
-  server: 15.235.144.92
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: US · VMESS · freeclashnode · 6D0143D0
-  type: vmess
-  server: 38.11.69.48
-  port: 30004
-  uuid: 418048af-a293-4b99-9b0c-98ca3580dd24
-  alterId: 64
-  cipher: auto
+  uuid: 20b436fc-2c54-4248-b70d-14b8d6916d41
   network: ws
   tls: true
-  servername: www.83761815.xyz
+  servername: worker3.harijo3330.workers.dev
+  client-fingerprint: firefox
   ws-opts:
-    path: /path/1698843555400
+    path: /HGCmKaXbRNqpZqMv
     headers:
-      Host: www.83761815.xyz
-- name: ZZ · VMESS · clashmeta · F0236635
-  type: vmess
-  server: 38.91.107.49
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: US · VMESS · freeclashnode · 07673546
-  type: vmess
-  server: 129.146.77.248
-  port: 39495
-  uuid: f836c736-87fc-4fde-aabc-00857ecdff3e
-  alterId: 0
-  cipher: auto
+      Host: worker3.harijo3330.workers.dev
+- name: US · VLESS · clashmeta · 4A8E3762
+  type: vless
+  server: 104.17.136.102
+  port: 2087
+  uuid: 51a0af77-a60c-4d9b-81a4-f50e1b38d90b
+  network: ws
+  tls: true
+  client-fingerprint: chrome
+  ws-opts:
+    path: /
+    headers:
+      Host: rezanoori4295.pages.dev
+- name: US · VLESS · clashmeta · C24AD582
+  type: vless
+  server: 8.35.211.73
+  port: 2087
+  uuid: 9f534ac4-3c58-4a16-8b74-13dff09a0cf1
+  udp: true
+  tls: true
+  servername: d39333476.pages.dev
+  sni: d39333476.pages.dev
+  skip-cert-verify: false
+  client-fingerprint: chrome
   network: ws
   ws-opts:
-    path: /cctv13.m3u8
+    path: /resource
     headers:
-      Host: 129.146.77.248
-- name: HU · HTTP · clashmeta · 08DAE8B7
-  type: http
-  server: 146.70.203.18
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: US · VMESS · freeclashnode · 3714E513
-  type: vmess
-  server: 67.220.95.3
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: aes-128-gcm
-  network: raw
-- name: ZZ · SS · clashmeta · EA2BE6CE
-  type: ss
-  server: 82.38.31.46
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: A003-260618
-  udp: true
-  password: oZIoA69Q8yhcQV8ka3Pa3A
-- name: JP · VMESS · freeclashnode · 045B2062
-  type: vmess
-  server: 168.138.43.75
-  port: 80
-  uuid: 11c3627f-31e8-4695-dfbd-34076e2f1f5d
-  alterId: 0
-  cipher: auto
-  network: ws
-  ws-opts:
-    path: /cctv13.m3u8
-    headers:
-      Host: none
-- name: US · VMESS · clashmeta · 18341515
-  type: vmess
-  server: 38.91.107.49
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: guanwang.awsno.com
-- name: HR · HTTP · clashmeta · 1616BD87
-  type: http
-  server: 154.47.29.174
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: NL · SS · clashmeta · 7BA8FD1D
-  type: ss
-  server: 82.38.31.220
-  port: 8080
-  cipher: chacha20-ietf-poly1305
-  sub_tag: A004-260618
-  udp: true
-  password: k1dBOmOB4oqi7Ump37a1bQ
-- name: US · VMESS · clashmeta · 19132320
-  type: vmess
-  server: 67.220.95.3
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: B007-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: community.fastly.steamstatic.com
-- name: ZZ · HTTP · clashmeta · 5F9E954F
-  type: http
-  server: 137.175.22.56
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: ZZ · SS · clashmeta · 10726E1A
-  type: ss
-  server: 51.222.12.127
-  port: 445
-  cipher: aes-256-gcm
-  sub_tag: A004-260618
-  udp: true
-  password: zDNVedRFPQexG9v
-- name: ZZ · VMESS · clashmeta · BD0BFD43
-  type: vmess
-  server: 179.43.140.24
-  port: 42831
-  uuid: a925a98c-ad7a-40c6-9fdf-130a1de69416
-  alterId: 0
-  cipher: auto
-  alpn:
-  - ''
-  http-opts:
-    headers:
-      Host:
-      - down-cdn.dingtalk.com
-    method: GET
-    path:
-    - /3x
-  network: http
-  skip-cert-verify: true
-  sub_tag: C001-260618
-  tls: false
-  udp: true
-- name: ZZ · HTTP · clashmeta · 073CBC54
-  type: http
-  server: 138.199.35.213
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: US · VMESS · clashmeta · C8118B14
-  type: vmess
-  server: 67.220.85.46
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: aes-128-gcm
-  network: raw
-  skip-cert-verify: false
-  sub_tag: C002-260622
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: US · HTTP · clashmeta · 2D2BB008
-  type: http
-  server: 138.199.35.212
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: US · VMESS · clashmeta · 57BD58A9
-  type: vmess
-  server: 169.197.142.22
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-- name: ZZ · HTTP · clashmeta · 2281ED7D
-  type: http
-  server: fullmanfirm.icu
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-  sni: fullmanfirm.icu
-- name: LV · SS · clashmeta · 09DBC4B4
-  type: ss
-  server: 185.135.86.175
-  port: 9034
-  cipher: aes-256-cfb
-  sub_tag: X001-260618
-  udp: true
-  password: Yg4MbdXFQ9HFFVY6
+      Host: d39333476.pages.dev
 - name: CA · VMESS · clashmeta · 1F7F0BA5
   type: vmess
   server: 23.162.200.198
@@ -1484,213 +282,16 @@ proxies:
   alterId: 0
   cipher: auto
   network: tcp
-- name: US · HTTP · clashmeta · 2AC17C33
-  type: http
-  server: jewelscollecti.icu
+- name: US · VLESS · clashmeta · 1209074D
+  type: vless
+  server: saas.sin.fan
   port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
+  uuid: 5d7b401c-78fa-4254-872e-6d42bf7e75ec
+  network: ws
   tls: true
-  udp: true
-  sni: jewelscollecti.icu
-- name: CA · VMESS · clashmeta · 2CECBCFA
-  type: vmess
-  server: 134.195.196.211
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: A004-260618
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: '@vpnine1'
-- name: NL · HTTP · clashmeta · 0314FF07
-  type: http
-  server: 51.159.225.196
-  port: 23856
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: US · VMESS · clashmeta · 18BE0E67
-  type: vmess
-  server: 38.128.66.249
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: FR · HTTP · clashmeta · 31A8661C
-  type: http
-  server: 103.82.101.43
-  port: 443
-  skip-cert-verify: true
-  sni: 76d1d3ecadca44efa2339867d7dfc9a1-8e928736d0f8dbdc.apache-iv.com
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: US · VMESS · clashmeta · 0879252A
-  type: vmess
-  server: 162.251.60.97
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  tls: true
-  servername: xmfhlpy.com
-- name: NL · HTTP · clashmeta · 28E6F82E
-  type: http
-  server: 185.246.153.28
-  port: 443
-  skip-cert-verify: true
-  sni: 4a8c2906c96058315dffbc2b0e7ff19b-0c66a58858a795df.apache-iv.com
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: US · VMESS · clashmeta · 1A620FFD
-  type: vmess
-  server: 67.220.95.49
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: xmfhlpy.com
-- name: ZZ · HTTP · clashmeta · 378B1D5E
-  type: http
-  server: 84.17.47.147
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: US · VMESS · clashmeta · 105F0535
-  type: vmess
-  server: 172.111.36.137
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: xmfhlpy.com
-- name: ZZ · HTTP · clashmeta · 0BC1F2C7
-  type: http
-  server: 84.17.47.123
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: CA · SS · clashmeta · 51202CC2
-  type: ss
-  server: 51.79.49.116
-  port: 8882
-  cipher: aes-256-gcm
-  sub_tag: B007-260618
-  udp: true
-  password: kDWvXYZoTBcGkC4
-- name: US · VMESS · clashmeta · 25963F46
-  type: vmess
-  server: 38.22.17.251
-  port: 1270
-  uuid: 5c040f1d-45db-43bd-8d46-e4950e433735
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-  servername: xmfhlpy.com
-- name: NL · HTTP · clashmeta · 1A33049D
-  type: http
-  server: 84.17.47.149
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  username: ''
-  password: None
-- name: ZZ · VMESS · clashmeta · 008FE297
-  type: vmess
-  server: 38.110.1.246
-  port: 18000
-  uuid: f8c8dc3d-0d37-46b0-8b34-a7232882fcfe
-  alterId: 0
-  cipher: auto
-  network: raw
-- name: ZZ · HTTP · clashmeta · 379F3066
-  type: http
-  server: 158.173.154.2
-  port: 9002
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
-- name: KR · VMESS · clashmeta · 124B83C0
-  type: vmess
-  server: 140.238.2.250
-  port: 443
-  uuid: 41a7089a-040b-4538-8b8d-010902405bde
-  alterId: 0
-  cipher: auto
-  network: none
-- name: DE · HTTP · clashmeta · 00B0076B
-  type: http
-  server: 213.109.163.119
-  port: 443
-  skip-cert-verify: true
-  sub_tag: K001-260618
-  tls: true
-  udp: true
-  username: "null"
-  password: "null"
-- name: KR · VMESS · clashmeta · 0C44FC46
-  type: vmess
-  server: 140.238.2.250
-  port: 443
-  uuid: 41a7089a-040b-4538-8b8d-010902405bde
-  alterId: 0
-  cipher: auto
-  network: tcp
-  skip-cert-verify: false
-  sub_tag: C002-260622
-  tls: false
-  udp: true
-  xudp: true
-  packet-encoding: xudp
-- name: AT · HTTP · clashmeta · 1667A4B6
-  type: http
-  server: 146.70.244.2
-  port: 443
-  skip-cert-verify: true
-  sub_tag: R002-260618
-  tls: true
-  udp: true
+  servername: v2n6.11676767.xyz
+  client-fingerprint: chrome
+  ws-opts:
+    path: /ranking/htm
+    headers:
+      Host: v2n6.11676767.xyz
